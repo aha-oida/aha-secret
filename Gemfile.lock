@@ -23,6 +23,7 @@ GEM
     connection_pool (2.4.1)
     diff-lcs (1.5.1)
     drb (2.2.1)
+    erubis (2.7.0)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
     minitest (5.22.3)
@@ -43,6 +44,8 @@ GEM
     rackup (2.1.0)
       rack (>= 3)
       webrick (~> 1.8)
+    rake (13.1.0)
+    require_all (3.0.0)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -63,6 +66,9 @@ GEM
       rack-protection (= 4.0.0)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
+    sinatra-activerecord (2.0.27)
+      activerecord (>= 4.1)
+      sinatra (>= 1.0)
     sqlite3 (1.7.3-arm64-darwin)
     sqlite3 (1.7.3-x86_64-darwin)
     tilt (2.3.0)
@@ -77,11 +83,15 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  erubis (~> 2.7)
   puma (~> 6.4)
   rack-test (~> 2.1)
   rackup (~> 2.1)
+  rake (~> 13.1)
+  require_all (~> 3.0)
   rspec (~> 3.13)
   sinatra (~> 4.0)
+  sinatra-activerecord
   sqlite3 (~> 1.0)
 
 BUNDLED WITH
