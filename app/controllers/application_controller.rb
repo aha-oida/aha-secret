@@ -9,6 +9,8 @@ class ApplicationController < Sinatra::Base
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
+    set :layout, true
+
     # enable :sessions
     # set :session_secret, "super secret"
   end
