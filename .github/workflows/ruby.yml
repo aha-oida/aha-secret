@@ -34,11 +34,9 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Sign overcommit
-      run: bundle exec overcommit --sign pre-commit
-    - name: Install overcommit
-      run: bundle exec overcommit --install
-    - name: Run overcommit
-      run: bundle exec overcommit --run
+    - name: Run rubocop
+      run: bundle exec rubocop
+    - name: Run brakeman
+      run: bundle exec brakeman
     - name: Run tests
       run: bundle exec rspec
