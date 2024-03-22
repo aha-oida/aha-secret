@@ -36,5 +36,7 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run brakeman
       run: bundle exec brakeman
+    - name: Run migrations
+      run: bundle exec rake db:migrate
     - name: Run tests
       run: bundle exec rspec
