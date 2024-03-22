@@ -25,6 +25,11 @@ PreCommit:
     exclude:
       - '/db/**/*' # Ignore trailing whitespace in generated files
 
+  Rspec:
+    enabled: true
+    command: ['bundle', 'exec', 'rspec']
+    on_warn: fail
+
 #PostCheckout:
 #  ALL: # Special hook name that customizes all hooks of this type
 #    quiet: true # Change all post-checkout hooks to only display output on failure
