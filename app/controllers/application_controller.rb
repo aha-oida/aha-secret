@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require './config/environment'
 
+# write documentation
 class ApplicationController < Sinatra::Base
-  set :erubis, :escape_html => true
+  set :erubis, escape_html: true
 
   configure do
     set :public_folder, 'public'
@@ -10,7 +13,7 @@ class ApplicationController < Sinatra::Base
     # set :session_secret, "super secret"
   end
 
-  get "/" do
+  get '/' do
     erb :index
   end
 
@@ -23,5 +26,4 @@ class ApplicationController < Sinatra::Base
   #     User.find(session[:user_id])
   #   end
   # end
-
 end
