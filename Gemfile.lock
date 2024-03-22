@@ -20,6 +20,8 @@ GEM
     ast (2.4.2)
     base64 (0.2.0)
     bigdecimal (3.1.7)
+    brakeman (6.1.2)
+      racc
     childprocess (5.0.0)
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
@@ -117,6 +119,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  brakeman (~> 6.1.2)
   erubis (~> 2.7)
   overcommit (~> 0.63)
   puma (~> 6.4)
