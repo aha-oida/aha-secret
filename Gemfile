@@ -16,6 +16,7 @@ gem 'rack-test', '~> 2.1', group: :test
 gem 'rspec', '~> 3.13', group: :test
 
 group :development do
+  gem 'brakeman', '~> 6.1.2'
   gem 'overcommit', '~> 0.63'
   gem 'rubocop', '~> 1.62'
 end
