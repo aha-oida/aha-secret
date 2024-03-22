@@ -4,5 +4,17 @@ Run dev server:
 
 ```
 bundle install
-rackup
+bundle exec rackup
+```
+
+See available rake tasks:
+
+```
+bundle exec rake -T
+```
+
+Create migration:
+
+```
+bundle exec rake db:create_migration NAME=[migration_name]
 ```

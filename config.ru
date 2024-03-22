@@ -1,5 +1,10 @@
 # encoding: utf-8
+require './config/environment'
 
-require './config/boot'
+if ActiveRecord::Base.connection.migration_context.needs_migration?
+  raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
+end
 
-run AhaApp
+use Rack::MethodOverride
+# use FooBarController
+run ApplicationController
