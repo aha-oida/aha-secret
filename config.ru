@@ -1,4 +1,5 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
 require './config/environment'
 
 if ActiveRecord::Base.connection.migration_context.needs_migration?
