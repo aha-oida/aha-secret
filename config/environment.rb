@@ -9,7 +9,7 @@ require 'yaml'
 require 'logger'
 
 DB_CONFIG = YAML.load_file('./config/database.yml')
-ActiveRecord::Base.establish_connection(DB_CONFIG[ENV['RACK_ENV']]) ## note: assumes 'development'
+ActiveRecord::Base.establish_connection(DB_CONFIG[ENV['RACK_ENV']])
 
 # require './app/controllers/application_controller'
 require_all 'app'
