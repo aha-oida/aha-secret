@@ -19,9 +19,11 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+  # This will be a ajax call
   post '/create' do
     # puts params.inspect
     puts 'hello world'
+    # RETURN ID of the entry as json
   end
 
   # helpers do
