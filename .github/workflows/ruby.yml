@@ -25,25 +25,23 @@ jobs:
         ruby-version: ['3.2.2']
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Ruby
-    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
-    # change this to (see https://github.com/ruby/setup-ruby#versioning):
-    # uses: ruby/setup-ruby@v1
-      uses: ruby/setup-ruby@v1 # v1.146.0
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: set RAKE_ENV to test
-      run: echo "RAKE_ENV=TEST" >> $GITHUB_ENV
-    - name: Test ENV
-      run: echo $RAKE_ENV
-    - name: Create db and run migrations
-      run: |
-        bundle exec rake db:create
-        bundle exec rake db:migrate
-        sqlite3 db/test.sqlite3 "select * from schema_migrations"
-    - name: Run brakeman
-      run: bundle exec brakeman
-    - name: Run tests
-      run: bundle exec rspec
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+      # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
+      # change this to (see https://github.com/ruby/setup-ruby#versioning):
+      # uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1 # v1.146.0
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Create db and run migrations
+        env:
+          RACK_ENV: test
+        run: |
+          bundle exec rake db:create
+          bundle exec rake db:migrate
+          sqlite3 db/test.sqlite3 "select * from schema_migrations"
+      - name: Run brakeman
+        run: bundle exec brakeman
+      - name: Run tests
+        run: bundle exec rspec
