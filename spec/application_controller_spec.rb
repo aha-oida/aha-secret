@@ -10,6 +10,6 @@ describe ApplicationController do
   it 'responds with a welcome message' do
     get '/'
     expect(last_response.status).to eq(200)
-    expect(last_response.body).to include('Hello World!')
+    expect(last_response.body).to include('AHA-Secret')
   end
 end

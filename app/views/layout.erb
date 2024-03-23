@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>aha secret</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,maximum-scale=1.0,user-scalable=no">
-    <meta name="description" content="Share secrets securely">
-    <meta name="author" content="aha-oida">
-
-    <%#= csrf_meta_tags %>
-    <%#= csp_meta_tag %>
-
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-  </head>
-
-  <body>
-    <%= yield %>
-  </body>
+    <title>aha-secret: Share Secrets</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/application.css" />
+</head>
+<body>
+  <div id="main" class="flex-container col-5">
+    <h1>AHA-Secret</h1>
+    <!-- Content -->
+    <div id="content" class="flex-container">
+      <%= yield %>
+    </div>
+    <footer id="footer">
+      <p>aha-secret is free open source software</p>
+    </footer>
+  </div>
+</body>
 </html>
