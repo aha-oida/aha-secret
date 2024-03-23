@@ -19,6 +19,11 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+  post '/create' do
+    # puts params.inspect
+    puts 'hello world'
+  end
+
   # helpers do
   #   def is_logged_in?
   #     !!session[:user_id]
