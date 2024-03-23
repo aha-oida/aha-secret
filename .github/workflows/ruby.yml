@@ -34,12 +34,14 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: set RAKE_ENV to test
+      run: echo "RAKE_ENV=test" >> $GITHUB_ENV
     - name: Create db and run migrations
       run: |
-        RAKE_ENV=test bundle exec rake db:create
-        RAKE_ENV=test bundle exec rake db:migrate
+        bundle exec rake db:create
+        bundle exec rake db:migrate
         sqlite3 db/test.sqlite3 "select * from schema_migrations"
     - name: Run brakeman
-      run: RAKE_ENV=test bundle exec brakeman
+      run: bundle exec brakeman
     - name: Run tests
       run: bundle exec rspec
