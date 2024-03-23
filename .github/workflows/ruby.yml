@@ -35,7 +35,9 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: set RAKE_ENV to test
-      run: echo "RAKE_ENV=test" >> $GITHUB_ENV
+      run: echo "RAKE_ENV=TEST" >> $GITHUB_ENV
+    - name: Test ENV
+      run: echo $RAKE_ENV
     - name: Create db and run migrations
       run: |
         bundle exec rake db:create
