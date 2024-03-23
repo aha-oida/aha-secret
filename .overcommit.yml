@@ -25,10 +25,6 @@ PreCommit:
     exclude:
       - '/db/**/*' # Ignore trailing whitespace in generated files
 
-  Rspec:
-    enabled: true
-    command: ['bundle', 'exec', 'rspec']
-    on_warn: fail
 
 #PostCheckout:
 #  ALL: # Special hook name that customizes all hooks of this type
@@ -41,3 +37,14 @@ PrePush:
     enabled: true
     command: ['bundle', 'exec', 'brakeman']
     on_warn: fail
+
+  RakeTarget:
+    enabled: true
+    description: 'Run rake tasks'
+    targets:
+      - 'db:prepare'
+      - 'spec'
+    command: ['bundle', 'exec', 'rake']
+
+
+
