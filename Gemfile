@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'activerecord', require: 'active_record'
 gem 'erubis', '~> 2.7'
+gem 'pry'
 gem 'puma', '~> 6.4'
 gem 'rackup', '~> 2.1'
 gem 'rake', '~> 13.1'
