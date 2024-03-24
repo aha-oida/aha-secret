@@ -22,7 +22,7 @@ bundle exec rake db:create_migration NAME=[migration_name]
 ## Run application
 
 ```
-bundle exec rake serve
+bundle exec rerun rackup
 ```
 
 ## run specs
