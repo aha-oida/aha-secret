@@ -24,9 +24,8 @@ class ApplicationController < Sinatra::Base
     @bin = Bin.new(params[:bin])
 
     if @bin.save
-      #content_type :json
-      #{ id: @bin.id }.to_json
-      erb :create
+      content_type :json
+      { id: @bin.random_id }.to_json
     else
       status 422
     end
