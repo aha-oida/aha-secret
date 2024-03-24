@@ -28,6 +28,12 @@ bundle exec rake db:migrate
 bundle exec rerun rackup
 ```
 
+## Run console
+
+```
+bin/console
+```
+
 ## run specs
 
 ```
