@@ -28,4 +28,4 @@ group :development, :test do
   gem 'faker', '~> 3.2.3'
 end
 
-gem "rerun", "~> 0.14.0"
+gem 'rerun', '~> 0.14.0'
