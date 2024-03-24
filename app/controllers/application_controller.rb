@@ -24,8 +24,9 @@ class ApplicationController < Sinatra::Base
     @bin = Bin.new(params[:bin])
 
     if @bin.save
-      content_type :json
-      { id: @bin.id }.to_json
+      #content_type :json
+      #{ id: @bin.id }.to_json
+      erb :create
     else
       status 422
     end
@@ -36,13 +37,9 @@ class ApplicationController < Sinatra::Base
     erb :show
   end
 
-  # helpers do
-  #   def is_logged_in?
-  #     !!session[:user_id]
-  #   end
-
-  #   def current_user
-  #     User.find(session[:user_id])
-  #   end
-  # end
+  helpers do
+    def bin_retrieval_url(bin)
+      "#{request.base_url}/bins/#{bin.id}"
+    end
+  end
 end
