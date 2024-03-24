@@ -25,24 +25,20 @@ class ApplicationController < Sinatra::Base
 
     if @bin.save
       content_type :json
-      { id: @bin.id }.to_json
+      { id: @bin.random_id }.to_json
     else
       status 422
     end
   end
 
   get '/bins/:id' do
-    @bin = Bin.find(params[:id])
+    @bin = Bin.find_by_random_id(params[:id])
     erb :show
   end
 
-  # helpers do
-  #   def is_logged_in?
-  #     !!session[:user_id]
-  #   end
-
-  #   def current_user
-  #     User.find(session[:user_id])
-  #   end
-  # end
+  helpers do
+    def bin_retrieval_url(bin)
+      "#{request.base_url}/bins/#{bin.random_id}"
+    end
+  end
 end
