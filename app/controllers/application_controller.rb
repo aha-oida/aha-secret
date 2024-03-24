@@ -20,10 +20,15 @@ class ApplicationController < Sinatra::Base
   end
 
   # This will be a ajax call
-  post '/create' do
-    # puts params.inspect
-    puts 'hello world'
-    # RETURN ID of the entry as json
+  post '/' do
+    @bin = Bin.new(params[:bin])
+
+    if @bin.save
+      content_type :json
+      { id: @bin.id }.to_json
+    else
+      status 422
+    end
   end
 
   # helpers do
