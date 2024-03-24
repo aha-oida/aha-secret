@@ -39,7 +39,7 @@ class ApplicationController < Sinatra::Base
 
   helpers do
     def bin_retrieval_url(bin)
-      "#{request.base_url}/bins/#{bin.id}"
+      "#{request.base_url}/bins/#{bin.random_id}"
     end
   end
 end
