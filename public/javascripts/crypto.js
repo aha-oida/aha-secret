@@ -10,11 +10,11 @@ async function generateKeyb64(){
 
   const arrbuf = await window.crypto.subtle.exportKey("raw", key);
   const base64key = window.btoa(String.fromCharCode.apply(null, new Uint8Array(arrbuf)));
-  console.log(base64key);
+
   document.getElementById('enc-key').innerText = base64key;
   document.getElementById('enc-pane').style.display = 'block';
   document.getElementById('enc-form').style.display = 'none';
-  return false;
+  return key;
 }
 
 async function getKeyfromB64(base64key) {
@@ -28,12 +28,36 @@ async function getKeyfromB64(base64key) {
         return buffer
   }
 
-  console.log(uint8Array(base64key));
   const key = await window.crypto.subtle.importKey("raw", uint8Array(base64key), "AES-GCM", true, [
     "encrypt",
     "decrypt",
   ]);
-  console.log(key);
+}
+
+function getMessageEncoding() {
+   const messageBox = document.getElementById('message');
+   let message = messageBox.value;
+   let enc = new TextEncoder();
+   return enc.encode(message);
+}
+
+async function encryptMessage(key) {
+  let encoded = getMessageEncoding();
+  // The iv must never be reused with a given key.
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  const ciphertext = await window.crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv: iv
+    },
+    key,
+    encoded
+  );
+
+  const base64cipher = window.btoa(String.fromCharCode.apply(null, new Uint8Array(ciphertext)));
+  const ciphertextValue = document.getElementById("ciphertext-value");
+  ciphertextValue.textContent = base64cipher;
+  return base64cipher;
 }
 
 function getKey(){
@@ -42,3 +66,8 @@ function getKey(){
   console.log(key);
 }
 
+async function encryptEvent(){
+  const key = await generateKeyb64();
+  const cipher = await encryptMessage(key);
+  console.log(cipher);
+}

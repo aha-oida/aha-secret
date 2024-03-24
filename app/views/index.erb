@@ -1,11 +1,12 @@
 <p>Encrypt your message, store it encrypted and share a link</p>
 <div id="enc-pane">
   <p id="enc-key"></p>
+  <span id="ciphertext-value"></span>
 </div>
 
 <div id="enc-form">
   <!-- return false to prevent reloading the page -->
-  <form onsubmit="generateKeyb64(); return false">
+  <form onsubmit="encryptEvent(); return false">
     <textarea id="message" name="bin[payload]" rows="20" cols="40" placeholder="Encrypt me!" required></textarea>
     <input type="submit" value="Create">
   </form>
