@@ -55,8 +55,8 @@ async function encryptMessage(key) {
   );
 
   const base64cipher = window.btoa(String.fromCharCode.apply(null, new Uint8Array(ciphertext)));
-  const ciphertextValue = document.getElementById("ciphertext-value");
-  ciphertextValue.textContent = base64cipher;
+  //const ciphertextValue = document.getElementById("ciphertext-value");
+  //ciphertextValue.textContent = base64cipher;
   return base64cipher;
 }
 
@@ -66,8 +66,28 @@ function getKey(){
   console.log(key);
 }
 
+function createLink(id){
+  const b64Key = document.getElementById('enc-key').innerText;
+  const url = window.location.href + "bins/" + id + '#' + b64Key;
+  document.getElementById("secret-url").textContent = url;
+}
+
 async function encryptEvent(){
   const key = await generateKeyb64();
   const cipher = await encryptMessage(key);
   console.log(cipher);
+
+  let id = await fetch("/", {
+    method: 'post',
+    body: "bin[payload]=" + cipher,
+    headers: {
+	"Content-Type": "application/x-www-form-urlencoded"
+    }
+  }).then((response) => {
+     return response.json()
+  }).then((res) => {
+     createLink(res.id);
+  }).catch((error) => {
+    console.log(error)
+  });
 }
