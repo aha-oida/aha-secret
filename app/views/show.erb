@@ -1,0 +1,12 @@
+<%# TODO: add reveal this button prior showing bin %>
+
+<div id="bin-content">
+  <h1>Showing bin <%= @bin.id %></h1>
+
+  <p><%= @bin.payload %></p>
+</div>
+
+<p id="reveal-content">
+  Click this button to reveal the secret:
+  <button id="revealbutton" onclick="reveal()">Reveal</button>
+</p>

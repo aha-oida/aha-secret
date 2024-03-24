@@ -19,6 +19,23 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+  # This will be a ajax call
+  post '/' do
+    @bin = Bin.new(params[:bin])
+
+    if @bin.save
+      content_type :json
+      { id: @bin.id }.to_json
+    else
+      status 422
+    end
+  end
+
+  get '/bins/:id' do
+    @bin = Bin.find(params[:id])
+    erb :show
+  end
+
   # helpers do
   #   def is_logged_in?
   #     !!session[:user_id]
