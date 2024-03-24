@@ -3,8 +3,8 @@
 source 'https://rubygems.org'
 
 gem 'activerecord', require: 'active_record'
+gem 'debug', '>= 1.0.0', group: :development
 gem 'erubis', '~> 2.7'
-gem "debug", ">= 1.0.0", group: :development
 gem 'puma', '~> 6.4'
 gem 'rackup', '~> 2.1'
 gem 'rake', '~> 13.1'
