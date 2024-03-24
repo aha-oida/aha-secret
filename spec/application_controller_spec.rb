@@ -12,4 +12,10 @@ describe ApplicationController do
     expect(last_response.status).to eq(200)
     expect(last_response.body).to include('AHA-Secret')
   end
+
+  it 'saves a new bin' do
+    post '/', bin: { payload: 'Hello, World!' }
+    expect(last_response.status).to eq(200)
+    expect(Bin.count).to eq(1)
+  end
 end
