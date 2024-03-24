@@ -27,7 +27,7 @@ describe ApplicationController do
 
   it 'shows a bin' do
     bin = Bin.create(payload: 'Hello, World!')
-    get "/#{bin.id}"
+    get "/bins/#{bin.id}"
     expect(last_response.status).to eq(200)
     expect(last_response.body).to include('Hello, World!')
   end
