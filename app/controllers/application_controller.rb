@@ -33,7 +33,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/bins/:id' do
-    @bin = Bin.find(params[:id])
+    @bin = Bin.find_by_random_id(params[:id])
     erb :show
   end
 
