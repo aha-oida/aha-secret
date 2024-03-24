@@ -47,3 +47,8 @@
 	align-items: center;
 	justify-content: center;
 }
+
+#bin-content {
+  /* visibility: hidden; */
+  display: none;
+}
