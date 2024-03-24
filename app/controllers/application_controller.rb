@@ -31,6 +31,11 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  get '/bins/:id' do
+    @bin = Bin.find(params[:id])
+    erb :show
+  end
+
   # helpers do
   #   def is_logged_in?
   #     !!session[:user_id]
