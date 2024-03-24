@@ -4,7 +4,9 @@
 
 ```
 bundle install
-bundle exec rackup
+bundle exec rake db:migrate
+bundle exec rake serve
+# or: bundle exec rackup
 ```
 
 ## See available rake tasks
@@ -19,8 +21,16 @@ bundle exec rake -T
 bundle exec rake db:create_migration NAME=[migration_name]
 ```
 
+## Run application
+
+```
+bundle exec rake db:migrate 
+bundle exec rerun rackup
+```
+
 ## run specs
 
 ```
+RACK_ENV=test bundle exec rake db:migrate 
 bundle exec rspec
 ```
