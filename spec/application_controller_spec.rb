@@ -17,6 +17,7 @@ describe ApplicationController do
     post '/', bin: { payload: 'Hello, World!' }
     expect(last_response.status).to eq(200)
     expect(Bin.count).to eq(1)
+    expect(last_response.body).to include("/bins/#{Bin.last.random_id}")
   end
 
   it 'does not save a new bin without a payload' do
