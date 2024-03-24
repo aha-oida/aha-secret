@@ -75,9 +75,8 @@ function createLink(id){
 async function encryptEvent(){
   const key = await generateKeyb64();
   const cipher = await encryptMessage(key);
-  console.log(cipher);
 
-  let id = await fetch("/", {
+  await fetch("/", {
     method: 'post',
     body: "bin[payload]=" + cipher,
     headers: {
