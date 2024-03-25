@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_25_152739) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "random_id"
-    t.datetime "expire_date", default: "2024-04-01 14:30:13"
+    t.datetime "expire_date", default: -> { "datetime('now','+7 day','localtime')" }
     t.index ["random_id"], name: "index_bins_on_random_id", unique: true
   end
 
