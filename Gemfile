@@ -20,6 +20,7 @@ group :development do
   gem 'brakeman', '~> 6.1.2'
   gem 'overcommit', '~> 0.63'
   gem 'rubocop', '~> 1.62'
+  gem 'rerun', '~> 0.14.0'
 end
 
 group :development, :test do
@@ -27,5 +28,3 @@ group :development, :test do
   gem 'database_cleaner', '~> 2.0.2'
   gem 'faker', '~> 3.2.3'
 end
-
-gem 'rerun', '~> 0.14.0'

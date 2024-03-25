@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
 
     if @bin.save
       content_type :json
-      { id: @bin.random_id }.to_json
+      { id: @bin.random_id, url: bin_retrieval_url(@bin) }.to_json
     else
       status 422
     end
