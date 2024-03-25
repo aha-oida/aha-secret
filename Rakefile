@@ -23,3 +23,10 @@ task all_tests: :environment do
   ENV['RUN_ALL_TESTS'] = 'true'
   Rake::Task['spec'].invoke
 end
+
+# does not work - but the executed cmd manually does
+# desc 'Simulate autotest with rerun.'
+# task :autotest do
+#   ENV['RUN_ALL_TESTS'] = 'true'
+#   `bundle exec rerun -cx rspec`
+# end
