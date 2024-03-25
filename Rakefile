@@ -30,3 +30,8 @@ end
 #   ENV['RUN_ALL_TESTS'] = 'true'
 #   `bundle exec rerun -cx rspec`
 # end
+
+desc 'Cleanup expired bins.'
+task cleanup: :environment do
+  Bin.cleanup
+end
