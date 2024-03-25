@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bundle exec rerun -cx rspec
