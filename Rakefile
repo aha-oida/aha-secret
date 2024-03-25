@@ -11,6 +11,11 @@ task :serve do
   `bundle exec rackup -p 9292`
 end
 
+desc 'Starts the puma web server with rerun'
+task :rerun do
+  `bundle exec rerun --dir app,config,public -- rackup  --port=9292`
+end
+
 RSpec::Core::RakeTask.new(:spec)
 
 desc 'Run all tests, even those usually excluded.'
