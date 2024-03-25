@@ -34,7 +34,7 @@ async function getKeyfromB64(base64key) {
   ]);
 }
 
-function getMessageEncoding() {
+function getEncodedMessage() {
    const messageBox = document.getElementById('message');
    let message = messageBox.value;
    let enc = new TextEncoder();
@@ -42,7 +42,7 @@ function getMessageEncoding() {
 }
 
 async function encryptMessage(key) {
-  let encoded = getMessageEncoding();
+  let encoded = getEncodedMessage();
   // The iv must never be reused with a given key.
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
   const ciphertext = await window.crypto.subtle.encrypt(
