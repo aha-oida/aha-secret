@@ -19,6 +19,17 @@
   .col-12 {width: 100%;}
 }
 
+#titlebar {
+	padding: 5pt 5pt 5pt 5pt;
+	border-bottom-style: outset;
+}
+
+#titlebar h1 {
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
+	font-size: 40px;
+	font-weight: 100;
+}
+
 #main {
 	margin: 0 auto;
 }
@@ -41,6 +52,8 @@
 }
 
 #footer {
+	position: relative;
+	bottom: 0;
 	margin-top: 20pt;
 	display: flex;
 	flex-direction: column;
@@ -51,6 +64,70 @@
 #bin-content {
   /* visibility: hidden; */
   display: none;
+}
+
+#share-box {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+}
+
+#share-box input[type=text]{
+	width: 50%;
+	transition: width 0.4s ease-in-out;
+}
+
+#share-box input[type=text]:focus{
+	width: 100%;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+#copy-button {
+	width: 50px;
+	height: 30px;
+}
+
+#copy-icon {
+	width: 25px;
+	height: 25px;
 }
 
 .hidden{ display: none; }

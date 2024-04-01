@@ -70,7 +70,7 @@ function createLink(id){
   const b64Key = document.getElementById('enc-key').innerText;
   const b64Iv = document.getElementById('enc-iv').innerText;
   const url = window.location.href + "bins/" + id + '#' + b64Key + '&' + b64Iv;
-  document.getElementById("secret-url").textContent = url;
+  document.getElementById("secret-url").value = url;
 }
 
 async function encryptEvent(){
@@ -91,3 +91,5 @@ async function encryptEvent(){
     console.log(error)
   });
 }
+
+
