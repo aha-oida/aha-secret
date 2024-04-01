@@ -22,12 +22,19 @@
 #titlebar {
 	padding: 5pt 5pt 5pt 5pt;
 	border-bottom-style: outset;
+	margin-bottom: 40pt;
 }
 
 #titlebar h1 {
 	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 40px;
 	font-weight: 100;
+	margin-bottom: 0;
+}
+
+#titlebar p {
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
+	text-align: center;
 }
 
 #main {
@@ -38,10 +45,15 @@
 	text-align: center;
 }
 
+.flex-container{
+	display: flex;
+	flex-direction: column;
+}
+
 #content {
 	display: flex;
 	flex-direction: column;
-	margin: 0 auto;
+	/* margin: 0 auto; */
 	align-items: center;
 	justify-content: center;
 }
@@ -52,9 +64,11 @@
 }
 
 #footer {
-	position: relative;
+	border-top-style: solid;
+	border-width: 1px;
 	bottom: 0;
-	margin-top: 20pt;
+	width: 100%;
+	margin-top: 40pt;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
