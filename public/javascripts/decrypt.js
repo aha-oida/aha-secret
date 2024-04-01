@@ -15,17 +15,7 @@ function base64ToBytes(base64) {
 }
 
 async function getKeyfromB64(base64key) {
-  const uint8Array = (base64key) => {
-        const string = window.atob(base64key)
-        const buffer = new ArrayBuffer(string.length)
-        const bufferView = new Uint8Array(buffer)
-        for (let i = 0; i < string.length; i++) {
-              bufferView[i] = string.charCodeAt(i)
-        }
-        return buffer
-  }
-
-  const key = await window.crypto.subtle.importKey("raw", uint8Array(base64key), "AES-GCM", true, [
+  const key = await window.crypto.subtle.importKey("raw", base64ToBytes(base64key), "AES-GCM", true, [
     "encrypt",
     "decrypt",
   ]);
