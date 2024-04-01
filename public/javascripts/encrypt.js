@@ -17,6 +17,11 @@ async function generateKeyb64(){
   return key;
 }
 
+function storeIV(iv){
+  const iv64 = window.btoa( String.fromCharCode( ...iv ) );
+  document.getElementById('enc-iv').innerText = iv64;
+}
+
 async function getKeyfromB64(base64key) {
   const uint8Array = (base64key) => {
         const string = window.atob(base64key)
@@ -45,6 +50,7 @@ async function encryptMessage(key) {
   let encoded = getEncodedMessage();
   // The iv must never be reused with a given key.
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  storeIV(iv);
   const ciphertext = await window.crypto.subtle.encrypt(
     {
       name: "AES-GCM",
@@ -62,7 +68,8 @@ async function encryptMessage(key) {
 
 function createLink(id){
   const b64Key = document.getElementById('enc-key').innerText;
-  const url = window.location.href + "bins/" + id + '#' + b64Key;
+  const b64Iv = document.getElementById('enc-iv').innerText;
+  const url = window.location.href + "bins/" + id + '#' + b64Key + '&' + b64Iv;
   document.getElementById("secret-url").textContent = url;
 }
 
