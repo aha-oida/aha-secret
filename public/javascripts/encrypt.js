@@ -60,12 +60,6 @@ async function encryptMessage(key) {
   return base64cipher;
 }
 
-function getKeyFromUrl(){
-  const hash = window.location.hash;
-  const key = hash.match(/^[^#]*#(.*)/)[1];
-  console.log(key);
-}
-
 function createLink(id){
   const b64Key = document.getElementById('enc-key').innerText;
   const url = window.location.href + "bins/" + id + '#' + b64Key;
