@@ -4,6 +4,7 @@
 
 ```
 bundle install
+overcommit --install
 bundle exec rake db:migrate
 bundle exec rake serve
 # or: bundle exec rackup
