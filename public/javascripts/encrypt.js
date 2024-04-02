@@ -76,9 +76,11 @@ function createLink(id){
 async function encryptEvent(){
   const key = await generateKeyb64();
   const cipher = await encryptMessage(key);
+  const retention = document.getElementById("retention").value;
 
   await fetch("/", {
     method: 'post',
+    /* body: "bin[payload]=" + encodeURIComponent(cipher) + "&bin[retention]=" + retention, */
     body: "bin[payload]=" + encodeURIComponent(cipher),
     headers: {
 	"Content-Type": "application/x-www-form-urlencoded"
