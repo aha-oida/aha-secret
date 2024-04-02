@@ -16,14 +16,14 @@
       </div>
     </div>
     <input type="text" readonly id="secret-url">
-    <a href="/">Create new secret</a>
+    <a id="another-secret" href="/">Create another secret</a>
   </div>
 </div>
 
 <div id="enc-form">
   <!-- return false to prevent reloading the page -->
   <form onsubmit="encryptEvent(); return false">
-    <textarea id="message" name="bin[payload]" rows="20" cols="40" placeholder="Encrypt me!" required></textarea>
+    <textarea id="message" name="bin[payload]" rows="20" cols="40" placeholder="Encrypt me in your browser!" required></textarea>
     <input type="submit" value="Create Secret">
   </form>
 </div>
