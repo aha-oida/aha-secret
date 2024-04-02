@@ -24,6 +24,19 @@
   <!-- return false to prevent reloading the page -->
   <form onsubmit="encryptEvent(); return false">
     <textarea id="message" name="bin[payload]" rows="20" cols="40" placeholder="Encrypt me in your browser!" required></textarea>
+    <div id="retention-pane">
+      <label for="retention">Delete after: </label>
+      <select name="retention" id="retention">
+        <option value="10080">7 days</option>
+        <option value="4320">3 days</option>
+        <option value="1440">1 day</option>
+        <option value="720">12 hours</option>
+        <option value="250">4 hours</option>
+        <option value="60">1 hour</option>
+        <option value="30">30 minutes</option>
+        <option value="5">5 minutes</option>
+      </select>
+    </div>
     <input type="submit" value="Create Secret">
   </form>
 </div>

@@ -161,4 +161,9 @@
 	background-color: #F2F5FF;
 }
 
+#retention-pane {
+	margin-top: 10pt;
+	margin-bottom: 10pt;
+}
+
 .hidden{ display: none; }
