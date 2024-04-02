@@ -1,9 +1,10 @@
 <%# TODO: add reveal this button prior showing bin %>
 
 <div id="bin-content">
-  <h1>Showing bin <%= @bin.id %></h1>
+  <h1>Your Secret:</h1>
+  <span id="bin-id" class="hidden"><%= @bin.id %></span>
   <span id="enc-key" class="hidden"><%= @bin.payload %></span>
-  <p id="dec-msg"></p>
+  <textarea id="dec-msg" readonly rows="20" cols="40"></textarea>
 </div>
 
 <p id="reveal-content">
