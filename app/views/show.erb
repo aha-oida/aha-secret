@@ -2,11 +2,12 @@
 
 <div id="bin-content">
   <h1>Showing bin <%= @bin.id %></h1>
-
-  <p><%= @bin.payload %></p>
+  <span id="enc-key" class="hidden"><%= @bin.payload %></span>
+  <p id="dec-msg"></p>
 </div>
 
 <p id="reveal-content">
   Click this button to reveal the secret:
   <button id="revealbutton" onclick="reveal()">Reveal</button>
 </p>
+<script src="/javascripts/decrypt.js"></script>
