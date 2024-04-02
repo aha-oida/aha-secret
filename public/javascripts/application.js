@@ -4,4 +4,5 @@ function reveal() {
   element.remove();
   const element2 = document.getElementById("bin-content");
   element2.style.display = "block";
+  decryptEvent();
 }
