@@ -157,4 +157,8 @@
 	margin-top: 10pt;
 }
 
+#dec-msg {
+	background-color: #F2F5FF;
+}
+
 .hidden{ display: none; }
