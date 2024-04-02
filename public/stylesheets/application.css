@@ -144,4 +144,13 @@
 	height: 25px;
 }
 
+#label-button label {
+	font-weight: bold;
+	margin-right: 10pt;
+}
+
+#label-button {
+	margin-bottom: 10pt;
+}
+
 .hidden{ display: none; }
