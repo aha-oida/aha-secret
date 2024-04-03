@@ -40,5 +40,5 @@ async function decryptEvent() {
   const key = await getKeyfromB64(keyiv[0]);
   const iv = base64ToBytes(keyiv[1]);
   const message = document.getElementById('enc-key').innerText;
-  document.getElementById('dec-msg').innerHTML= await decryptMessage(key, base64ToBytes(message), iv);
+  document.getElementById('dec-msg').value= await decryptMessage(key, base64ToBytes(message), iv);
 }

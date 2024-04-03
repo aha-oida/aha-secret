@@ -76,9 +76,11 @@ function createLink(id){
 async function encryptEvent(){
   const key = await generateKeyb64();
   const cipher = await encryptMessage(key);
+  const retention = document.getElementById("retention").value;
 
   await fetch("/", {
     method: 'post',
+    /* body: "bin[payload]=" + encodeURIComponent(cipher) + "&bin[retention]=" + retention, */
     body: "bin[payload]=" + encodeURIComponent(cipher),
     headers: {
 	"Content-Type": "application/x-www-form-urlencoded"
@@ -92,4 +94,17 @@ async function encryptEvent(){
   });
 }
 
+const messageEle = document.getElementById('message');
+const counterEle = document.getElementById('msg-counter');
 
+messageEle.addEventListener('input', function (e) {
+    const target = e.target;
+
+    // Get the `maxlength` attribute
+    const maxLength = target.getAttribute('maxlength');
+
+    // Count the current number of characters
+    const currentLength = target.value.length;
+
+    counterEle.innerHTML = `${currentLength}/${maxLength}`;
+});

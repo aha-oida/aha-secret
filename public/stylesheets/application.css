@@ -144,4 +144,31 @@
 	height: 25px;
 }
 
+#label-button label {
+	font-weight: bold;
+	margin-right: 10pt;
+}
+
+#label-button {
+	margin-bottom: 10pt;
+}
+
+#another-secret {
+	margin-top: 10pt;
+}
+
+#dec-msg {
+	background-color: #F2F5FF;
+}
+
+#retention-pane {
+	margin-top: 10pt;
+	margin-bottom: 10pt;
+}
+
+#msg-counter {
+	text-align: right;
+	font-weight: 200;
+}
+
 .hidden{ display: none; }
