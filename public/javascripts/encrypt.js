@@ -1,12 +1,12 @@
-async function generateKeyb64(){
+async function generateKeyb64() {
   const key = await window.crypto.subtle.generateKey(
-        {
-            name: "AES-GCM",
-            length: 256,
-        },
-        true,
-        ["encrypt", "decrypt"]
-        );
+    {
+      name: "AES-GCM",
+      length: 256,
+    },
+    true,
+    ["encrypt", "decrypt"]
+  );
 
   const arrbuf = await window.crypto.subtle.exportKey("raw", key);
   const base64key = window.btoa(String.fromCharCode.apply(null, new Uint8Array(arrbuf)));
@@ -17,20 +17,20 @@ async function generateKeyb64(){
   return key;
 }
 
-function storeIV(iv){
-  const iv64 = window.btoa( String.fromCharCode( ...iv ) );
+function storeIV(iv) {
+  const iv64 = window.btoa(String.fromCharCode(...iv));
   document.getElementById('enc-iv').innerText = iv64;
 }
 
 async function getKeyfromB64(base64key) {
   const uint8Array = (base64key) => {
-        const string = window.atob(base64key)
-        const buffer = new ArrayBuffer(string.length)
-        const bufferView = new Uint8Array(buffer)
-        for (let i = 0; i < string.length; i++) {
-            bufferView[i] = string.charCodeAt(i)
-        }
-        return buffer
+    const string = window.atob(base64key)
+    const buffer = new ArrayBuffer(string.length)
+    const bufferView = new Uint8Array(buffer)
+    for (let i = 0; i < string.length; i++) {
+      bufferView[i] = string.charCodeAt(i)
+    }
+    return buffer
   }
 
   const key = await window.crypto.subtle.importKey("raw", uint8Array(base64key), "AES-GCM", true, [
@@ -40,10 +40,10 @@ async function getKeyfromB64(base64key) {
 }
 
 function getEncodedMessage() {
-   const messageBox = document.getElementById('message');
-   let message = messageBox.value;
-   let enc = new TextEncoder();
-   return enc.encode(message);
+  const messageBox = document.getElementById('message');
+  let message = messageBox.value;
+  let enc = new TextEncoder();
+  return enc.encode(message);
 }
 
 async function encryptMessage(key) {
@@ -66,29 +66,29 @@ async function encryptMessage(key) {
   return base64cipher;
 }
 
-function createLink(id){
+function createLink(id) {
   const b64Key = document.getElementById('enc-key').innerText;
   const b64Iv = document.getElementById('enc-iv').innerText;
   const url = window.location.href + "bins/" + id + '#' + b64Key + '&' + b64Iv;
   document.getElementById("secret-url").value = url;
 }
 
-async function encryptEvent(){
+async function encryptEvent() {
   const key = await generateKeyb64();
   const cipher = await encryptMessage(key);
   const retention = document.getElementById("retention").value;
 
   await fetch("/", {
     method: 'post',
-    /* body: "bin[payload]=" + encodeURIComponent(cipher) + "&bin[retention]=" + retention, */
-    body: "bin[payload]=" + encodeURIComponent(cipher),
+    body: "bin[payload]=" + encodeURIComponent(cipher) + "&retention=" + retention,
+    // body: "bin[payload]=" + encodeURIComponent(cipher),
     headers: {
-	"Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded"
     }
   }).then((response) => {
-     return response.json()
+    return response.json()
   }).then((res) => {
-     createLink(res.id);
+    createLink(res.id);
   }).catch((error) => {
     console.log(error)
   });
@@ -98,13 +98,13 @@ const messageEle = document.getElementById('message');
 const counterEle = document.getElementById('msg-counter');
 
 messageEle.addEventListener('input', function (e) {
-    const target = e.target;
+  const target = e.target;
 
-    // Get the `maxlength` attribute
-    const maxLength = target.getAttribute('maxlength');
+  // Get the `maxlength` attribute
+  const maxLength = target.getAttribute('maxlength');
 
-    // Count the current number of characters
-    const currentLength = target.value.length;
+  // Count the current number of characters
+  const currentLength = target.value.length;
 
-    counterEle.innerHTML = `${currentLength}/${maxLength}`;
+  counterEle.innerHTML = `${currentLength}/${maxLength}`;
 });
