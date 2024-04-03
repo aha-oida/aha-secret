@@ -9,7 +9,7 @@ class Bin < ActiveRecord::Base
   scope :expired, -> { where('expire_date < ?', Time.now) }
 
   def expire_date_cannot_be_bigger_than_7_days
-    if expire_date.present? && expire_date > (Date.today + 7.days)
+    if expire_date&. > (Date.today + 7.days)
       errors.add(:expire_date, "Can't be bigger than 7 days")
     end
   end
