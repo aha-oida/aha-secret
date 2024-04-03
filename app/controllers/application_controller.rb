@@ -22,6 +22,11 @@ class ApplicationController < Sinatra::Base
   # This will be a ajax call
   post '/' do
     @bin = Bin.new(params[:bin])
+    # calculate the expiration date - now + retention_time in minutes
+    if params.dig(:retention)&.to_i&.> 0
+      @bin.expire_date = Time.now + params[:retention].to_i.minutes
+      params.delete(:retention)
+    end
 
     if @bin.save
       content_type :json
