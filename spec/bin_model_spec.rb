@@ -27,6 +27,11 @@ describe Bin do
     expect(bin.expired?).to be true
   end
 
+  it 'must not have an expire_date greater than 7days' do
+    bin = Bin.create(payload: "Hello!", expire_date: Time.now + 8.day)
+    expect(bin.valid?).to be false
+  end
+
   it 'can be filtered by expiration' do
     bin = Bin.create(payload: 'Hello, World!')
     expect(Bin.expired).to eq []
