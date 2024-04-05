@@ -22,9 +22,10 @@ class ApplicationController < Sinatra::Base
   # This will be a ajax call
   post '/' do
     @bin = Bin.new(params[:bin])
-    # calculate the expiration date - now + retention_time in minutes
-    if params.dig(:retention)&.to_i&.> 0
-      @bin.expire_date = Time.now + params[:retention].to_i.minutes
+
+    retention_minutes = params[:retention]&.to_i&.minutes
+    if retention_minutes&.positive?
+      @bin.expire_date = Time.now + retention_minutes
       params.delete(:retention)
     end
 
@@ -39,6 +40,18 @@ class ApplicationController < Sinatra::Base
   get '/bins/:id' do
     @bin = Bin.find_by_random_id(params[:id])
     erb :show
+  end
+
+  patch '/bins/:id/reveal' do
+    @bin = Bin.find_by_random_id(params[:id])
+    if @bin
+      payload = @bin.payload
+      @bin.destroy
+      content_type :json
+      { payload: }.to_json
+    else
+      status 404
+    end
   end
 
   helpers do

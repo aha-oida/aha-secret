@@ -38,6 +38,13 @@ describe ApplicationController do
     expect(Bin.count).to eq(0)
   end
 
+  it 'deletes bin and returns payload on reveal' do
+    bin = Bin.create(payload: 'Hello, World!')
+    patch "/bins/#{bin.random_id}/reveal"
+    expect(last_response.status).to eq(200)
+    expect(JSON.parse(last_response.body)).to include('payload' => 'Hello, World!')
+    expect(Bin.count).to eq(0)
+  end
 
   it 'shows a bin' do
     bin = Bin.create(payload: 'Hello, World!')
