@@ -25,7 +25,7 @@ bundle exec rake db:create_migration NAME=[migration_name]
 ## Run application
 
 ```
-bundle exec rake db:migrate 
+bundle exec rake db:migrate
 bundle exec rerun rackup
 ```
 
@@ -38,6 +38,6 @@ bin/console
 ## run specs
 
 ```
-RACK_ENV=test bundle exec rake db:migrate 
+RACK_ENV=test bundle exec rake db:migrate
 bundle exec rspec
 ```
