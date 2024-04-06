@@ -28,13 +28,10 @@ class ApplicationController < Sinatra::Base
       bin.expire_date = Time.now + retention_minutes
       params.delete(:retention)
     end
+    return status 422 unless bin.save
 
-    if bin.save
-      content_type :json
-      { id: bin.random_id, url: bin_retrieval_url(bin) }.to_json
-    else
-      status 422
-    end
+    content_type :json
+    { id: bin.random_id, url: bin_retrieval_url(bin) }.to_json
   end
 
   get '/bins/:id' do
@@ -44,14 +41,12 @@ class ApplicationController < Sinatra::Base
 
   patch '/bins/:id/reveal' do
     bin = Bin.find_by_random_id(params[:id])
-    if bin
-      payload = bin.payload
-      bin.destroy
-      content_type :json
-      { payload: }.to_json
-    else
-      status 404
-    end
+    return status 404 unless bin
+
+    payload = bin.payload
+    bin.destroy
+    content_type :json
+    { payload: }.to_json
   end
 
   helpers do
