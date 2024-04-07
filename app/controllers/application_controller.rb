@@ -31,16 +31,16 @@ class ApplicationController < Sinatra::Base
     return status 422 unless bin.save
 
     content_type :json
-    { id: bin.random_id, url: bin_retrieval_url(bin) }.to_json
+    { id: bin.id, url: bin_retrieval_url(bin) }.to_json
   end
 
   get '/bins/:id' do
-    @bin = Bin.find_by_random_id(params[:id])
+    @bin = Bin.find(params[:id])
     erb :show
   end
 
   patch '/bins/:id/reveal' do
-    bin = Bin.find_by_random_id(params[:id])
+    bin = Bin.find(params[:id])
     return status 404 unless bin
 
     payload = bin.payload
@@ -51,7 +51,7 @@ class ApplicationController < Sinatra::Base
 
   helpers do
     def bin_retrieval_url(bin)
-      "#{request.base_url}/bins/#{bin.random_id}"
+      "#{request.base_url}/bins/#{bin.id}"
     end
   end
 end
