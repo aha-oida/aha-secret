@@ -46,4 +46,13 @@ describe Bin do
     Bin.cleanup
     expect(Bin.expired).to eq []
   end
+
+  it 'does not cleanup non-expired bins' do
+    bin = Bin.create(payload: 'Hello, World!')
+    expect(Bin.expired).to eq []
+    expect(Bin.count).to eq 1
+    Bin.cleanup
+    expect(Bin.expired).to eq []
+    expect(Bin.count).to eq 1
+  end
 end

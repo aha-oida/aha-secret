@@ -58,4 +58,12 @@ describe ApplicationController do
     expect(last_response.status).to eq(200)
     expect(last_response.body).to include('Hello, World!')
   end
+
+  it 'provides a cleanup route' do
+    Bin.create(payload: 'Hello, World!', expire_date: Time.now - 1.day)
+    expect(Bin.count).to eq(1)
+    patch '/cleanup'
+    expect(last_response.status).to eq(204)
+    expect(Bin.count).to eq(0)
+  end
 end

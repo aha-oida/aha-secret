@@ -49,6 +49,11 @@ class ApplicationController < Sinatra::Base
     { payload: }.to_json
   end
 
+  patch '/cleanup' do
+    Bin.cleanup
+    status 204
+  end
+
   helpers do
     def bin_retrieval_url(bin)
       "#{request.base_url}/bins/#{bin.random_id}"
