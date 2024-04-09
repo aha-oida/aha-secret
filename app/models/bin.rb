@@ -7,7 +7,7 @@ class Bin < ActiveRecord::Base
   validates :payload, presence: true, length: { maximum: 10_000 }
   validate :expire_date_cannot_be_bigger_than_7_days
   has_secure_token :id
-  self.primary_key =  :id
+  self.primary_key = :id
 
   scope :expired, -> { where('expire_date < ?', Time.now) }
 
