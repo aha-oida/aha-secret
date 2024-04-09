@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_26_191856) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_07_035007) do
   create_table "bins", id: false, force: :cascade do |t|
     t.text "payload"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "random_id"
+    t.string "id"
     t.datetime "expire_date", default: -> { "datetime('now','+7 day','localtime')" }
-    t.index ["random_id"], name: "index_bins_on_random_id", unique: true
+    t.index ["id"], name: "index_bins_on_id", unique: true
   end
 
 end
