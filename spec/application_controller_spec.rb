@@ -17,7 +17,7 @@ describe ApplicationController do
     post '/', bin: { payload: 'Hello, World!' }
     expect(last_response.status).to eq(200)
     expect(Bin.count).to eq(1)
-    expect(JSON.parse(last_response.body)).to include('id' => Bin.first.random_id)
+    expect(JSON.parse(last_response.body)).to include('id' => Bin.first.id)
   end
 
   it 'saves a new bin with a retention time of 7 days' do
@@ -46,7 +46,7 @@ describe ApplicationController do
 
   it 'deletes bin and returns payload on reveal' do
     bin = Bin.create(payload: 'Hello, World!')
-    patch "/bins/#{bin.random_id}/reveal"
+    patch "/bins/#{bin.id}/reveal"
     expect(last_response.status).to eq(200)
     expect(JSON.parse(last_response.body)).to include('payload' => 'Hello, World!')
     expect(Bin.count).to eq(0)
@@ -54,7 +54,7 @@ describe ApplicationController do
 
   it 'shows a bin' do
     bin = Bin.create(payload: 'Hello, World!')
-    get "/bins/#{bin.random_id}"
+    get "/bins/#{bin.id}"
     expect(last_response.status).to eq(200)
     expect(last_response.body).to include('Hello, World!')
   end
