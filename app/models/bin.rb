@@ -22,9 +22,10 @@ class Bin < ActiveRecord::Base
   end
 
   def self.cleanup
-    # TODO: should be done in batches in background job
-    ActiveRecord::Base.transaction do
-      expired.lock.delete_all
+    expired.in_batches do |batch|
+      ActiveRecord::Base.transaction do
+        batch.lock.delete_all
+      end
     end
   end
 end
