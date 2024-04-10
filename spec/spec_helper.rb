@@ -2,6 +2,7 @@
 
 ENV['RACK_ENV'] = 'test'
 
+require 'sucker_punch/testing/inline'
 require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'

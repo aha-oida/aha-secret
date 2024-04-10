@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'sucker_punch'
 require './config/environment'
 
 # write documentation
@@ -50,7 +50,7 @@ class ApplicationController < Sinatra::Base
   end
 
   patch '/cleanup' do
-    Bin.cleanup
+    CleanupJob.perform_async
     status 204
   end
 

@@ -12,7 +12,7 @@ gem 'require_all', '~> 3.0'
 gem 'sinatra', '~> 4.0'
 gem 'sinatra-activerecord', require: 'sinatra/activerecord'
 gem 'sqlite3', '~> 1.0'
-
+gem 'sucker_punch', '~> 3.0'
 gem 'rack-test', '~> 2.1', group: :test
 gem 'rspec', '~> 3.13', group: :test
 
