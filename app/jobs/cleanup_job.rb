@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Deletes retired bins from the database
 class CleanupJob
   include SuckerPunch::Job
   workers 1

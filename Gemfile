@@ -6,15 +6,15 @@ gem 'activerecord', require: 'active_record'
 gem 'debug', '>= 1.0.0', group: :development
 gem 'erubis', '~> 2.7'
 gem 'puma', '~> 6.4'
+gem 'rack-test', '~> 2.1', group: :test
 gem 'rackup', '~> 2.1'
 gem 'rake', '~> 13.1'
 gem 'require_all', '~> 3.0'
+gem 'rspec', '~> 3.13', group: :test
 gem 'sinatra', '~> 4.0'
 gem 'sinatra-activerecord', require: 'sinatra/activerecord'
 gem 'sqlite3', '~> 1.0'
 gem 'sucker_punch', '~> 3.0'
-gem 'rack-test', '~> 2.1', group: :test
-gem 'rspec', '~> 3.13', group: :test
 
 group :development do
   gem 'brakeman', '~> 6.1.2'

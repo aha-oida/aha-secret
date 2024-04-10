@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'sucker_punch'
 require './config/environment'
 
