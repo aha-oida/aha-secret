@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/sinatra/sinatra.git
+  revision: 5640495babcb4cfd69ba650b293660b7446402da
+  specs:
+    sinatra-contrib (4.0.0)
+      multi_json (>= 0.0.2)
+      mustermann (~> 3.0)
+      rack-protection (= 4.0.0)
+      sinatra (= 4.0.0)
+      tilt (~> 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,9 +59,14 @@ GEM
     diff-lcs (1.5.1)
     drb (2.2.1)
     erubis (2.7.0)
+    et-orbi (1.2.11)
+      tzinfo
     faker (3.2.3)
       i18n (>= 1.8.11, < 2)
     ffi (1.16.3)
+    fugit (1.10.1)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
     iniparse (1.5.0)
@@ -66,6 +82,7 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.22.3)
+    multi_json (1.15.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     mutex_m (0.2.0)
@@ -89,6 +106,7 @@ GEM
     public_suffix (5.0.4)
     puma (6.4.2)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.7.3)
     rack (3.0.10)
     rack-protection (4.0.0)
@@ -143,6 +161,8 @@ GEM
       parser (>= 3.3.0.4)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    rufus-scheduler (3.9.1)
+      fugit (~> 1.1, >= 1.1.6)
     sinatra (4.0.0)
       mustermann (~> 3.0)
       rack (>= 3.0.0, < 4)
@@ -187,8 +207,10 @@ DEPENDENCIES
   rerun (~> 0.14.0)
   rspec (~> 3.13)
   rubocop (~> 1.62)
+  rufus-scheduler (~> 3.9)
   sinatra (~> 4.0)
   sinatra-activerecord
+  sinatra-contrib!
   sqlite3 (~> 1.0)
 
 BUNDLED WITH
