@@ -68,4 +68,12 @@ describe ApplicationController do
     patch '/bins/123/reveal'
     expect(last_response.status).to eq(422)
   end
+
+  it 'cleans up expired bins' do
+    bin = Bin.create(payload: 'Hello, World!', expire_date: Time.now - 1)
+    expect(Bin.count).to eq(1)
+    sleep 3 # rufus scheduler runs every 2 seconds in TEST environment
+    get '/'
+    expect(Bin.count).to eq(0)
+  end
 end
