@@ -7,5 +7,4 @@ if ActiveRecord::Base.connection.migration_context.needs_migration?
 end
 
 use Rack::MethodOverride
-# use FooBarController
 run ApplicationController
