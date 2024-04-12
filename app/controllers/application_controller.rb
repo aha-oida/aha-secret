@@ -43,13 +43,15 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/bins/:id' do
-    @bin = Bin.find(params[:id])
+    @bin = Bin.find_by_id(params[:id])
+    return status 404 unless @bin
+
     erb :show
   end
 
   patch '/bins/:id/reveal' do
-    bin = Bin.find(params[:id])
-    return status 404 unless bin
+    bin = Bin.find_by_id(params[:id])
+    return status 422 unless bin
 
     payload = bin.payload
     bin.destroy
