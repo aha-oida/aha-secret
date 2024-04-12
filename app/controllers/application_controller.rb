@@ -6,7 +6,11 @@ require 'rufus-scheduler'
 # write documentation
 class ApplicationController < Sinatra::Base
   register Sinatra::ConfigFile
-  config_file '../../config/config.yml'
+  if ENV['RACK_ENV'] == 'test'
+    config_file '../../config/test_config.yml'
+  else
+    config_file '../../config/config.yml'
+  end
 
   set :erubis, escape_html: true
 
