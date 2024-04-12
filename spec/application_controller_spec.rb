@@ -58,4 +58,14 @@ describe ApplicationController do
     expect(last_response.status).to eq(200)
     expect(last_response.body).to include('Hello, World!')
   end
+
+  it 'returns 404 if bin does not exist' do
+    get '/bins/123'
+    expect(last_response.status).to eq(404)
+  end
+
+  it 'returns 422 if bin does not exist on reveal' do
+    patch '/bins/123/reveal'
+    expect(last_response.status).to eq(422)
+  end
 end
