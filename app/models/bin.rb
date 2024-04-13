@@ -22,6 +22,10 @@ class Bin < ActiveRecord::Base
   end
 
   def self.cleanup
-    expired.destroy_all
+    expired.in_batches do |batch|
+      ActiveRecord::Base.transaction do
+        batch.lock.delete_all
+      end
+    end
   end
 end
