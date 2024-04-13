@@ -1,0 +1,7 @@
+---
+default: &common_settings
+  cleanup_schedule: "5m"
+
+test:
+  <<: *common_settings
+  cleanup_schedule: "2s"

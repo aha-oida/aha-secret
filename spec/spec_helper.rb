@@ -6,6 +6,7 @@ require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
+require 'database_cleaner'
 
 ActiveRecord::Base.logger = nil
 
@@ -15,7 +16,6 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include Capybara::DSL
   DatabaseCleaner.strategy = :truncation
-
   config.before do
     DatabaseCleaner.clean
   end

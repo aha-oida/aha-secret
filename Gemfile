@@ -9,8 +9,12 @@ gem 'puma', '~> 6.4'
 gem 'rackup', '~> 2.1'
 gem 'rake', '~> 13.1'
 gem 'require_all', '~> 3.0'
+gem 'rufus-scheduler', '~> 3.9'
 gem 'sinatra', '~> 4.0'
 gem 'sinatra-activerecord', require: 'sinatra/activerecord'
+github 'sinatra/sinatra' do
+  gem 'sinatra-contrib'
+end
 gem 'sqlite3', '~> 1.0'
 
 gem 'rack-test', '~> 2.1', group: :test

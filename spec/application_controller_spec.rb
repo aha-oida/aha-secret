@@ -58,4 +58,22 @@ describe ApplicationController do
     expect(last_response.status).to eq(200)
     expect(last_response.body).to include('Hello, World!')
   end
+
+  it 'returns 404 if bin does not exist' do
+    get '/bins/123'
+    expect(last_response.status).to eq(404)
+  end
+
+  it 'returns 422 if bin does not exist on reveal' do
+    patch '/bins/123/reveal'
+    expect(last_response.status).to eq(422)
+  end
+
+  it 'cleans up expired bins' do
+    bin = Bin.create(payload: 'Hello, World!', expire_date: Time.now - 1)
+    expect(Bin.count).to eq(1)
+    sleep 3 # rufus scheduler runs every 2 seconds in TEST environment
+    get '/'
+    expect(Bin.count).to eq(0)
+  end
 end

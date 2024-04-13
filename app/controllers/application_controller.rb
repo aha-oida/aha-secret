@@ -1,18 +1,26 @@
 # frozen_string_literal: true
 
 require './config/environment'
+require 'rufus-scheduler'
 
 # write documentation
 class ApplicationController < Sinatra::Base
+  register Sinatra::ConfigFile
+  config_file '../../config/config.yml'
+
   set :erubis, escape_html: true
 
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
     set :layout, true
+    enable :logging
 
     # enable :sessions
     # set :session_secret, "super secret"
+    Rufus::Scheduler.s.interval settings.cleanup_schedule do
+      Bin.cleanup
+    end
   end
 
   get '/' do
@@ -35,13 +43,15 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/bins/:id' do
-    @bin = Bin.find(params[:id])
+    @bin = Bin.find_by_id(params[:id])
+    return status 404 unless @bin
+
     erb :show
   end
 
   patch '/bins/:id/reveal' do
-    bin = Bin.find(params[:id])
-    return status 404 unless bin
+    bin = Bin.find_by_id(params[:id])
+    return status 422 unless bin
 
     payload = bin.payload
     bin.destroy
