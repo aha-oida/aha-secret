@@ -1,2 +1,5 @@
 ---
-cleanup_schedule: "5m"
+test:
+  cleanup_schedule: "2s"
+production:
+  cleanup_schedule: "5m"
