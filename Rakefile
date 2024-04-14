@@ -35,3 +35,9 @@ desc 'Cleanup expired bins.'
 task cleanup: :environment do
   Bin.cleanup
 end
+
+desc 'Prepare db and serve.'
+task :migrateserv do
+  Rake::Task['db:migrate'].invoke
+  Rake::Task['serve'].invoke
+end

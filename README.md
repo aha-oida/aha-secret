@@ -35,6 +35,22 @@ bundle exec rerun rackup
 bin/console
 ```
 
+## Docker
+
+### Build Container
+
+```
+docker build -t aha-secret .
+```
+
+### Run Application
+
+*Please note that the following command will not persist any data and stored secrets will be deleted if the container is stopped*
+
+```
+docker run --rm -it aha-secret
+```
+
 ## run specs
 
 ```

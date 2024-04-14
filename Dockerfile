@@ -13,5 +13,4 @@ COPY . .
 
 RUN bundle install
 
-RUN bundle exec rake db:migrate
-CMD ["bundle","exec","rerun","--","rackup","-o","0.0.0.0"]
+CMD ["bundle","exec","rake","migrateserv"]
