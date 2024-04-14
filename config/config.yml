@@ -5,3 +5,6 @@ default: &common_settings
 test:
   <<: *common_settings
   cleanup_schedule: "2s"
+
+development:
+  <<: *common_settings
