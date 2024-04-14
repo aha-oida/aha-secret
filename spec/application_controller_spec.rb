@@ -64,6 +64,11 @@ describe ApplicationController do
     expect(last_response.status).to eq(404)
   end
 
+  it 'shows a not found page' do
+    get 'bins/1234'
+    expect(last_response.body).to include('This entry was not found. Maybe the retention time has already expired')
+  end
+
   it 'returns 422 if bin does not exist on reveal' do
     patch '/bins/123/reveal'
     expect(last_response.status).to eq(422)
