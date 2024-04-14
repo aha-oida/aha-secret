@@ -35,10 +35,28 @@ async function decryptMessage(key, ciphertext, iv) {
   return dec.decode(decrypted);
 }
 
-async function decryptEvent() {
+async function fetchEncrypted() {
+  let binid = document.getElementById('bin-id').innerText;
+
+  await fetch("/bins/" + binid + "/reveal", {
+    method: 'PATCH',
+    headers: {
+       'Content-type': 'application/json; charset=UTF-8',
+    },
+  }).then((response) => {
+    return response.json()
+  }).then((res) => {
+    decryptEvent(res.payload);
+  }).catch((error) => {
+    console.log(error)
+  });
+
+}
+
+async function decryptEvent(payload) {
   const keyiv = getKeyFromUrl();
   const key = await getKeyfromB64(keyiv[0]);
   const iv = base64ToBytes(keyiv[1]);
-  const message = document.getElementById('enc-key').innerText;
+  const message = payload;
   document.getElementById('dec-msg').value= await decryptMessage(key, base64ToBytes(message), iv);
 }

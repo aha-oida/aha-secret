@@ -5,6 +5,10 @@ default: &common_settings
 production:
   <<: *common_settings
 
+development:
+  <<: *common_settings
+  cleanup_schedule: "2s"
+
 test:
   <<: *common_settings
   cleanup_schedule: "2s"

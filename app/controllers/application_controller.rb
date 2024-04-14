@@ -18,8 +18,10 @@ class ApplicationController < Sinatra::Base
 
     # enable :sessions
     # set :session_secret, "super secret"
-    Rufus::Scheduler.s.interval settings.cleanup_schedule do
-      Bin.cleanup
+    unless defined?(IRB)
+      Rufus::Scheduler.s.interval settings.cleanup_schedule do
+        Bin.cleanup
+      end
     end
   end
 
