@@ -2,6 +2,13 @@
 default: &common_settings
   cleanup_schedule: "5m"
 
+production:
+  <<: *common_settings
+
+development:
+  <<: *common_settings
+  cleanup_schedule: "2s"
+
 test:
   <<: *common_settings
   cleanup_schedule: "2s"
