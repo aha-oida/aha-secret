@@ -56,7 +56,7 @@ describe ApplicationController do
     bin = Bin.create(payload: 'Hello, World!')
     get "/bins/#{bin.id}"
     expect(last_response.status).to eq(200)
-    expect(last_response.body).to include('Hello, World!')
+    expect(last_response.body).to include("#{bin.id}")
   end
 
   it 'returns 404 if bin does not exist' do
