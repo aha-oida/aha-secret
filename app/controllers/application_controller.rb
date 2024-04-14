@@ -51,6 +51,11 @@ class ApplicationController < Sinatra::Base
     erb :show
   end
 
+  not_found do
+    status 404
+    erb :notfound
+  end
+
   patch '/bins/:id/reveal' do
     bin = Bin.find_by_id(params[:id])
     return status 422 unless bin

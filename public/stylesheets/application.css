@@ -171,4 +171,15 @@
 	font-weight: 200;
 }
 
+.error-msg {
+	font-weight: 700;
+	font-size: 1.25em;
+}
+
+.warning-sign{
+	width: 2.5rem;
+	height: 2.5rem;
+	color: orange;
+}
+
 .hidden{ display: none; }
