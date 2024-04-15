@@ -7,7 +7,7 @@ gem 'debug', '>= 1.0.0', group: :development
 gem 'erubis', '~> 2.7'
 gem 'puma', '~> 6.4'
 gem 'rackup', '~> 2.1'
-gem 'rake', '~> 13.1'
+gem 'rake', '~> 13.2'
 gem 'require_all', '~> 3.0'
 gem 'rufus-scheduler', '~> 3.9'
 gem 'sinatra', '~> 4.0'
