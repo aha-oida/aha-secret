@@ -61,7 +61,7 @@ GEM
     erubis (2.7.0)
     et-orbi (1.2.11)
       tzinfo
-    faker (3.2.3)
+    faker (3.3.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.16.3)
     fugit (1.10.1)
@@ -197,7 +197,7 @@ DEPENDENCIES
   database_cleaner (~> 2.0.2)
   debug (>= 1.0.0)
   erubis (~> 2.7)
-  faker (~> 3.2.3)
+  faker (~> 3.3.1)
   overcommit (~> 0.63)
   puma (~> 6.4)
   rack-test (~> 2.1)
