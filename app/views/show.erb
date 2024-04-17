@@ -1,9 +1,10 @@
 <%# TODO: add reveal this button prior showing bin %>
 
 <div id="bin-content">
-  <h1>Your Secret:</h1>
+  <h1>Your decrypted message:</h1>
   <span id="bin-id" class="hidden"><%= @bin.id %></span>
   <textarea id="dec-msg" readonly rows="20" cols="40"></textarea>
+  <p>This message was deleted from the server and can't be shown twice</p>
 </div>
 
 <p id="reveal-content">

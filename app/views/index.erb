@@ -5,7 +5,7 @@
   </div>
   <div id="share-box">
     <div id="label-button">
-      <label for="secret-url">Share this link:</label>
+      <label for="secret-url">Share the following link:</label>
       <div class="tooltip">
         <button id="copy-button" onclick="copyToClip()" onmouseout="showTooltip()">
           <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
@@ -16,6 +16,7 @@
       </div>
     </div>
     <input type="text" readonly id="secret-url">
+    <p>Keep in mind that this secret is automatically destroyed after it is revealed for the first time.</p>
     <a id="another-secret" href="/">Create another secret</a>
   </div>
 </div>
@@ -23,7 +24,7 @@
 <div id="enc-form">
   <!-- return false to prevent reloading the page -->
   <form onsubmit="encryptEvent(); return false">
-    <textarea id="message" name="bin[payload]" rows="20" cols="40" placeholder="Encrypt me in your browser!" required maxlength="9800"></textarea>
+    <textarea id="message" name="bin[payload]" rows="15" cols="40" placeholder="Encrypt me in your browser!" required maxlength="9800"></textarea>
     <div id="msg-counter"></div>
     <div id="retention-pane">
       <label for="retention">Delete after: </label>
@@ -38,7 +39,7 @@
         <option value="5">5 minutes</option>
       </select>
     </div>
-    <input type="submit" value="Create Secret">
+    <input id="create-secret" type="submit" value="Create Secret">
   </form>
 </div>
 <script src="/javascripts/encrypt.js"></script>
