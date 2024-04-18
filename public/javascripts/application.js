@@ -26,3 +26,7 @@ function genQR(){
    new QRCode(document.getElementById("qrcode"), document.getElementById("secret-url").value);
 }
 
+function getAuthenticityToken() {
+  return document.querySelector("meta[name='authenticity_token']")?.content;
+}
+
