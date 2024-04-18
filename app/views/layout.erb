@@ -7,7 +7,6 @@
     <meta name="author" content="aha-oida">
     <title>aha-secret: Share Secrets</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/application.css" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/encryption.css" />
     <script src="/javascripts/application.js"></script>
 
     <%#= csrf_meta_tags %>
@@ -18,7 +17,8 @@
 <body>
   <div id="main" class="flex-container col-5">
     <div id="titlebar">
-      <h1>AHA-Secret</h1>
+      <h1><a href="<%= settings.url %>">AHA-Secret <svg id="lock" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 32 32"><title>bas135 - Regular</title><g id="bas135"><g id="Regular-8" data-name="Regular"><path d="M26.5,12H24V8.5a8.5,8.5,0,0,0-17,0V12H4.5A1.5,1.5,0,0,0,3,13.5v17A1.5,1.5,0,0,0,4.5,32h22A1.5,1.5,0,0,0,28,30.5v-17A1.5,1.5,0,0,0,26.5,12ZM10,8.5a5.5,5.5,0,0,1,11,0V12H10ZM25,29H6V15H25ZM13,20.5a2.5,2.5,0,1,1,4,1.989V24.5a1.5,1.5,0,0,1-3,0V22.489A2.489,2.489,0,0,1,13,20.5Z"/></g></g></svg>
+</a></h1>
       <p>Encrypt your message, store it encrypted and share a link</p>
     </div>
     <!-- Content -->
@@ -26,7 +26,7 @@
       <%= yield %>
     </div>
     <footer id="footer">
-      <p>aha-secret is free open source software</p>
+      <p><a href="https://github.com/aha-oida/aha-secret.git">aha-secret</a> is free open source software</p>
     </footer>
   </div>
 </body>
