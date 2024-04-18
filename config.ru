@@ -7,4 +7,8 @@ if ActiveRecord::Base.connection.migration_context.needs_migration?
 end
 
 use Rack::MethodOverride
+
+require 'rack/protection'
+use Rack::Protection, use: %i[content_security_policy], script_src: "'self'", img_src: "'self'"
+
 run ApplicationController
