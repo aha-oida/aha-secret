@@ -21,3 +21,8 @@ function showTooltip() {
   var tooltip = document.getElementById("myTooltip");
   tooltip.innerHTML = "Copy to clipboard";
 }
+
+function genQR(){
+   new QRCode(document.getElementById("qrcode"), document.getElementById("secret-url").value);
+}
+

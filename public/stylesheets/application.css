@@ -22,7 +22,21 @@
 #titlebar {
 	padding: 5pt 5pt 5pt 5pt;
 	border-bottom-style: outset;
-	margin-bottom: 40pt;
+	margin-bottom: 10pt;
+}
+
+
+#lock {
+	fill: #336699;
+}
+
+#titlebar a:link{
+	color: #336699;
+	text-decoration: none;
+}
+
+#titlebar a:visited{
+	color: #336699;
 }
 
 #titlebar h1 {
@@ -68,7 +82,7 @@
 	border-width: 1px;
 	bottom: 0;
 	width: 100%;
-	margin-top: 40pt;
+	margin-top: 20pt;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -80,7 +94,13 @@
   display: none;
 }
 
+#bin-content p {
+	margin-top: 20px;
+}
+
 #share-box {
+	margin-top: 10px;
+	margin-bottom: 10px;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -158,7 +178,15 @@
 }
 
 #dec-msg {
-	background-color: #F2F5FF;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #ecf2f9;
+	padding: 10px;
+}
+
+#dec-msg p {
+	margin-top: 30px;
 }
 
 #retention-pane {
@@ -166,9 +194,43 @@
 	margin-bottom: 10pt;
 }
 
+#retention-pane select:hover {
+	background-color: #8cb3d9;
+	color: white;
+}
+
 #msg-counter {
 	text-align: right;
 	font-weight: 200;
+}
+
+#message {
+	padding: 10px;
+	font-family: Tahoma, sans-serif;
+}
+
+#enc-pane {
+	width: 100%;
+	display: none;
+}
+
+#enc-form {
+	margin-top: 10px;
+}
+
+#enc-form input[type=submit] {
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+#enc-form input[type=submit]:hover {
+	background-color: #8cb3d9;
+	color: white;
+}
+
+#qrcode {
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .error-msg {
@@ -182,4 +244,10 @@
 	color: orange;
 }
 
+.center {
+	justify-content: center;
+}
+
 .hidden{ display: none; }
+
+
