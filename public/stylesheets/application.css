@@ -228,6 +228,11 @@
 	color: white;
 }
 
+#qrcode {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 .error-msg {
 	font-weight: 700;
 	font-size: 1.25em;

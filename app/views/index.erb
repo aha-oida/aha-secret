@@ -1,3 +1,5 @@
+<script type="text/javascript" src="/javascripts/qrcode.min.js"></script>
+
 <div id="enc-pane">
   <div class="hidden">
     Key: <span id="enc-key"></span>
@@ -16,6 +18,7 @@
       </div>
     </div>
     <input type="text" readonly id="secret-url">
+    <div id="qrcode"></div>
     <p>Keep in mind that this secret is automatically destroyed after it is revealed for the first time.</p>
     <a id="another-secret" href="/">Create another secret</a>
   </div>
