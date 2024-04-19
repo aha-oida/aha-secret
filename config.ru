@@ -10,7 +10,7 @@ end
 
 use Rack::MethodOverride
 use Rack::Session::Cookie,
-    domain: 'localhost:3000',
+    domain: ->(env) { Rack::Request.new(env).host },
     path: '/',
     expire_after: 3600 * 24,
     secret: ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
