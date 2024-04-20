@@ -61,5 +61,3 @@ async function decryptEvent(payload) {
   const message = payload;
   document.getElementById('dec-msg').value= await decryptMessage(key, base64ToBytes(message), iv);
 }
-
-document.querySelector("#revealbutton")?.addEventListener("click", reveal);
