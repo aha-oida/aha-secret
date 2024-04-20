@@ -1,7 +1,7 @@
 ---
 default: &common_settings
   cleanup_schedule: "5m"
-  url: "/"
+  url: ""
 
 production:
   <<: *common_settings
