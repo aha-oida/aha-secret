@@ -16,7 +16,6 @@ use Rack::Session::Cookie,
     secret: ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
 use Rack::Protection,
     use: %i[content_security_policy authenticity_token],
-    script_src: "'self'",
-    img_src: "'self' data:"
+    script_src: "'self'"
 
 run ApplicationController
