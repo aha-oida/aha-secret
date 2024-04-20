@@ -26,3 +26,5 @@ function getAuthenticityToken() {
   return document.querySelector("meta[name='authenticity_token']")?.content;
 }
 
+document.getElementById("copy-button").addEventListener("click", copyToClip);
+document.getElementById("copy-button").addEventListener("ouseout", showTooltip);
