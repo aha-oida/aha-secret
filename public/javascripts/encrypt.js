@@ -89,7 +89,6 @@ async function encryptEvent() {
     return response.json()
   }).then((res) => {
     createLink(res.id);
-    genQR();
   }).catch((error) => {
     console.log(error)
   });
