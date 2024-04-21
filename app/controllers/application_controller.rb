@@ -15,9 +15,12 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     set :layout, true
     enable :logging
+    enable :sessions
 
-    # enable :sessions
-    # set :session_secret, "super secret"
+    before do
+      @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
+    end
+
     unless defined?(IRB)
       Rufus::Scheduler.s.interval settings.cleanup_schedule do
         Bin.cleanup
