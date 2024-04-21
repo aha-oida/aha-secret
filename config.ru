@@ -13,7 +13,7 @@ use Rack::Session::Cookie,
     domain: ->(env) { Rack::Request.new(env).host },
     path: '/',
     expire_after: 3600 * 24,
-    secret: ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
+    secret: ENV.fetch('SESSION_SECRET', SecureRandom.hex(64))
 use Rack::Protection,
     use: %i[content_security_policy authenticity_token],
     permitted_origins: ENV.fetch('URL', nil)
