@@ -37,8 +37,9 @@ async function decryptMessage(key, ciphertext, iv) {
 
 async function fetchEncrypted() {
   let binid = document.getElementById('bin-id').innerText;
+  const authenticityToken = getAuthenticityToken();
 
-  await fetch("/bins/" + binid + "/reveal", {
+  await fetch(`/bins/${binid}/reveal?authenticity_token=${authenticityToken}`, {
     method: 'PATCH',
     headers: {
        'Content-type': 'application/json; charset=UTF-8',

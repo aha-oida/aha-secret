@@ -22,7 +22,10 @@ function showTooltip() {
   tooltip.innerHTML = "Copy to clipboard";
 }
 
-function genQR(){
-   new QRCode(document.getElementById("qrcode"), document.getElementById("secret-url").value);
+function getAuthenticityToken() {
+  return document.querySelector("meta[name='authenticity_token']")?.content;
 }
 
+document.getElementById("copy-button")?.addEventListener("click", copyToClip);
+document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
+document.getElementById("revealbutton")?.addEventListener("click", reveal);

@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,maximum-scale=1.0,user-scalable=no">
     <meta name="description" content="Share secrets securely">
     <meta name="author" content="aha-oida">
+    <meta name="authenticity_token" content="<%= @authenticity_token %>">
+
     <title>aha-secret: Share Secrets</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/application.css" />
-    <script src="/javascripts/application.js"></script>
 
-    <%#= csrf_meta_tags %>
     <%#= csp_meta_tag %>
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -25,6 +25,7 @@
     <div id="content" class="flex-container">
       <%= yield %>
     </div>
+    <script src="/javascripts/application.js"></script>
     <footer id="footer">
       <p><a href="https://github.com/aha-oida/aha-secret.git">aha-secret</a> is free open source software</p>
     </footer>

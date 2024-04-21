@@ -77,11 +77,11 @@ async function encryptEvent() {
   const key = await generateKeyb64();
   const cipher = await encryptMessage(key);
   const retention = document.getElementById("retention").value;
+  const authenticityToken = getAuthenticityToken();
 
   await fetch("/", {
     method: 'post',
-    body: "bin[payload]=" + encodeURIComponent(cipher) + "&retention=" + retention,
-    // body: "bin[payload]=" + encodeURIComponent(cipher),
+    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
@@ -89,7 +89,6 @@ async function encryptEvent() {
     return response.json()
   }).then((res) => {
     createLink(res.id);
-    genQR();
   }).catch((error) => {
     console.log(error)
   });
@@ -109,3 +108,10 @@ messageEle.addEventListener('input', function (e) {
 
   counterEle.innerHTML = `${currentLength}/${maxLength}`;
 });
+
+const encryptionForm = document.querySelector("#enc-form form");
+
+encryptionForm?.addEventListener("submit", async function (e) {
+  e.preventDefault()
+  await encryptEvent();
+})
