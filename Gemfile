@@ -3,9 +3,11 @@
 source 'https://rubygems.org'
 
 gem 'activerecord', require: 'active_record'
+gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0', group: :development
 gem 'erubis', '~> 2.7'
 gem 'puma', '~> 6.4'
+gem 'rack-attack', '~> 6.7'
 gem 'rackup', '~> 2.1'
 gem 'rake', '~> 13.2'
 gem 'require_all', '~> 3.0'
