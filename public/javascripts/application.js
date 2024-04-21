@@ -27,5 +27,5 @@ function getAuthenticityToken() {
 }
 
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
-document.getElementById("copy-button")?.addEventListener("ouseout", showTooltip);
+document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
