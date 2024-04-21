@@ -64,6 +64,7 @@ bundle exec rspec
 The following environment variables can be used:
 
 | Variable       | Description | Default |
+|----------------|-------------|---------|
 | URL            | Add url as origin | base-url |
 | SESSION_SECRET | Set custom session-secret | random |
 | MEMCACHE       | Set a memcache-server and enable rack-attack | empty(disable rack-attack) |
