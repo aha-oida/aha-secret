@@ -3,9 +3,24 @@
 require './config/environment'
 require 'securerandom'
 require 'rack/protection'
+require 'rack/attack'
+require 'dalli'
 
 if ActiveRecord::Base.connection.migration_context.needs_migration?
   raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
+end
+
+if ENV.include? 'MEMCACHE'
+  use Rack::Attack
+  options = { namespace: 'app_v1' }
+  Rack::Attack.cache.store = Dalli::Client.new(ENV.fetch('MEMCACHE'), options)
+
+  Rack::Attack.safelist('allow from localhost') do |req|
+    # Requests are allowed if the return value is truthy
+    req.ip == '127.0.0.1' || req.ip == '::1'
+  end
+
+  Rack::Attack.throttle('requests by ip', limit: 15, period: 1.minutes, &:ip)
 end
 
 use Rack::MethodOverride
