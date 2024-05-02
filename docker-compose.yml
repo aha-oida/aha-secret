@@ -7,10 +7,11 @@ services:
       - ahadb:/usr/src/app/db/database
     ports:
       - "9292:9292"
-    environment:
-      RACK_ENV: production
-      # URL: "https://please.change.me.now"
-      MEMCACHE: "memcached:11211"
+    #  environment:
+       #      RACK_ENV: production
+       #      # URL: "https://please.change.me.now"
+       #      MEMCACHE: "memcached:11211"
+    env_file: .env
     depends_on:
       - memcached
 
