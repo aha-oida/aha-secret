@@ -68,3 +68,28 @@ The following environment variables can be used:
 | URL            | Add url as origin | base-url |
 | SESSION_SECRET | Set custom session-secret | random |
 | MEMCACHE       | Set a memcache-server and enable rack-attack | empty(disable rack-attack) |
+
+## Docker-Compose
+
+It is possible to start this application using docker-compose. It will not only start aha-secret but
+also a memcache-service to the request-attempts for [Rack::Attack](https://github.com/rack/rack-attack).
+
+First download the source:
+
+```
+git clone https://github.com/aha-oida/aha-secret.git
+```
+
+Next create a .env-file with the following content:
+
+```
+RACK_ENV=production
+URL=https://please.change.me.now
+MEMCACHE=memcached:11211
+```
+
+Finally start the containers:
+
+```
+docker-compose up -d
+```
