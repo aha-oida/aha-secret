@@ -72,7 +72,7 @@ The following environment variables can be used:
 ## Docker-Compose
 
 It is possible to start this application using docker-compose. It will not only start aha-secret but
-also a memcache-service that will store the request-attempts for [Rack::Attack](https://github.com/rack/rack-attack).
+also a memcache-service to the request-attempts for [Rack::Attack](https://github.com/rack/rack-attack).
 
 First download the source:
 
