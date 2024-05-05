@@ -67,7 +67,7 @@ async function encryptMessage(key) {
 }
 
 function createLink(id) {
-  /* replace normal b64, with urlsafe b64 */
+  /* replace normal b64, with urlsafe b64. we keep the '=' */
   const b64Key = document.getElementById('enc-key').innerText.replace(/\+/g, '-').replace(/\//g, '_');
   const b64Iv = document.getElementById('enc-iv').innerText.replace(/\+/g, '-').replace(/\//g, '_');
   const url = window.location.href + "bins/" + id + '#' + b64Key + '&' + b64Iv;
