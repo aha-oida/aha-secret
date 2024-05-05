@@ -1,7 +1,11 @@
 function getKeyFromUrl(){
   const hash = window.location.hash;
   const key = hash.match(/^[^#]*#(.*)/)[1];
-  return key.split('&');
+  let keyv = key.split('&');
+  /* replace urlsafe b64, with normal b64 */
+  keyv[0] = keyv[0].replace(/-/g, '+').replace(/_/g, '/');
+  keyv[1] = keyv[1].replace(/-/g, '+').replace(/_/g, '/');
+  return keyv;
 }
 
 function base64ToBytes(base64) {
