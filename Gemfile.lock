@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: 5640495babcb4cfd69ba650b293660b7446402da
+  revision: 973c936319af9132d7ab2f60985e359d0c75c93e
   specs:
     sinatra-contrib (4.0.0)
       multi_json (>= 0.0.2)
@@ -109,7 +109,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.0)
-    rack (3.0.10)
+    rack (3.1.7)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-protection (4.0.0)
@@ -181,7 +181,7 @@ GEM
     sqlite3 (1.7.3-x86_64-linux)
     stringio (3.1.0)
     strscan (3.1.0)
-    tilt (2.3.0)
+    tilt (2.4.0)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
