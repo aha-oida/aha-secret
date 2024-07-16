@@ -26,7 +26,7 @@ group :development do
   gem 'brakeman', '~> 6.1.2'
   gem 'overcommit', '~> 0.63'
   gem 'rerun', '~> 0.14.0'
-  gem 'rubocop', '~> 1.64'
+  gem 'rubocop', '~> 1.65'
 end
 
 group :development, :test do
