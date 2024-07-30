@@ -24,7 +24,7 @@ gem 'rspec', '~> 3.13', group: :test
 
 group :development do
   gem 'brakeman', '~> 6.1.2'
-  gem 'overcommit', '~> 0.63'
+  gem 'overcommit', '~> 0.64'
   gem 'rerun', '~> 0.14.0'
   gem 'rubocop', '~> 1.65'
 end
