@@ -6,9 +6,7 @@ require 'rack/protection'
 require 'rack/attack'
 require 'dalli'
 
-if ActiveRecord::Base.connection.migration_context.needs_migration?
-  raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
-end
+ActiveRecord::Migration.check_all_pending!
 
 if ENV.include? 'MEMCACHE'
   use Rack::Attack
