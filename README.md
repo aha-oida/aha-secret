@@ -57,6 +57,8 @@ docker run --rm -it aha-secret
 ```
 RACK_ENV=test bundle exec rake db:migrate
 bundle exec rspec
+# OR
+bundle exec rake
 ```
 
 ## Environment variables
