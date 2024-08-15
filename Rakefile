@@ -6,6 +6,8 @@ require_relative 'config/environment'
 require 'sinatra/activerecord/rake'
 require 'rspec/core/rake_task'
 
+task default: :spec
+
 desc 'Starts the thin web server through rackup.'
 task :serve do
   `bundle exec rackup -p 9292`
