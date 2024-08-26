@@ -38,7 +38,7 @@ GEM
     ast (2.4.2)
     base64 (0.2.0)
     bigdecimal (3.1.8)
-    brakeman (6.1.2)
+    brakeman (6.2.1)
       racc
     capybara (3.40.0)
       addressable
@@ -203,7 +203,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  brakeman (~> 6.1.2)
+  brakeman (~> 6.2.1)
   capybara (~> 3.40.0)
   dalli (>= 3.2)
   database_cleaner (~> 2.0.2)
