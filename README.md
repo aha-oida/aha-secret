@@ -52,6 +52,13 @@ docker build -t aha-secret .
 docker run --rm -it aha-secret
 ```
 
+## Docker Compose
+
+1. Edit docker-compose and set URL to your fqdn
+2. run `docker-compose up -d`
+
+*****Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments**
+
 ## run specs
 
 ```
