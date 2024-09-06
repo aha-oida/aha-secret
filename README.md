@@ -1,5 +1,14 @@
 # aha-secret
 
+Sensitive information should not be stored in a mailbox or chat history.
+
+aha-secret allows you to store a secret message encrypted and only the generated
+link could decrypt the message again. The message is encrypted by your
+browser and decrypted by the browser of the person who is allowed to
+read it. The message is then automatically deleted on the server.
+
+![Screenrecord of encryption and decryption](/images/ahanimation.gif)
+
 ## Run dev server
 
 ```
@@ -87,10 +96,14 @@ The following environment variables can be used:
 It is possible to start this application using docker-compose. It will not only start aha-secret but
 also a memcache-service to the request-attempts for [Rack::Attack](https://github.com/rack/rack-attack).
 
-First download the source:
+The docker-compose-file uses the github-docker-repository to download the aha-secret docker-image. In order
+to run aha-secret follow these instructions: 
 
-```
-git clone https://github.com/aha-oida/aha-secret.git
+
+First download docker-compose: 
+
+```bash
+$ wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.yml
 ```
 
 Next create a .env-file with the following content:
