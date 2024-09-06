@@ -2,10 +2,10 @@
 
 Sensitive information should not be stored in a mailbox or chat history.
 
-aha-secret allows you to store a secret message encrypted and only the generated
+aha-secret allows you to store a secret message encrypted. Only the generated
 link could decrypt the message again. The message is encrypted by your
 browser and decrypted by the browser of the person who is allowed to
-read it. The message is then automatically deleted on the server.
+read it. The first time someone clicks on the link, the message is automatically deleted from the server.
 
 ![Screenrecord of encryption and decryption](/images/ahanimation.gif)
 
