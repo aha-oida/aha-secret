@@ -61,17 +61,6 @@ docker build -t aha-secret .
 docker run --rm -it aha-secret
 ```
 
-## Docker Compose
-
-The docker-compose-file uses the github-docker-repository to download the aha-secret docker-image. In order
-to run aha-secret follow these instructions: 
-
-1. Download docker-compose: `wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.yml`
-2. Edit docker-compose and set URL to your fqdn
-3. run `docker-compose up -d`
-
-*****Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments**
-
 ## run specs
 
 ```
@@ -119,3 +108,6 @@ Finally start the containers:
 ```
 docker-compose up -d
 ```
+
+
+*****Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments**
