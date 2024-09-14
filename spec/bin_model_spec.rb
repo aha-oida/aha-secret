@@ -46,4 +46,20 @@ describe Bin do
     Bin.cleanup
     expect(Bin.expired).to eq []
   end
+
+  it 'has a has_password? method' do
+    bin = Bin.create(payload: 'Hello, World!')
+    # expect a method
+    expect(bin).to respond_to(:has_password?)
+  end
+
+  it 'has a has_password? method that returns true if the password is in the payload' do
+    bin = Bin.create(payload: 'Hello, World!', has_password: true)
+    expect(bin.has_password?).to be true
+  end
+
+  it 'has a has_password? method that returns false if the password is not in the payload' do
+    bin = Bin.create(payload: 'Hello World!')
+    expect(bin.has_password?).to be false
+  end
 end
