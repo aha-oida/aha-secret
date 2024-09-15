@@ -3,6 +3,8 @@ async function reveal() {
   const element = document.getElementById("reveal-content");
   element.remove();
   const element2 = document.getElementById("bin-content");
+  const decryptheader = document.getElementById("decrypt-header");
+  decryptheader.style.display = "none";
   element2.style.display = "block";
   await fetchEncrypted();
 }
