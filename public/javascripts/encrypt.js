@@ -79,10 +79,11 @@ async function encryptEvent() {
   const cipher = await encryptMessage(key);
   const retention = document.getElementById("retention").value;
   const authenticityToken = getAuthenticityToken();
+  const hasPassword = document.getElementById("has_password").checked;
 
   await fetch("/", {
     method: 'post',
-    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}`,
+    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}&has_password=${hasPassword}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
