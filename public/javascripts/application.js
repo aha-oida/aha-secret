@@ -28,6 +28,16 @@ function getAuthenticityToken() {
   return document.querySelector("meta[name='authenticity_token']")?.content;
 }
 
+function addPassword() {
+  const haspw = document.getElementById("has_password");
+  if(haspw.checked) {
+	document.getElementById("additional-password-field").style.display = "block";
+  } else {
+        document.getElementById("additional-password-field").style.display = "none";
+  }
+}
+
+document.getElementById("has_password")?.addEventListener("click", addPassword);
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);

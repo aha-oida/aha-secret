@@ -233,6 +233,15 @@
 	margin-bottom: 20px;
 }
 
+#additional-password {
+	margin-bottom: 10px;
+}
+
+#additional-password-field {
+        margin-top: 10px;
+	display: none;
+}
+
 .error-msg {
 	font-weight: 700;
 	font-size: 1.25em;
