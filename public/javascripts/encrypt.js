@@ -83,7 +83,7 @@ async function encryptEvent() {
 
   await fetch("/", {
     method: 'post',
-    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}&has_password=${hasPassword}`,
+    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}&bin[has_password]=${hasPassword}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
