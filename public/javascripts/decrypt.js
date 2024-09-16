@@ -51,6 +51,11 @@ async function fetchEncrypted() {
   }).then((response) => {
     return response.json()
   }).then((res) => {
+    if(res.has_password) {
+	    console.log("Has password");
+    } else {
+	    console.log("Has no password");
+    }
     decryptEvent(res.payload);
   }).catch((error) => {
     console.log(error)
