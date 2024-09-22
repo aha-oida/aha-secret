@@ -83,4 +83,13 @@ describe ApplicationController do
     get '/'
     expect(Bin.count).to eq(0)
   end
+
+  it 'does not allow saving forbidden bin params' do
+    post '/', bin: { payload: 'forbidden_expire_date', expire_date: Time.now - 1 }
+    expect(last_response.status).to eq(200)
+    new_bin = Bin.last
+    expect(new_bin.payload).to eq('forbidden_expire_date')
+    # validate that it didn't save the expire_date of the past
+    expect(new_bin.expire_date).to be > Time.now
+  end
 end
