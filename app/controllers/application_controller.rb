@@ -2,6 +2,7 @@
 
 require './config/environment'
 require 'rufus-scheduler'
+require_relative '../helpers/helpers'
 
 # write documentation
 class ApplicationController < Sinatra::Base
@@ -34,9 +35,10 @@ class ApplicationController < Sinatra::Base
 
   # This will be a ajax call
   post '/' do
-    bin = Bin.new(params[:bin])
+    reduced_params = reduce_params(params)
+    bin = Bin.new(reduced_params[:bin])
 
-    retention_minutes = params[:retention]&.to_i&.minutes
+    retention_minutes = reduced_params[:retention]&.to_i&.minutes
     if retention_minutes&.positive?
       bin.expire_date = Time.now + retention_minutes
       params.delete(:retention)
@@ -70,8 +72,6 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do
-    def bin_retrieval_url(bin)
-      "#{request.base_url}/bins/#{bin.id}"
-    end
+    include Helpers
   end
 end
