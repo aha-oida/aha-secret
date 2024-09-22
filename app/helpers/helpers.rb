@@ -6,7 +6,7 @@ module Helpers
     "#{request.base_url}/bins/#{bin.id}"
   end
 
-  # strip params to only: payload (text), password (boolean) and retention (integer)
+  # strip params to only: payload (text), has_password (boolean) and retention (integer)
   def reduce_params(params)
     # check bin's params
     params[:bin] = reduce_bin_params(params[:bin]) if params[:bin]
@@ -23,7 +23,7 @@ module Helpers
   def reduce_bin_params(params)
     # check bin's params
     params.each_key do |key|
-      params.delete(key) unless %w[payload password].include?(key.to_s)
+      params.delete(key) unless %w[payload has_password].include?(key.to_s)
     end
     params
   end
