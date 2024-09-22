@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'spec_helper'
+include Helpers
 
 def app
   ApplicationController
@@ -39,7 +40,7 @@ describe ApplicationController do
   end
 
   it 'does not save a new bin with expire_date greater than 7days' do
-    post '/', bin: { payload: 'a', expire_date: Time.now + 8.day }
+    post '/', bin: { payload: 'a'}, retention: '10081'
     expect(last_response.status).to eq(422)
     expect(Bin.count).to eq(0)
   end
@@ -80,5 +81,13 @@ describe ApplicationController do
     sleep 3 # rufus scheduler runs every 2 seconds in TEST environment
     get '/'
     expect(Bin.count).to eq(0)
+  end
+
+  # helper methods
+  it 'reduces params to only payload, password and retention' do
+    params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', password: 'true', some: 'value', foo: 'bar' }, retention: '10080', other: 'value')
+    reduced_params = app.helpers.reduce_params(params)
+    expected_params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', password: 'true' }, retention: '10080' )
+    expect(reduced_params).to eq(expected_params)
   end
 end
