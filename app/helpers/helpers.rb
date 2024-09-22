@@ -9,7 +9,7 @@ module Helpers
   # strip params to only: payload (text), password (boolean) and retention (integer)
   def reduce_params(params)
     # check bin's params
-    params = reduce_bin_params(params[:bin]) if params[:bin]
+    params[:bin] = reduce_bin_params(params[:bin]) if params[:bin]
 
     # check retention - which is given in seconds and converted to DateTime later
     params.delete(:retention) unless params[:retention]&.to_i&.positive?
