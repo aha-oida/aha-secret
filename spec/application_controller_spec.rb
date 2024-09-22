@@ -85,9 +85,9 @@ describe ApplicationController do
 
   # helper methods
   it 'reduces params to only payload, password and retention' do
-    params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', password: 'true', some: 'value', foo: 'bar' }, retention: '10080', other: 'value')
+    params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', has_password: 'true', some: 'value', foo: 'bar' }, retention: '10080', other: 'value')
     reduced_params = app.helpers.reduce_params(params)
-    expected_params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', password: 'true' }, retention: '10080' )
+    expected_params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', has_password: 'true' }, retention: '10080' )
     expect(reduced_params).to eq(expected_params)
   end
 end
