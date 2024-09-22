@@ -78,16 +78,9 @@ describe ApplicationController do
   it 'cleans up expired bins' do
     bin = Bin.create(payload: 'Hello, World!', expire_date: Time.now - 1)
     expect(Bin.count).to eq(1)
-    sleep 3 # rufus scheduler runs every 2 seconds in TEST environment
+    # manually call rufus cleanup function
+    Bin.cleanup
     get '/'
     expect(Bin.count).to eq(0)
-  end
-
-  # helper methods
-  it 'reduces params to only payload, password and retention' do
-    params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', has_password: 'true', some: 'value', foo: 'bar' }, retention: '10080', other: 'value')
-    reduced_params = app.helpers.reduce_params(params)
-    expected_params = Sinatra::IndifferentHash.new.merge!(bin: { payload: 'Hello', has_password: 'true' }, retention: '10080' )
-    expect(reduced_params).to eq(expected_params)
   end
 end
