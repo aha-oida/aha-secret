@@ -1,3 +1,10 @@
+async function revealpw() {
+	const pw = document.getElementById("passwd").value;
+	const msg = await reveal();
+	console.log("message: " + msg);
+	const decrypted = await decryptWithPW(pw, msg);
+	document.getElementById("dec-msg").value = decrypted;
+}
 
 async function reveal() {
   const element = document.getElementById("reveal-content");
@@ -6,7 +13,7 @@ async function reveal() {
   const decryptheader = document.getElementById("decrypt-header");
   decryptheader.style.display = "none";
   element2.style.display = "block";
-  await fetchEncrypted();
+  return await fetchEncrypted();
 }
 
 function copyToClip(){
@@ -41,3 +48,4 @@ document.getElementById("has_password")?.addEventListener("click", addPassword);
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
+document.getElementById("revealpwbutton")?.addEventListener("click", revealpw);
