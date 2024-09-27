@@ -56,9 +56,17 @@ function changePassword() {
   }
 }
 
+function enterPassword() {
+  if(document.getElementById("passwd").value.length > 0) {
+      document.getElementById("revealpwbutton").removeAttribute("disabled");
+  } else {
+      document.getElementById("revealpwbutton").setAttribute("disabled", "disabled");
+  }
+}
 
+document.getElementById("passwd")?.addEventListener("keydown", enterPassword);
 document.getElementById("has_password")?.addEventListener("click", addPassword);
-document.getElementById("add-password")?.addEventListener("change", changePassword);
+document.getElementById("add-password")?.addEventListener("keydown", changePassword);
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
