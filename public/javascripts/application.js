@@ -38,13 +38,27 @@ function getAuthenticityToken() {
 function addPassword() {
   const haspw = document.getElementById("has_password");
   if(haspw.checked) {
+	if(document.getElementById("add-password").value.length == 0) {
+            document.getElementById("create-secret").setAttribute("disabled", "disabled");
+	}
 	document.getElementById("additional-password-field").style.display = "block";
   } else {
+	document.getElementById("create-secret").removeAttribute("disabled");
         document.getElementById("additional-password-field").style.display = "none";
   }
 }
 
+function changePassword() {
+  if(document.getElementById("add-password").value.length > 0) {
+      document.getElementById("create-secret").removeAttribute("disabled");
+  } else {
+      document.getElementById("create-secret").setAttribute("disabled", "disabled");
+  }
+}
+
+
 document.getElementById("has_password")?.addEventListener("click", addPassword);
+document.getElementById("add-password")?.addEventListener("change", changePassword);
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
