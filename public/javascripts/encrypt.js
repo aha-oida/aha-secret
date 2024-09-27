@@ -73,8 +73,6 @@ async function encryptMessage(key) {
   );
 
   const base64cipher = window.btoa(String.fromCharCode.apply(null, new Uint8Array(ciphertext)));
-  //const ciphertextValue = document.getElementById("ciphertext-value");
-  //ciphertextValue.textContent = base64cipher;
   return base64cipher;
 }
 
@@ -85,8 +83,6 @@ function createLink(id) {
   const url = window.location.href + "bins/" + id + '#' + b64Key + '&' + b64Iv;
   document.getElementById("secret-url").value = url;
 }
-
-
 
 async function getKey(password, salt) {
   const passwordBytes = stringToBytes(password);
