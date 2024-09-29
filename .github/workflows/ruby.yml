@@ -54,10 +54,10 @@ jobs:
 
       - name: Install Playwright Firefox browser (with deps)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn run playwright install --with-deps Firefox
+        run: yarn run playwright install --with-deps firefox
 
       - name: Install Playwright Firefox browser deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: yarn run playwright install-deps Firefox
+        run: yarn run playwright install-deps firefox
       - name: Run tests
         run: bundle exec rspec
