@@ -17,7 +17,7 @@ gem 'sinatra-activerecord', require: 'sinatra/activerecord'
 github 'sinatra/sinatra' do
   gem 'sinatra-contrib'
 end
-gem 'sqlite3', '~> 2.0'
+gem 'sqlite3', '~> 2.1'
 
 gem 'rack-test', '~> 2.1', group: :test
 gem 'rspec', '~> 3.13', group: :test
