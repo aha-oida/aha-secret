@@ -39,6 +39,12 @@ bundle exec rake db:migrate
 bundle exec rerun rackup
 ```
 
+Run application with german translation:
+
+```
+APP_LOCALE=de bundle exec rerun rackup
+```
+
 ## Run console
 
 ```
@@ -79,6 +85,7 @@ The following environment variables can be used:
 | URL            | Add url as origin | base-url |
 | SESSION_SECRET | Set custom session-secret | random |
 | MEMCACHE       | Set a memcache-server and enable rack-attack | empty(disable rack-attack) |
+| APP_LOCALE     | Set the locale for the application | empty (default is en) |
 
 ## Docker-Compose
 
@@ -86,10 +93,10 @@ It is possible to start this application using docker-compose. It will not only 
 also a memcache-service to the request-attempts for [Rack::Attack](https://github.com/rack/rack-attack).
 
 The docker-compose-file uses the github-docker-repository to download the aha-secret docker-image. In order
-to run aha-secret follow these instructions: 
+to run aha-secret follow these instructions:
 
 
-First download docker-compose: 
+First download docker-compose:
 
 ```bash
 $ wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.yml

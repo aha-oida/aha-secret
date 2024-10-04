@@ -12,4 +12,5 @@ development:
 
 test:
   <<: *common_settings
+  # TODO: not needed anymore because we do not use rufus in tests?
   cleanup_schedule: "2s"
