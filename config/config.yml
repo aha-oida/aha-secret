@@ -2,6 +2,7 @@
 default: &common_settings
   cleanup_schedule: "5m"
   url: "/"
+  default_locale: "en"
 
 production:
   <<: *common_settings
