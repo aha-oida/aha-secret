@@ -2,6 +2,7 @@
 default: &common_settings
   cleanup_schedule: "5m"
   url: "/"
+  custom_stylesheet: false # set to true to use custom stylesheet in public/stylesheets/custom.css
 
 production:
   <<: *common_settings
