@@ -9,6 +9,9 @@
 
     <title>aha-secret: Share Secrets</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/application.css" />
+    <% if settings.custom_stylesheet %>
+      <link rel="stylesheet" type="text/css" href="/stylesheets/custom.css" />
+    <% end %>
 
     <%#= csp_meta_tag %>
 
