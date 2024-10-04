@@ -26,7 +26,7 @@ class ApplicationController < Sinatra::Base
 
     before do
       @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
-      I18n.locale = params[:locale] || ENV['APP_LOCALE'] || settings.default_locale || I18n.default_locale
+      I18n.locale = ENV['APP_LOCALE'] || settings.default_locale || I18n.default_locale
     end
 
     unless defined?(IRB)
