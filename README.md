@@ -86,10 +86,10 @@ It is possible to start this application using docker-compose. It will not only 
 also a memcache-service to the request-attempts for [Rack::Attack](https://github.com/rack/rack-attack).
 
 The docker-compose-file uses the github-docker-repository to download the aha-secret docker-image. In order
-to run aha-secret follow these instructions: 
+to run aha-secret follow these instructions:
 
 
-First download docker-compose: 
+First download docker-compose:
 
 ```bash
 $ wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.yml
@@ -111,3 +111,30 @@ docker-compose up -d
 
 
 *****Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments**
+
+
+## Customizing the application
+
+The application can be customized by changing the following files:
+
+- 'config/config.yml' - set 'custom_stylesheet' to true
+- 'public/custom.css' - add your custom css to this file
+
+See the file 'public/application.css' for defined css classes you could simply overwrite.
+
+You can even add your own logo by copying a logo to the 'public' folder and setting a background image in the 'public/custom.css' file.
+
+Example:
+
+```css
+div#logo {
+  width: 200px;
+  height: 40px;
+  background-image: url('logo.png');
+  position: fixed;
+  left:5px;
+  top:5px;
+  max-width:100%;
+  background-repeat: no-repeat;
+}
+```
