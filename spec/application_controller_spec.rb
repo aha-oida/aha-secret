@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'spec_helper'
+include Helpers
 
 def app
   ApplicationController
@@ -39,7 +40,7 @@ describe ApplicationController do
   end
 
   it 'does not save a new bin with expire_date greater than 7days' do
-    post '/', bin: { payload: 'a', expire_date: Time.now + 8.day }
+    post '/', bin: { payload: 'a'}, retention: '10081'
     expect(last_response.status).to eq(422)
     expect(Bin.count).to eq(0)
   end
@@ -77,8 +78,18 @@ describe ApplicationController do
   it 'cleans up expired bins' do
     bin = Bin.create(payload: 'Hello, World!', expire_date: Time.now - 1)
     expect(Bin.count).to eq(1)
-    sleep 3 # rufus scheduler runs every 2 seconds in TEST environment
+    # manually call rufus cleanup function
+    Bin.cleanup
     get '/'
     expect(Bin.count).to eq(0)
+  end
+
+  it 'does not allow saving forbidden bin params' do
+    post '/', bin: { payload: 'forbidden_expire_date', expire_date: Time.now - 1 }
+    expect(last_response.status).to eq(200)
+    new_bin = Bin.last
+    expect(new_bin.payload).to eq('forbidden_expire_date')
+    # validate that it didn't save the expire_date of the past
+    expect(new_bin.expire_date).to be > Time.now
   end
 end
