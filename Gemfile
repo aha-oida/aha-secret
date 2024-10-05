@@ -17,7 +17,7 @@ gem 'sinatra-activerecord', require: 'sinatra/activerecord'
 github 'sinatra/sinatra' do
   gem 'sinatra-contrib'
 end
-gem 'sqlite3', '~> 2.0'
+gem 'sqlite3', '~> 2.1'
 
 gem 'rack-test', '~> 2.1', group: :test
 gem 'rspec', '~> 3.13', group: :test
@@ -31,6 +31,7 @@ end
 
 group :development, :test do
   gem 'capybara', '~> 3.40.0'
+  gem 'capybara-playwright-driver'
   gem 'database_cleaner', '~> 2.0.2'
   gem 'faker', '~> 3.4.2'
 end

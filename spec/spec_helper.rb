@@ -7,8 +7,15 @@ require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'database_cleaner'
+require 'capybara-playwright-driver'
 
 ActiveRecord::Base.logger = nil
+
+class CapybaraNullDriver < Capybara::Driver::Base
+  def needs_server?
+    true
+  end
+end
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
@@ -25,6 +32,20 @@ RSpec.configure do |config|
   end
 
   # config.order = 'default'
+
+  Capybara.register_driver(:playwright) do |app|
+    # Capybara::Playwright::Driver.new(app, browser_type: :firefox, headless: false)
+    Capybara::Playwright::Driver.new(app,
+    browser_type: ENV["PLAYWRIGHT_BROWSER"]&.to_sym || :chromium,
+    headless: (false unless ENV["CI"] || ENV["PLAYWRIGHT_HEADLESS"]))
+  end
+  Capybara.default_max_wait_time = 15
+  Capybara.default_driver = :playwright
+  Capybara.save_path = 'tmp/capybara'
+
+  Capybara.current_driver = :playwright
+
+
 end
 
 def app
@@ -32,3 +53,5 @@ def app
 end
 
 Capybara.app = app
+
+Rack::Attack.enabled = false
