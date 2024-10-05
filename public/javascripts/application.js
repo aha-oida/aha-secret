@@ -1,3 +1,20 @@
+function setAlert(msg) {
+	console.log("in setAlert");
+	const messages = document.getElementById("error-messages");
+	const alertbox = document.getElementById("alertbox");
+	const alertspan = document.getElementById("alert");
+	const alertmsg = messages.dataset[msg];
+	alertspan.textContent = alertmsg;
+	alertbox.style.display = "flex";
+}
+
+function resetAlert(){
+	const alertbox = document.getElementById("alertbox");
+	const alertspan = document.getElementById("alert");
+	alertspan.textContent = "";
+	alertbox.style.display = "none";
+}
+
 function showMessageContent() {
         const element = document.getElementById("reveal-content");
         element.remove();
@@ -24,8 +41,7 @@ async function revealpw() {
             showMessageContent();
             document.getElementById("dec-msg").value = decrypted;
 	} catch(err) {
-            console.log("DAMN! Decrypt did not work");
-            console.log(err);
+	    setAlert("decryptionError")
 	}
 }
 
@@ -83,6 +99,7 @@ function enterPassword() {
   }
 }
 
+document.getElementById("passwd")?.addEventListener("click", resetAlert);
 document.getElementById("passwd")?.addEventListener("keydown", enterPassword);
 document.getElementById("passwd")?.addEventListener("keyup", function(event){
 	event.preventDefault();
