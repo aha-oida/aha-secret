@@ -84,6 +84,12 @@ function enterPassword() {
 }
 
 document.getElementById("passwd")?.addEventListener("keydown", enterPassword);
+document.getElementById("passwd")?.addEventListener("keyup", function(event){
+	event.preventDefault();
+	if (event.keyCode === 13) {
+		document.getElementById("revealpwbutton").click();
+	}
+});
 document.getElementById("has_password")?.addEventListener("click", addPassword);
 document.getElementById("add-password")?.addEventListener("keydown", changePassword);
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
