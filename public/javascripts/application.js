@@ -1,19 +1,38 @@
+function showMessageContent() {
+        const element = document.getElementById("reveal-content");
+        element.remove();
+        const element2 = document.getElementById("bin-content");
+        const decryptheader = document.getElementById("decrypt-header");
+        decryptheader.style.display = "none";
+        element2.style.display = "block";
+}
+
 async function revealpw() {
+	var msg = null;
 	const pw = document.getElementById("passwd").value;
-	const msg = await reveal();
-	console.log("message: " + msg);
-	const decrypted = await decryptWithPW(pw, msg);
-	document.getElementById("dec-msg").value = decrypted;
+
+	/* do not fetch the bin if it was already fetched */
+	if(document.getElementById("dec-msg").value)
+	{
+            msg = document.getElementById("dec-msg").value;
+	}
+	else {
+            msg = await fetchEncrypted();
+	}
+	try {
+            const decrypted = await decryptWithPW(pw, msg);
+            showMessageContent();
+            document.getElementById("dec-msg").value = decrypted;
+	} catch(err) {
+            console.log("DAMN! Decrypt did not work");
+            console.log(err);
+	}
 }
 
 async function reveal() {
-  const element = document.getElementById("reveal-content");
-  element.remove();
-  const element2 = document.getElementById("bin-content");
-  const decryptheader = document.getElementById("decrypt-header");
-  decryptheader.style.display = "none";
-  element2.style.display = "block";
-  return await fetchEncrypted();
+  const msg = await fetchEncrypted();
+  showMessageContent();
+  return msg;
 }
 
 function copyToClip(){
