@@ -108,8 +108,6 @@ async function customEncryptEvent() {
   var message = document.getElementById("message");
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const addpass = document.getElementById("add-password").value;
-  console.log(addpass);
-  console.log(message);
   const key = await getKey(addpass, salt);
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const contentBytes = stringToBytes(message.value);
