@@ -10,8 +10,20 @@
   <p>This message was deleted from the server and can't be shown twice</p>
 </div>
 
-<p id="reveal-content">
+<div id="reveal-content">
+<% if @bin.has_password %>
+  <div id="pw-enter">
+  <p>
+    The sender has set an additional password that allows to access the secret.
+  </p>
+  <div id="pwenterset">
+    <input id="passwd" type="text" name="passwd" class="textinput" placeholder="Enter password">
+    <button id="revealpwbutton" disabled>Unlock</button>
+  </div>
+  </div>
+<% else %>
   Click this button to reveal the secret:
   <button id="revealbutton">Reveal</button>
-</p>
+<% end %>
+</div>
 <script src="/javascripts/decrypt.js"></script>
