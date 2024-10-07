@@ -39,6 +39,12 @@ bundle exec rake db:migrate
 bundle exec rerun rackup
 ```
 
+Run application with german translation:
+
+```
+APP_LOCALE=de bundle exec rerun rackup
+```
+
 ## Run console
 
 ```
@@ -79,6 +85,8 @@ The following environment variables can be used:
 | URL            | Add url as origin | base-url |
 | SESSION_SECRET | Set custom session-secret | random |
 | MEMCACHE       | Set a memcache-server and enable rack-attack | empty(disable rack-attack) |
+| APP_LOCALE     | Set the locale for the application | empty (default is en) |
+| PLAYWRIGHT_HEADLESS | Run e2e tests with playwright headless |
 
 ## Docker-Compose
 

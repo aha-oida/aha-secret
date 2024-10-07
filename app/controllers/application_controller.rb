@@ -12,6 +12,11 @@ class ApplicationController < Sinatra::Base
 
   set :erubis, escape_html: true
 
+  I18n.config.available_locales = %i[en de]
+  I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
+  I18n.load_path = Dir[File.join(settings.root, '..', '..', 'config', 'locales', '*.yml')]
+  I18n.backend.load_translations
+
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
@@ -21,6 +26,7 @@ class ApplicationController < Sinatra::Base
 
     before do
       @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
+      I18n.locale = ENV['APP_LOCALE'] || settings.default_locale || I18n.default_locale
     end
 
     unless defined?(IRB)
