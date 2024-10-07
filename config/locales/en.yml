@@ -22,3 +22,5 @@ en:
   reveal_label: Reveal
   additional_password_info: The sender has set an additional password that allows to access the secret.
   unlock_label: Unlock
+  enter_additional_password: Please enter additional password
+  additional_password: Set additional password
