@@ -20,3 +20,5 @@ en:
   deleted_info: This message was deleted from the server and can't be shown twice
   reveal_info: Click this button to reveal the secret
   reveal_label: Reveal
+  additional_password_info: The sender has set an additional password that allows to access the secret.
+  unlock_label: Unlock
