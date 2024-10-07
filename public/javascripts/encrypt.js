@@ -1,3 +1,15 @@
+function bytesToString(bytes) {
+  return new TextDecoder().decode(bytes);
+}
+
+function stringToBytes(str) {
+  return new TextEncoder().encode(str);
+}
+
+function bytesToBase64(arr) {
+  return btoa(Array.from(arr, (b) => String.fromCharCode(b)).join(""));
+}
+
 async function generateKeyb64() {
   const key = await window.crypto.subtle.generateKey(
     {
@@ -61,8 +73,6 @@ async function encryptMessage(key) {
   );
 
   const base64cipher = window.btoa(String.fromCharCode.apply(null, new Uint8Array(ciphertext)));
-  //const ciphertextValue = document.getElementById("ciphertext-value");
-  //ciphertextValue.textContent = base64cipher;
   return base64cipher;
 }
 
@@ -74,7 +84,49 @@ function createLink(id) {
   document.getElementById("secret-url").value = url;
 }
 
+async function getKey(password, salt) {
+  const passwordBytes = stringToBytes(password);
+
+  const initialKey = await crypto.subtle.importKey(
+    "raw",
+    passwordBytes,
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
+    initialKey,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"]
+  );
+}
+
+async function customEncryptEvent() {
+  var message = document.getElementById("message");
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const addpass = document.getElementById("add-password").value;
+  const key = await getKey(addpass, salt);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const contentBytes = stringToBytes(message.value);
+  const cipher = new Uint8Array(
+    await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, contentBytes)
+  );
+  var result = {
+	  salt: bytesToBase64(salt),
+	  iv: bytesToBase64(iv),
+	  cipher: bytesToBase64(cipher)
+  };
+  message.value = JSON.stringify(result);
+}
+
 async function encryptEvent() {
+  const hasPassword = document.getElementById("has_password").checked;
+  if(hasPassword) {
+    await customEncryptEvent();
+  }
   const key = await generateKeyb64();
   const cipher = await encryptMessage(key);
   const retention = document.getElementById("retention").value;
@@ -82,7 +134,7 @@ async function encryptEvent() {
 
   await fetch("/", {
     method: 'post',
-    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}`,
+    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}&bin[has_password]=${hasPassword}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }

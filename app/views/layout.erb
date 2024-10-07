@@ -18,6 +18,10 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
+  <div
+    id="error-messages"
+    data-decryption-error="Decryption-Error. Is the password correct?"
+  ></div>
   <div id="main" class="flex-container col-5">
     <div id="logo"></div>
     <div id="titlebar">
@@ -26,6 +30,10 @@
       <p>Encrypt your message, store it encrypted and share a link</p>
     </div>
     <!-- Content -->
+    <div id="alertbox">
+      <span id="alert" class="error-msg"></span>
+    </div>
+
     <div id="content" class="flex-container">
       <%= yield %>
     </div>

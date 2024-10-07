@@ -110,7 +110,7 @@ docker-compose up -d
 ```
 
 
-*****Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments**
+**Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments**
 
 
 ## Customizing the application
