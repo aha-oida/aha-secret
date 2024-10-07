@@ -51,19 +51,19 @@ async function reveal() {
   return msg;
 }
 
-function copyToClip(){
+function copyToClip() {
   const cpText = document.getElementById("secret-url");
   cpText.select();
   cpText.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(cpText.value);
 
   var tooltip = document.getElementById("myTooltip");
-  tooltip.innerHTML = "Copied: " + cpText.value;
+  tooltip.innerHTML = tooltip.dataset.copied + cpText.value;
 }
 
 function showTooltip() {
   var tooltip = document.getElementById("myTooltip");
-  tooltip.innerHTML = "Copy to clipboard";
+  tooltip.innerHTML = tooltip.dataset.text;
 }
 
 function getAuthenticityToken() {

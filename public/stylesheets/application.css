@@ -159,6 +159,11 @@
 	height: 30px;
 }
 
+#copy-button:hover {
+	cursor: pointer;
+}
+
+
 #copy-icon {
 	width: 25px;
 	height: 25px;

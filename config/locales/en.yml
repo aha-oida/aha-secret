@@ -1,0 +1,27 @@
+en:
+  description: Encrypt your message, store it encrypted and share a link
+  open_source: is free open source software
+  share_link: Share the following link
+  copy_clipboard: Copy to clipboard
+  copied_clipbard: "Copied: "
+  secret_destroy: Keep in mind that this secret is automatically destroyed after it is revealed for the first time
+  create_another: Create another secret
+  delete_label: Delete after
+  day: day
+  days: days
+  hour: hour
+  hours: hours
+  minutes: minutes
+  create: Create Secret
+  payload_placeholder: Encrypt me in your browser!
+  error_msg: This entry was not found. Maybe the retention time has already expired
+  show_header: Someone shares a secret with you
+  decrypted_header: Your decrypted message
+  deleted_info: This message was deleted from the server and can't be shown twice
+  reveal_info: Click this button to reveal the secret
+  reveal_label: Reveal
+  additional_password_info: The sender has set an additional password that allows to access the secret.
+  unlock_label: Unlock
+  enter_additional_password: Please enter additional password
+  additional_password: Set additional password
+  decryption_error: Fehler bei der Entschlüsselung. Ist das Passwort korrekt?

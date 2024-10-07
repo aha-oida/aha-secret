@@ -223,6 +223,7 @@ DEPENDENCIES
   debug (>= 1.0.0)
   erubis (~> 2.7)
   faker (~> 3.4.2)
+  i18n (~> 1.14.0)
   overcommit (~> 0.64)
   puma (~> 6.4)
   rack-attack (~> 6.7)

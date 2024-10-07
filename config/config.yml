@@ -2,6 +2,7 @@
 default: &common_settings
   cleanup_schedule: "5m"
   url: "/"
+  default_locale: "en"
   custom_stylesheet: false # set to true to use custom stylesheet in public/stylesheets/custom.css
 
 production:
@@ -13,4 +14,5 @@ development:
 
 test:
   <<: *common_settings
+  # TODO: not needed anymore because we do not use rufus in tests?
   cleanup_schedule: "2s"
