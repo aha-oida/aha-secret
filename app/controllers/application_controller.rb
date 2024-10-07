@@ -72,9 +72,10 @@ class ApplicationController < Sinatra::Base
     return status 422 unless bin
 
     payload = bin.payload
+    has_password = bin.has_password
     bin.destroy
     content_type :json
-    { payload: }.to_json
+    { payload:, has_password: }.to_json
   end
 
   private
