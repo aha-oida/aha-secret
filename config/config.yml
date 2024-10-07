@@ -3,6 +3,7 @@ default: &common_settings
   cleanup_schedule: "5m"
   url: "/"
   default_locale: "en"
+  custom_stylesheet: false # set to true to use custom stylesheet in public/stylesheets/custom.css
 
 production:
   <<: *common_settings
