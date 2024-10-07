@@ -24,3 +24,4 @@ en:
   unlock_label: Unlock
   enter_additional_password: Please enter additional password
   additional_password: Set additional password
+  decryption_error: Fehler bei der Entschlüsselung. Ist das Passwort korrekt?
