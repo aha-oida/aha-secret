@@ -21,9 +21,6 @@ github 'sinatra/sinatra' do
 end
 gem 'sqlite3', '~> 2.1'
 
-gem 'rack-test', '~> 2.1', group: :test
-gem 'rspec', '~> 3.13', group: :test
-
 group :development do
   gem 'brakeman', '~> 6.2.1'
   gem 'overcommit', '~> 0.64'
@@ -31,10 +28,11 @@ group :development do
   gem 'rubocop', '~> 1.66'
 end
 
-# TODO: i think this could be in test env, only
-group :development, :test do
+group :test do
   gem 'capybara', '~> 3.40.0'
   gem 'capybara-playwright-driver'
   gem 'database_cleaner', '~> 2.0.2'
   gem 'faker', '~> 3.4.2'
+  gem 'rack-test', '~> 2.1'
+  gem 'rspec', '~> 3.13'
 end
