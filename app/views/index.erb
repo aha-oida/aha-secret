@@ -15,7 +15,7 @@
         </button>
       </div>
     </div>
-    <input type="text" readonly id="secret-url">
+    <input type="text" class="textinput" readonly id="secret-url">
     <p><%= t :secret_destroy %>.</p>
     <a id="another-secret" href="/"><%= t :create_another %></a>
   </div>
@@ -37,6 +37,15 @@
         <option value="30">30 <%= t :minutes %></option>
         <option value="5">5 <%= t :minutes %></option>
       </select>
+    </div>
+    <div id="additional-password">
+      <fieldset>
+      <input type="checkbox" id="has_password" name="has_password">
+      <label for="has_password">Set additional password</label>
+      <div id="additional-password-field">
+        <input type="text" id="add-password" class="textinput"  placeholder="Please enter additional password" size="40">
+      </div>
+      </fieldset>
     </div>
     <input id="create-secret" type="submit" value="<%= t :create %>">
   </form>

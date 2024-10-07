@@ -92,4 +92,11 @@ describe ApplicationController do
     # validate that it didn't save the expire_date of the past
     expect(new_bin.expire_date).to be > Time.now
   end
+
+  it 'reveal route returns information about extra password protection' do
+    bin = Bin.create(payload: 'Hello World', has_password: true)
+    patch "/bins/#{bin.id}/reveal"
+    expect(last_response.status).to eq(200)
+    expect(JSON.parse(last_response.body)).to include('payload' => 'Hello World', 'has_password' => true)
+  end
 end
