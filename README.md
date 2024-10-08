@@ -7,7 +7,7 @@ link could decrypt the message again. The message is encrypted by your
 browser and decrypted by the browser of the person who is allowed to
 read it. The first time someone clicks on the link, the message is automatically deleted from the server.
 
-![Screenrecord of encryption and decryption](/images/ahanimation.gif)
+![Screenrecord of encryption and decryption](/docs/images/ahanimation.gif)
 
 ## Run dev server
 
