@@ -24,3 +24,4 @@ de:
   unlock_label: Entsperren
   enter_additional_password: Bitte zusätzliches Passwort eingeben
   additional_password: Zusätzliches Passwort festlegen
+  decryption_error: Fehler bei der Entschlüsselung. Ist das Passwort korrekt?
