@@ -15,6 +15,7 @@ gem 'require_all', '~> 3.0'
 gem 'rufus-scheduler', '~> 3.9'
 gem 'sinatra', '~> 4.0'
 gem 'sinatra-activerecord', require: 'sinatra/activerecord'
+gem 'sprockets-helpers'
 
 github 'sinatra/sinatra' do
   gem 'sinatra-contrib'

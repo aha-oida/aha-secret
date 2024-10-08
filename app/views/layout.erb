@@ -8,9 +8,9 @@
     <meta name="authenticity_token" content="<%= @authenticity_token %>">
 
     <title>aha-secret: Share Secrets</title>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/application.css" />
+    <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'application' %>" />
     <% if settings.custom_stylesheet %>
-      <link rel="stylesheet" type="text/css" href="/stylesheets/custom.css" />
+      <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'custom' %>" />
     <% end %>
 
     <%#= csp_meta_tag %>
@@ -37,7 +37,7 @@
     <div id="content" class="flex-container">
       <%= yield %>
     </div>
-    <script src="/javascripts/application.js"></script>
+    <script src="<%= javascript_path 'application' %>"></script>
     <footer id="footer">
       <p><a href="https://github.com/aha-oida/aha-secret.git">aha-secret</a> <%= t :open_source %></p>
     </footer>
