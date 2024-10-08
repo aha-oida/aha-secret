@@ -24,6 +24,7 @@ PreCommit:
     enabled: true
     exclude:
       - '/db/**/*' # Ignore trailing whitespace in generated files
+      - '/docs/**/*'
 
 
 #PostCheckout:

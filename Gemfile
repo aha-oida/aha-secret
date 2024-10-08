@@ -37,3 +37,5 @@ group :test do
   gem 'rack-test', '~> 2.1'
   gem 'rspec', '~> 3.13'
 end
+
+gem 'jekyll', '~> 4.3'
