@@ -193,6 +193,11 @@ GEM
     sinatra-activerecord (2.0.27)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
+    sprockets (4.2.1)
+      concurrent-ruby (~> 1.0)
+      rack (>= 2.2.4, < 4)
+    sprockets-helpers (1.4.0)
+      sprockets (>= 2.2)
     sqlite3 (2.1.0-aarch64-linux-gnu)
     sqlite3 (2.1.0-arm64-darwin)
     sqlite3 (2.1.0-x86_64-darwin)
@@ -238,6 +243,7 @@ DEPENDENCIES
   sinatra (~> 4.0)
   sinatra-activerecord
   sinatra-contrib!
+  sprockets-helpers
   sqlite3 (~> 2.1)
 
 BUNDLED WITH

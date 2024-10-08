@@ -4,9 +4,14 @@ require './config/environment'
 require 'rufus-scheduler'
 require_relative '../helpers/helpers'
 require 'debug'
+require 'sprockets'
+require 'sprockets-helpers'
 
 # write documentation
 class ApplicationController < Sinatra::Base
+  set :sprockets, Sprockets::Environment.new(root)
+  set :assets_prefix, '/assets'
+  set :digest_assets, true
   register Sinatra::ConfigFile
   config_file '../../config/config.yml'
 
@@ -23,6 +28,22 @@ class ApplicationController < Sinatra::Base
     set :layout, true
     enable :logging
     enable :sessions
+    # Setup Sprockets
+    sprockets.append_path File.join(root, 'assets', 'stylesheets')
+    sprockets.append_path File.join(root, 'assets', 'javascripts')
+    sprockets.append_path File.join(root, 'assets', 'images')
+
+    Sprockets::Helpers.configure do |config|
+      config.environment = sprockets
+      config.prefix      = assets_prefix
+      config.digest      = digest_assets
+      config.public_path = public_folder
+
+      # Force to debug mode in development mode
+      # Debug mode automatically sets
+      # expand = true, digest = false, manifest = false
+      config.debug       = true if development?
+    end
 
     before do
       @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
@@ -86,6 +107,7 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do
+    include Sprockets::Helpers
     include Helpers
   end
 end
