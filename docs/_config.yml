@@ -22,12 +22,13 @@ title: AHA-Secret
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   This is the documentation of the project "aha-secret"
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/aha-secret" # the subpath of your site, e.g. /blog
+url: "https://aha-oida.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  aha-oida
 
 # Build settings
-theme: just-the-docs
+# theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs@v0.10.0
 plugins:
   - jekyll-feed
 
@@ -62,14 +63,14 @@ kramdown:
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

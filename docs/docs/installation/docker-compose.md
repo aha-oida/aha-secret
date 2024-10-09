@@ -29,8 +29,8 @@ Finally start the containers:
 $ docker-compose up -d
 ```
 
-{: .note }
-Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments.
+{: .warning }
+> Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments.
 
 ----
 
