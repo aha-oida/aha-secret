@@ -29,11 +29,30 @@ $ docker build -t aha-secret .
 $ docker run --rm -it aha-secret
 ```
 
+## Using Volumes
+
 In order to persist the database, use volumes:
 
 ```bash
 $ docker run --rm -v ahadb:/usr/src/app/db/database aha-secret
 ```
+
+### Custom Config
+
+If you want to replace the config with your own, use a volume:
+
+```bash
+$ docker run --rm -v $PWD/config.yml:/usr/src/app/config/config.yml -v ahadb:/usr/src/app/db/database aha-secret
+```
+
+### Custom CSS
+
+It is even possible to add a custom.css using volumes:
+
+```bash
+$ docker run --rm -v $PWD/custom.css:/usr/src/app/public/stylesheets/custom.css -v ahadb:/usr/src/app/db/database aha-secret
+```
+
 
 ----
 
