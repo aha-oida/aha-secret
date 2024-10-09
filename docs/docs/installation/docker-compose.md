@@ -17,7 +17,7 @@ $ wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose
 
 Next create a .env-file use setting for your installation:
 
-```
+```bash
 RACK_ENV=production
 URL=https://please.change.me.now
 MEMCACHE=memcached:11211

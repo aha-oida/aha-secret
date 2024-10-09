@@ -9,21 +9,39 @@ permalink: /getting-started
 # Getting started
 {: .fs-9 }
 
-Encrypt your message, store it encrypted and share a link
+Everything you need to know to get started and host aha-secret locally
 {: .fs-6 .fw-300 }
-
-[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View it on GitHub][aha-secret]{: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
-Sensitive information should not be stored in a mailbox or chat history.
-{: .fs-6 .fw-300 }
+Install [docker] and [docker-compose] first. 
+Next download the docker-compose file:
 
-[aha-secret] allows you to store a secret message encrypted. Only the generated link could decrypt the message again. The message is encrypted by your browser and decrypted by the browser of the person who is allowed to read it. The first time someone clicks on the link, the message is automatically deleted from the server. After the secret was deleted from the server, the link does not work anymore. By using [aha-secret] users will only send weblinks to other users and those weblinks can only be used once.
+```bash
+$ wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.yml
+```
 
+Create the file `.env` with the following content:
+
+```bash
+RACK_ENV=production
+URL=http://localhost
+MEMCACHE=memcached:11211
+```
+
+Now startup [aha-secret] using [docker-compose]:
+
+```bash
+$ docker compose up -d
+```
+
+You can finally access aha-secret locally with the url: `http://localhost:9292`.
+
+{: .warning }
+> This installation is just for demo. For production deployment it is highly recommended to use encryption and a reverse proxy.
 
 ----
 
+[docker]: https://docs.docker.com/engine/install/
+[docker-compose]: https://docs.docker.com/engine/install
 [aha-secret]: https://github.com/aha-oida/aha-secret
-[aha-cli]: https://github.com/aha-oida/ahasecret-cli

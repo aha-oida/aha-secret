@@ -46,6 +46,40 @@ div#logo {
   background-repeat: no-repeat;
 }
 ```
+
+## Reverse-Proxy
+
+The following nginx-config example can be used for a reverse-proxy:
+
+```
+server {
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name <YOUR_DOMAIN>;
+	
+
+	location / {
+        # USE THE FOLLOWING HEADERS TO PROVIDE THE
+        # REAL IP SO THAT RATELIMIT WORKS PROPERLY  
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header  X-Forwarded-Proto https;
+        proxy_set_header  X-Forwarded-For $remote_addr;
+        proxy_set_header  X-Forwarded-Host $remote_addr;
+        proxy_pass http://127.0.0.1:9292;
+	}
+
+    listen [::]:443 ssl http2;
+    listen *:443 ssl http2;
+    ssl_certificate <PATH_TO_YOUR_CERTIFICATE>;
+    ssl_certificate_key <PATH_TO_YOUR_PRIVATE_KEY>;
+    ssl_dhparam <PATH_TO_YOUR_DHPARAMS>; 
+
+    # HSTS
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+}
+```
 ----
 
 [aha-secret]: https://github.com/aha-oida/aha-secret
