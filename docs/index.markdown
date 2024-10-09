@@ -1,5 +1,5 @@
 ---
-title: Home
+title: About
 layout: home
 nav_order: 1
 description: "Documentation of the aha-secret project"
@@ -12,7 +12,7 @@ permalink: /
 Encrypt your message, store it encrypted and share a link
 {: .fs-6 .fw-300 }
 
-[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get started now](/getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View it on GitHub][aha-secret]{: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
@@ -34,6 +34,13 @@ Sensitive information should not be stored in a mailbox or chat history.
 * Ratelimit
 * Command-Line Client in Rust: [aha-cli]
 * Minimum Features / Dependencies
+
+# Installation
+
+Even if [aha-secret] can be installed [manually](/docs/installation/manually) or by using [docker](/docs/installation/docker) it is
+recommended to use [docker-compose](/docs/installation/docker-compose).
+For installation instructions please read the [Getting started](/getting-started) or the [Installation section](/docs/installation). For customization
+or all the configuration options read the section [Configuration](/docs/configuration).
 
 # Translations
 
