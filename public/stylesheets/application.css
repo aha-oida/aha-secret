@@ -159,7 +159,7 @@
 	height: 30px;
 }
 
-#copy-button:hover {
+#copy-button:hover, #revealbutton:hover, #revealpwbutton:hover, #create-secret:hover {
 	cursor: pointer;
 }
 
