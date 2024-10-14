@@ -13,4 +13,31 @@ module Helpers
   def l(*)
     I18n.l(*)
   end
+
+  def html_title(custom:, content:)
+    default_content = 'aha-secret: Share Secrets'
+    return default_content unless custom
+
+    return content if custom == 'replace'
+
+    "#{content} | #{default_content}"
+  end
+
+  def html_meta_description(custom:, content:)
+    default_content = 'AHA-Secret is a simple and secure way to share secrets.'
+    return default_content unless custom
+
+    return content if custom == 'replace'
+
+    "#{content}, #{default_content}"
+  end
+
+  def html_meta_keywords(custom:, content:)
+    default_content = 'secret, share, encryption, secure, simple, bin, paste, text, code'
+    return default_content unless custom
+
+    return content if custom == 'replace'
+
+    "#{content}, #{default_content}"
+  end
 end

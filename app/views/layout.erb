@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,maximum-scale=1.0,user-scalable=no">
-    <meta name="description" content="Share secrets securely">
+    <meta name="description" content="<%= html_meta_description(custom: settings.custom.dig(:meta_description), content: settings.custom.dig(:meta_description_string)) %> ">
+    <meta name="keywords" content="<%= html_meta_keywords(custom: settings.custom.dig(:meta_keywords), content: settings.custom.dig(:meta_keywords_string)) %> ">
     <meta name="author" content="aha-oida">
     <meta name="authenticity_token" content="<%= @authenticity_token %>">
 
-    <title>aha-secret: Share Secrets</title>
+    <title><%= html_title(custom:settings.custom['html_title'], content: settings.custom['html_title_string']) %></title>
     <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'application' %>" />
-    <% if settings.custom_stylesheet %>
+    <% if settings.custom[:stylesheet] %>
       <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'custom' %>" />
     <% end %>
 
