@@ -3,7 +3,6 @@ default: &common_settings
   cleanup_schedule: "5m"
   url: "/"
   default_locale: "en"
-  custom_stylesheet: false # set to true to use custom stylesheet in public/stylesheets/custom.css
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
     html_title: append # possible values: false, replace, append
@@ -23,3 +22,10 @@ test:
   <<: *common_settings
   # TODO: not needed anymore because we do not use rufus in tests?
   cleanup_schedule: "2s"
+  custom:
+    stylesheet: false
+    html_title: false # possible values: false, replace, append
+    html_title_string: custom-title
+    meta_description: false # possible values: false, replace, append
+    meta_description_string: custom-meta-description
+    meta_description_keywords: custom, meta, description
