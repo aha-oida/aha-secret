@@ -38,7 +38,7 @@ GEM
     ast (2.4.2)
     base64 (0.2.0)
     bigdecimal (3.1.8)
-    brakeman (6.2.1)
+    brakeman (6.2.2)
       racc
     capybara (3.40.0)
       addressable
@@ -220,7 +220,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  brakeman (~> 6.2.1)
+  brakeman (~> 6.2.2)
   capybara (~> 3.40.0)
   capybara-playwright-driver
   dalli (>= 3.2)
