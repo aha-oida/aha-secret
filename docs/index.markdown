@@ -37,10 +37,10 @@ Sensitive information should not be stored in a mailbox or chat history.
 
 # Installation
 
-Even if [aha-secret] can be installed [manually]({% link docs/installation/manually.md %}) or by using [docker]({% link docs/installation/docker.md %}) it is
-recommended to use [docker-compose]({% link docs/installation/docker-compose.md %}).
-For installation instructions please read the [Getting started]({% link getting_started.md %}) or the [Installation section]({% link docs/installation/index.md %}). For customization
-or all the configuration options read the section [Configuration]({% link docs/configuration.md %}).
+Even if [aha-secret] can be installed [manually]({{ 'docs/installation/manually' | relative_url }}) or by using [docker]({{ 'docs/installation/docker' | relative_url }}) it is
+recommended to use [docker-compose]({{ 'docs/installation/docker-compose' | relative_url }}).
+For installation instructions please read the [Getting started]({{ 'getting-started' | relative_url }}) or the [Installation section]({{ 'docs/installation' | relative_url  }}). For customization
+or all the configuration options read the section [Configuration]({{ 'docs/configuration' | relative_url }}).
 
 # Translations
 

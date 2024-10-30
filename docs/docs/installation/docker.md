@@ -8,7 +8,7 @@ layout: default
 # Docker
 
 This page describes how to run [aha-secrets] with docker. However the built-in ratelimit function also
-needs a memcache server running. Therefore it is recommended to use the [docker-compose]({% link docs/installation/docker-compose.md %}) 
+needs a memcache server running. Therefore it is recommended to use the [docker-compose]({{ 'docs/installation/docker-compose' | relative_url }}) 
 instead.
 
 ## Build Container
