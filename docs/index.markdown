@@ -12,7 +12,7 @@ permalink: /
 Encrypt your message, store it encrypted and share a link
 {: .fs-6 .fw-300 }
 
-[Get started now](/getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get started now]({% link getting_started.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View it on GitHub][aha-secret]{: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
@@ -37,10 +37,10 @@ Sensitive information should not be stored in a mailbox or chat history.
 
 # Installation
 
-Even if [aha-secret] can be installed [manually](/docs/installation/manually) or by using [docker](/docs/installation/docker) it is
-recommended to use [docker-compose](/docs/installation/docker-compose).
-For installation instructions please read the [Getting started](/getting-started) or the [Installation section](/docs/installation). For customization
-or all the configuration options read the section [Configuration](/docs/configuration).
+Even if [aha-secret] can be installed [manually]({% link docs/installation/manually.md %}) or by using [docker]({% link docs/installation/docker.md %}) it is
+recommended to use [docker-compose]({% link docs/installation/docker-compose.md %}).
+For installation instructions please read the [Getting started]({% link getting_started.md %}) or the [Installation section]({% link docs/installation/index.md %}). For customization
+or all the configuration options read the section [Configuration]({% link docs/configuration.md %}).
 
 # Translations
 
