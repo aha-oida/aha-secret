@@ -23,17 +23,17 @@ end
 gem 'sqlite3', '~> 2.1'
 
 group :development do
-  gem 'brakeman', '~> 6.2.1'
+  gem 'brakeman', '~> 6.2.2'
   gem 'overcommit', '~> 0.64'
   gem 'rerun', '~> 0.14.0'
-  gem 'rubocop', '~> 1.66'
+  gem 'rubocop', '~> 1.67'
 end
 
 group :test do
   gem 'capybara', '~> 3.40.0'
   gem 'capybara-playwright-driver'
-  gem 'database_cleaner', '~> 2.0.2'
-  gem 'faker', '~> 3.4.2'
+  gem 'database_cleaner', '~> 2.1.0'
+  gem 'faker', '~> 3.5.1'
   gem 'rack-test', '~> 2.1'
   gem 'rspec', '~> 3.13'
 end
