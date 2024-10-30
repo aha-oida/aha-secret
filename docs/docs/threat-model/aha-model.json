@@ -1,0 +1,1402 @@
+{
+  "version": "2.2.0",
+  "summary": {
+    "title": "Aha-Secret",
+    "owner": "AHA-OIDA",
+    "description": "aha-secret allows you to store a secret message encrypted. Only the generated link could decrypt the message again. The message is encrypted by your browser and decrypted by the browser of the person who is allowed to read it. The first time someone clicks on the link, the message is automatically deleted from the server.",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "STRIDE High Level",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.2.0",
+        "cells": [
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "258b8e04-33a3-4d29-80e2-8596b7cc3b83",
+            "source": {
+              "x": 280,
+              "y": 10
+            },
+            "target": {
+              "x": 370,
+              "y": 350
+            },
+            "vertices": [
+              {
+                "x": 390,
+                "y": 130
+              }
+            ]
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "be424b73-050d-4860-8bbc-b9a4cfb12f4f",
+            "source": {
+              "x": 730,
+              "y": 50
+            },
+            "target": {
+              "x": 800,
+              "y": 640
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "da421bf0-5341-46ba-a078-e30f51624a20",
+            "source": {
+              "x": 310,
+              "y": 380
+            },
+            "target": {
+              "x": 680,
+              "y": 260
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Send encrypted secret",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "https",
+              "threats": [
+                {
+                  "id": "3eedefd8-5efa-4469-a22d-d1086d858aa3",
+                  "title": "Attacker fills up disk by sending  data masses",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Attacker posts very large amount of data in order to fill up the disk",
+                  "mitigation": "* Ratelimit via Rack::Attack\n* Low Sizelimit for payload",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 15,
+                  "score": ""
+                },
+                {
+                  "id": "80add4df-030b-4dfd-845a-90614438f267",
+                  "title": "Attacker fills up disk by sending many requests",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Attacker sends many requests to fill up disk or exhaust other resources",
+                  "mitigation": "Ratelimit via Rack::Attack",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 16,
+                  "score": ""
+                },
+                {
+                  "id": "89143321-28c4-4828-8e92-815dc6cf0bba",
+                  "title": "Attacker sends XSS-Payload to Reciever",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "An attacker could send xss-payload to reciever to execute malicious javascript in the webrowser of the reciever",
+                  "mitigation": "* Using Content Security Policy using Rack::Protection\n* Textarea limits possible payloads for xss",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 20,
+                  "score": ""
+                },
+                {
+                  "id": "f4508599-d0f0-4595-b3e1-a4d8208f66f8",
+                  "title": "Attacker injects SQL-commands",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Attacker injects sql commands",
+                  "mitigation": "* Using well known ActiveRecord-gem that uses safe methods to interact with the database\n* Every record has an encrypted payload and the keys are never on the server ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 21,
+                  "score": ""
+                },
+                {
+                  "id": "f03d450a-a390-4a42-a3cc-03e5ddf364b3",
+                  "title": "An eavesdropper can read the secret payload",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "An eavesdropper can read the secret payload",
+                  "mitigation": "* The payload is encrypted with AES256-GCM and the secret is never sent to the server\n* The webapp(crypto-api.js) only works with HTTPS or on local-installations",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 41,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "6aa8fb55-6bf9-4a52-8295-81a7583a6e55",
+            "labels": [
+              "Send encrypted secret"
+            ],
+            "source": {
+              "cell": "815906da-295f-4c5c-b2d1-d885a06f84eb"
+            },
+            "target": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "vertices": [
+              {
+                "x": 170,
+                "y": 80
+              },
+              {
+                "x": 240,
+                "y": 100
+              },
+              {
+                "x": 310,
+                "y": 100
+              },
+              {
+                "x": 360,
+                "y": 120
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Return bin_id",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "cae38198-ecd4-4662-aeb0-ef42b204fb3c",
+                  "title": "An eavesdropper could intercept the traffic and read out data",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Information disclosure",
+                  "description": "An eavesdropper could intercept the traffic and read out data. For example the bin_id.",
+                  "mitigation": "The javascript crypto-library does only work if the backend runs on localhost or uses HTTPS",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 38,
+                  "score": ""
+                },
+                {
+                  "id": "81d07dff-0044-452f-9775-9a1605736c22",
+                  "title": "Adversary-in-the-Middle could tamper data",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Adversary-in-the-Middle could tamper data to produce xss or other malicious payloads",
+                  "mitigation": "* HTTPS\n* HSTS",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 43,
+                  "score": ""
+                },
+                {
+                  "id": "9939ae01-ad08-4284-b583-b14996df2308",
+                  "title": "Adversary-in-the-Middle could tamper data to disrupt the service",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Adversary-in-the-Middle could tamper data to disrupt the service",
+                  "mitigation": "* HTTPS\n* HSTS",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 47,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "11d5c1e8-c5d2-45f4-b5d2-fd410844fcca",
+            "labels": [
+              "Return bin_id"
+            ],
+            "source": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "target": {
+              "cell": "815906da-295f-4c5c-b2d1-d885a06f84eb"
+            },
+            "vertices": [
+              {
+                "x": 270,
+                "y": 160
+              },
+              {
+                "x": 250,
+                "y": 160
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Return encrypted payload",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "b344f8e1-2122-44b8-9083-5adcb0020b41",
+                  "title": "An eavesdropper can read the secret payload",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "An eavesdropper can read the secret payload",
+                  "mitigation": "* The payload is encrypted with AES256-GCM and the secret is never sent to the server\n* The webapp(crypto-api.js) only works with HTTPS or on local-installations",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 42,
+                  "score": ""
+                },
+                {
+                  "id": "87caf022-da80-4555-9924-fb0583483405",
+                  "title": "Adversary-in-the-Middle could tamper data",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Adversary-in-the-Middle could tamper data to produce xss or other malicious payloads",
+                  "mitigation": "* HTTPS\n* HSTS",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 44,
+                  "score": ""
+                },
+                {
+                  "id": "8bb0fe17-72cb-425f-acce-814bfb3517b5",
+                  "title": "Adversary-in-the-Middle could tamper data to disrupt the service",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Adversary-in-the-Middle could tamper data to disrupt the service",
+                  "mitigation": "* HTTPS\n* HSTS",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 48,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "8ae1cc19-adfb-4971-9a34-5a106b6e82fa",
+            "labels": [
+              "Return encrypted payload"
+            ],
+            "source": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "target": {
+              "cell": "bc256ed2-18ce-49fa-aa90-b69568400f64"
+            },
+            "vertices": [
+              {
+                "x": 320,
+                "y": 270
+              },
+              {
+                "x": 290,
+                "y": 270
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Ask for secret",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "ad839542-3651-449c-a415-c67a04a4db99",
+                  "title": "Enumerate possible payload-ids",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "An attacker could try to enumerate possible id numbers of payload in order to delete secrets of other people.",
+                  "mitigation": "Using secure token of the ActiveRecord ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 25,
+                  "score": ""
+                },
+                {
+                  "id": "632b0d39-aa25-44a7-9d52-5111a6cb17ba",
+                  "title": "An eavesdropper could intercept the traffic and read out data",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "An eavesdropper could intercept the traffic and read out data. For example the bin_id.",
+                  "mitigation": "The javascript crypto-library does only work if the backend runs on localhost or uses HTTPS",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 40,
+                  "score": ""
+                },
+                {
+                  "id": "f1efbf07-1dd4-48f9-9a2e-b8fb677901af",
+                  "title": "Attacker disrupts service with flood of requests",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Attacker disrupts service with flood of requests",
+                  "mitigation": "Ratelimit via Rack::Attack",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 49,
+                  "score": ""
+                },
+                {
+                  "id": "7861e3dd-cf39-4bbb-a122-508b484c89b5",
+                  "title": "Reciever accidentially reveals secret and deletes it",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Reciever accidentially reveals secret and deletes it. For example, a sender creates a secret and clicks on the link instead of copy it.",
+                  "mitigation": "Just clicking on the link does not retrieve the secret. Only a PATCH-Operation(/reveal) will fetch the secret and deletes it from the server",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 56,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "26887a5c-74d4-4f66-a385-fb469914acd9",
+            "labels": [
+              "Ask for secret"
+            ],
+            "source": {
+              "cell": "bc256ed2-18ce-49fa-aa90-b69568400f64"
+            },
+            "target": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "vertices": [
+              {
+                "x": 200,
+                "y": 210
+              },
+              {
+                "x": 350,
+                "y": 210
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Result",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "Handled by ActiveRecord",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "4fe6bb89-51f3-42f1-8ef1-d3cec593d22d",
+            "labels": [
+              "Result"
+            ],
+            "source": {
+              "cell": "e5d1dbf2-e1f9-4c5a-aaee-a01e81c3bf25"
+            },
+            "target": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "vertices": [
+              {
+                "x": 475,
+                "y": 420
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Query Database",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "Handled by ActiveRecord",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "de16ae6a-a5a9-4c3b-8969-b04579cdb368",
+            "labels": [
+              "Query Database"
+            ],
+            "source": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "target": {
+              "cell": "e5d1dbf2-e1f9-4c5a-aaee-a01e81c3bf25"
+            },
+            "vertices": [
+              {
+                "x": 560,
+                "y": 330
+              },
+              {
+                "x": 580,
+                "y": 380
+              },
+              {
+                "x": 580,
+                "y": 450
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Query Ratelimit",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "Handled by Rack::Attack",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "113c2f2e-2f68-411d-ae5a-11ec710057f6",
+            "labels": [
+              "Query Ratelimit"
+            ],
+            "source": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "target": {
+              "cell": "5d897601-5f0b-40de-99ff-f2916dbbea55"
+            },
+            "vertices": [
+              {
+                "x": 530,
+                "y": 120
+              },
+              {
+                "x": 580,
+                "y": 110
+              },
+              {
+                "x": 640,
+                "y": 130
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Result",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "f037bccb-87b5-4987-81f5-5dbe5201ec0e",
+            "labels": [
+              "Result"
+            ],
+            "source": {
+              "cell": "5d897601-5f0b-40de-99ff-f2916dbbea55"
+            },
+            "target": {
+              "cell": "7e296bc7-9d76-4ada-8665-e1f240410461"
+            },
+            "vertices": [
+              {
+                "x": 610,
+                "y": 214
+              },
+              {
+                "x": 590,
+                "y": 230
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "Handled by sqlite",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "4651ab74-689e-4caf-aca7-0b42abbbbd36",
+            "labels": [
+              "Data"
+            ],
+            "source": {
+              "cell": "e5d1dbf2-e1f9-4c5a-aaee-a01e81c3bf25"
+            },
+            "target": {
+              "cell": "307df5a1-e993-4d99-9943-344497682e65"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "4eedf770-22ad-430a-954a-4d5aef858f2a",
+            "labels": [
+              "Data"
+            ],
+            "source": {
+              "cell": "307df5a1-e993-4d99-9943-344497682e65"
+            },
+            "target": {
+              "cell": "e5d1dbf2-e1f9-4c5a-aaee-a01e81c3bf25"
+            },
+            "vertices": [
+              {
+                "x": 520,
+                "y": 610
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "IP-Adress-Data",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "Handled by Memcache",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "d58691bb-d325-4c33-b1d8-44d7f0bbb186",
+            "labels": [
+              "IP-Adress-Data"
+            ],
+            "source": {
+              "cell": "ab52d278-4ce4-4051-81a3-fd568ed2c33d"
+            },
+            "target": {
+              "cell": "5d897601-5f0b-40de-99ff-f2916dbbea55"
+            },
+            "vertices": [
+              {
+                "x": 1020,
+                "y": 214
+              },
+              {
+                "x": 960,
+                "y": 150
+              },
+              {
+                "x": 890,
+                "y": 180
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "IP-Address-Data",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "7fbf9456-6bd1-4472-a110-f74ac4f7da87",
+            "labels": [
+              "IP-Address-Data"
+            ],
+            "source": {
+              "cell": "5d897601-5f0b-40de-99ff-f2916dbbea55"
+            },
+            "target": {
+              "cell": "ab52d278-4ce4-4051-81a3-fd568ed2c33d"
+            },
+            "vertices": [
+              {
+                "x": 910,
+                "y": 300
+              },
+              {
+                "x": 920,
+                "y": 310
+              }
+            ]
+          },
+          {
+            "position": {
+              "x": 520,
+              "y": 660
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Database files"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 11,
+            "id": "307df5a1-e993-4d99-9943-344497682e65",
+            "data": {
+              "type": "tm.Store",
+              "name": "Database files",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "31df0f26-293b-44e1-9df0-e191c94e0c56",
+                  "title": "Dataleak",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "The database-files could be accessed by unauthorized entities. \n\nFor example by:\n* attackers hacked the system\n* administrators steal the data\n* old harddisk\n* aso...",
+                  "mitigation": "* Data is encrypted on client side\n* Key is never passed on the server\n* Strong encryption algorithm is used on the client side\n* Data is decrypted on client side",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 58,
+                  "score": ""
+                },
+                {
+                  "id": "cebfdf43-e7ed-4fbc-98e6-3812ea6e59ef",
+                  "title": "Attacker on server-side could manipulate data of any user",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Attacker on server-side could manipulate data of any user",
+                  "mitigation": "* Data is encrypted on client side\n* Key is never passed on the server\n* Strong encryption algorithm is used on the client side\n* Data is decrypted on client side",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 59,
+                  "score": ""
+                },
+                {
+                  "id": "0e4e2166-0ea8-4391-84df-582402e6ab55",
+                  "title": "Decryption link leaked and an attacker got the secret",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "AHA-Secret is not responsible for how the decryption-link is shared. If the link is somehow disclosed by the user and an unauthorized entity fetches the key, the secret will be compromised ",
+                  "mitigation": "Additional Password prevents this",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 65,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 420,
+              "y": 130
+            },
+            "size": {
+              "width": 100,
+              "height": 100
+            },
+            "attrs": {
+              "text": {
+                "text": "AHA Webapp"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 12,
+            "id": "7e296bc7-9d76-4ada-8665-e1f240410461",
+            "data": {
+              "type": "tm.Process",
+              "name": "AHA Webapp",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": true,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "f7b362e8-8751-45cf-a68f-71e03b316f48",
+                  "title": "Supply-Chain-Attack: Backdoored dependencies",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "A backdoored dependency could compromise the server. An attacker could replace the javascript files to extract the secrets on the client side.",
+                  "mitigation": "* Reduce dependencies: no nodejs",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                },
+                {
+                  "id": "5dba3796-7d7e-4965-a890-15d3c5d3b055",
+                  "title": "Vulnerable dependency allows code execution",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "A vulnerability in any dependency or 3rd-party software opens a remote code execution vulnerability",
+                  "mitigation": "* Minimum features -> less code -> keep attack vector small\n* Dependabot in Github checks for updates",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": ""
+                },
+                {
+                  "id": "1d076570-bd31-40ae-a797-afe57c718a61",
+                  "title": "Attacker on server-side could manipulate data of any user",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Attacker on server-side could manipulate data of any user",
+                  "mitigation": "* Data is encrypted on client side\n* Key is never passed on the server\n* Strong encryption algorithm is used on the client side\n* Data is decrypted on client side",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 55,
+                  "score": ""
+                },
+                {
+                  "id": "e7c632b8-44db-41af-9a2c-269727ce804f",
+                  "title": "Attacker on server-side could manipulate javascript to exfiltrate secrets",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Attacker on server-side could manipulate javascript to exfiltrate secrets on the client-side.",
+                  "mitigation": "",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 51,
+                  "score": ""
+                },
+                {
+                  "id": "72622457-e30d-43f2-bdf0-821a5c5e3e11",
+                  "title": "Decryption link leaked and an attacker got the secret",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Repudiation",
+                  "description": "AHA-Secret is not responsible for how the decryption-link is shared. If the link is somehow disclosed by the user and an unauthorized entity fetches the secret, it  must be detected.",
+                  "mitigation": "* One-Time-Secrets only! The reciever will notice that the link does not work anymore. \n* Access-Logs\n* Custom passwords could prevent to read the secret with the link only",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 52,
+                  "score": ""
+                },
+                {
+                  "id": "92583055-27cc-46c1-92d5-accff910f4c4",
+                  "title": "Dataleak",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "The data could leak due to various reasons:\n\n* attackers hacked the system\n* administrators steal the data\n* old harddisk\n* aso... ",
+                  "mitigation": "* Data is encrypted on client side\n* Key is never passed on the server\n* Strong encryption algorithm is used on the client side\n* Data is decrypted on client side",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 53,
+                  "score": ""
+                },
+                {
+                  "id": "33fcdbb8-c889-45e9-990b-20837fca0c1f",
+                  "title": "DoS because of floods of requests",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "DoS because of floods of requests",
+                  "mitigation": "Requst Ratelimit based on IP using Rack::Attack",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 54,
+                  "score": ""
+                },
+                {
+                  "id": "21790fb3-09a8-46da-8c00-1f31a4759d5d",
+                  "title": "Server-side attacker could guess encryption-key",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "An attacker is able to get the database and tries to break the encryption",
+                  "mitigation": "Client-side autogenerated cryptographic secure random keys prevent such attacks against AES256",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 62,
+                  "score": ""
+                },
+                {
+                  "id": "cd66bfdf-d8d3-4d1c-b266-ce86ce8caa8a",
+                  "title": "Decryption link leaked and an attacker gets the secret",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "AHA-Secret is not responsible for how the decryption-link is shared. If the link is somehow disclosed by the user and an unauthorized entity fetches the key, the secret will be compromised ",
+                  "mitigation": "Additional custom password prevents it",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 64,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 995,
+              "y": 220
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "RAM"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 13,
+            "id": "ab52d278-4ce4-4051-81a3-fd568ed2c33d",
+            "data": {
+              "type": "tm.Store",
+              "name": "RAM",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 770,
+              "y": 170
+            },
+            "size": {
+              "width": 100,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Memcache"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 14,
+            "id": "5d897601-5f0b-40de-99ff-f2916dbbea55",
+            "data": {
+              "type": "tm.Process",
+              "name": "Memcache",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 510,
+              "y": 460
+            },
+            "size": {
+              "width": 80,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "SQLITE"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 15,
+            "id": "e5d1dbf2-e1f9-4c5a-aaee-a01e81c3bf25",
+            "data": {
+              "type": "tm.Process",
+              "name": "SQLITE",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 30,
+              "y": 30
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Sender"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 16,
+            "id": "815906da-295f-4c5c-b2d1-d885a06f84eb",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Sender",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "5b56430c-fef7-4eab-89d5-85538759cdec",
+                  "title": "An attacker forces an end user to execute unwanted actions on the webapp(CSRF)",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "An attacker forces an end user to execute unwanted actions on the webapp(CSRF)",
+                  "mitigation": "Using csrf-token and CORS via Rack::Protection",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 28,
+                  "score": ""
+                },
+                {
+                  "id": "731b24ad-d371-412d-914e-93accfe6d733",
+                  "title": "Attacker denies sending payload",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Attacker denies sending malicious payloads",
+                  "mitigation": "Access-Logs",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 32,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 30,
+              "y": 220
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Receiver"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 17,
+            "id": "bc256ed2-18ce-49fa-aa90-b69568400f64",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Receiver",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "277ca1ee-92bf-4fe7-a6d2-376d5e53bdc4",
+                  "title": "An attacker forces an end user to execute unwanted actions on the webapp(CSRF)",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "An attacker forces an end user to execute unwanted actions on the webapp(CSRF)",
+                  "mitigation": "Using csrf-token and CORS via Rack::Protection",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 29,
+                  "score": ""
+                },
+                {
+                  "id": "c61881f2-db43-48ac-9ea8-e06758094fc2",
+                  "title": "Attacker denies sending payloads",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Attacker denies sending malicious payloads",
+                  "mitigation": "Access-Logs",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 33,
+                  "score": ""
+                }
+              ]
+            }
+          }
+        ],
+        "description": "High level STRIDE-Diagram"
+      }
+    ],
+    "diagramTop": 1,
+    "reviewer": "whotwagner",
+    "threatTop": 66
+  }
+}
