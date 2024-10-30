@@ -7,8 +7,10 @@ layout: default
 
 # Writing Documentation
 
-The documentation is made with [Jekyll] and the [just-the-docs theme]. For
-how to use [Jekyll] and the [just-the-docs theme] please have a look to the provided links.
+The documentation is made with [Jekyll] and the [just-the-docs theme]. 
+
+{: .note }
+> For information on how to use [Jekyll] and the [just-the-docs theme] please have a look to the docs of these projects.
 
 First download the docs-branch:
 
