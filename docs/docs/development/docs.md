@@ -7,6 +7,9 @@ layout: default
 
 # Writing Documentation
 
+The documentation is made with [Jekyll] and the [just-the-docs theme]. For
+how to use [Jekyll] and the [just-the-docs theme] please have a look to the provided links.
+
 First download the docs-branch:
 
 ```bash
@@ -49,3 +52,7 @@ $ bundle exec jekyll server
 {: .warning }
 > Please note that you have to undo the changes in _`_config.yml` before pushing
 to the repository.
+
+----
+[Jekyll]: https://jekyllrb.com/docs/
+[just-the-docs theme]: https://just-the-docs.github.io/just-the-docs/
