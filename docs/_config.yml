@@ -20,11 +20,14 @@
 
 title: AHA-Secret
 email: your-email@example.com
+github_username:  aha-oida
 description: >- # this means to ignore newlines until "baseurl:"
   This is the documentation of the project "aha-secret"
+
+# Comment the following lines out
+# for local use
 baseurl: "/aha-secret" # the subpath of your site, e.g. /blog
 url: "https://aha-oida.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  aha-oida
 
 # Build settings
 # theme: just-the-docs
