@@ -12,7 +12,7 @@ permalink: /
 Encrypt your message, store it encrypted and share a link
 {: .fs-6 .fw-300 }
 
-[Get started now]({% link getting_started.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get started now]({{ 'getting-started' | relative_url }}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View it on GitHub][aha-secret]{: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
