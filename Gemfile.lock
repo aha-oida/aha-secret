@@ -198,10 +198,10 @@ GEM
       rack (>= 2.2.4, < 4)
     sprockets-helpers (1.4.0)
       sprockets (>= 2.2)
-    sqlite3 (2.1.1-aarch64-linux-gnu)
-    sqlite3 (2.1.1-arm64-darwin)
-    sqlite3 (2.1.1-x86_64-darwin)
-    sqlite3 (2.1.1-x86_64-linux-gnu)
+    sqlite3 (2.2.0-aarch64-linux-gnu)
+    sqlite3 (2.2.0-arm64-darwin)
+    sqlite3 (2.2.0-x86_64-darwin)
+    sqlite3 (2.2.0-x86_64-linux-gnu)
     stringio (3.1.1)
     tilt (2.4.0)
     timeout (0.4.1)
@@ -244,7 +244,7 @@ DEPENDENCIES
   sinatra-activerecord
   sinatra-contrib!
   sprockets-helpers
-  sqlite3 (~> 2.1)
+  sqlite3 (~> 2.2)
 
 BUNDLED WITH
    2.4.10
