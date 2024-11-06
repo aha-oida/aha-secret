@@ -5,9 +5,9 @@ default: &common_settings
   default_locale: "en"
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
-    html_title: append # possible values: false, replace, append
+    html_title: false # possible values: false, replace, append
     html_title_string: your-custom-title-here
-    meta_description: replace # possible values: false, replace, append
+    meta_description: false # possible values: false, replace, append
     meta_description_string: your-custom-description-here
     meta_description_keywords: your, keywords, here
 
