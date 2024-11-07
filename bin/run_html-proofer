@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd docs
+bundle exec jekyll build -d _output
+htmlproofer ./_output
