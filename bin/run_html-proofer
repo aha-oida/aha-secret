@@ -1,5 +1,8 @@
 #!/bin/sh
 
 cd docs
+# apply patch to run jekyll locally
+git apply local_jekyll_config.patch
+bundle install
 bundle exec jekyll build -d _output
 htmlproofer ./_output

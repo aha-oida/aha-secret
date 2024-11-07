@@ -1,0 +1,36 @@
+diff --git a/docs/_config.yml b/docs/_config.yml
+index 7b4c8fa..d65714b 100644
+--- a/docs/_config.yml
++++ b/docs/_config.yml
+@@ -20,18 +20,19 @@
+ 
+ title: AHA-Secret
+ email: your-email@example.com
+-github_username:  aha-oida
++github_username: aha-oida
+ description: >- # this means to ignore newlines until "baseurl:"
+   This is the documentation of the project "aha-secret"
+ 
+ # Comment the following lines out
+ # for local use
+-baseurl: "/aha-secret" # the subpath of your site, e.g. /blog
+-url: "https://aha-oida.github.io" # the base hostname & protocol for your site, e.g. http://example.com
++# baseurl: "/aha-secret" # the subpath of your site, e.g. /blog
++# url: "https://aha-oida.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+ 
+ # Build settings
+ # theme: just-the-docs
+-remote_theme: just-the-docs/just-the-docs@v0.10.0
++# remote_theme: just-the-docs/just-the-docs@v0.10.0
++theme: just-the-docs
+ plugins:
+   - jekyll-feed
+ 
+@@ -68,7 +69,6 @@ callouts:
+   highlight:
+     color: yellow
+ 
+-
+ # Exclude from processing.
+ # The following items will not be processed, by default.
+ # Any item listed under the `exclude:` key here will be automatically added to
