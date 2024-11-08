@@ -18,5 +18,5 @@ If a CVE is published by an alternative CNA without consulting with the AHA-secr
 
 ## Disclosing Vulnerabilities
 
-The AHA-secret maintainer team is committed to ethical and responsible disclosure of security vulnerabilities if they are discovered. We will publish all advisories of all severity levels on our [Security Advisories list](https://github.com/aha-oida/aha-secret/security/advisories?state=published) as well as on the package repositories of the project in question (ie. Composer, NPM, etc.). Depending on the severity of the vulnerability, we may also publish the vulnerability on our website and social media accounts. Once this has occurred, the discoverer of the vulnerability may publish it on their own platform. Please discuss this with maintainer team first.
+The AHA-secret maintainer team is committed to ethical and responsible disclosure of security vulnerabilities if they are discovered. We will publish all advisories of all severity levels on our [Security Advisories list](https://github.com/aha-oida/aha-secret/security/advisories?state=published). Once this has occurred, the discoverer of the vulnerability may publish it on their own platform. Please discuss this with maintainer team first.
 
