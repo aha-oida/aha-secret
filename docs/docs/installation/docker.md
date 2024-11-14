@@ -8,7 +8,7 @@ layout: default
 # Docker
 
 This page describes how to run [aha-secrets] with docker. However the built-in ratelimit function also
-needs a memcache server running. Therefore it is recommended to use the [docker-compose]({{ 'docs/installation/docker-compose' | relative_url }}) 
+needs a memcache server running. Therefore it is recommended to use the [docker-compose]({{ 'docs/installation/docker-compose' | relative_url }})
 instead.
 
 ## Build Container
@@ -58,6 +58,6 @@ $ docker run --rm -v $PWD/custom.css:/usr/src/app/public/stylesheets/custom.css 
 
 
 [aha-secret]: https://github.com/aha-oida/aha-secret
-[Dockerfile]: https://github.com/aha-oida/aha-secret/Dockerfile
+[Dockerfile]: https://github.com/aha-oida/aha-secret/blob/main/Dockerfile
 [docker-image]: https://github.com/aha-oida/aha-secret/pkgs/container/aha-secret
 
