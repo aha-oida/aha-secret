@@ -219,7 +219,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  activerecord
+  activerecord (~> 7.2.2)
   brakeman (~> 6.2.2)
   capybara (~> 3.40.0)
   capybara-playwright-driver
