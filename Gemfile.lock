@@ -1,16 +1,16 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: 8c4cd0ba05af0ef5902c53608daab094825d1e96
+  revision: 80c3ad6fa85c66356b8b65408d538f1c3de45bab
   specs:
-    rack-protection (4.0.0)
+    rack-protection (4.1.0)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
-    sinatra-contrib (4.0.0)
+    sinatra-contrib (4.1.0)
       multi_json (>= 0.0.2)
       mustermann (~> 3.0)
-      rack-protection (= 4.0.0)
-      sinatra (= 4.0.0)
+      rack-protection (= 4.1.0)
+      sinatra (= 4.1.0)
       tilt (~> 2.0)
 
 GEM
@@ -185,10 +185,11 @@ GEM
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
     securerandom (0.3.1)
-    sinatra (4.0.0)
+    sinatra (4.1.0)
+      logger (>= 1.6.0)
       mustermann (~> 3.0)
       rack (>= 3.0.0, < 4)
-      rack-protection (= 4.0.0)
+      rack-protection (= 4.1.0)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
     sinatra-activerecord (2.0.27)
@@ -240,7 +241,7 @@ DEPENDENCIES
   rspec (~> 3.13)
   rubocop (~> 1.68)
   rufus-scheduler (~> 3.9)
-  sinatra (~> 4.0)
+  sinatra (~> 4.1)
   sinatra-activerecord
   sinatra-contrib!
   sprockets-helpers
