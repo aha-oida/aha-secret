@@ -1,6 +1,6 @@
 # aha-secret
 
-Sensitive information should not be stored in a mailbox or chat history.
+> Sensitive information should not be stored in a mailbox or chat history.
 
 aha-secret allows you to store a secret message encrypted. Only the generated
 link could decrypt the message again. The message is encrypted by your
