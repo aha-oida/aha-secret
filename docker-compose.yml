@@ -1,4 +1,4 @@
-version: "3"
+---
 
 services:
   ahasecret:
@@ -6,6 +6,8 @@ services:
     image: ghcr.io/aha-oida/aha-secret:latest
     volumes:
       - ahadb:/usr/src/app/db/database
+      # - ./config.yml:/usr/src/app/config/config.yml
+      # - ./custom.css:/usr/src/app/public/stylesheets/custom.css
     ports:
       - "9292:9292"
     #  environment:
