@@ -32,6 +32,38 @@ $ docker-compose up -d
 {: .warning }
 > Please note that this docker-compose file will not deploy a reverse-proxy. It is recommended to use a reverse proxy for production environments.
 
+# Custom configs
+
+In order to use a custom configfile or a custom css the docker-compose.yml needs volumes for that:
+
+```yaml
+services:
+  ahasecret:
+    #    build: .
+    image: ghcr.io/aha-oida/aha-secret:latest
+    volumes:
+      - ahadb:/usr/src/app/db/database
+      - ./config.yml:/usr/src/app/config/config.yml
+      - ./custom.css:/usr/src/app/public/stylesheets/custom.css
+    ports:
+      - "9292:9292"
+    #  environment:
+       #      RACK_ENV: production
+       #      # URL: "https://please.change.me.now"
+       #      MEMCACHE: "memcached:11211"
+    env_file: .env
+    depends_on:
+      - memcached
+
+  memcached:
+    image: "memcached:latest"
+
+volumes:
+  ahadb:
+```
+
+This config allows to have a local config.yml and custom.css and mount it into the docker-containers.
+
 ----
 
 
