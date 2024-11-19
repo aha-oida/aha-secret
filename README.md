@@ -11,7 +11,7 @@ read it. The first time someone clicks on the link, the message is automatically
 
 # Features
 
-*  100% Free Open Source Software b$o8
+*  100% Free Open Source Software ❤️
 *  End-to-end encryption
 *  One-Time-Secret.
 *  Self destruction
@@ -32,8 +32,8 @@ For further information see the [documentation](https://aha-oida.github.io/aha-s
 
 [aha-secret](https://github.com/aha-oida/aha-secret/) has translations for the following languages:
 
-* German p)p*
-* English p,p'
+* German 🇩🇪
+* English 🇬🇧
 
 # License
 
