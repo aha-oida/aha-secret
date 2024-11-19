@@ -58,7 +58,7 @@ function copyToClip() {
   navigator.clipboard.writeText(cpText.value);
 
   var tooltip = document.getElementById("myTooltip");
-  tooltip.innerHTML = tooltip.dataset.copied + cpText.value;
+  tooltip.innerHTML = tooltip.dataset.copied;
 }
 
 function showTooltip() {
