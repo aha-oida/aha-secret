@@ -28,6 +28,8 @@ async function revealpw() {
 	var msg = null;
 	const pw = document.getElementById("passwd").value;
 
+	resetAlert();
+
 	/* do not fetch the bin if it was already fetched */
 	if(document.getElementById("dec-msg").value)
 	{
