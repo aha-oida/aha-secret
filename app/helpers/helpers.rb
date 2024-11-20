@@ -40,4 +40,13 @@ module Helpers
 
     "#{content}, #{default_content}"
   end
+
+  def footer_content(custom:, content:)
+    default_content = "<a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}"
+    return default_content unless custom
+
+    return content if custom == 'replace'
+
+    "#{content} #{default_content}"
+  end
 end
