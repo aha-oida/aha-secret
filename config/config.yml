@@ -11,7 +11,7 @@ default: &common_settings
     meta_description_string: your-custom-description-here
     meta_description_keywords: your, keywords, here
     footer: false # possible values: false, replace, append
-    footer_string: 'your-custom-footer-here <a href="https://example.com">Example</a><br/>'
+    footer_string: '<p>your-custom-footer-here <a href="https://example.com">Example</a></p>'
 
 production:
   <<: *common_settings
