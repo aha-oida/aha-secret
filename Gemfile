@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 
 gem 'activerecord', '~> 7.2.2', require: 'active_record'
 gem 'dalli', '>= 3.2'
-gem 'debug', '>= 1.0.0', group: :development
 gem 'erubis', '~> 2.7'
 gem 'i18n', '~> 1.14.0'
 gem 'puma', '~> 6.4'
@@ -24,6 +23,8 @@ gem 'sqlite3', '~> 2.2'
 
 group :development do
   gem 'brakeman', '~> 6.2.2'
+  gem 'debug', '>= 1.0.0'
+  gem 'i18n-tasks', '~> 1.0.14'
   gem 'overcommit', '~> 0.64'
   gem 'rerun', '~> 0.14.0'
   gem 'rubocop', '~> 1.68'
