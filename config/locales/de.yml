@@ -1,27 +1,28 @@
+---
 de:
-  description: Verschlüssle deine Nachricht, speichere sie verschlüsselt und teile einen Link
-  open_source: ist freie Software mit offenem Quellcode
-  share_link: Teile den folgenden Link
+  additional_password: Zusätzliches Passwort festlegen
+  additional_password_info: Der Absender hat ein zusätzliches Passwort festgelegt, das den Zugriff auf das Geheimnis ermöglicht.
+  copied_clipboard: 'Kopiert: '
   copy_clipboard: Kopiere in die Zwischenablage
-  copied_clipboard: "Kopiert: "
-  secret_destroy: Beachte, dass dieses Geheimnis automatisch zerstört wird, nachdem es zum ersten Mal angezeigt wurde
+  create: Erstelle Nachricht
   create_another: Erstelle ein weiteres Geheimnis
-  delete_label: Löschen nach
   day: Tag
   days: Tagen
+  decrypted_header: Deine entschlüsselte Nachricht
+  decryption_error: Fehler bei der Entschlüsselung. Ist das Passwort korrekt?
+  delete_label: Löschen nach
+  deleted_info: Diese Nachricht wurde vom Server gelöscht und kann nicht zweimal angezeigt werden
+  description: Verschlüssle deine Nachricht, speichere sie verschlüsselt und teile einen Link
+  enter_additional_password: Bitte zusätzliches Passwort eingeben
+  error_msg: Dieser Eintrag wurde nicht gefunden. Möglicherweise ist die Aufbewahrungszeit bereits abgelaufen
   hour: Stunde
   hours: Stunden
   minutes: Minuten
-  create: Erstelle Nachricht
+  open_source: ist freie Software mit offenem Quellcode
   payload_placeholder: Text hier eingeben, wird im Webbrowser verschlüsselt!
-  error_msg: Dieser Eintrag wurde nicht gefunden. Möglicherweise ist die Aufbewahrungszeit bereits abgelaufen
-  show_header: Jemand teilt eine verschlüsselte Nachricht mit Dir
-  decrypted_header: Deine entschlüsselte Nachricht
-  deleted_info: Diese Nachricht wurde vom Server gelöscht und kann nicht zweimal angezeigt werden
   reveal_info: Klicke diesen Button, um das Geheimnis zu lüften
   reveal_label: Anzeigen
-  additional_password_info: Der Absender hat ein zusätzliches Passwort festgelegt, das den Zugriff auf das Geheimnis ermöglicht.
+  secret_destroy: Beachte, dass dieses Geheimnis automatisch zerstört wird, nachdem es zum ersten Mal angezeigt wurde
+  share_link: Teile den folgenden Link
+  show_header: Jemand teilt eine verschlüsselte Nachricht mit Dir
   unlock_label: Entsperren
-  enter_additional_password: Bitte zusätzliches Passwort eingeben
-  additional_password: Zusätzliches Passwort festlegen
-  decryption_error: Fehler bei der Entschlüsselung. Ist das Passwort korrekt?

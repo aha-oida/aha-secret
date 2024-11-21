@@ -1,27 +1,28 @@
+---
 en:
-  description: Encrypt your message, store it encrypted and share a link
-  open_source: is free open source software
-  share_link: Share the following link
+  additional_password: Set additional password
+  additional_password_info: The sender has set an additional password that allows to access the secret.
+  copied_clipboard: 'Copied: '
   copy_clipboard: Copy to clipboard
-  copied_clipbard: "Copied: "
-  secret_destroy: Keep in mind that this secret is automatically destroyed after it is revealed for the first time
+  create: Create Secret
   create_another: Create another secret
-  delete_label: Delete after
   day: day
   days: days
+  decrypted_header: Your decrypted message
+  decryption_error: Decryption error. Is the password correct?
+  delete_label: Delete after
+  deleted_info: This message was deleted from the server and can't be shown twice
+  description: Encrypt your message, store it encrypted and share a link
+  enter_additional_password: Please enter additional password
+  error_msg: This entry was not found. Maybe the retention time has already expired
   hour: hour
   hours: hours
   minutes: minutes
-  create: Create Secret
+  open_source: is free open source software
   payload_placeholder: Encrypt me in your browser!
-  error_msg: This entry was not found. Maybe the retention time has already expired
-  show_header: Someone shares a secret with you
-  decrypted_header: Your decrypted message
-  deleted_info: This message was deleted from the server and can't be shown twice
   reveal_info: Click this button to reveal the secret
   reveal_label: Reveal
-  additional_password_info: The sender has set an additional password that allows to access the secret.
+  secret_destroy: Keep in mind that this secret is automatically destroyed after it is revealed for the first time
+  share_link: Share the following link
+  show_header: Someone shares a secret with you
   unlock_label: Unlock
-  enter_additional_password: Please enter additional password
-  additional_password: Set additional password
-  decryption_error: Decryption error. Is the password correct?
