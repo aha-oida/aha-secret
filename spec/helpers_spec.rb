@@ -54,4 +54,18 @@ RSpec.describe Helpers, type: :helper do
       expect(html_meta_keywords(custom:'append', content:'Custom Keywords')).to eq('Custom Keywords, secret, share, encryption, secure, simple, bin, paste, text, code')
     end
   end
+
+  describe '#footer_content' do
+    it 'returns the default footer content' do
+      expect(footer_content(custom:false, content:nil)).to eq("<a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}")
+    end
+
+    it 'returns the custom footer content' do
+      expect(footer_content(custom:'replace', content:'Custom Content')).to eq('Custom Content')
+    end
+
+    it 'merges the custom footer content with the default footer content' do
+      expect(footer_content(custom:'append', content:'Custom Content')).to eq("Custom Content <a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}")
+    end
+  end
 end
