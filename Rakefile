@@ -43,3 +43,10 @@ task :migrateserv do
   Rake::Task['db:migrate'].invoke
   Rake::Task['serve'].invoke
 end
+
+task :after_migration_hook do
+  ENV['SCHEMA_FORMAT'] = 'sql'
+  Rake::Task['db:schema:dump'].invoke
+end
+
+Rake::Task['db:migrate'].enhance [:after_migration_hook]

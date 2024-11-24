@@ -11,6 +11,7 @@
 /tmp/
 db/*.sqlite*
 db/database/*.sqlite*
+db/structure.sql
 
 
 # Used by dotenv library to load environment variables.
