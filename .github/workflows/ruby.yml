@@ -39,7 +39,7 @@ jobs:
           RACK_ENV: test
         run: |
           bundle exec rake db:create
-          bundle exec rake db:migrate
+          bundle exec rake db:schema:load
           sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
       - name: Run brakeman
         run: bundle exec brakeman
