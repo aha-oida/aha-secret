@@ -72,8 +72,7 @@ class ApplicationController < Sinatra::Base
     end
     return status 422 unless bin.save
 
-    content_type :json
-    { id: bin.id, url: bin_retrieval_url(bin) }.to_json
+    json({ id: bin.id, url: bin_retrieval_url(bin) })
   end
 
   get '/bins/:id' do
@@ -95,8 +94,7 @@ class ApplicationController < Sinatra::Base
     payload = bin.payload
     has_password = bin.has_password
     bin.destroy
-    content_type :json
-    { payload:, has_password: }.to_json
+    json({ payload:, has_password: })
   end
 
   private
