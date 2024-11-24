@@ -3,6 +3,7 @@
 require 'bundler/setup'
 require 'require_all'
 require 'sinatra/base'
+require 'sinatra/json'
 require 'sinatra/config_file'
 require 'sinatra/activerecord'
 require 'yaml'
