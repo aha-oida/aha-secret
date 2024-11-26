@@ -1,6 +1,12 @@
 FROM ruby:3.2
 LABEL authors="Wolfgang Hotwagner"
 
+RUN apt-get update
+
+RUN apt-get install -y sqlite3
+
+RUN apt-get clean
+
 ARG RACK_ENV=production
 
 ENV RACK_ENV=$RACK_ENV
