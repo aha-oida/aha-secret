@@ -35,6 +35,6 @@ group :test do
   gem 'capybara-playwright-driver'
   gem 'database_cleaner', '~> 2.1.0'
   gem 'faker', '~> 3.5.1'
-  gem 'rack-test', '~> 2.1'
+  gem 'rack-test', '~> 2.2'
   gem 'rspec', '~> 3.13'
 end
