@@ -48,7 +48,7 @@ jobs:
       - name: Build site for testing
         run: |
           cd docs
-          bundle exec jekyll build --config local_config.yml -d _testoutput
+          bundle exec jekyll build --config _local_config.yml -d _testoutput
       - name: Run htmlproofer
         run: |
           cd docs
