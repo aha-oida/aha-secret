@@ -29,7 +29,7 @@ concurrency:
 
 defaults:
   run:
-    working-directory: ./docs
+    working-directory: docs
 
 jobs:
   # Test with htmlproofer
@@ -47,11 +47,11 @@ jobs:
           working-directory: ./docs
       - name: Build site for testing
         run: |
-          cd ./docs 
+          cd docs 
           bundle exec jekyll build --config _local_config.yml -d _testoutput
       - name: Run htmlproofer
         run: |
-          cd ./docs
+          cd docs
           bundle exec htmlproofer ./_testoutput
   # Build job
   build:
@@ -72,7 +72,7 @@ jobs:
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: |
-          cd ./docs
+          cd docs
           bundle exec jekyll build -d ../_site -c _local_config.yml
         env:
           JEKYLL_ENV: production
