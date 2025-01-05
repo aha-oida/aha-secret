@@ -44,14 +44,12 @@ jobs:
           ruby-version: '3.3.6' # Not needed with a .ruby-version file
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           cache-version: 0 # Increment this number if you need to re-download cached gems
-          working-directory: ./docs
+          working-directory: docs
       - name: Build site for testing
         run: |
-          cd docs 
           bundle exec jekyll build --config _local_config.yml -d _testoutput
       - name: Run htmlproofer
         run: |
-          cd docs
           bundle exec htmlproofer ./_testoutput
   # Build job
   build:
