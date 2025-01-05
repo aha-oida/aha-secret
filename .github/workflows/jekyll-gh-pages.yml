@@ -27,6 +27,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+defaults:
+  run:
+    working-directory: docs
+
 jobs:
   # Test with htmlproofer
   test:
@@ -41,17 +45,11 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           cache-version: 0 # Increment this number if you need to re-download cached gems
           working-directory: docs
-      - name: Install dependencies
-        run: |
-          cd docs
-          # bundle install
       - name: Build site for testing
         run: |
-          cd docs
           bundle exec jekyll build --config _local_config.yml -d _testoutput
       - name: Run htmlproofer
         run: |
-          cd docs
           bundle exec htmlproofer ./_testoutput
   # Build job
   build:
@@ -72,8 +70,7 @@ jobs:
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: |
-          cd docs
-          bundle exec jekyll build -d ../_site -c _config.yml
+          bundle exec jekyll build -d ../_site -c _local_config.yml
         env:
           JEKYLL_ENV: production
       - name: Upload artifact
