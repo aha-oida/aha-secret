@@ -22,7 +22,7 @@ end
 gem 'sqlite3', '~> 2.4'
 
 group :development do
-  gem 'brakeman', '~> 6.2.2'
+  gem 'brakeman', '~> 7.0.0'
   gem 'debug', '>= 1.0.0'
   gem 'i18n-tasks', '~> 1.0.14'
   gem 'overcommit', '~> 0.64'
