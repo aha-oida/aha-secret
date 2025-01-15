@@ -47,7 +47,7 @@ jobs:
           working-directory: docs
       - name: Build site for testing
         run: |
-          bundle exec jekyll build --config _local_config.yml -d _testoutput
+          bundle exec jekyll build --config _build_config.yml -d _testoutput
       - name: Run htmlproofer
         run: |
           bundle exec htmlproofer ./_testoutput
@@ -70,7 +70,7 @@ jobs:
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: |
-          bundle exec jekyll build -d ../_site -c _local_config.yml
+          bundle exec jekyll build -d ../_site -c _config.yml
         env:
           JEKYLL_ENV: production
       - name: Upload artifact
