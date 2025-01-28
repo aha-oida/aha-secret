@@ -10,7 +10,7 @@
 
     <title><%= html_title(custom:settings.custom['html_title'], content: settings.custom['html_title_string']) %></title>
     <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'application' %>" />
-    <% if settings.custom[:stylesheet] %>
+    <% if settings.custom['stylesheet'] %>
       <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'custom' %>" />
     <% end %>
 
