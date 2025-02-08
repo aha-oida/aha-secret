@@ -17,6 +17,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN bundle install
+RUN bundle install --without development test
 
 CMD ["bundle","exec","rake","migrateserv"]
