@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: c4b7c04e6d23ef8e17404d64cc731bece268acea
+  revision: c235249abaafa2780b540aca1813dfcf3d17c2dd
   specs:
     rack-protection (4.1.1)
       base64 (>= 0.1.0)
