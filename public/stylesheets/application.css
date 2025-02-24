@@ -297,4 +297,8 @@
 
 .hidden{ display: none; }
 
-
+#togglePassword {
+  width: 3em;
+  cursor: pointer;
+  vertical-align: middle;
+}

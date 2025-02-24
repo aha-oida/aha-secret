@@ -115,3 +115,22 @@ document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
 document.getElementById("revealpwbutton")?.addEventListener("click", revealpw);
+
+document.addEventListener("DOMContentLoaded", () => {
+  let passwordField = document.getElementById("passwd");
+  if (!passwordField) {
+    passwordField = document.getElementById("add-password");
+    console.log("add-password found, INDEX");
+  } else {
+    console.log("passwd found, SHOW");
+  }
+  const togglePasswordButton = document.getElementById("togglePassword");
+
+  togglePasswordButton.addEventListener("click", () => {
+    // Toggle the type attribute between 'password' and 'text'
+    const isPasswordVisible = passwordField.type === "text";
+    passwordField.type = isPasswordVisible ? "password" : "text";
+    document.getElementById("eyeopen").classList.toggle("hidden");
+    document.getElementById("eyeclosed").classList.toggle("hidden");
+  });
+});
