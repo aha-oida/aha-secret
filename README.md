@@ -22,7 +22,7 @@ read it. The first time someone clicks on the link, the message is automatically
 
 # Installation
 
-Even if [aha-secret](https://github.com/aha-oida/aha-secret/) can be installed [manually](https://aha-oida.github.io/aha-secret/docs/installation/manually) or by using [docker](https://aha-oida.github.io/aha-secret/docs/installation/docker) it is recommended to use [docker-compose](https://aha-oida.github.io/aha-secret/docs/installation/docker-compose). For installation instructions please read the [Getting started](https://aha-oida.github.io/aha-secret/getting-started) or the [Installation section](https://aha-oida.github.io/aha-secret/docs/installation). For customization or all the configuration options read the section [Configuration](https://aha-oida.github.io/aha-secret/configuration).
+Even if [aha-secret](https://github.com/aha-oida/aha-secret/) can be installed [manually](https://aha-oida.github.io/aha-secret/data/installation/manually) or by using [docker](https://aha-oida.github.io/aha-secret/data/installation/docker) it is recommended to use [docker-compose](https://aha-oida.github.io/aha-secret/data/installation/docker-compose). For installation instructions please read the [Getting started](https://aha-oida.github.io/aha-secret/getting-started) or the [Installation section](https://aha-oida.github.io/aha-secret/data/installation). For customization or all the configuration options read the section [Configuration](https://aha-oida.github.io/aha-secret/configuration).
 
 # Documentation
 
