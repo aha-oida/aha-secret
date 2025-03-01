@@ -12,11 +12,12 @@ ARG RACK_ENV=production
 ENV RACK_ENV=$RACK_ENV
 
 RUN bundle config --global frozen 1
+RUN bundle config set --local without 'development test'
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN bundle install --without development test
+RUN bundle install
 
 CMD ["bundle","exec","rake","migrateserv"]
