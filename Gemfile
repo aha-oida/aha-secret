@@ -25,7 +25,7 @@ gem 'sqlite3', '~> 2.6'
 
 group :development do
   gem 'brakeman', '~> 7.0.0'
-  gem 'i18n-tasks', '~> 1.0.14'
+  gem 'i18n-tasks', '~> 1.0.15'
   gem 'overcommit', '~> 0.67'
   gem 'rerun', '~> 0.14.0'
   gem 'rubocop', '~> 1.72'
