@@ -66,4 +66,4 @@ jobs:
           ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
             --repo ${{ github.repository }} \
             --commit ${{ github.event.pull_request.head.sha || github.sha }} \
-            --lcov coverage/lcov/$repository-name.lcov
+            --lcov coverage/lcov/aha-secret.lcov
