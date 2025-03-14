@@ -21,5 +21,5 @@ jobs:
         cache-version: 0 # Increment this number if you need to re-download cached gems
     - name: Checks
       run: |
-        gem install awesome_bot -v '2.0.1'
+        gem install awesome_bot -v '1.20.0'
         awesome_bot *.md --allow-ssl -a 302,429 --allow-dupe --skip-save-results
