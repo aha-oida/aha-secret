@@ -61,3 +61,8 @@ jobs:
         run: yarn run playwright install-deps firefox
       - name: Run tests
         run: bundle exec rspec
+      - name: undercover
+        run: ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
+              --repo ${{ github.repository }} \
+              --commit ${{ github.event.pull_request.head.sha || github.sha }} \
+              --lcov coverage/lcov/$repository-name.lcov
