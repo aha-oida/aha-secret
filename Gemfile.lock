@@ -90,6 +90,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
+    docile (1.4.1)
     drb (2.2.1)
     erubi (1.13.1)
     erubis (2.7.0)
@@ -267,6 +268,13 @@ GEM
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
     securerandom (0.4.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.1)
+    simplecov-lcov (0.8.0)
+    simplecov_json_formatter (0.1.4)
     sinatra (4.1.1)
       logger (>= 1.6.0)
       mustermann (~> 3.0)
@@ -348,6 +356,8 @@ DEPENDENCIES
   rspec (~> 3.13)
   rubocop (~> 1.74)
   rufus-scheduler (~> 3.9)
+  simplecov
+  simplecov-lcov
   sinatra (~> 4.0)
   sinatra-activerecord
   sinatra-contrib!

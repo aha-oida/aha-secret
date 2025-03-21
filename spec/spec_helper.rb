@@ -8,6 +8,16 @@ require 'capybara/rspec'
 require 'capybara/dsl'
 require 'database_cleaner'
 require 'capybara-playwright-driver'
+require 'simplecov'
+require 'simplecov-lcov'
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
+if ENV['COVERAGE']
+  SimpleCov.start do
+    # add_filter(/^\/spec\//) # For RSpec, use `test` for MiniTest
+    enable_coverage(:branch)
+  end
+end
 
 ActiveRecord::Base.logger = nil
 
