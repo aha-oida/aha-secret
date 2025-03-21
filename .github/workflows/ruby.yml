@@ -61,23 +61,6 @@ jobs:
         run: yarn run playwright install-deps firefox
       - name: Run tests
         run: bundle exec rspec
-        # save file coverage/lcov/aha-secret.lcov in artifacts
-      - name: Save coverage report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage
-          path: coverage/lcov/aha-secret.lcov
-  upload-coverage:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3.6'
-          bundler-cache: true
       - name: undercover
         run: |
           ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
