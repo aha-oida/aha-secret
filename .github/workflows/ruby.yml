@@ -59,9 +59,19 @@ jobs:
       - name: Install Playwright Firefox browser deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: yarn run playwright install-deps firefox
-      - name: Run tests
+      # Run tests with coverage if strategy matrix version is 3.3.6
+      - name: Run tests with coverage
+        if: matrix.ruby-version == '3.3.6'
+        env:
+          COVERAGE: "true"
         run: bundle exec rspec
+      # Run tests without coverage for other Ruby versions
+      - name: Run tests
+        if: matrix.ruby-version != '3.3.6'
+        run: bundle exec rspec
+      # only upload coverage for 3.3.6
       - name: undercover
+        if: matrix.ruby-version == '3.3.6'
         run: |
           ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
             --repo ${{ github.repository }} \
