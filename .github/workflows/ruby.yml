@@ -59,8 +59,7 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: yarn run playwright install-deps firefox
       - name: Run tests with coverage
-        if: matrix.ruby-version != matrix.ruby-version[-1]
-
+        if: matrix.ruby-version == matrix.ruby-version[-1]
         env:
           COVERAGE: "true"
         run: bundle exec rspec
@@ -70,7 +69,7 @@ jobs:
         run: bundle exec rspec
       # only upload coverage once
       - name: undercover
-        if: matrix.ruby-version != matrix.ruby-version[-1]
+        if: matrix.ruby-version == matrix.ruby-version[-1]
         run: |
           ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
             --repo ${{ github.repository }} \
