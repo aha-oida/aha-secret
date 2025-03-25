@@ -37,4 +37,6 @@ group :test do
   gem 'database_cleaner', '~> 2.1.0'
   gem 'faker', '~> 3.5.1'
   gem 'rack-test', '~> 2.2'
+  gem 'simplecov'
+  gem 'simplecov-lcov'
 end

@@ -64,10 +64,9 @@ class ApplicationController < Sinatra::Base
   # This will be a ajax call
   post '/' do
     bin = Bin.new(bin_params)
-
     retention_minutes = params[:retention]&.to_i&.minutes
     if retention_minutes&.positive?
-      bin.expire_date = Time.now + retention_minutes
+      bin.expire_date = Time.now.utc + retention_minutes
       params.delete(:retention)
     end
     return status 422 unless bin.save
@@ -101,7 +100,7 @@ class ApplicationController < Sinatra::Base
 
   def bin_params
     allowed_keys = %w[payload has_password]
-    params['bin'].select { |key, _| allowed_keys.include?(key) }
+    params['bin'].slice(*allowed_keys)
   end
 
   helpers do
