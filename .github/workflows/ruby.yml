@@ -22,6 +22,8 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['3.2.6', '3.3.7']
+    env:
+      undercover_version: '3.3.7'
 
     steps:
       - uses: actions/checkout@v3
@@ -59,17 +61,17 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: yarn run playwright install-deps firefox
       - name: Run tests with coverage
-        if: matrix.ruby-version == matrix.ruby-version[-1]
+        if: matrix.ruby-version == ${{ env.undercover_version }}
         env:
           COVERAGE: "true"
         run: bundle exec rspec
       # Run tests without coverage for other Ruby versions
       - name: Run tests
-        if: matrix.ruby-version != matrix.ruby-version[-1]
+        if: matrix.ruby-version != ${{ env.undercover_version }}
         run: bundle exec rspec
       # only upload coverage once
       - name: undercover
-        if: matrix.ruby-version == matrix.ruby-version[-1]
+        if: matrix.ruby-version == ${{ env.undercover_version }}
         run: |
           ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
             --repo ${{ github.repository }} \
