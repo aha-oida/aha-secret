@@ -8,14 +8,12 @@ RSpec.describe Helpers, type: :helper do
     let(:request) { double('request', base_url: 'http://example.org') }
 
     it 'returns the bin retrieval url' do
-      bin = Bin.new(payload: 'Hello, World!')
+      bin = double('bin', id: 1)
       expect(bin_retrieval_url(bin)).to eq("http://example.org/bins/#{bin.id}")
     end
   end
 
   describe '#html_title' do
-    # let(:config) { double('config', custom: { title: 'Secret Bin' }) }
-
     it 'returns the default title' do
       expect(html_title(custom:false, content:nil)).to eq('aha-secret: Share Secrets')
     end
