@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.2.6', '3.3.7']
+        ruby-version: ['3.2.6', '3.4.2']
     env:
-      undercover_version: '3.3.7'
+      undercover_version: '3.4.2'
 
     steps:
       - uses: actions/checkout@v3
