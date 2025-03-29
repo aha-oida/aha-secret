@@ -37,6 +37,13 @@ $ bin/console
 
 ## Run specs
 
+To run the (feature) tests you need to have playwright installed.
+Run
+```bash
+$ bin/playwright_setup
+```
+to install
+
 ```bash
 $ RACK_ENV=test bundle exec rake db:migrate
 $ bundle exec rspec
