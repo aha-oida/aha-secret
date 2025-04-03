@@ -69,7 +69,11 @@ class ApplicationController < Sinatra::Base
       bin.expire_date = Time.now.utc + retention_minutes
       params.delete(:retention)
     end
-    return status 422 unless bin.save
+
+    unless bin.save
+      status 422
+      return body json({ msg: bin.errors.full_messages })
+    end
 
     json({ id: bin.id, url: bin_retrieval_url(bin) })
   end
