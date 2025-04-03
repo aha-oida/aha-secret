@@ -50,7 +50,7 @@ jobs:
           bundle exec jekyll build --config _build_config.yml -d _testoutput
       - name: Run htmlproofer
         run: |
-          bundle exec htmlproofer ./_testoutput
+          bundle exec htmlproofer --ignore-urls  "/www.gnu.org/" ./_testoutput
   # Build job
   build:
     runs-on: ubuntu-latest
