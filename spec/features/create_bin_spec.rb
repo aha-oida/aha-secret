@@ -11,7 +11,7 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    expect(page).to have_content 'Create another secret'
+    expect(page).to have_content '/bins/'
   end
 
   scenario 'User creates a new bin and reveals with wrong link' do
