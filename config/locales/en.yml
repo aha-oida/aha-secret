@@ -26,3 +26,10 @@ en:
   share_link: Share the following link
   show_header: Someone shares a secret with you
   unlock_label: Unlock
+  activerecord:
+    errors:
+      models:
+        bin:
+          attributes:
+            payload:
+              too_long: Your message is too long
