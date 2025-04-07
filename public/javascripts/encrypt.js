@@ -139,11 +139,21 @@ async function encryptEvent() {
       "Content-Type": "application/x-www-form-urlencoded"
     }
   }).then((response) => {
-    return response.json()
+    if(response.ok) {
+      return response.json()
+    }
+    return Promise.reject(response);
   }).then((res) => {
     createLink(res.id);
   }).catch((error) => {
-    console.log(error)
+       error.json().then( err => {
+	 setAlert("toolongError");
+         console.log(err.msg)
+       }).catch(() => { 
+	       console.log("Unknown error") 
+       })
+       document.getElementById('enc-pane').style.display = 'none';
+       document.getElementById('enc-form').style.display = 'block';
   });
 }
 

@@ -6,6 +6,7 @@ require_relative '../helpers/helpers'
 require 'debug'
 require 'sprockets'
 require 'sprockets-helpers'
+require_relative '../config/binconf'
 
 # write documentation
 class ApplicationController < Sinatra::Base
@@ -14,6 +15,9 @@ class ApplicationController < Sinatra::Base
   set :digest_assets, true
   register Sinatra::ConfigFile
   config_file '../../config/config.yml'
+  binconf = BinConf.instance
+  binconf.set(:max_msg_length, settings.max_msg_length)
+
 
   set :erubis, escape_html: true
 
