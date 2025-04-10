@@ -147,10 +147,10 @@ async function encryptEvent() {
     createLink(res.id);
   }).catch((error) => {
        error.json().then( err => {
-	 setAlert("toolongError");
+	 setAlert(err.msg, false);
          console.log(err.msg)
-       }).catch(() => { 
-	       console.log("Unknown error") 
+       }).catch(() => {
+	       console.log("Unknown error")
        })
        document.getElementById('enc-pane').style.display = 'none';
        document.getElementById('enc-form').style.display = 'block';

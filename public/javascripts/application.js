@@ -1,8 +1,13 @@
-function setAlert(msg) {
+function setAlert(msg, lookup=true) {
 	const messages = document.getElementById("error-messages");
 	const alertbox = document.getElementById("alertbox");
 	const alertspan = document.getElementById("alert");
-	const alertmsg = messages.dataset[msg];
+	var alertmsg = "";
+	if(lookup) {
+	  alertmsg = messages.dataset[msg];
+	} else {
+          alertmsg = msg;
+	}
 	alertspan.textContent = alertmsg;
 	alertbox.style.display = "flex";
 }
