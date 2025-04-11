@@ -32,4 +32,8 @@ en:
         bin:
           attributes:
             payload:
-              too_long: Your message is too long
+              too_long: is too long
+    attributes:
+      bin:
+        payload:
+          one: Message

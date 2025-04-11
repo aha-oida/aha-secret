@@ -32,4 +32,8 @@ de:
         bin:
           attributes:
             payload:
-              too_long: Die Nachricht ist zu lange
+              too_long: ist zu lange
+    attributes:
+      bin:
+        payload:
+          one: Nachricht
