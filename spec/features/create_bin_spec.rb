@@ -1,9 +1,9 @@
 feature 'Create Bin', type: :feature, driver: :playwright do
   scenario 'User creates a bin that is too long' do
     visit '/'
-    fill_in 'bin[payload]', with: 'A'*9600
+    fill_in 'bin[payload]', with: 'A'*10001
     click_button 'Create Secret'
-    expect(page).to have_content '/bins/'
+    expect(page).to have_content 'Message is too long'
   end
 
 
