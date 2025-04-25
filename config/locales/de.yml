@@ -1,5 +1,16 @@
 ---
 de:
+  activerecord:
+    attributes:
+      bin:
+        payload:
+          one: Nachricht
+    errors:
+      models:
+        bin:
+          attributes:
+            payload:
+              too_long: ist zu lange
   additional_password: Zusätzliches Passwort festlegen
   additional_password_info: Der Absender hat ein zusätzliches Passwort festgelegt, das den Zugriff auf das Geheimnis ermöglicht.
   copied_clipboard: 'Kopiert: '
@@ -26,14 +37,3 @@ de:
   share_link: Teile den folgenden Link
   show_header: Jemand teilt eine verschlüsselte Nachricht mit Dir
   unlock_label: Entsperren
-  activerecord:
-    errors:
-      models:
-        bin:
-          attributes:
-            payload:
-              too_long: ist zu lange
-    attributes:
-      bin:
-        payload:
-          one: Nachricht

@@ -1,5 +1,16 @@
 ---
 en:
+  activerecord:
+    attributes:
+      bin:
+        payload:
+          one: Message
+    errors:
+      models:
+        bin:
+          attributes:
+            payload:
+              too_long: is too long
   additional_password: Set additional password
   additional_password_info: The sender has set an additional password that allows to access the secret.
   copied_clipboard: 'Copied: '
@@ -26,14 +37,3 @@ en:
   share_link: Share the following link
   show_header: Someone shares a secret with you
   unlock_label: Unlock
-  activerecord:
-    errors:
-      models:
-        bin:
-          attributes:
-            payload:
-              too_long: is too long
-    attributes:
-      bin:
-        payload:
-          one: Message
