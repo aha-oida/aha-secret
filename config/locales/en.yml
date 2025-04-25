@@ -5,6 +5,7 @@ en:
       bin:
         payload:
           one: Message
+          other: Messages
     errors:
       models:
         bin:
