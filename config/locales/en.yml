@@ -1,5 +1,17 @@
 ---
 en:
+  activerecord:
+    attributes:
+      bin:
+        payload:
+          one: Message
+          other: Messages
+    errors:
+      models:
+        bin:
+          attributes:
+            payload:
+              too_long: is too long
   additional_password: Set additional password
   additional_password_info: The sender has set an additional password that allows to access the secret.
   copied_clipboard: 'Copied: '
