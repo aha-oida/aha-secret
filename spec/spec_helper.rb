@@ -46,10 +46,10 @@ RSpec.configure do |config|
   # config.order = 'default'
 
   Capybara.register_driver(:playwright) do |app|
-    # Capybara::Playwright::Driver.new(app, browser_type: :firefox, headless: false)
     Capybara::Playwright::Driver.new(app,
-    browser_type: ENV["PLAYWRIGHT_BROWSER"]&.to_sym || :chromium,
-    headless: (false unless ENV["CI"] || ENV["PLAYWRIGHT_HEADLESS"]))
+    # browser_type: ENV["PLAYWRIGHT_BROWSER"]&.to_sym || :chromium,
+    browser_type: :chromium,
+    headless: true)
   end
   Capybara.default_max_wait_time = 15
   Capybara.default_driver = :playwright
