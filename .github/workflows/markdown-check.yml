@@ -10,6 +10,9 @@ jobs:
     outputs:
       changed: ${{ steps.check_markdown_files.outputs.changed }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Check if markdown files changed
         id: check_markdown_files
         run: |
