@@ -10,11 +10,15 @@ jobs:
     outputs:
       changed: ${{ steps.check_markdown_files.outputs.changed }}
     steps:
-    - name: Check if markdown files changed
-      id: check_markdown_files
-      run: |
-        git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.md$' || echo "no markdown files changed"
-        echo "changed=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.md$' || echo 'false')" >> $GITHUB_OUTPUT
+      - name: Check if markdown files changed
+        id: check_markdown_files
+        run: |
+          md_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.md$' || true)
+          if [ -n "$md_files" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
   check_links:
     runs-on: ubuntu-latest
     needs: condition_markdown_files
