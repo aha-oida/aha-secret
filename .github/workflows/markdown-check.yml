@@ -5,7 +5,7 @@ on:
     branches:
       - main
 jobs:
-  condition_markdown_files:
+  markdown_files_changed_check:
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check_markdown_files.outputs.changed }}
@@ -21,8 +21,8 @@ jobs:
           fi
   check_links:
     runs-on: ubuntu-latest
-    needs: condition_markdown_files
-    if: needs.condition_markdown_files.outputs.changed != 'false'
+    needs: markdown_files_changed_check
+    if: needs.markdown_files_changed_check.outputs.changed != 'false'
     steps:
     - uses: actions/checkout@v4
     - name: Setup Ruby
