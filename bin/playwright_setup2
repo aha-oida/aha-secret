@@ -1,5 +1,0 @@
-#!/bin/sh
-
-export PLAYWRIGHT_CLI_VERSION=$(bundle exec ruby -e 'puts Playwright::COMPATIBLE_PLAYWRIGHT_VERSION.strip')
-npm install playwright@$PLAYWRIGHT_CLI_VERSION || npm install playwright@next
-./node_modules/.bin/playwright install
