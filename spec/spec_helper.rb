@@ -57,7 +57,19 @@ RSpec.configure do |config|
 
   Capybara.current_driver = :playwright
 
-
+  unless ENV['SHOW_BROWSER']
+    original_stderr = $stderr
+    original_stdout = $stdout
+    config.before(:all) do
+      # Redirect stderr and stdout
+      $stderr = File.open(File::NULL, "w")
+      $stdout = File.open(File::NULL, "w")
+    end
+    config.after(:all) do
+      $stderr = original_stderr
+      $stdout = original_stdout
+    end
+  end
 end
 
 def app
