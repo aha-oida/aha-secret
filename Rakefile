@@ -44,6 +44,7 @@ task :migrateserv do
   Rake::Task['serve'].invoke
 end
 
+desc 'Dump the db schema after migration.'
 task :after_migration_hook do
   ENV['SCHEMA_FORMAT'] = 'sql'
   Rake::Task['db:schema:dump'].invoke
