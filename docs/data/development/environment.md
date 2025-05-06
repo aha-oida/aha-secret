@@ -50,3 +50,8 @@ $ bundle exec rspec
 # OR
 $ bundle exec rake
 ```
+
+Run e2e tests with request log output:
+```
+SHOW_BROWSER=1 bundle exec rake
+```
