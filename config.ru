@@ -15,7 +15,7 @@ if ENV.include? 'MEMCACHE'
 
   Rack::Attack.safelist('allow from localhost') do |req|
     # Requests are allowed if the return value is truthy
-    req.ip == '127.0.0.1' || req.ip == '::1'
+    ['127.0.0.1', '::1'].include?(req.ip)
   end
 
   Rack::Attack.throttle('requests by ip', limit: 15, period: 1.minutes, &:ip)
