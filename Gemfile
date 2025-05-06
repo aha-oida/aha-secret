@@ -29,6 +29,9 @@ group :development do
   gem 'overcommit', '~> 0.67'
   gem 'rerun', '~> 0.14.0'
   gem 'rubocop', '~> 1.75'
+  gem 'rubocop-capybara'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
 end
 
 group :test do
