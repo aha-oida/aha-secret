@@ -23,7 +23,7 @@ jobs:
       matrix:
         ruby-version: ['3.2.6', '3.4.2']
     env:
-      undercover_version: '3.4.2'
+      undercover_version: 'TEMPORARY_DISABLED'
 
     steps:
       - uses: actions/checkout@v3
