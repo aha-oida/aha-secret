@@ -12,4 +12,6 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 
 # TODO: do we really need a "require all" gem for 1 controller?
-require_all 'app'
+require_all 'app/helpers'
+require_all 'app/models'
+require_all 'app/controllers'

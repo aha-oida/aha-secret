@@ -2,11 +2,9 @@
 
 require './config/environment'
 require 'rufus-scheduler'
-require_relative '../helpers/helpers'
 require 'debug'
 require 'sprockets'
 require 'sprockets-helpers'
-require_relative '../config/binconf'
 
 # write documentation
 class ApplicationController < Sinatra::Base
@@ -15,9 +13,6 @@ class ApplicationController < Sinatra::Base
   set :digest_assets, true
   register Sinatra::ConfigFile
   config_file '../../config/config.yml'
-  binconf = BinConf.instance
-  binconf.set(:max_msg_length, settings.max_msg_length)
-
 
   set :erubis, escape_html: true
 
@@ -48,6 +43,7 @@ class ApplicationController < Sinatra::Base
       # expand = true, digest = false, manifest = false
       config.debug       = true if development?
     end
+    Bin.max_msg_length = settings.max_msg_length
 
     before do
       @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
@@ -68,6 +64,7 @@ class ApplicationController < Sinatra::Base
   # This will be a ajax call
   post '/' do
     bin = Bin.new(bin_params)
+
     retention_minutes = params[:retention]&.to_i&.minutes
     if retention_minutes&.positive?
       bin.expire_date = Time.now.utc + retention_minutes

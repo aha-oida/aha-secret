@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
-require_relative '../config/binconf'
 # A bin is the model that stores the encrypted secret.
 # It has a payload, which is the encrypted secret, and a id, which is the unique identifier for the bin.
 # Bins are only temporary and thrown away after expiry or reveal.
 class Bin < ActiveRecord::Base
-  bin_conf = BinConf.instance
-  validates :payload, presence: true, length: { maximum: bin_conf.settings[:max_msg_length] }
+  class << self
+    attr_accessor :max_msg_length
+  end
+
+  validates :payload, presence: true, length: { maximum: ->(_bin) { Bin.max_msg_length || 10_000 } }
   validate :expire_date_cannot_be_bigger_than_7_days
   has_secure_token :id
   self.primary_key = :id
