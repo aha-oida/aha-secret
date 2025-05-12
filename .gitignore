@@ -27,6 +27,9 @@ build-iPhoneOS/
 build-iPhoneSimulator/
 
 .editorconfig
+.pnp.cjs
+.pnp.loader.mjs
+.yarn
 
 ## Specific to RubyMotion (use of CocoaPods):
 #
