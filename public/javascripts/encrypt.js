@@ -131,6 +131,7 @@ async function encryptEvent() {
   const cipher = await encryptMessage(key);
   const retention = document.getElementById("retention").value;
   const authenticityToken = getAuthenticityToken();
+  console.log(cipher.length);
 
   await fetch("/", {
     method: 'post',

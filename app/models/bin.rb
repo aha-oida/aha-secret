@@ -6,7 +6,7 @@ require_relative '../config/binconf'
 # Bins are only temporary and thrown away after expiry or reveal.
 class Bin < ActiveRecord::Base
   bin_conf = BinConf.instance
-  validates :payload, presence: true, length: { maximum: bin_conf.settings[:max_msg_length] }
+  validates :payload, presence: true, length: { maximum: bin_conf.calc_max_length }
   validate :expire_date_cannot_be_bigger_than_7_days
   has_secure_token :id
   self.primary_key = :id

@@ -1,9 +1,11 @@
 feature 'Create Bin', type: :feature, driver: :playwright do
-  scenario 'User creates a bin that is too long' do
+  scenario 'User creates a bin that is exact' do
     visit '/'
-    fill_in 'bin[payload]', with: 'A'*10001
+    fill_in 'bin[payload]', with: SecureRandom.alphanumeric(10000)
     click_button 'Create Secret'
-    expect(page).to have_content 'Message is too long'
+    sleep(1)
+    secret_url = find('#secret-url').value
+    expect(secret_url).to include '/bins/'
   end
 
 
