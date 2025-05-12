@@ -17,6 +17,7 @@ db/database/*.sqlite*
 
 # Ignore Byebug command history file.
 .byebug_history
+.gitattributes
 
 ## Specific to RubyMotion:
 .dat*
