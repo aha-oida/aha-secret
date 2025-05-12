@@ -6,6 +6,7 @@ require_relative '../helpers/helpers'
 require 'debug'
 require 'sprockets'
 require 'sprockets-helpers'
+require_relative '../config/binconf'
 
 # write documentation
 class ApplicationController < Sinatra::Base
@@ -14,6 +15,9 @@ class ApplicationController < Sinatra::Base
   set :digest_assets, true
   register Sinatra::ConfigFile
   config_file '../../config/config.yml'
+  binconf = BinConf.instance
+  binconf.set(:max_msg_length, settings.max_msg_length)
+
 
   set :erubis, escape_html: true
 
@@ -58,7 +62,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    erb :index
+    erb :index, locals: { max_msg_length: settings.max_msg_length }
   end
 
   # This will be a ajax call
@@ -69,7 +73,11 @@ class ApplicationController < Sinatra::Base
       bin.expire_date = Time.now.utc + retention_minutes
       params.delete(:retention)
     end
-    return status 422 unless bin.save
+
+    unless bin.save
+      status 422
+      return body json({ msg: bin.errors.full_messages })
+    end
 
     json({ id: bin.id, url: bin_retrieval_url(bin) })
   end

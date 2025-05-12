@@ -1,9 +1,13 @@
-function setAlert(msg) {
-	console.log("in setAlert");
+function setAlert(msg, lookup=true) {
 	const messages = document.getElementById("error-messages");
 	const alertbox = document.getElementById("alertbox");
 	const alertspan = document.getElementById("alert");
-	const alertmsg = messages.dataset[msg];
+	var alertmsg = "";
+	if(lookup) {
+	  alertmsg = messages.dataset[msg];
+	} else {
+          alertmsg = msg;
+	}
 	alertspan.textContent = alertmsg;
 	alertbox.style.display = "flex";
 }
@@ -115,12 +119,12 @@ document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
 document.getElementById("revealpwbutton")?.addEventListener("click", revealpw);
+document.getElementById("message")?.addEventListener("focus", resetAlert);
 
 document.addEventListener("DOMContentLoaded", () => {
   let passwordField = document.getElementById("passwd");
   if (!passwordField) {
     passwordField = document.getElementById("add-password");
-    console.log("add-password found, INDEX");
   } else {
     console.log("passwd found, SHOW");
   }

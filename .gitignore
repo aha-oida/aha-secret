@@ -17,6 +17,7 @@ db/database/*.sqlite*
 
 # Ignore Byebug command history file.
 .byebug_history
+.gitattributes
 
 ## Specific to RubyMotion:
 .dat*
@@ -25,6 +26,11 @@ build/
 *.bridgesupport
 build-iPhoneOS/
 build-iPhoneSimulator/
+
+.editorconfig
+.pnp.cjs
+.pnp.loader.mjs
+.yarn
 
 ## Specific to RubyMotion (use of CocoaPods):
 #
