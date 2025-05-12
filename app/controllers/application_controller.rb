@@ -62,7 +62,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    erb :index
+    erb :index, locals: { max_msg_length: settings.max_msg_length }
   end
 
   # This will be a ajax call
