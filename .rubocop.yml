@@ -3,3 +3,8 @@ AllCops:
   Exclude:
     - 'db/**/*'
     - 'spec/**/*'
+
+plugins:
+  - rubocop-capybara
+  - rubocop-rspec
+  - rubocop-rake
