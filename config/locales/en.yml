@@ -31,6 +31,7 @@ en:
   hours: hours
   minutes: minutes
   open_source: is free open source software
+  pastelimit_exceeded: Pasting this content exceeds the maximum allowed characters
   payload_placeholder: Encrypt me in your browser!
   reveal_info: Click this button to reveal the secret
   reveal_label: Reveal
