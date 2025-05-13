@@ -18,7 +18,7 @@ if ENV.include? 'MEMCACHE'
     ['127.0.0.1', '::1'].include?(req.ip)
   end
 
-  Rack::Attack.throttle('requests by ip', limit: 15, period: 1.minutes, &:ip)
+  Rack::Attack.throttle('requests by ip', limit: AppConfig.rate_limit, period: AppConfig.rate_limit_period, &:ip)
 end
 
 use Rack::MethodOverride

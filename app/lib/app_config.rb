@@ -57,6 +57,19 @@ class AppConfig
     end
   end
 
+  def self.rate_limit
+    @config.rate_limit || 100
+  end
+
+  def self.rate_limit_period
+    @config.rate_limit_period || 1.minute
+  end
+
+  # Uncomment and implement these methods if needed
+  # def self.cleanup_interval
+  #   @config.cleanup_interval || '1h'
+  # end
+
   # def self.cleanup_schedule
   #   @config.cleanup_schedule || '1h'
   # end
