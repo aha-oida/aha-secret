@@ -1,20 +1,17 @@
 feature 'Create Bin', type: :feature, driver: :playwright do
-  scenario 'User creates a bin that is exact' do
+  scenario 'User creates a bin that is exact max size chars' do
     visit '/'
-    fill_in 'bin[payload]', with: SecureRandom.alphanumeric(10000)
+    fill_in 'bin[payload]', with: SecureRandom.alphanumeric(AppConfig.max_msg_length)
     click_button 'Create Secret'
-    sleep(1)
-    secret_url = find('#secret-url').value
+    secret_url = find_by_id('secret-url', visible: true).value # waits for the element to be present
     expect(secret_url).to include '/bins/'
   end
-
 
   scenario 'User creates a new bin' do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    sleep(1)
-    secret_url = find('#secret-url').value
+    secret_url = find_by_id('secret-url', visible: true).value # waits for the element to be present
     expect(secret_url).to include '/bins/'
   end
 
@@ -74,5 +71,27 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     click_button 'Unlock'
     decrypted_secret = find('#dec-msg').value
     expect(decrypted_secret).to eq 'Hello, World!'
+  end
+
+  scenario 'User pastes content exceeding max allowed characters' do
+    visit '/'
+    textarea = find('textarea[name="bin[payload]"]')
+
+    # Simulate pasting content that exceeds the maxlength
+    max_length = textarea[:maxlength].to_i
+    oversized_content = 'a' * (max_length + 1)
+
+    # Use JavaScript to simulate the paste event
+    page.execute_script(<<~JS, oversized_content)
+      const textarea = document.querySelector('textarea[name="bin[payload]"]');
+      const event = new ClipboardEvent('paste', {
+        clipboardData: new DataTransfer()
+      });
+      event.clipboardData.setData('text', arguments[0]);
+      textarea.dispatchEvent(event);
+    JS
+
+    # Ensure the content was not pasted
+    expect(textarea.value.length).to be <= max_length
   end
 end
