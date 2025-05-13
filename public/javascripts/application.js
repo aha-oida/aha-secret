@@ -137,4 +137,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("eyeopen").classList.toggle("hidden");
     document.getElementById("eyeclosed").classList.toggle("hidden");
   });
+
+  const textarea = document.getElementById("message");
+
+  if (textarea) {
+    textarea.addEventListener('paste', (event) => {
+      const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
+      const clipboardData = event.clipboardData.getData('text');
+
+      if (clipboardData.length > maxLength) {
+        event.preventDefault();
+        setAlert("pasteLimitExceeded");
+        return;
+      }
+    });
+  }
 });
