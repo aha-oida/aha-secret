@@ -29,6 +29,6 @@ use Rack::Session::Cookie,
     secret: ENV.fetch('SESSION_SECRET', SecureRandom.hex(64))
 use Rack::Protection,
     use: %i[content_security_policy authenticity_token],
-    permitted_origins: ENV.fetch('URL', nil)
+    permitted_origins: AppConfig.url || ENV.fetch('URL', nil)
 
 run ApplicationController

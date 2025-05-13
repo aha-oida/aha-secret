@@ -17,6 +17,7 @@ default: &common_settings
     footer_string: '<p>your-custom-footer-here <a href="https://example.com">Example</a></p>'
 
 production:
+  url: "https://example.com" # set to your production URL
   <<: *common_settings
 
 development:
