@@ -93,5 +93,7 @@ feature 'Create Bin', type: :feature, driver: :playwright do
 
     # Ensure the content was not pasted
     expect(textarea.value.length).to be <= max_length
+    expect(textarea.value).to be_empty
+    expect(page).to have_content 'Pasting this content exceeds the maximum allowed characters'
   end
 end
