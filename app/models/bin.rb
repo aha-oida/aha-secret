@@ -4,19 +4,24 @@ require_relative '../config/binconf'
 # A bin is the model that stores the encrypted secret.
 # It has a payload, which is the encrypted secret, and a id, which is the unique identifier for the bin.
 # Bins are only temporary and thrown away after expiry or reveal.
-class Bin < ActiveRecord::Base
-  bin_conf = BinConf.instance
-  validates :payload, presence: true, length: { maximum: bin_conf.calc_max_length }
-  validate :expire_date_cannot_be_bigger_than_7_days
-  has_secure_token :id
-  self.primary_key = :id
+class Bin < Sequel::Model
+  plugin :validation_helpers
+  plugin :timestamps, update_on_create: true
+  plugin :whitelist_security
 
-  scope :expired, -> { where('expire_date < ?', Time.now.utc) }
+  set_primary_key :id
 
-  def expire_date_cannot_be_bigger_than_7_days
-    return unless expire_date
+  # Allow mass-assignment for has_password
+  set_allowed_columns :payload, :has_password, :expire_date
 
-    errors.add(:expire_date, "Can't be bigger than 7 days") if expire_date > Time.now.utc + 7.days
+  def validate
+    super
+    bin_conf = BinConf.instance
+    validates_presence [:payload]
+    validates_max_length bin_conf.calc_max_length, :payload
+    return unless expire_date && expire_date > (Time.now.utc + 7 * 24 * 60 * 60)
+
+    errors.add(:expire_date, "Can't be bigger than 7 days")
   end
 
   def expired?
@@ -24,10 +29,29 @@ class Bin < ActiveRecord::Base
   end
 
   def self.cleanup
-    expired.in_batches do |batch|
-      ActiveRecord::Base.transaction do
-        batch.lock.delete_all
-      end
+    where { expire_date < Time.now.utc }.each(&:delete)
+  end
+
+  def password?
+    !!self[:has_password]
+  end
+
+  def self.expired
+    where { expire_date < Time.now.utc }.all
+  end
+
+  def before_create
+    super
+    self.id ||= generate_unique_id
+  end
+
+  private
+
+  def generate_unique_id
+    require 'securerandom'
+    loop do
+      random_id = SecureRandom.urlsafe_base64(8).tr('-_', 'az')
+      break random_id unless Bin[random_id]
     end
   end
 end

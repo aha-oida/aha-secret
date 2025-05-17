@@ -2,7 +2,11 @@
 
 source 'https://rubygems.org'
 
-gem 'activerecord', '~> 8.0.2', require: 'active_record'
+gem 'sequel', '~> 5.77'
+
+# gem 'activerecord', '~> 8.0.2', require: 'active_record'
+# gem 'sinatra-activerecord', require: 'sinatra/activerecord'
+
 gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0'
 gem 'erubis', '~> 2.7'
@@ -15,7 +19,6 @@ gem 'require_all', '~> 3.0'
 gem 'rspec', '~> 3.13'
 gem 'rufus-scheduler', '~> 3.9'
 gem 'sinatra', '~> 4.0'
-gem 'sinatra-activerecord', require: 'sinatra/activerecord'
 gem 'sprockets-helpers'
 
 github 'sinatra/sinatra' do

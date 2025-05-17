@@ -3,8 +3,10 @@
 ENV['RACK_ENV'] ||= 'development'
 
 require_relative 'config/environment'
-require 'sinatra/activerecord/rake'
+# require 'sinatra/activerecord/rake'
 require 'rspec/core/rake_task'
+require 'sequel'
+require 'sequel/extensions/migration'
 
 task default: :spec
 
@@ -44,9 +46,40 @@ task :migrateserv do
   Rake::Task['serve'].invoke
 end
 
-task :after_migration_hook do
-  ENV['SCHEMA_FORMAT'] = 'sql'
-  Rake::Task['db:schema:dump'].invoke
-end
+namespace :db do
+  desc 'Migrate the database (Sequel)'
+  task :migrate do
+    Sequel::Migrator.run(DB, 'db/migrate')
+    puts 'Migrations complete.'
+  end
 
-Rake::Task['db:migrate'].enhance [:after_migration_hook]
+  desc 'Create the database (noop for SQLite)'
+  task :create do
+    # For SQLite, DB file is created automatically on connect
+    puts 'Database create: noop (SQLite)'
+  end
+
+  desc 'Drop the database (deletes SQLite file)'
+  task :drop do
+    db_path = DB.uri.split(':///').last
+    if File.exist?(db_path)
+      File.delete(db_path)
+      puts('Deleted', db_path)
+    else
+      puts('No database file found at', db_path)
+    end
+  end
+
+  desc 'Seed the database'
+  task :seed do
+    load 'db/seeds.rb'
+  end
+
+  # rubocop:disable Metrics/BlockLength
+  desc 'Prepare the database (for compatibility with Rails/Overcommit)'
+  task prepare: :migrate do
+    # No-op for Sequel, but required for Overcommit compatibility
+    puts('db:prepare: ran db:migrate (Sequel)')
+  end
+  # rubocop:enable Metrics/BlockLength
+end

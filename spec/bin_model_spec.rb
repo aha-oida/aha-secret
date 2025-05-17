@@ -5,43 +5,44 @@ require_relative 'spec_helper'
 describe Bin do
   it 'new bin gets id' do
     bin = Bin.new(payload: 'Hello, World!')
-    expect(bin.save).to be true
+    expect { bin.save }.not_to raise_error
     expect(bin.id).not_to be nil
   end
 
   it 'does not save a new bin without a payload' do
     bin = Bin.new(payload: '')
-    expect(bin.save).to be false
+    expect { bin.save }.to raise_error(Sequel::ValidationFailed)
   end
 
   it 'has a expire_date' do
     bin = Bin.new(payload: 'Hello, World!')
-    expect(bin.save).to be true
+    expect { bin.save }.not_to raise_error
     expect(bin.expire_date).not_to be nil
   end
 
   it 'has a expired? method' do
     bin = Bin.create(payload: 'Hello, World!')
     expect(bin.expired?).to be false
-    bin.update(expire_date: Time.now - 1.day)
+    bin.update(expire_date: Time.now - 1*24*60*60)
     expect(bin.expired?).to be true
   end
 
   it 'must not have an expire_date greater than 7days' do
-    bin = Bin.create(payload: "Hello!", expire_date: Time.now + 8.day)
-    expect(bin.valid?).to be false
+    expect {
+      Bin.create(payload: "Hello!", expire_date: Time.now + 8*24*60*60)
+    }.to raise_error(Sequel::ValidationFailed)
   end
 
   it 'can be filtered by expiration' do
     bin = Bin.create(payload: 'Hello, World!')
     expect(Bin.expired).to eq []
-    bin.update(expire_date: Time.now - 1.day)
+    bin.update(expire_date: Time.now - 1*24*60*60)
     expect(Bin.expired).to eq [bin]
   end
 
   it 'has a cleanup method' do
     bin = Bin.create(payload: 'Hello, World!')
-    bin.update(expire_date: Time.now - 1.day)
+    bin.update(expire_date: Time.now - 1*24*60*60)
     expect(Bin.expired).to eq [bin]
     Bin.cleanup
     expect(Bin.expired).to eq []

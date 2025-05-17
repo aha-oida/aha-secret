@@ -68,23 +68,23 @@ class ApplicationController < Sinatra::Base
   # This will be a ajax call
   post '/' do
     bin = Bin.new(bin_params)
-    retention_minutes = params[:retention]&.to_i&.minutes
-    if retention_minutes&.positive?
-      bin.expire_date = Time.now.utc + retention_minutes
+    retention_minutes = params[:retention]&.to_i
+    if retention_minutes && retention_minutes.positive?
+      bin.expire_date = Time.now.utc + (retention_minutes * 60)
       params.delete(:retention)
     end
-
-    unless bin.save
+    begin
+      bin.save
+    rescue Sequel::ValidationFailed
       status 422
       return body json({ msg: bin.errors.full_messages })
     end
-
     json({ id: bin.id, url: bin_retrieval_url(bin) })
   end
 
   get '/bins/:id' do
-    @bin = Bin.find_by_id(params[:id])
-    return status 404 unless @bin
+    @bin = Bin[params[:id]]
+    return status 404 unless @bin&.id
 
     erb :show
   end
@@ -95,8 +95,8 @@ class ApplicationController < Sinatra::Base
   end
 
   patch '/bins/:id/reveal' do
-    bin = Bin.find_by_id(params[:id])
-    return status 422 unless bin
+    bin = Bin[params[:id]]
+    return status 422 unless bin&.id
 
     payload = bin.payload
     has_password = bin.has_password

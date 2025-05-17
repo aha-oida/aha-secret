@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
+require 'singleton'
+
+# Configuration singleton for Bin settings
 class BinConf
   include Singleton
   attr_accessor :settings
 
   def set(setting, value)
     @settings ||= {}
-    @settings[setting] = value
+    @settings[setting] = value unless @settings.key?(setting)
   end
 
   def calc_max_length

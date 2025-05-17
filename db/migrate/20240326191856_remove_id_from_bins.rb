@@ -1,5 +1,5 @@
-class RemoveIdFromBins < ActiveRecord::Migration[7.1]
-  def change
-    remove_column :bins, :id
+Sequel.migration do
+  change do
+    # This migration is intentionally left blank. Dropping a primary key column is not supported in SQLite.
   end
 end

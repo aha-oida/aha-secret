@@ -17,11 +17,11 @@ require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
-require 'database_cleaner'
+# require 'database_cleaner'
 require 'capybara-playwright-driver'
 
 
-ActiveRecord::Base.logger = nil
+# ActiveRecord::Base.logger = nil
 
 class CapybaraNullDriver < Capybara::Driver::Base
   def needs_server?
@@ -34,13 +34,13 @@ RSpec.configure do |config|
   # config.filter_run :focus
   config.include Rack::Test::Methods
   config.include Capybara::DSL
-  DatabaseCleaner.strategy = :truncation
+  # DatabaseCleaner.strategy = :truncation
   config.before do
-    DatabaseCleaner.clean
+    Bin.dataset.delete
   end
 
   config.after do
-    DatabaseCleaner.clean
+    Bin.dataset.delete
   end
 
   # config.order = 'default'
