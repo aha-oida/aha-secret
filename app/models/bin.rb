@@ -35,6 +35,7 @@ class Bin < Sequel::Model
   def password?
     !!self[:has_password]
   end
+  alias :has_password?, :password?
 
   def self.expired
     where { expire_date < Time.now.utc }.all
