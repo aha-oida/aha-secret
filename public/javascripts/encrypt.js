@@ -81,7 +81,10 @@ function createLink(id) {
   const b64Key = document.getElementById('enc-key').innerText.replace(/\+/g, '-').replace(/\//g, '_');
   const b64Iv = document.getElementById('enc-iv').innerText.replace(/\+/g, '-').replace(/\//g, '_');
   const url = window.location.href + "bins/" + id + '#' + b64Key + '&' + b64Iv;
-  document.getElementById("secret-url").value = url;
+  const secret_element = document.getElementById("secret-url");
+  secret_element.value = url;
+  // make the element visible
+  secret_element.style.display = "block";
 }
 
 async function getKey(password, salt) {

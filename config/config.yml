@@ -1,5 +1,7 @@
 ---
 default: &common_settings
+  rate_limit: 15
+  rate_limit_period: 60 # in seconds
   cleanup_schedule: "5m"
   url: "/"
   default_locale: "en"
@@ -15,6 +17,7 @@ default: &common_settings
     footer_string: '<p>your-custom-footer-here <a href="https://example.com">Example</a></p>'
 
 production:
+  url: "https://example.com" # set to your production URL
   <<: *common_settings
 
 development:
@@ -23,8 +26,6 @@ development:
 
 test:
   <<: *common_settings
-  # TODO: not needed anymore because we do not use rufus in tests?
-  cleanup_schedule: "2s"
   custom:
     stylesheet: false
     html_title: false # possible values: false, replace, append

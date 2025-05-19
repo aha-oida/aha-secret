@@ -15,10 +15,10 @@ if ENV.include? 'MEMCACHE'
 
   Rack::Attack.safelist('allow from localhost') do |req|
     # Requests are allowed if the return value is truthy
-    req.ip == '127.0.0.1' || req.ip == '::1'
+    ['127.0.0.1', '::1'].include?(req.ip)
   end
 
-  Rack::Attack.throttle('requests by ip', limit: 15, period: 1.minutes, &:ip)
+  Rack::Attack.throttle('requests by ip', limit: AppConfig.rate_limit, period: AppConfig.rate_limit_period, &:ip)
 end
 
 use Rack::MethodOverride
@@ -29,6 +29,6 @@ use Rack::Session::Cookie,
     secret: ENV.fetch('SESSION_SECRET', SecureRandom.hex(64))
 use Rack::Protection,
     use: %i[content_security_policy authenticity_token],
-    permitted_origins: ENV.fetch('URL', nil)
+    permitted_origins: AppConfig.url || ENV.fetch('URL', nil)
 
 run ApplicationController
