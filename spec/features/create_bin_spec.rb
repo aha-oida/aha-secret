@@ -3,7 +3,7 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     visit '/'
     fill_in 'bin[payload]', with: SecureRandom.alphanumeric(AppConfig.max_msg_length)
     click_button 'Create Secret'
-    secret_url = find_by_id('secret-url', visible: true).value # waits for the element to be present
+    secret_url = find_by_id('secret-url', visible: true).value
     expect(secret_url).to include '/bins/'
   end
 
@@ -11,7 +11,7 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    secret_url = find_by_id('secret-url', visible: true).value # waits for the element to be present
+    secret_url = find_by_id('secret-url', visible: true).value
     expect(secret_url).to include '/bins/'
   end
 

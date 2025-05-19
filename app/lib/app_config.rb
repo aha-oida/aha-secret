@@ -23,11 +23,37 @@ require 'ostruct'
 # dynamically delegated to the underlying OpenStruct instance.
 class AppConfig
   @config = nil
+  REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule url default_locale max_msg_length custom].freeze
 
   def self.load!(env = ENV['RACK_ENV'] || 'development')
     config_path = File.expand_path('../../config/config.yml', __dir__)
+    raise "Config file not found: #{config_path}" unless File.exist?(config_path)
+
     raw = YAML.load_file(config_path, aliases: true)
-    @config = OpenStruct.new(raw[env] || raw['default'])
+    config_hash = build_config_hash(raw, env)
+    validate_config!(config_hash)
+    @config = OpenStruct.new(config_hash)
+    @config.freeze
+  end
+
+  def self.build_config_hash(raw, env)
+    config_hash = (raw[env] || raw['default']) || {}
+    config_hash = config_hash.transform_keys(&:to_s)
+    REQUIRED_KEYS.each do |key|
+      env_key = "APP_CONFIG_#{key.upcase}"
+      config_hash[key] = ENV[env_key] if ENV[env_key]
+    end
+    config_hash
+  end
+
+  def self.reload!(env = ENV['RACK_ENV'] || 'development')
+    @config = nil
+    load!(env)
+  end
+
+  def self.validate_config!(config_hash)
+    missing = REQUIRED_KEYS - config_hash.keys
+    raise "Missing required config keys: #{missing.join(', ')}" unless missing.empty?
   end
 
   def self.method_missing(method_name, *, &)
@@ -44,16 +70,18 @@ class AppConfig
     @config.respond_to?(method_name) || super
   end
 
-  def self.calc_max_length
-    unless @config&.max_msg_length
-      @config ||= OpenStruct.new
-      @config.max_msg_length = 10_000
-    end
+  def self.max_msg_length
+    load! unless @config
+    @config.max_msg_length || 10_000
+  end
 
-    if @config.max_msg_length < 128
+  def self.calc_max_length
+    load! unless @config
+    max = @config.max_msg_length || 10_000
+    if max < 128
       256
     else
-      @config.max_msg_length * 2
+      max * 2
     end
   end
 
