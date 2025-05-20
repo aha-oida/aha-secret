@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'yaml'
-require 'ostruct'
 
 # AppConfig is a configuration management class that handles application-wide settings.
 #
@@ -20,7 +19,7 @@ require 'ostruct'
 # and may include a 'default' section for fallback values.
 #
 # Configuration values can be accessed as methods on the AppConfig class, which are
-# dynamically delegated to the underlying OpenStruct instance.
+# dynamically delegated to the underlying Struct instance.
 class AppConfig
   @config = nil
   REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule url default_locale max_msg_length custom].freeze
@@ -48,7 +47,7 @@ class AppConfig
     config_hash = (raw[env] || raw['default']) || {}
     config_hash = config_hash.transform_keys(&:to_s)
     REQUIRED_KEYS.each do |key|
-      env_key = "APP_CONFIG_#{key.upcase}"
+      env_key = "AHA_SECRET_#{key.upcase}"
       config_hash[key] = ENV[env_key] if ENV[env_key]
     end
     config_hash
@@ -94,31 +93,12 @@ class AppConfig
   end
 
   def self.rate_limit
+    load! unless @config
     @config.rate_limit || 100
   end
 
   def self.rate_limit_period
+    load! unless @config
     @config.rate_limit_period || 1.minute
   end
-
-  # Uncomment and implement these methods if needed
-  # def self.cleanup_interval
-  #   @config.cleanup_interval || '1h'
-  # end
-
-  # def self.cleanup_schedule
-  #   @config.cleanup_schedule || '1h'
-  # end
-
-  # def self.default_locale
-  #   @config.default_locale || 'en'
-  # end
-
-  # def self.session_secret
-  #   @config.session_secret || SecureRandom.hex(64)
-  # end
-
-  # def self.memcache_url
-  #   @config.memcache_url || ENV['MEMCACHE']
-  # end
 end
