@@ -25,6 +25,14 @@ class AppConfig
   @config = nil
   REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule url default_locale max_msg_length custom].freeze
 
+  ConfigStruct = Struct.new(*REQUIRED_KEYS.map(&:to_sym)) do
+    def self.from_hash(hash)
+      # Ensure all keys are symbols and fill missing keys with nil
+      args = REQUIRED_KEYS.map { |k| hash[k.to_s] }
+      new(*args)
+    end
+  end
+
   def self.load!(env = ENV['RACK_ENV'] || 'development')
     config_path = File.expand_path('../../config/config.yml', __dir__)
     raise "Config file not found: #{config_path}" unless File.exist?(config_path)
@@ -32,7 +40,7 @@ class AppConfig
     raw = YAML.load_file(config_path, aliases: true)
     config_hash = build_config_hash(raw, env)
     validate_config!(config_hash)
-    @config = OpenStruct.new(config_hash)
+    @config = ConfigStruct.from_hash(config_hash)
     @config.freeze
   end
 
