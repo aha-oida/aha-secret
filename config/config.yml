@@ -6,6 +6,9 @@ default: &common_settings
   url: "/"
   default_locale: "en"
   max_msg_length: 10000
+  session_secret:
+  memcache_url: ""
+  permitted_origins: ""
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
     html_title: false # possible values: false, replace, append
@@ -17,15 +20,9 @@ default: &common_settings
     footer_string: '<p>your-custom-footer-here <a href="https://example.com">Example</a></p>'
 
 production:
+  <<: *common_settings
   url: "https://example.com" # set to your production URL
-  <<: *common_settings
-
-development:
-  <<: *common_settings
   cleanup_schedule: "5m"
-
-test:
-  <<: *common_settings
   custom:
     stylesheet: false
     html_title: false # possible values: false, replace, append
@@ -35,3 +32,18 @@ test:
     meta_description_keywords: custom, meta, description
     footer: false
     footer_string: custom-footer
+
+development:
+  <<: *common_settings
+
+test:
+  <<: *common_settings
+  custom:
+    stylesheet: false
+    html_title: false
+    html_title_string: test-title
+    meta_description: false
+    meta_description_string: test-meta-description
+    meta_description_keywords: test, meta, description
+    footer: false
+    footer_string: test-footer

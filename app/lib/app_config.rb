@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require_relative 'app_config/loader'
+require_relative 'app_config/accessors'
 
 # AppConfig is a configuration management class that handles application-wide settings.
 #
@@ -21,46 +23,36 @@ require 'yaml'
 # Configuration values can be accessed as methods on the AppConfig class, which are
 # dynamically delegated to the underlying Struct instance.
 class AppConfig
+  extend Loader
+  extend Accessors
   @config = nil
-  REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule url default_locale max_msg_length custom].freeze
+  # Core config keys (permitted_origins is optional)
+  REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule url default_locale max_msg_length custom
+                     memcache_url session_secret].freeze
+  # Additional config keys that are optional and not validated
+  OPTIONAL_KEYS = %w[permitted_origins].freeze
 
-  ConfigStruct = Struct.new(*REQUIRED_KEYS.map(&:to_sym)) do
+  # ConfigStruct includes REQUIRED_KEYS + OPTIONAL_KEYS
+  ConfigStruct = Struct.new(*(REQUIRED_KEYS + OPTIONAL_KEYS).map(&:to_sym)) do
     def self.from_hash(hash)
       # Ensure all keys are symbols and fill missing keys with nil
-      args = REQUIRED_KEYS.map { |k| hash[k.to_s] }
+      fields = REQUIRED_KEYS + OPTIONAL_KEYS
+      args = fields.map { |k| hash[k.to_s] }
       new(*args)
     end
   end
 
   def self.load!(env = ENV['RACK_ENV'] || 'development')
-    config_path = File.expand_path('../../config/config.yml', __dir__)
-    raise "Config file not found: #{config_path}" unless File.exist?(config_path)
-
-    raw = YAML.load_file(config_path, aliases: true)
+    raw = load_config_file
     config_hash = build_config_hash(raw, env)
     validate_config!(config_hash)
     @config = ConfigStruct.from_hash(config_hash)
     @config.freeze
   end
 
-  def self.build_config_hash(raw, env)
-    config_hash = (raw[env] || raw['default']) || {}
-    config_hash = config_hash.transform_keys(&:to_s)
-    REQUIRED_KEYS.each do |key|
-      env_key = "AHA_SECRET_#{key.upcase}"
-      config_hash[key] = ENV[env_key] if ENV[env_key]
-    end
-    config_hash
-  end
-
   def self.reload!(env = ENV['RACK_ENV'] || 'development')
     @config = nil
     load!(env)
-  end
-
-  def self.validate_config!(config_hash)
-    missing = REQUIRED_KEYS - config_hash.keys
-    raise "Missing required config keys: #{missing.join(', ')}" unless missing.empty?
   end
 
   def self.method_missing(method_name, *, &)
@@ -75,30 +67,5 @@ class AppConfig
   def self.respond_to_missing?(method_name, include_private = false)
     load! unless @config
     @config.respond_to?(method_name) || super
-  end
-
-  def self.max_msg_length
-    load! unless @config
-    @config.max_msg_length || 10_000
-  end
-
-  def self.calc_max_length
-    load! unless @config
-    max = @config.max_msg_length || 10_000
-    if max < 128
-      256
-    else
-      max * 2
-    end
-  end
-
-  def self.rate_limit
-    load! unless @config
-    @config.rate_limit || 100
-  end
-
-  def self.rate_limit_period
-    load! unless @config
-    @config.rate_limit_period || 1.minute
   end
 end

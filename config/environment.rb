@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../app/lib/app_config'
-AppConfig.load!
+# AppConfig.load! is no longer called here to allow lazy loading and test stubs
 
 require 'bundler/setup'
 require 'sinatra/base'
