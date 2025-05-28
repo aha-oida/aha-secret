@@ -14,6 +14,7 @@ class AppConfig
 
     def build_config_hash(raw, env)
       config_hash = load_base_config(raw, env)
+      apply_deprecated_config_keys(config_hash)
       apply_deprecated_env_vars(config_hash)
       apply_env_overrides(config_hash)
       config_hash
@@ -21,6 +22,19 @@ class AppConfig
 
     def load_base_config(raw, env)
       ((raw[env] || raw['default']) || {}).transform_keys(&:to_s)
+    end
+
+    def apply_deprecated_config_keys(config_hash)
+      deprecated_config_mappings.each do |old_key, new_key|
+        next unless config_hash.key?(old_key)
+
+        warn "[DEPRECATION] Config key '#{old_key}' is deprecated; use '#{new_key}' instead"
+        # Only set the new key if it's not explicitly set (new key takes precedence)
+        # But we need to distinguish between inherited values and explicitly set values
+        # For now, we'll use a simple approach: if both exist, prefer the new key
+        config_hash[new_key] = config_hash[old_key] unless config_hash.key?(new_key)
+        config_hash.delete(old_key)
+      end
     end
 
     def apply_deprecated_env_vars(config_hash)
@@ -35,7 +49,7 @@ class AppConfig
 
     def apply_env_overrides(config_hash)
       REQUIRED_KEYS.each do |key|
-        next if key == 'url' # url has no AHA_SECRET_URL, only comes from config file
+        next if key == 'base_url' # base_url has no AHA_SECRET_BASE_URL, only comes from config file
 
         env_key = "AHA_SECRET_#{key.upcase}"
         config_hash[key] = ENV[env_key] if ENV.key?(env_key)
@@ -48,6 +62,12 @@ class AppConfig
         'MEMCACHE' => %w[memcache_url],
         'SESSION_SECRET' => %w[session_secret],
         'PERMITTED_ORIGINS' => %w[permitted_origins]
+      }
+    end
+
+    def deprecated_config_mappings
+      {
+        'url' => 'base_url'
       }
     end
 

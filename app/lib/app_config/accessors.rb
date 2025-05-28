@@ -71,9 +71,9 @@ class AppConfig
       @config.memcache_url || ENV.fetch('MEMCACHE', nil)
     end
 
-    def url
+    def base_url
       load! unless @config
-      @config.url || '/'
+      @config.base_url || '/'
     end
   end
 end

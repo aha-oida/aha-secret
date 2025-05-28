@@ -27,7 +27,7 @@ class AppConfig
   extend Accessors
   @config = nil
   # Core config keys (permitted_origins is optional)
-  REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule url default_locale max_msg_length custom
+  REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule base_url default_locale max_msg_length custom
                      memcache_url session_secret].freeze
   # Additional config keys that are optional and not validated
   OPTIONAL_KEYS = %w[permitted_origins].freeze
