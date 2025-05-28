@@ -7,15 +7,6 @@ if ENV['CI']
     before(:each) do
       require 'dalli'
       Dalli::Client.new(ENV['MEMCACHE'] || 'localhost:11211', namespace: 'app_v1').flush
-      # Override rate limit for this test only
-      Rack::Attack.throttles.clear
-      Rack::Attack.throttle('requests by ip', limit: 3, period: 60) { |req| req.ip }
-    end
-
-    after(:each) do
-      # Reset throttles to default after this test
-      Rack::Attack.throttles.clear
-      Rack::Attack.throttle('requests by ip', limit: 64, period: 60) { |req| req.ip }
     end
 
     scenario 'block after 3 requests from the same IP' do
