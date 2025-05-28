@@ -1,29 +1,21 @@
 # frozen_string_literal: true
 
-require './config/environment'
 require 'rufus-scheduler'
-require_relative '../helpers/helpers'
 require 'debug'
 require 'sprockets'
 require 'sprockets-helpers'
-require_relative '../config/binconf'
 
 # write documentation
 class ApplicationController < Sinatra::Base
   set :sprockets, Sprockets::Environment.new(root)
   set :assets_prefix, '/assets'
   set :digest_assets, true
-  register Sinatra::ConfigFile
-  config_file '../../config/config.yml'
-  binconf = BinConf.instance
-  binconf.set(:max_msg_length, settings.max_msg_length)
-
 
   set :erubis, escape_html: true
 
   I18n.config.available_locales = %i[en de]
   I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
-  I18n.load_path = Dir[File.join(settings.root, '..', '..', 'config', 'locales', '*.yml')]
+  I18n.load_path = Dir[File.join(File.dirname(__FILE__), '..', '..', 'config', 'locales', '*.yml')]
   I18n.backend.load_translations
 
   configure do
@@ -51,18 +43,18 @@ class ApplicationController < Sinatra::Base
 
     before do
       @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
-      I18n.locale = ENV['APP_LOCALE'] || settings.default_locale || I18n.default_locale
+      I18n.locale = ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
     end
 
     unless defined?(IRB)
-      Rufus::Scheduler.s.interval settings.cleanup_schedule do
+      Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
         Bin.cleanup
       end
     end
   end
 
   get '/' do
-    erb :index, locals: { max_msg_length: settings.max_msg_length }
+    erb :index, locals: { max_msg_length: AppConfig.max_msg_length }
   end
 
   # This will be a ajax call
