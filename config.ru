@@ -30,14 +30,31 @@ if ENV.include? 'MEMCACHE'
 
   # Allow localhost, except in test environment
   Rack::Attack.safelist('allow from localhost') do |req|
-    (req.ip == '127.0.0.1' || req.ip == '::1') && ENV['RACK_ENV'] != 'test'
+    ['127.0.0.1', '::1'].include?(req.ip) && ENV['RACK_ENV'] != 'test'
   end
 
-  # Use a lower limit in test environment for reliable feature specs
-  if ENV['RACK_ENV'] == 'test'
-    Rack::Attack.throttle('requests by ip', limit: 3, period: 60) { |req| req.ip }
-  else
-    Rack::Attack.throttle('requests by ip', limit: 64, period: 60) { |req| req.ip }
+  # Debug: log each request's IP and throttle count
+  Rack::Attack.throttled_response = lambda do |env|
+    req = Rack::Request.new(env)
+    key = "rack::attack:#{req.ip}:requests by ip"
+    count = begin
+      Rack::Attack.cache.store.get(key)
+    rescue StandardError
+      'N/A'
+    end
+    puts "[DEBUG] Throttled response for IP: #{req.ip}, count: #{count}"
+    [429, {}, ['Rate limit exceeded']]
+  end
+
+  Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : 64), period: 60) do |req|
+    key = "rack::attack:#{req.ip}:requests by ip"
+    count = begin
+      Rack::Attack.cache.store.get(key)
+    rescue StandardError
+      'N/A'
+    end
+    puts "[DEBUG] Throttle check for IP: #{req.ip}, count: #{count}"
+    req.ip
   end
 end
 
