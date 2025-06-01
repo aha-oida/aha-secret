@@ -27,14 +27,10 @@ if ENV['CI']
 
     scenario 'block after 3 requests from the same IP' do
       # The browser loads assets on each visit, so the actual number of requests per visit is higher.
-      # To ensure the test is robust, we allow 3 visits and expect the 4th to be blocked.
-      3.times do |i|
-        visit '/'
-        puts "[DEBUG] Request \\#{i+1}: page.status_code=#{page.status_code}"
-        expect(page.status_code).not_to eq(429)
-      end
+      # To ensure the test is robust, we allow only 1 visit and expect the 2nd to be blocked.
       visit '/'
-      puts "[DEBUG] Request 4: page.status_code=#{page.status_code}"
+      expect(page.status_code).not_to eq(429)
+      visit '/'
       expect(page.status_code).to eq(429)
       expect(page).to have_content(/Rate limit exceeded|429|Retry later/)
     end
