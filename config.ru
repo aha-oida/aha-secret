@@ -33,20 +33,6 @@ if ENV.include? 'MEMCACHE'
     ['127.0.0.1', '::1'].include?(req.ip) && ENV['RACK_ENV'] != 'test'
   end
 
-  # Debug: log each request's IP and throttle count
-  Rack::Attack.throttled_response = lambda do |env|
-    req = Rack::Request.new(env)
-    key = "rack::attack:#{req.ip}:requests by ip"
-    count = begin
-      Rack::Attack.cache.store.get(key)
-    rescue StandardError
-      'N/A'
-    end
-    $stdout.puts "[DEBUG] Throttled response for IP: #{req.ip}, count: #{count}"
-    $stdout.flush
-    [429, {}, ['Rate limit exceeded']]
-  end
-
   Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : 64), period: 60) do |req|
     # In test, use REMOTE_ADDR if present, fallback to req.ip
     if ENV['RACK_ENV'] == 'test' && req.env['REMOTE_ADDR']

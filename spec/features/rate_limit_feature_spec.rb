@@ -2,10 +2,6 @@
 
 require 'spec_helper'
 
-# Debugging output for CI environment variables
-puts "[DEBUG] ENV['MEMCACHE']: #{ENV['MEMCACHE']}"
-puts "[DEBUG] ENV['RACK_ENV']: #{ENV['RACK_ENV']}"
-
 if ENV['CI']
   feature 'Rate Limiting', type: :feature, driver: :playwright do
     before(:all) do
@@ -36,19 +32,17 @@ if ENV['CI']
     end
 
     scenario 'rate limit resets after period expiration' do
-      # Use the same REMOTE_ADDR as above so all requests count for the same IP
-      1.times do
-        visit '/'
-        expect(page.status_code).to eq(200)
-      end
+      require 'timecop'
+      visit '/'
+      expect(page.status_code).to eq(200)
       visit '/'
       expect(page.status_code).to eq(429)
 
-      # Wait for the rate limit period to expire
-      sleep 61
-
+      # Travel forward in time to after the rate limit period
+      Timecop.travel(Time.now + 61)
       visit '/'
       expect(page.status_code).to eq(200)
+      Timecop.return
     end
   end
 end
