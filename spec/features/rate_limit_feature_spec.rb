@@ -8,6 +8,13 @@ puts "[DEBUG] ENV['RACK_ENV']: #{ENV['RACK_ENV']}"
 
 if ENV['CI']
   feature 'Rate Limiting', type: :feature, driver: :playwright do
+    before(:all) do
+      Rack::Attack.enabled = true
+    end
+    after(:all) do
+      Rack::Attack.enabled = false
+    end
+
     before(:each) do
       require 'dalli'
       Dalli::Client.new(ENV['MEMCACHE'] || 'localhost:11211', namespace: 'app_v1').flush
