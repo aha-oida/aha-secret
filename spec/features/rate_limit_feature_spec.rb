@@ -2,6 +2,10 @@
 
 require 'spec_helper'
 
+# Debugging output for CI environment variables
+puts "[DEBUG] ENV['MEMCACHE']: #{ENV['MEMCACHE']}"
+puts "[DEBUG] ENV['RACK_ENV']: #{ENV['RACK_ENV']}"
+
 if ENV['CI']
   feature 'Rate Limiting', type: :feature, driver: :playwright do
     before(:each) do
@@ -14,9 +18,11 @@ if ENV['CI']
       # To ensure the test is robust, we allow 3 visits and expect the 4th to be blocked.
       3.times do |i|
         visit '/'
+        puts "[DEBUG] Request \\#{i+1}: page.status_code=#{page.status_code}"
         expect(page.status_code).not_to eq(429)
       end
       visit '/'
+      puts "[DEBUG] Request 4: page.status_code=#{page.status_code}"
       expect(page.status_code).to eq(429)
       expect(page).to have_content(/Rate limit exceeded|429|Retry later/)
     end
