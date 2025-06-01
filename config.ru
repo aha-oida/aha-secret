@@ -48,9 +48,9 @@ if ENV.include? 'MEMCACHE'
   end
 
   Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : 64), period: 60) do |req|
-    # Use custom header for test, fallback to real IP
-    if ENV['RACK_ENV'] == 'test' && req.env['HTTP_X_RATELIMIT_TEST_IP']
-      req.env['HTTP_X_RATELIMIT_TEST_IP']
+    # In test, use REMOTE_ADDR if present, fallback to req.ip
+    if ENV['RACK_ENV'] == 'test' && req.env['REMOTE_ADDR']
+      req.env['REMOTE_ADDR']
     else
       req.ip
     end
