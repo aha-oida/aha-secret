@@ -18,6 +18,8 @@ if ENV['CI']
     before(:each) do
       require 'dalli'
       Dalli::Client.new(ENV['MEMCACHE'] || 'localhost:11211', namespace: 'app_v1').flush
+      # Set custom header so only test requests are counted for rate limiting
+      page.driver.header('X-RateLimit-Test-IP', '1.2.3.4') if page.driver.respond_to?(:header)
     end
 
     scenario 'block after 3 requests from the same IP' do

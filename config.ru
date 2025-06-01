@@ -48,15 +48,12 @@ if ENV.include? 'MEMCACHE'
   end
 
   Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : 64), period: 60) do |req|
-    key = "rack::attack:#{req.ip}:requests by ip"
-    count = begin
-      Rack::Attack.cache.store.get(key)
-    rescue StandardError
-      'N/A'
+    # Use custom header for test, fallback to real IP
+    if ENV['RACK_ENV'] == 'test' && req.env['HTTP_X_RATELIMIT_TEST_IP']
+      req.env['HTTP_X_RATELIMIT_TEST_IP']
+    else
+      req.ip
     end
-    $stdout.puts "[DEBUG] Throttle check for IP: #{req.ip}, count: #{count}"
-    $stdout.flush
-    req.ip
   end
 end
 
