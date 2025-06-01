@@ -90,4 +90,7 @@ end
 
 Capybara.app = app
 
-Rack::Attack.enabled = false
+# Disable Rack::Attack only if not running in CI or the rate limit test
+if ENV['CI'].nil? && ENV['RATE_LIMIT_TEST'].nil?
+  Rack::Attack.enabled = false
+end

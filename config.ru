@@ -42,7 +42,8 @@ if ENV.include? 'MEMCACHE'
     rescue StandardError
       'N/A'
     end
-    puts "[DEBUG] Throttled response for IP: #{req.ip}, count: #{count}"
+    $stdout.puts "[DEBUG] Throttled response for IP: #{req.ip}, count: #{count}"
+    $stdout.flush
     [429, {}, ['Rate limit exceeded']]
   end
 
@@ -53,7 +54,8 @@ if ENV.include? 'MEMCACHE'
     rescue StandardError
       'N/A'
     end
-    puts "[DEBUG] Throttle check for IP: #{req.ip}, count: #{count}"
+    $stdout.puts "[DEBUG] Throttle check for IP: #{req.ip}, count: #{count}"
+    $stdout.flush
     req.ip
   end
 end
