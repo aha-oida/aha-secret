@@ -34,5 +34,21 @@ if ENV['CI']
       expect(page.status_code).to eq(429)
       expect(page).to have_content(/Rate limit exceeded|429|Retry later/)
     end
+
+    scenario 'rate limit resets after period expiration' do
+      # Use the same REMOTE_ADDR as above so all requests count for the same IP
+      1.times do
+        visit '/'
+        expect(page.status_code).to eq(200)
+      end
+      visit '/'
+      expect(page.status_code).to eq(429)
+
+      # Wait for the rate limit period to expire
+      sleep 61
+
+      visit '/'
+      expect(page.status_code).to eq(200)
+    end
   end
 end
