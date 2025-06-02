@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: ac3ff2363b6dfc61d2b438c4dfccc515bc6bf48c
+  revision: 5e1598501eb23a8673d61034df7be7d50c228400
   specs:
     rack-protection (4.1.1)
       base64 (>= 0.1.0)
@@ -54,7 +54,7 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
-    base64 (0.2.0)
+    base64 (0.3.0)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
     brakeman (7.0.2)
@@ -196,7 +196,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.14)
+    rack (3.1.15)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.1)
