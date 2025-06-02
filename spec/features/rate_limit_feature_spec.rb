@@ -44,5 +44,8 @@ if ENV['CI']
       expect(page.status_code).to eq(200)
       Timecop.return
     end
+
+    # TODO - after PR #261 is merged
+    # scenario 'custom rate limit can be set with ENV variable' do
   end
 end

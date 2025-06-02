@@ -75,13 +75,6 @@ RSpec.configure do |config|
     end
   end
 
-  config.before do
-    # Debug Rack::Attack status and cache store
-    if defined?(Rack::Attack)
-      puts "[DEBUG] Rack::Attack.enabled: #{Rack::Attack.enabled? if Rack::Attack.respond_to?(:enabled?)}"
-      puts "[DEBUG] Rack::Attack.cache.store: #{Rack::Attack.cache.store.inspect}"
-    end
-  end
 end
 
 def app
