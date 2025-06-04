@@ -67,19 +67,13 @@ class AppConfig
     end
 
     def memcache_url
-      return ENV['AHA_SECRET_MEMCACHE'] if ENV.key?('AHA_SECRET_MEMCACHE')
-
       load! unless @config
       @config.memcache_url || ENV.fetch('MEMCACHE', nil)
     end
 
     def base_url
-      return ENV['AHA_SECRET_BASE_URL'] if ENV.key?('AHA_SECRET_BASE_URL')
-
       load! unless @config
-      return @config.base_url if @config.base_url
-
-      return @config.url || '/'
+      @config.base_url || '/'
     end
   end
 end
