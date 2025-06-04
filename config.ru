@@ -8,17 +8,17 @@ require 'dalli'
 
 ActiveRecord::Migration.check_all_pending!
 
-if ENV.include? 'MEMCACHE'
+if AppConfig.memcache_url
   use Rack::Attack
   options = { namespace: 'app_v1' }
-  Rack::Attack.cache.store = Dalli::Client.new(ENV.fetch('MEMCACHE'), options)
+  Rack::Attack.cache.store = Dalli::Client.new(AppConfig.memcache_url, options)
 
   Rack::Attack.safelist('allow from localhost') do |req|
     # Requests are allowed if the return value is truthy
-    req.ip == '127.0.0.1' || req.ip == '::1'
+    ['127.0.0.1', '::1'].include?(req.ip)
   end
 
-  Rack::Attack.throttle('requests by ip', limit: 15, period: 1.minutes, &:ip)
+  Rack::Attack.throttle('requests by ip', limit: AppConfig.rate_limit, period: AppConfig.rate_limit_period, &:ip)
 end
 
 use Rack::MethodOverride
@@ -26,9 +26,9 @@ use Rack::Session::Cookie,
     domain: ->(env) { Rack::Request.new(env).host },
     path: '/',
     expire_after: 3600 * 24,
-    secret: ENV.fetch('SESSION_SECRET', SecureRandom.hex(64))
+    secret: AppConfig.session_secret
 use Rack::Protection,
     use: %i[content_security_policy authenticity_token],
-    permitted_origins: ENV.fetch('URL', nil)
+    permitted_origins: AppConfig.permitted_origins
 
 run ApplicationController

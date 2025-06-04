@@ -3,3 +3,6 @@ AllCops:
   Exclude:
     - 'db/**/*'
     - 'spec/**/*'
+
+Style/OpenStructUse:
+  Enabled: false
