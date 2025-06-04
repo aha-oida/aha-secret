@@ -13,6 +13,10 @@ end
 
 ENV['RACK_ENV'] = 'test'
 
+# Ensure MEMCACHE is set for rate limiting in test/CI
+env_memcache = ENV['MEMCACHE'] || 'localhost:11211'
+ENV['MEMCACHE'] = env_memcache
+
 require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'
@@ -70,6 +74,7 @@ RSpec.configure do |config|
       $stdout = original_stdout
     end
   end
+
 end
 
 def app
@@ -78,4 +83,6 @@ end
 
 Capybara.app = app
 
-Rack::Attack.enabled = false
+# Disable Rack::Attack by default in test
+default_attack_enabled = false
+Rack::Attack.enabled = default_attack_enabled

@@ -31,4 +31,24 @@ use Rack::Protection,
     use: %i[content_security_policy authenticity_token],
     permitted_origins: AppConfig.permitted_origins
 
+if ENV.include? 'MEMCACHE'
+  # Minimal working example for IP throttling with Memcached
+  options = { namespace: 'app_v1' }
+  Rack::Attack.cache.store = Dalli::Client.new(ENV.fetch('MEMCACHE'), options)
+
+  # Allow localhost, except in test environment
+  Rack::Attack.safelist('allow from localhost') do |req|
+    ['127.0.0.1', '::1'].include?(req.ip) && ENV['RACK_ENV'] != 'test'
+  end
+
+  Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : 64), period: 60) do |req|
+    # In test, use REMOTE_ADDR if present, fallback to req.ip
+    if ENV['RACK_ENV'] == 'test' && req.env['REMOTE_ADDR']
+      req.env['REMOTE_ADDR']
+    else
+      req.ip
+    end
+  end
+end
+
 run ApplicationController

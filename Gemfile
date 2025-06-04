@@ -38,4 +38,5 @@ group :test do
   gem 'rack-test', '~> 2.2'
   gem 'simplecov'
   gem 'simplecov-lcov'
+  gem 'timecop'
 end
