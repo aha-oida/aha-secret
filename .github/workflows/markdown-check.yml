@@ -9,7 +9,7 @@ on:
       - main
 jobs:
   markdown_files_changed_check:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     outputs:
       changed: ${{ steps.check_markdown_files.outputs.changed }}
     steps:
@@ -26,13 +26,13 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
   check_links:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     needs: markdown_files_changed_check
     if: needs.markdown_files_changed_check.outputs.changed != 'false'
     steps:
     - uses: actions/checkout@v4
     - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
+      uses: useblacksmith/setup-ruby@v2
       with:
         ruby-version: '3.3.7' # Not needed with a .ruby-version file
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
