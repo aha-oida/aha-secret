@@ -17,6 +17,9 @@ ENV['RACK_ENV'] = 'test'
 env_memcache = ENV['MEMCACHE'] || 'localhost:11211'
 ENV['MEMCACHE'] = env_memcache
 
+# Ensure SKIP_SCHEDULER is set to 'true' for all tests to avoid running Rufus::Scheduler
+ENV['SKIP_SCHEDULER'] = 'true'
+
 require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'
