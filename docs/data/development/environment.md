@@ -31,7 +31,7 @@ $ bundle exec rake db:create_migration NAME=[migration_name]
 
 ## Run console
 
-The shellscript skips execution of rufus scheduler.
+The shell script skips execution of Rufus Scheduler.
 
 ```bash
 $ bin/console
