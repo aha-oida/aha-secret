@@ -16,11 +16,57 @@ The following environment variables can be set to configure the application:
 
 | Variable       | Description | Default |
 |----------------|-------------|---------|
-| URL            | Add url as origin | base-url |
-| SESSION_SECRET | Set custom session-secret | random |
-| MEMCACHE       | Set a memcache-server and enable rack-attack | empty(disable rack-attack) |
-| APP_LOCALE     | Set the locale for the application | empty (default is en) |
-| PLAYWRIGHT_HEADLESS | Run e2e tests with playwright headless |
+| AHA_SECRET_BASE_URL | Add url as origin | base-url |
+| AHA_SECRET_SESSION_SECRET | Set custom session-secret | random |
+| AHA_SECRET_MEMCACHE_URL | Set a memcache-server and enable rack-attack | empty (disable rack-attack) |
+| AHA_SECRET_APP_LOCALE | Set the locale for the application | empty (default is en) |
+
+## Complete Environment Variables Reference
+
+The following environment variables can be used to configure **aha-secret**. Most can be set in your shell, `.env` file, or via your deployment platform.
+
+| Variable | Description | Default | Notes |
+|----------|-------------|---------|-------|
+| `AHA_SECRET_BASE_URL` | Add URL as origin | `base-url` | |
+| `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
+| `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | Use `AHA_SECRET_MEMCACHE_URL` instead |
+| `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | Set for production deployments |
+| `SESSION_SECRET` | (Deprecated) Old session secret variable | Random | Use `AHA_SECRET_SESSION_SECRET` instead |
+| `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `10m` | Example: `1h`, `10m` |
+| `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `64` | Used by Rack::Attack |
+| `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | Used by Rack::Attack |
+| `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | |
+| `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `20000` | |
+| `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | |
+| `AHA_SECRET_APP_LOCALE` | Force app locale | `en` | |
+| `APP_LOCALE` | (Deprecated) Old app locale variable | `en` | Use `AHA_SECRET_APP_LOCALE` instead |
+| `RACK_ENV` | Rack environment | `development` | Use `production` for deployment, `test` for tests |
+| `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | Set to `true` in test/CI |
+| `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | Used in test/CI |
+| `CI` | Set automatically in CI | *(none)* | Used to enable CI-specific logic |
+| `SHOW_BROWSER` | Show browser in e2e tests | *(none)* | Set to `true` to see browser window |
+| `PLAYWRIGHT_BROWSER` | Browser for Playwright e2e tests | `chromium` | Can be `firefox`, `webkit` |
+| `undercover_version` | Used in CI for coverage matrix | *(none)* | |
+
+### Deprecated Environment Variables
+
+- `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` are deprecated. Use the `AHA_SECRET_*` equivalents.
+- Deprecated variables are still supported for backward compatibility but will show a warning.
+
+### Precedence and Override Logic
+
+- Environment variables override values in `config/config.yml`.
+- If neither is set, built-in defaults are used.
+- Deprecated ENV vars are mapped to new ones with a warning.
+
+### Test/CI-Specific Variables
+
+- `SKIP_SCHEDULER` is set to `true` in test/CI to disable background jobs.
+- `COVERAGE`, `CI`, `SHOW_BROWSER`, `PLAYWRIGHT_BROWSER`, and `undercover_version` are used for test and CI configuration.
+
+### Disabling Background Jobs
+
+Set `SKIP_SCHEDULER=true` to prevent Rufus::Scheduler from running background jobs (e.g., in test or CI environments).
 
 ## Custom Style
 
