@@ -46,7 +46,7 @@ class ApplicationController < Sinatra::Base
       I18n.locale = ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
     end
 
-    unless defined?(IRB)
+    unless ENV['SKIP_SCHEDULER'] == 'true'
       Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
         Bin.cleanup
       end
