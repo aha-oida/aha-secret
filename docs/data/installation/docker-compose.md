@@ -12,7 +12,7 @@ The easiest way is to start this application using [docker-compose]. It will not
 First download docker-compose:
 
 ```bash
-$ wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.yml
+wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.yml
 ```
 
 Next create a .env-file use setting for your installation:
@@ -26,7 +26,7 @@ MEMCACHE=memcached:11211
 Finally start the containers:
 
 ```bash
-$ docker-compose up -d
+docker-compose up -d
 ```
 
 {: .warning }

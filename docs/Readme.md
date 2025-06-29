@@ -10,7 +10,7 @@ See the [Configuration](/configuration/) page for a complete list and details.
 
 **Example:**
 
-```env
+```bash
 AHA_SECRET_BASE_URL=http://localhost
 AHA_SECRET_MEMCACHE_URL=localhost:11211
 AHA_SECRET_SESSION_SECRET=your-secret

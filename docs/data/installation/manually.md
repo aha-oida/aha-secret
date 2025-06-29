@@ -80,7 +80,7 @@ bundle exec rake db:migrate
 Run application with german translation:
 
 ```bash
-$ APP_LOCALE=de bundle exec rerun rackup
+APP_LOCALE=de bundle exec rerun rackup
 ```
 
 ----
