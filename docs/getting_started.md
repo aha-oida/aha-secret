@@ -34,7 +34,7 @@ AHA_SECRET_SESSION_SECRET=your-secret
 
 > **Deprecated:** `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` (use the new `AHA_SECRET_*` variables instead).
 
-For a full list of optional and advanced environment variables, see the [Complete Environment Variables Reference](/configuration/#complete-environment-variables-reference).
+For a full list of optional and advanced environment variables, see the [Complete Environment Variables Reference]({{ site.baseurl }}/configuration/#complete-environment-variables-reference).
 
 Now startup [aha-secret] using [docker-compose]:
 
