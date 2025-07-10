@@ -45,7 +45,7 @@ docker compose up -d
 You can finally access aha-secret locally with the url: `http://localhost:9292`.
 
 {: .warning }
-> This installation is just for demo. For production deployment it is highly recommended to use encryption and a reverse proxy. See the [reverse proxy example in the configuration documentation](/configuration/#reverse-proxy).
+> This installation is just for demo. For production deployment it is highly recommended to use encryption and a reverse proxy. See the [reverse proxy example in the configuration documentation]({{ site.baseurl }}/configuration/#reverse-proxy).
 
 ----
 
