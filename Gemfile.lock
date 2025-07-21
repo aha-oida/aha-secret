@@ -57,7 +57,7 @@ GEM
     base64 (0.3.0)
     benchmark (0.4.1)
     bigdecimal (3.2.2)
-    brakeman (7.0.2)
+    brakeman (7.1.0)
       racc
     builder (3.3.0)
     capybara (3.40.0)
@@ -326,7 +326,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 8.0.2)
-  brakeman (~> 7.0.2)
+  brakeman (~> 7.1.0)
   capybara (~> 3.40.0)
   capybara-playwright-driver
   dalli (>= 3.2)
