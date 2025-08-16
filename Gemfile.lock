@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: 5e1598501eb23a8673d61034df7be7d50c228400
+  revision: fa99a21461d4f1f5337b9b9d7a38a1b51c8f4e55
   specs:
     rack-protection (4.1.1)
       base64 (>= 0.1.0)
@@ -148,8 +148,8 @@ GEM
     mime-types-data (3.2025.0603)
     mini_mime (1.1.5)
     minitest (5.25.5)
-    multi_json (1.15.0)
-    mustermann (3.0.3)
+    multi_json (1.17.0)
+    mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.7.4)
     nokogiri (1.18.9-aarch64-linux-gnu)
@@ -191,7 +191,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.16)
+    rack (3.2.0)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.1)
@@ -300,7 +300,7 @@ GEM
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.4.0)
-    tilt (2.6.0)
+    tilt (2.6.1)
     timecop (0.9.10)
     timeout (0.4.3)
     tzinfo (2.0.6)
