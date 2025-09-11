@@ -11,7 +11,7 @@ feature 'Create Bin', type: :feature, js: true do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    secret_url = find_by_id('secret-url', visible: true).value
+    secret_url = find('#secret-url', visible: true).value
     expect(secret_url).to include '/bins/'
   end
 
@@ -19,7 +19,7 @@ feature 'Create Bin', type: :feature, js: true do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    secret_url = find_by_id('secret-url', visible: true).value
+    secret_url = find('#secret-url', visible: true).value
     visit secret_url + 'wrong'
 
     click_button 'Reveal'
