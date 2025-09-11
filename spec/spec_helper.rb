@@ -25,7 +25,7 @@ require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'database_cleaner'
-require 'capybara-screenshot/rspec'
+# require 'capybara-screenshot/rspec'
 require 'capybara/cuprite'
 
 ActiveRecord::Base.logger = nil
@@ -87,8 +87,8 @@ end
 
 # fix Capybara::Screenshot path with sinatra
 # see https://github.com/mattheworiordan/capybara-screenshot/issues/177#issuecomment-264787232
-root = File.expand_path(File.join(File.dirname(__FILE__), "../tmp"))
-Capybara::Screenshot.instance_variable_set :@capybara_root, root
+# root = File.expand_path(File.join(File.dirname(__FILE__), "../tmp"))
+# Capybara::Screenshot.instance_variable_set :@capybara_root, root
 
 def app
   Rack::Builder.parse_file('config.ru')
