@@ -32,7 +32,6 @@ feature 'Create Bin', type: :feature, js: true do
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
-
     click_button 'Reveal'
     decrypted_secret = find('#dec-msg').value
     expect(decrypted_secret).to eq 'Hello, World!'
@@ -41,17 +40,14 @@ feature 'Create Bin', type: :feature, js: true do
   scenario 'User creates a bin and reveals with wrong password' do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
-    check 'Set additional password'
+    page.execute_script("document.getElementById('has_password').click()")
+    # Wait for password field to appear and be visible
+    expect(page).to have_field('add-password', visible: true)
     fill_in 'add-password', with: 'asdf'
-    # make a screenshot to debug why the next step fails in CI but not locally
-    screenshot_and_open_image
     send_keys :tab
-
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
-
-    puts page.html
     fill_in 'passwd', with: 'wrong'
     send_keys :tab
     click_button 'Unlock'
@@ -61,14 +57,14 @@ feature 'Create Bin', type: :feature, js: true do
   scenario 'User creates and reveals a bin with password' do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
-    check 'Set additional password'
+    page.execute_script("document.getElementById('has_password').click()")
+    # Wait for password field to appear and be visible
+    expect(page).to have_field('add-password', visible: true)
     fill_in 'add-password', with: 'asdf'
     send_keys :tab
-
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
-
     fill_in 'passwd', with: 'asdf'
     send_keys :tab
     click_button 'Unlock'
