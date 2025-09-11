@@ -32,7 +32,9 @@ end
 
 group :test do
   gem 'capybara', '~> 3.40.0'
-  gem 'capybara-playwright-driver'
+  # gem 'capybara-playwright-driver'
+  gem 'capybara-screenshot'
+  gem 'cuprite'
   gem 'database_cleaner', '~> 2.1.0'
   gem 'faker', '~> 3.5.2'
   gem 'rack-test', '~> 2.2'

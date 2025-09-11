@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 if ENV['CI']
-  feature 'Rate Limiting', type: :feature, driver: :playwright do
+  feature 'Rate Limiting', type: :feature do
     before(:all) do
       Rack::Attack.enabled = true
     end

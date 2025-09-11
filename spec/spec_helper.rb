@@ -25,7 +25,10 @@ require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'database_cleaner'
-require 'capybara-playwright-driver'
+require 'capybara-screenshot/rspec'
+require 'capybara/cuprite'
+# require 'capybara-playwright-driver'
+
 
 
 ActiveRecord::Base.logger = nil
@@ -52,17 +55,33 @@ RSpec.configure do |config|
 
   # config.order = 'default'
 
-  Capybara.register_driver(:playwright) do |app|
-    Capybara::Playwright::Driver.new(app,
-    # browser_type: ENV["PLAYWRIGHT_BROWSER"]&.to_sym || :chromium,
-    browser_type: :chromium,
-    headless: true)
+  Capybara.javascript_driver = :cuprite
+  Capybara.default_max_wait_time = 5
+  Capybara.disable_animation = true
+  Capybara.register_driver(:cuprite) do |app|
+    Capybara::Cuprite::Driver.new(app,
+      js_errors: true,
+      window_size: [1200, 800],
+      browser_options: {},
+      headless: (ENV['SHOW_BROWSER'] ? false : true),
+      # headless: true,
+      timeout: 15,
+      # inspector: true
+    )
   end
-  Capybara.default_max_wait_time = 15
-  Capybara.default_driver = :playwright
+
+  config.filter_gems_from_backtrace("capybara", "cuprite", "ferrum")
+  # Capybara.register_driver(:playwright) do |app|
+  #   Capybara::Playwright::Driver.new(app,
+  #   # browser_type: ENV["PLAYWRIGHT_BROWSER"]&.to_sym || :chromium,
+  #   browser_type: :chromium,
+  #   headless: true)
+  # end
+  # Capybara.default_max_wait_time = 15
+  # Capybara.default_driver = :playwright
   Capybara.save_path = 'tmp/capybara'
 
-  Capybara.current_driver = :playwright
+  # Capybara.current_driver = :playwright
 
   unless ENV['SHOW_BROWSER']
     original_stderr = $stderr
@@ -79,6 +98,11 @@ RSpec.configure do |config|
   end
 
 end
+
+# fix Capybara::Screenshot path with sinatra
+# see https://github.com/mattheworiordan/capybara-screenshot/issues/177#issuecomment-264787232
+root = File.expand_path(File.join(File.dirname(__FILE__), "../tmp"))
+Capybara::Screenshot.instance_variable_set :@capybara_root, root
 
 def app
   Rack::Builder.parse_file('config.ru')

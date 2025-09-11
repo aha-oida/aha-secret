@@ -1,4 +1,4 @@
-feature 'Create Bin', type: :feature, driver: :playwright do
+feature 'Create Bin', type: :feature, js: true do
   scenario 'User creates a bin that is exact max size chars' do
     visit '/'
     fill_in 'bin[payload]', with: SecureRandom.alphanumeric(AppConfig.max_msg_length)
@@ -19,7 +19,7 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    secret_url = find('#secret-url').value
+    secret_url = find_by_id('secret-url', visible: true).value
     visit secret_url + 'wrong'
 
     click_button 'Reveal'
@@ -43,12 +43,15 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     fill_in 'bin[payload]', with: 'Hello, World!'
     check 'Set additional password'
     fill_in 'add-password', with: 'asdf'
+    # make a screenshot to debug why the next step fails in CI but not locally
+    screenshot_and_open_image
     send_keys :tab
 
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
 
+    puts page.html
     fill_in 'passwd', with: 'wrong'
     send_keys :tab
     click_button 'Unlock'
