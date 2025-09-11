@@ -50,22 +50,6 @@ jobs:
           sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
       - name: Run brakeman
         run: bundle exec brakeman
-      - name: setup playwright
-        run: bin/playwright_setup
-      - name: Cache Playwright headless browser
-        id: playwright-cache
-        uses: useblacksmith/cache@v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install Playwright headless browser (with deps)
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn run playwright install --with-deps chromium-headless-shell
-
-      - name: Install Playwright headless browser deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: yarn run playwright install-deps chromium-headless-shell
       - name: Run tests with coverage
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:

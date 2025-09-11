@@ -27,9 +27,6 @@ require 'capybara/dsl'
 require 'database_cleaner'
 require 'capybara-screenshot/rspec'
 require 'capybara/cuprite'
-# require 'capybara-playwright-driver'
-
-
 
 ActiveRecord::Base.logger = nil
 
@@ -71,17 +68,6 @@ RSpec.configure do |config|
   end
 
   config.filter_gems_from_backtrace("capybara", "cuprite", "ferrum")
-  # Capybara.register_driver(:playwright) do |app|
-  #   Capybara::Playwright::Driver.new(app,
-  #   # browser_type: ENV["PLAYWRIGHT_BROWSER"]&.to_sym || :chromium,
-  #   browser_type: :chromium,
-  #   headless: true)
-  # end
-  # Capybara.default_max_wait_time = 15
-  # Capybara.default_driver = :playwright
-  Capybara.save_path = 'tmp/capybara'
-
-  # Capybara.current_driver = :playwright
 
   unless ENV['SHOW_BROWSER']
     original_stderr = $stderr

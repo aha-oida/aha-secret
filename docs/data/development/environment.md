@@ -39,13 +39,6 @@ bin/console
 
 ## Run specs
 
-To run the (feature) tests you need to have playwright installed.
-Run
-```bash
-bin/playwright_setup
-```
-to install
-
 ```bash
 RACK_ENV=test bundle exec rake db:migrate
 bundle exec rspec
@@ -80,7 +73,6 @@ The application uses environment variables for configuration. For development an
 | `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | Used in test/CI |
 | `CI` | Set automatically in CI | *(none)* | Used to enable CI-specific logic |
 | `SHOW_BROWSER` | Show browser in e2e tests | *(none)* | Set to `true` to see browser window |
-| `PLAYWRIGHT_BROWSER` | Browser for Playwright e2e tests | `chromium` | Can be `firefox`, `webkit` |
 | `undercover_version` | Used in CI for coverage matrix | *(none)* | |
 
 **Deprecated:** `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` (use the new `AHA_SECRET_*` variables instead).
