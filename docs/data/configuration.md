@@ -45,7 +45,6 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | Used in test/CI |
 | `CI` | Set automatically in CI | *(none)* | Used to enable CI-specific logic |
 | `SHOW_BROWSER` | Show browser in e2e tests | *(none)* | Set to `true` to see browser window |
-| `PLAYWRIGHT_BROWSER` | Browser for Playwright e2e tests | `chromium` | Can be `firefox`, `webkit` |
 | `undercover_version` | Used in CI for coverage matrix | *(none)* | |
 
 ### Deprecated Environment Variables
@@ -62,7 +61,7 @@ The following environment variables can be used to configure **aha-secret**. Mos
 ### Test/CI-Specific Variables
 
 - `SKIP_SCHEDULER` is set to `true` in test/CI to disable background jobs.
-- `COVERAGE`, `CI`, `SHOW_BROWSER`, `PLAYWRIGHT_BROWSER`, and `undercover_version` are used for test and CI configuration.
+- `COVERAGE`, `CI`, `SHOW_BROWSER` and `undercover_version` are used for test and CI configuration.
 
 ### Disabling Background Jobs
 

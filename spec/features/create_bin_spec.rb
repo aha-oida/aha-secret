@@ -1,4 +1,4 @@
-feature 'Create Bin', type: :feature, driver: :playwright do
+feature 'Create Bin', type: :feature, js: true do
   scenario 'User creates a bin that is exact max size chars' do
     visit '/'
     fill_in 'bin[payload]', with: SecureRandom.alphanumeric(AppConfig.max_msg_length)
@@ -11,7 +11,7 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    secret_url = find_by_id('secret-url', visible: true).value
+    secret_url = find('#secret-url', visible: true).value
     expect(secret_url).to include '/bins/'
   end
 
@@ -19,7 +19,7 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
     click_button 'Create Secret'
-    secret_url = find('#secret-url').value
+    secret_url = find('#secret-url', visible: true).value
     visit secret_url + 'wrong'
 
     click_button 'Reveal'
@@ -32,7 +32,6 @@ feature 'Create Bin', type: :feature, driver: :playwright do
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
-
     click_button 'Reveal'
     decrypted_secret = find('#dec-msg').value
     expect(decrypted_secret).to eq 'Hello, World!'
@@ -41,14 +40,14 @@ feature 'Create Bin', type: :feature, driver: :playwright do
   scenario 'User creates a bin and reveals with wrong password' do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
-    check 'Set additional password'
+    page.execute_script("document.getElementById('has_password').click()")
+    # Wait for password field to appear and be visible
+    expect(page).to have_field('add-password', visible: true)
     fill_in 'add-password', with: 'asdf'
     send_keys :tab
-
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
-
     fill_in 'passwd', with: 'wrong'
     send_keys :tab
     click_button 'Unlock'
@@ -58,14 +57,14 @@ feature 'Create Bin', type: :feature, driver: :playwright do
   scenario 'User creates and reveals a bin with password' do
     visit '/'
     fill_in 'bin[payload]', with: 'Hello, World!'
-    check 'Set additional password'
+    page.execute_script("document.getElementById('has_password').click()")
+    # Wait for password field to appear and be visible
+    expect(page).to have_field('add-password', visible: true)
     fill_in 'add-password', with: 'asdf'
     send_keys :tab
-
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
-
     fill_in 'passwd', with: 'asdf'
     send_keys :tab
     click_button 'Unlock'
