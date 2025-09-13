@@ -71,7 +71,13 @@ WantedBy=multi-user.target
 
 # Run aha-secret manually
 
-First run a database-migration:
+First install all dependencies:
+
+```bash
+bundle install
+```
+
+Next run a database-migration:
 
 ```bash
 bundle exec rake db:migrate

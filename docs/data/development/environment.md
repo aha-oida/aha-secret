@@ -66,10 +66,8 @@ The application uses environment variables for configuration. For a full list of
 ### Example `.env` for development
 
 ```bash
-AHA_SECRET_BASE_URL=http://localhost
-AHA_SECRET_PERMITTED_ORIGINS=http://localhost
+RACK_ENV=development
 SKIP_SCHEDULER=true
-AHA_SECRET_MEMCACHE_URL=localhost:11211
 ```
 
 - For tests, `SKIP_SCHEDULER=true` is set automatically to avoid running background jobs.
