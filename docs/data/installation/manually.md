@@ -77,6 +77,11 @@ First install all dependencies:
 bundle install
 ```
 
+{: .note-title }
+> SQLITE3 NEEDED
+>
+> Please make sure that sqlite3 is installed
+
 Next run a database-migration:
 
 ```bash
