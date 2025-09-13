@@ -25,8 +25,9 @@ wget https://raw.githubusercontent.com/aha-oida/aha-secret/main/docker-compose.y
 Create the file `.env` with the following content (recommended for new setups):
 
 ```bash
-AHA_SECRET_BASE_URL=http://localhost
+AHA_SECRET_PERMITTED_ORIGINS=http://localhost
 AHA_SECRET_SESSION_SECRET=your-secret
+AHA_SECRET_MEMCACHE_URL=memcached:11211
 ```
 
 - For tests, `SKIP_SCHEDULER=true` is set automatically to avoid running background jobs.
