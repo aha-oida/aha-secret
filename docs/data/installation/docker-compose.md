@@ -19,8 +19,9 @@ Next create a .env-file use setting for your installation:
 
 ```bash
 RACK_ENV=production
-URL=https://please.change.me.now
-MEMCACHE=memcached:11211
+AHA_SECRET_PERMITTED_ORIGINS=http://localhost
+AHA_SECRET_MEMCACHE_URL=memcached:11211
+
 ```
 
 Finally start the containers:
@@ -49,8 +50,8 @@ services:
       - "9292:9292"
     #  environment:
        #      RACK_ENV: production
-       #      # URL: "https://please.change.me.now"
-       #      MEMCACHE: "memcached:11211"
+       #      AHA_SECRET_PERMITTED_ORIGINS=http://localhost
+       #      AHA_SECRET_MEMCACHE_URL=memcached:11211
     env_file: .env
     depends_on:
       - memcached
