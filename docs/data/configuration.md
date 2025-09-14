@@ -12,11 +12,14 @@ It is possible to configure [aha-secret] by setting environment variables.
 
 ## Environment Variables
 
+The application is configured using environment variables. Use the new AHA_SECRET_* variables for all new deployments. Deprecated variables are supported for backward compatibility but should be avoided.
+
 The following environment variables can be set to configure the application:
 
 | Variable       | Description | Default |
 |----------------|-------------|---------|
-| AHA_SECRET_BASE_URL | Add url as origin | base-url |
+| AHA_SECRET_BASE_URL | Set base-url of Website. (default: /) | base-url |
+| AHA_SECRET_PERMITTED_ORIGINS | CORS/CSRF allowed origins | *(none)* |
 | AHA_SECRET_SESSION_SECRET | Set custom session-secret | random |
 | AHA_SECRET_MEMCACHE_URL | Set a memcache-server and enable rack-attack | empty (disable rack-attack) |
 | AHA_SECRET_APP_LOCALE | Set the locale for the application | empty (default is en) |
@@ -27,7 +30,7 @@ The following environment variables can be used to configure **aha-secret**. Mos
 
 | Variable | Description | Default | Notes |
 |----------|-------------|---------|-------|
-| `AHA_SECRET_BASE_URL` | Add URL as origin | `base-url` | |
+| `AHA_SECRET_BASE_URL` | Set base-url of Website. (default: /) | `base-url` | |
 | `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
 | `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | Use `AHA_SECRET_MEMCACHE_URL` instead |
 | `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | Set for production deployments |

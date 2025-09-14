@@ -61,7 +61,7 @@ jobs:
         run: bundle exec rspec
       # only upload coverage once
       - name: undercover
-        if: ${{ matrix.ruby-version == env.undercover_version }}
+        if: ${{ matrix.ruby-version == env.undercover_version && github.ref_name == 'main' }}
         run: |
           ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
             --repo ${{ github.repository }} \

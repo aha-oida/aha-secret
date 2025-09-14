@@ -55,6 +55,8 @@ bundle exec jekyll server
 > Please note that you have to undo the changes in _`_config.yml` before pushing
 to the repository.
 
+Instead of manually changing `_config.yml` and switching back, you can also run the script `bin/run_local`.
+
 ----
 [Jekyll]: https://jekyllrb.com/docs/
 [just-the-docs theme]: https://just-the-docs.github.io/just-the-docs/
