@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 if ENV['CI']
-  feature 'Rate Limiting', type: :feature, driver: :playwright do
+  feature 'Rate Limiting', type: :feature, js: true do
     before(:all) do
       Rack::Attack.enabled = true
     end
@@ -16,8 +16,8 @@ if ENV['CI']
       Dalli::Client.new(ENV['MEMCACHE'] || 'localhost:11211', namespace: 'app_v1').flush
       # Set REMOTE_ADDR for all requests in this scenario (works for all requests, including assets)
       if page.driver.respond_to?(:browser)
-        # Playwright: set extra HTTP headers for all requests
-        page.driver.browser.context.set_extra_http_headers('REMOTE_ADDR' => '1.2.3.4')
+        # cuprite: set extra HTTP headers for all requests
+        page.driver.add_headers('REMOTE_ADDR' => '1.2.3.4')
       end
     end
 
