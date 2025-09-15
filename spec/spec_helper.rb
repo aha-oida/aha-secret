@@ -28,6 +28,8 @@ require 'database_cleaner'
 # require 'capybara-screenshot/rspec'
 require 'capybara/cuprite'
 
+puts "Running with cuprite driver"
+
 ActiveRecord::Base.logger = nil
 
 class CapybaraNullDriver < Capybara::Driver::Base
