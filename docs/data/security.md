@@ -9,8 +9,7 @@ layout: default
 # Security
 
 As the following dataflow diagram shows, aha-secret has a very minimalistic design with just two forms. One for encryption and the other for decryption.
-A built-in ratelimit protects against misuse as a data storage and prevents enumeration or brute-force attacks. The developers try to minimize the
-dependencies to keep the chances for supply-chain-attacks as low as possible.
+A built-in ratelimit protects against misuse as a data storage and prevents enumeration or brute-force attacks. The developers try to minimize the dependencies to keep the chances for supply-chain-attacks as low as possible.
 
 ![Threat-Model Diagram]({{ 'data/threat-model/tm-diagram.png' | relative_url}} "Dataflow diagram")
 
