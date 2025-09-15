@@ -39,6 +39,14 @@ bin/console
 
 ## Run specs
 
+### End-to-End (E2E) Test Requirements
+
+To run the E2E (feature) tests locally, you must have a Chrome or Chromium browser installed and available in your system's PATH. The test suite uses Capybara with the Cuprite driver, which launches a real browser for JavaScript-enabled tests (headless in default mode, use `SHOW_BROWSER=1` to run feature tests with UI).
+
+**CI runners** must also use an image that includes a Chrome or Chromium executable. If the browser is not available, E2E tests will fail to start.
+
+If you encounter errors about missing browser executables, install Chrome/Chromium or update your CI image accordingly.
+
 ```bash
 RACK_ENV=test bundle exec rake db:migrate
 bundle exec rspec
