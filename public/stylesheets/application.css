@@ -23,17 +23,13 @@
 	padding: 5pt 5pt 5pt 5pt;
 	border-bottom-style: outset;
 	margin-bottom: 10pt;
-}
-
-#header-top {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	flex-wrap: wrap;
+	position: relative;
 }
 
 #language-selector {
-	margin-left: auto;
+	position: absolute;
+	top: 5pt;
+	right: 5pt;
 }
 
 #language-select {
