@@ -75,6 +75,37 @@ describe ApplicationController do
     expect(last_response.status).to eq(422)
   end
 
+  describe 'locale handling' do
+    it 'uses default locale when no cookie or session is set' do
+      get '/'
+      expect(I18n.locale).to eq(:en)
+    end
+
+    it 'uses locale from cookie when set' do
+      header 'Cookie', 'locale=de'
+      get '/'
+      expect(I18n.locale).to eq(:de)
+    end
+
+    it 'falls back to default locale for invalid cookie value' do
+      header 'Cookie', 'locale=invalid'
+      get '/'
+      expect(I18n.locale).to eq(:en)
+    end
+
+    it 'supports German locale' do
+      header 'Cookie', 'locale=de'
+      get '/'
+      expect(last_response.body).to include('Verschlüssle deine Nachricht')
+    end
+
+    it 'supports English locale' do
+      header 'Cookie', 'locale=en'
+      get '/'
+      expect(last_response.body).to include('Encrypt your message')
+    end
+  end
+
   it 'cleans up expired bins' do
     bin = Bin.create(payload: 'Hello, World!', expire_date: Time.now - 1)
     expect(Bin.count).to eq(1)

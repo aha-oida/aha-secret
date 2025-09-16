@@ -25,6 +25,38 @@
 	margin-bottom: 10pt;
 }
 
+#header-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+#language-selector {
+	margin-left: auto;
+}
+
+#language-select {
+	background-color: #f8f9fa;
+	border: 1px solid #dee2e6;
+	border-radius: 0.375rem;
+	padding: 0.375rem 0.75rem;
+	font-size: 0.875rem;
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
+	color: #495057;
+	cursor: pointer;
+}
+
+#language-select:hover {
+	background-color: #e9ecef;
+}
+
+#language-select:focus {
+	outline: none;
+	border-color: #336699;
+	box-shadow: 0 0 0 0.2rem rgba(51, 102, 153, 0.25);
+}
+
 
 #lock {
 	fill: #336699;
