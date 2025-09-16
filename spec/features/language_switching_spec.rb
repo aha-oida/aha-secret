@@ -26,9 +26,11 @@ RSpec.describe 'Language Switching Feature', type: :feature do
     end
   end
 
-  describe 'language switching via cookie' do
+  describe 'language switching via cookie', js: true do
     it 'shows German content when locale cookie is set to de' do
-      page.driver.browser.manage.add_cookie(name: 'locale', value: 'de')
+      # Set cookie using JavaScript to simulate browser behavior
+      visit '/'
+      page.execute_script('document.cookie = "locale=de; path=/; max-age=31536000"')
       visit '/'
       expect(page).to have_content('Verschlüssle deine Nachricht, speichere sie verschlüsselt und teile einen Link')
       expect(page).to have_content('Erstelle Nachricht')
@@ -37,7 +39,8 @@ RSpec.describe 'Language Switching Feature', type: :feature do
 
     it 'preserves language selection across page reloads' do
       # First set German via cookie and verify
-      page.driver.browser.manage.add_cookie(name: 'locale', value: 'de')
+      visit '/'
+      page.execute_script('document.cookie = "locale=de; path=/; max-age=31536000"')
       visit '/'
       expect(page).to have_content('Verschlüssle deine Nachricht')
       
@@ -47,7 +50,8 @@ RSpec.describe 'Language Switching Feature', type: :feature do
     end
 
     it 'falls back to English for invalid locale cookie' do
-      page.driver.browser.manage.add_cookie(name: 'locale', value: 'invalid')
+      visit '/'
+      page.execute_script('document.cookie = "locale=invalid; path=/; max-age=31536000"')
       visit '/'
       expect(page).to have_content('Encrypt your message, store it encrypted and share a link')
       expect(page).to have_content('Create Secret')

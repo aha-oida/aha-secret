@@ -44,14 +44,7 @@ class ApplicationController < Sinatra::Base
     before do
       @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
       # Set locale from cookie, session, or fall back to config default
-      locale = nil
-      if request.cookies && request.cookies['locale']
-        locale = request.cookies['locale']
-      elsif session[:locale]
-        locale = session[:locale]
-      else
-        locale = ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
-      end
+      locale = request.cookies['locale'] || session[:locale] || ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
       
       # Validate the locale is supported
       if locale && I18n.available_locales.include?(locale.to_sym)
