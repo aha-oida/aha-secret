@@ -28,7 +28,7 @@
     <div id="logo"></div>
     <div id="titlebar">
       <div id="language-selector">
-        <select id="language-select" onchange="changeLanguage(this.value)">
+        <select id="language-select">
           <option value="en" <%= 'selected' if I18n.locale.to_s == 'en' %>>🇬🇧 English</option>
           <option value="de" <%= 'selected' if I18n.locale.to_s == 'de' %>>🇩🇪 Deutsch</option>
         </select>
@@ -50,13 +50,6 @@
       <%= yield %>
     </div>
     <script src="<%= javascript_path 'application' %>"></script>
-    <script>
-      function changeLanguage(locale) {
-        // Set the language in a cookie and reload the page
-        document.cookie = `locale=${locale}; path=/; max-age=31536000`; // 1 year
-        window.location.reload();
-      }
-    </script>
     <footer id="footer">
       <%= footer_content(custom:AppConfig.custom['footer'], content: AppConfig.custom['footer_string']) %>
     </footer>

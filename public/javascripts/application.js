@@ -19,6 +19,12 @@ function resetAlert(){
 	alertbox.style.display = "none";
 }
 
+function changeLanguage(locale) {
+	// Set the language in a cookie and reload the page
+	document.cookie = `locale=${locale}; path=/; max-age=31536000`; // 1 year
+	window.location.reload();
+}
+
 function showMessageContent() {
         const element = document.getElementById("reveal-content");
         element.remove();
@@ -120,6 +126,9 @@ document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
 document.getElementById("revealpwbutton")?.addEventListener("click", revealpw);
 document.getElementById("message")?.addEventListener("focus", resetAlert);
+document.getElementById("language-select")?.addEventListener("change", function(event) {
+	changeLanguage(event.target.value);
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   let passwordField = document.getElementById("passwd");
