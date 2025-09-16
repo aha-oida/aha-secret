@@ -51,7 +51,10 @@ class ApplicationController < Sinatra::Base
         I18n.locale = locale.to_sym
         session[:locale] = locale
       else
-        I18n.locale = ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
+        # Fallback to a working default
+        default_locale = AppConfig.default_locale || 'en'
+        I18n.locale = default_locale.to_sym
+        session[:locale] = default_locale
       end
     end
 
