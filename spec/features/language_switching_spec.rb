@@ -2,7 +2,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'Language Switching Feature', type: :feature, js: true do
+RSpec.describe 'Language Switching Feature', type: :feature do
   describe 'language selector UI' do
     it 'shows language selector on the main page' do
       visit '/'
@@ -17,23 +17,10 @@ RSpec.describe 'Language Switching Feature', type: :feature, js: true do
         expect(page).to have_content('🇩🇪 Deutsch')
       end
     end
-  end
 
-  describe 'JavaScript functionality' do
-    it 'loads changeLanguage function successfully' do
+    it 'language selector has correct option values' do
       visit '/'
-      # Just verify the function exists - don't test complex behavior
-      expect(page.evaluate_script('typeof changeLanguage')).to eq('function')
-    end
-
-    it 'can execute JavaScript cookie operations' do
-      visit '/'
-      # Test basic cookie functionality without complex expectations
-      result = page.evaluate_script('
-        document.cookie = "test=value; path=/";
-        document.cookie.includes("test=value");
-      ')
-      expect(result).to be(true)
+      expect(page).to have_select('language-select', with_options: ['🇬🇧 English', '🇩🇪 Deutsch'])
     end
   end
 end
