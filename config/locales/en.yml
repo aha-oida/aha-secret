@@ -29,7 +29,6 @@ en:
   error_msg: This entry was not found. Maybe the retention time has already expired
   hour: hour
   hours: hours
-  language_name: English
   minutes: minutes
   open_source: is free open source software
   pastelimit_exceeded: Pasting this content exceeds the maximum allowed characters
