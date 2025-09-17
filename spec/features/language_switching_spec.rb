@@ -13,14 +13,14 @@ RSpec.describe 'Language Switching Feature', type: :feature do
     it 'displays correct language options' do
       visit '/'
       within '#language-select' do
-        expect(page).to have_content('🇬🇧 English')
-        expect(page).to have_content('🇩🇪 Deutsch')
+        expect(page).to have_content('en')
+        expect(page).to have_content('de')
       end
     end
 
     it 'language selector has correct option values' do
       visit '/'
-      expect(page).to have_select('language-select', with_options: ['🇬🇧 English', '🇩🇪 Deutsch'])
+      expect(page).to have_select('language-select', with_options: ['en', 'de'])
     end
   end
 end
