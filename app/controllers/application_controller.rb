@@ -40,28 +40,31 @@ class ApplicationController < Sinatra::Base
       # expand = true, digest = false, manifest = false
       config.debug       = true if development?
     end
+  end
 
-    before do
-      @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
-      # Set locale with priority: cookie > session > browser > config > default
-      locale = request.cookies['locale'] || session[:locale] || browser_locale || ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
-      
-      # Validate the locale is supported
-      if locale && I18n.available_locales.include?(locale.to_sym)
-        I18n.locale = locale.to_sym
-        session[:locale] = locale
-      else
-        # Fallback to a working default
-        default_locale = AppConfig.default_locale || 'en'
-        I18n.locale = default_locale.to_sym
-        session[:locale] = default_locale
-      end
-    end
+  before do
+    @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
+    # Set locale with priority: cookie > session > browser > config > default
+    locale_chain = [
+      request.cookies['locale'],
+      session[:locale],
+      browser_locale(request),
+      ENV.fetch('APP_LOCALE', nil),
+      AppConfig.default_locale,
+      I18n.default_locale
+    ].compact
 
-    unless ENV['SKIP_SCHEDULER'] == 'true'
-      Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
-        Bin.cleanup
-      end
+    valid_locale = locale_chain.map(&:to_s).map(&:downcase).find do |loc|
+      I18n.available_locales.map(&:to_s).include?(loc)
+    end || 'en'
+
+    I18n.locale = valid_locale.to_sym
+    session[:locale] = valid_locale
+  end
+
+  unless ENV['SKIP_SCHEDULER'] == 'true'
+    Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
+      Bin.cleanup
     end
   end
 
@@ -108,24 +111,6 @@ class ApplicationController < Sinatra::Base
     json({ payload:, has_password: })
   end
 
-  private
-
-  def browser_locale
-    # Extract browser locale from Accept-Language header
-    return unless request.env['HTTP_ACCEPT_LANGUAGE']
-    
-    # Parse Accept-Language header and find first supported locale
-    request.env['HTTP_ACCEPT_LANGUAGE'].split(',').each do |lang|
-      # Extract just the language code (e.g., 'en-US' -> 'en', 'de' -> 'de')
-      locale_code = lang.split(';').first.split('-').first.strip.downcase
-      
-      # Return if it's a supported locale
-      return locale_code if I18n.available_locales.include?(locale_code.to_sym)
-    end
-    
-    nil
-  end
-
   def bin_params
     allowed_keys = %w[payload has_password]
     params['bin'].slice(*allowed_keys)
@@ -134,5 +119,9 @@ class ApplicationController < Sinatra::Base
   helpers do
     include Sprockets::Helpers
     include Helpers
+    # this would be needed if browser_locale would be called without request context
+    # def browser_locale(request)
+    #   super(request)
+    # end
   end
 end

@@ -2,6 +2,16 @@
 
 # Application Controller helper methods
 module Helpers
+  def browser_locale(request)
+    header = request&.env&.fetch('HTTP_ACCEPT_LANGUAGE', nil)
+    return unless header
+
+    available = I18n.available_locales.map(&:to_s)
+    header.split(',').map { |lang| extract_locale_code(lang) }
+          .compact
+          .find { |locale_code| available.include?(locale_code) }
+  end
+
   def bin_retrieval_url(bin)
     "#{request.base_url}/bins/#{bin.id}"
   end
@@ -48,5 +58,12 @@ module Helpers
     return content if custom == 'replace'
 
     "#{content} #{default_content}"
+  end
+
+  private
+
+  def extract_locale_code(lang)
+    code = lang[/^[a-zA-Z-]+/]
+    code ? code.split('-').first.downcase : nil
   end
 end
