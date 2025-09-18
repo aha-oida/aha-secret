@@ -44,7 +44,9 @@ PrePush:
     targets:
       - 'db:prepare'
       - 'spec'
-    command: ['bundle', 'exec', 'rake']
+    command: ['env', 'COVERAGE=true','bundle', 'exec', 'rake']
 
-
-
+  Undercover:
+    enabled: true
+    description: 'Run undercover to check coverage against main'
+    command: ['bundle', 'exec', 'undercover', '--compare', 'main']
