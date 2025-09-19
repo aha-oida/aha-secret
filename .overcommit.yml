@@ -46,5 +46,20 @@ PrePush:
       - 'spec'
     command: ['bundle', 'exec', 'rake']
 
-
-
+# CommitMsg:
+#   Signoff:
+#     enabled: true
+#     required_executable: 'gh'
+#     description: "Require commit signoff"
+#     require_clean_working_directory: false
+#     command:
+#       - bash
+#       - -c
+#       - |
+#         if ! gh signoff --help >/dev/null 2>&1; then
+#           echo "Missing GitHub CLI extension: gh-signoff"
+#           echo "Install with: gh extension install basecamp/gh-signoff"
+#           exit 1
+#         fi
+#         gh signoff
+#     required_executable_missing_message: "Skipping signoff check because gh is not installed"
