@@ -29,7 +29,7 @@ function showMessageContent() {
 }
 
 async function revealpw() {
-	var msg = null;
+	let msg = null;
 	const pw = document.getElementById("passwd").value;
 
 	resetAlert();
@@ -63,12 +63,12 @@ function copyToClip() {
   cpText.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(cpText.value);
 
-  var tooltip = document.getElementById("myTooltip");
+  let tooltip = document.getElementById("myTooltip");
   tooltip.innerHTML = tooltip.dataset.copied;
 }
 
 function showTooltip() {
-  var tooltip = document.getElementById("myTooltip");
+  let tooltip = document.getElementById("myTooltip");
   tooltip.innerHTML = tooltip.dataset.text;
 }
 
