@@ -25,6 +25,7 @@ require_relative 'app_config/accessors'
 class AppConfig
   extend Loader
   extend Accessors
+
   @config = nil
   # Core config keys (permitted_origins is optional)
   REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule base_url default_locale max_msg_length custom
