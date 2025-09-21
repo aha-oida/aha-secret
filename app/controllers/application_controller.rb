@@ -6,6 +6,7 @@ require 'sprockets'
 require 'sprockets-helpers'
 
 # write documentation
+# :nocov:
 class ApplicationController < Sinatra::Base
   set :sprockets, Sprockets::Environment.new(root)
   set :assets_prefix, '/assets'
@@ -17,6 +18,7 @@ class ApplicationController < Sinatra::Base
   I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
   I18n.load_path = Dir[File.join(File.dirname(__FILE__), '..', '..', 'config', 'locales', '*.yml')]
   I18n.backend.load_translations
+  # :nocov:
 
   configure do
     set :public_folder, 'public'
