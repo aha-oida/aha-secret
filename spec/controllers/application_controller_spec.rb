@@ -42,5 +42,11 @@ RSpec.describe ApplicationController, type: :controller do
       req = Rack::Request.new(env)
       expect(controller.send(:browser_locale, req)).to be_nil
     end
+
+    it 'returns nil if header is present but empty' do
+      env = { 'HTTP_ACCEPT_LANGUAGE' => '' }
+      req = Rack::Request.new(env)
+      expect(controller.send(:browser_locale, req)).to be_nil
+    end
   end
 end
