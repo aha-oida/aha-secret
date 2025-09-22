@@ -33,5 +33,14 @@ RSpec.describe Helpers do
       env['HTTP_ACCEPT_LANGUAGE'] = ''
       expect(browser_locale(request)).to be_nil
     end
+
+    it 'returns nil if request is nil' do
+      expect(browser_locale(nil)).to be_nil
+    end
+
+    it 'returns nil if request.env is nil' do
+      req = double('request', env: nil)
+      expect(browser_locale(req)).to be_nil
+    end
   end
 end

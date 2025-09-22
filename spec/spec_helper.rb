@@ -8,6 +8,10 @@ if ENV['COVERAGE']
   SimpleCov.start do
     add_filter(/^\/spec\//) # For RSpec, use `test` for MiniTest
     enable_coverage(:branch)
+    add_filter do |source_file|
+      source_file.filename =~ /app\/controllers\/application_controller\.rb/ &&
+        source_file.lines.any? { |l| l.src =~ /Rufus::Scheduler/ } # Exclude Rufus::Scheduler lines from coverage, only used in production
+    end
   end
 end
 
