@@ -2,7 +2,6 @@
 
 # Application Controller helper methods
 module Helpers
-  # :nocov:
   def browser_locale(request)
     header = request&.env&.fetch('HTTP_ACCEPT_LANGUAGE', nil)
     return unless header
@@ -12,7 +11,6 @@ module Helpers
           .compact
           .find { |locale_code| available.include?(locale_code) }
   end
-  # :nocov:
 
   def bin_retrieval_url(bin)
     "#{request.base_url}/bins/#{bin.id}"
