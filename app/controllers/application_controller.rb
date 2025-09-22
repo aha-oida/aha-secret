@@ -64,11 +64,13 @@ class ApplicationController < Sinatra::Base
     session[:locale] = valid_locale
   end
 
+  # :nocov:
   unless ENV['SKIP_SCHEDULER'] == 'true'
     Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
       Bin.cleanup
     end
   end
+  # :nocov:
 
   get '/' do
     erb :index, locals: { max_msg_length: AppConfig.max_msg_length }
