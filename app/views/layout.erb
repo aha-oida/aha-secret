@@ -27,6 +27,12 @@
   <div id="main" class="flex-container col-5">
     <div id="logo"></div>
     <div id="titlebar">
+      <div id="language-selector">
+        <select id="language-select">
+          <option value="en" <%= 'selected' if I18n.locale.to_s == 'en' %>>en</option>
+          <option value="de" <%= 'selected' if I18n.locale.to_s == 'de' %>>de</option>
+        </select>
+      </div>
       <h1>
         <a href="<%= AppConfig.base_url %>">
           AHA-Secret
