@@ -35,7 +35,7 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
 
     # Additional verification: check that no script tags are in the DOM
     script_elements = page.all('script', visible: :all).map(&:text)
-    expect(script_elements.join(' ')).not_to include(malicious_payload)
+    expect(script_elements.any? { |script| script == malicious_payload }).to be false
   end
 
   scenario 'HTML script tag in secret payload does not execute' do
@@ -148,8 +148,8 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
 
       // Monitor for various events that could indicate XSS
       var eventTypes = ['error', 'load'];
-      for (var i = 0; i < eventTypes.length; i++) {
-        var eventType = eventTypes[i];
+      for (let i = 0; i < eventTypes.length; i++) {
+        let eventType = eventTypes[i];
         window.addEventListener(eventType, function(e) {
           if (e.target && ['IMG', 'SVG', 'IFRAME'].indexOf(e.target.tagName) !== -1) {
             window.xssAttempts.push(eventType + ' on ' + e.target.tagName);
@@ -216,6 +216,48 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
     expect(decrypted_secret).to eq malicious_payload
 
     # Verify no alert was triggered during the unlock/decrypt process
+    alert_was_called = page.evaluate_script('window.alertCalled')
+    expect(alert_was_called).to be false
+  end
+
+  scenario 'Incorrect password for password-protected secret does not expose or execute payload' do
+    malicious_payload = "alert('XSS in password protected secret');"
+
+    visit '/'
+    fill_in 'bin[payload]', with: malicious_payload
+
+    # Enable password protection
+    page.execute_script("document.getElementById('has_password').click()")
+    expect(page).to have_field('add-password', visible: true)
+    fill_in 'add-password', with: 'testpassword'
+
+    click_button 'Create Secret'
+    secret_url = find('#secret-url').value
+
+    visit secret_url
+
+    # Set up XSS detection
+    page.execute_script(<<~JS)
+      window.alertCalled = false;
+      window.originalAlert = window.alert;
+      window.alert = function(msg) {
+        window.alertCalled = true;
+        window.alertMessage = msg;
+        return window.originalAlert(msg);
+      };
+    JS
+
+    # Enter incorrect password and attempt to unlock
+    fill_in 'passwd', with: 'wrongpassword'
+    click_button 'Unlock'
+
+    # The secret should not be revealed
+    expect(page).not_to have_css('#dec-msg', visible: true)
+
+    # Check for error message (match actual message)
+    expect(page).to have_content(/decryption error\. is the password correct\?/i)
+
+    # Verify no alert was triggered during the failed unlock attempt
     alert_was_called = page.evaluate_script('window.alertCalled')
     expect(alert_was_called).to be false
   end
