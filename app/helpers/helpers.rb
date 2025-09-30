@@ -63,7 +63,7 @@ module Helpers
   private
 
   def extract_locale_code(lang)
-    code = lang.strip[/^[a-zA-Z-]+/]
+    code = lang.strip[/\A[a-zA-Z-]+/]
     code ? code.split('-').first.downcase : nil
   end
 end
