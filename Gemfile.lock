@@ -1,16 +1,16 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: fa99a21461d4f1f5337b9b9d7a38a1b51c8f4e55
+  revision: 599a007a779dc9940e49f34e9077220f4c209f4b
   specs:
-    rack-protection (4.1.1)
+    rack-protection (4.2.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
-    sinatra-contrib (4.1.1)
+    sinatra-contrib (4.2.1)
       multi_json (>= 0.0.2)
       mustermann (~> 3.0)
-      rack-protection (= 4.1.1)
-      sinatra (= 4.1.1)
+      rack-protection (= 4.2.1)
+      sinatra (= 4.2.1)
       tilt (~> 2.0)
 
 GEM
@@ -191,7 +191,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.2.2)
+    rack (3.2.3)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-session (2.1.1)
@@ -274,11 +274,11 @@ GEM
     simplecov-html (0.13.2)
     simplecov-lcov (0.9.0)
     simplecov_json_formatter (0.1.4)
-    sinatra (4.1.1)
+    sinatra (4.2.1)
       logger (>= 1.6.0)
       mustermann (~> 3.0)
       rack (>= 3.0.0, < 4)
-      rack-protection (= 4.1.1)
+      rack-protection (= 4.2.1)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
     sinatra-activerecord (2.0.28)
@@ -364,7 +364,7 @@ DEPENDENCIES
   rufus-scheduler (~> 3.9)
   simplecov
   simplecov-lcov
-  sinatra (~> 4.0)
+  sinatra (~> 4.2)
   sinatra-activerecord
   sinatra-contrib!
   sprockets-helpers

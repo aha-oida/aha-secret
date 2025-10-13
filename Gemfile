@@ -13,7 +13,7 @@ gem 'rackup', '~> 2.2'
 gem 'rake', '~> 13.2'
 gem 'rspec', '~> 3.13'
 gem 'rufus-scheduler', '~> 3.9'
-gem 'sinatra', '~> 4.0'
+gem 'sinatra', '~> 4.2'
 gem 'sinatra-activerecord', require: 'sinatra/activerecord'
 gem 'sprockets-helpers'
 
