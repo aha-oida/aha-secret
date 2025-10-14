@@ -71,6 +71,9 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
 
     # Verify script tag was not executed by checking DOM
     all_script_content = page.evaluate_script('Array.from(document.querySelectorAll("script")).map(s => s.textContent).join(" ")')
+
+    # create a screenshot for manual inspection if needed
+    page.save_screenshot('tmp/script_tag_xss_test.png', full: true)
     expect(all_script_content).not_to include('XSS via script tag')
   end
 
