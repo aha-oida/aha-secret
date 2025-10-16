@@ -25,14 +25,13 @@ require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'database_cleaner'
-# require 'capybara-screenshot/rspec'
 require 'capybara/cuprite'
 
-puts "Running with cuprite driver"
-puts "PATH: #{ENV['PATH']}"
-puts "which chromium: #{`which chromium`.strip}"
-puts "which chromium-browser: #{`which chromium-browser`.strip}"
-puts "which google-chrome: #{`which google-chrome`.strip}"
+# puts "Running with cuprite driver"
+# puts "PATH: #{ENV['PATH']}"
+# puts "which chromium: #{`which chromium`.strip}"
+# puts "which chromium-browser: #{`which chromium-browser`.strip}"
+# puts "which google-chrome: #{`which google-chrome`.strip}"
 
 ActiveRecord::Base.logger = nil
 
