@@ -1,10 +1,7 @@
 feature 'JavaScript Security in Secrets', type: :feature, js: true do
 
-  scenario 'Proof of concept: XSS detection works when script actually executes' do
-    # This test proves our XSS detection mechanism works by intentionally executing JS
-    visit '/'
-
-    # Set up XSS detection before any potential execution
+  # Helper methods to reduce duplication
+  def setup_xss_detection
     page.execute_script(<<~JS)
       window.xssDetected = false;
       window.originalAlert = window.alert;
@@ -14,6 +11,62 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
         return window.originalAlert(msg);
       };
     JS
+  end
+
+  def setup_alert_detection
+    page.execute_script(<<~JS)
+      window.alertCalled = false;
+      window.originalAlert = window.alert;
+      window.alert = function(msg) {
+        window.alertCalled = true;
+        window.alertMessage = msg;
+        return window.originalAlert(msg);
+      };
+    JS
+  end
+
+  def create_secret(payload, password: nil)
+    visit '/'
+    fill_in 'bin[payload]', with: payload
+
+    if password
+      page.execute_script("document.getElementById('has_password').click()")
+      expect(page).to have_field('add-password', visible: true)
+      fill_in 'add-password', with: password
+    end
+
+    click_button 'Create Secret'
+    find('#secret-url').value
+  end
+
+  def reveal_secret(secret_url, password: nil)
+    visit secret_url
+
+    if password
+      fill_in 'passwd', with: password
+      click_button 'Unlock'
+    else
+      click_button 'Reveal'
+    end
+
+    expect(page).to have_css('#dec-msg', visible: true)
+    find('#dec-msg').value
+  end
+
+  def verify_no_xss_detected
+    xss_detected = page.evaluate_script('window.xssDetected || false')
+    expect(xss_detected).to be false
+  end
+
+  def verify_no_alert_called
+    alert_called = page.evaluate_script('window.alertCalled || false')
+    expect(alert_called).to be false
+  end
+
+  scenario 'Proof of concept: XSS detection works when script actually executes' do
+    # This test proves our XSS detection mechanism works by intentionally executing JS
+    visit '/'
+    setup_xss_detection
 
     # Intentionally execute JavaScript to prove detection works
     page.execute_script("alert('Test XSS execution for detection proof');")
@@ -29,36 +82,13 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
   scenario 'JavaScript alert in secret payload does not execute' do
     malicious_payload = "alert('XSS executed!');"
 
-    visit '/'
-    fill_in 'bin[payload]', with: malicious_payload
-    click_button 'Create Secret'
-    secret_url = find('#secret-url').value
-
+    secret_url = create_secret(malicious_payload)
     visit secret_url
+    setup_alert_detection
 
-    # Set up alert detection before revealing the secret
-    page.execute_script(<<~JS)
-      window.alertCalled = false;
-      window.originalAlert = window.alert;
-      window.alert = function(msg) {
-        window.alertCalled = true;
-        window.alertMessage = msg;
-        return window.originalAlert(msg);
-      };
-    JS
-
-    click_button 'Reveal'
-
-    # Wait for decryption to complete
-    expect(page).to have_css('#dec-msg', visible: true)
-
-    # Verify the malicious payload is displayed as plain text
-    decrypted_secret = find('#dec-msg').value
+    decrypted_secret = reveal_secret(secret_url)
     expect(decrypted_secret).to eq malicious_payload
-
-    # Verify no alert was triggered
-    alert_was_called = page.evaluate_script('window.alertCalled')
-    expect(alert_was_called).to be false
+    verify_no_alert_called
 
     # Additional verification: check that no script tags are in the DOM
     script_elements = page.all('script', visible: :all).map(&:text)
@@ -68,38 +98,16 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
   scenario 'HTML script tag in secret payload does not execute' do
     malicious_payload = '<script>alert("XSS via script tag");</script>'
 
-    visit '/'
-    fill_in 'bin[payload]', with: malicious_payload
-    click_button 'Create Secret'
-    secret_url = find('#secret-url').value
-
+    secret_url = create_secret(malicious_payload)
     visit secret_url
+    setup_alert_detection
 
-    # Set up alert detection
-    page.execute_script(<<~JS)
-      window.alertCalled = false;
-      window.originalAlert = window.alert;
-      window.alert = function(msg) {
-        window.alertCalled = true;
-        window.alertMessage = msg;
-        return window.originalAlert(msg);
-      };
-    JS
-
-    click_button 'Reveal'
-
-    # Verify the malicious payload is displayed as plain text in textarea
-    decrypted_secret = find('#dec-msg').value
+    decrypted_secret = reveal_secret(secret_url)
     expect(decrypted_secret).to eq malicious_payload
-
-    # Verify no alert was triggered
-    alert_was_called = page.evaluate_script('window.alertCalled')
-    expect(alert_was_called).to be false
+    verify_no_alert_called
 
     # Verify script tag was not executed by checking DOM
     all_script_content = page.evaluate_script('Array.from(document.querySelectorAll("script")).map(s => s.textContent).join(" ")')
-
-    # create a screenshot for manual inspection if needed
     page.save_screenshot('tmp/script_tag_xss_test.png', full: true)
     expect(all_script_content).not_to include('XSS via script tag')
   end
@@ -107,24 +115,12 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
   scenario 'JavaScript with event handlers in secret payload does not execute' do
     malicious_payload = '<img src="x" onerror="alert(\'XSS via event handler\')">'
 
-    visit '/'
-    fill_in 'bin[payload]', with: malicious_payload
-    click_button 'Create Secret'
-    secret_url = find('#secret-url').value
-
+    secret_url = create_secret(malicious_payload)
     visit secret_url
+    setup_xss_detection
 
-    # Set up comprehensive JavaScript execution detection
+    # Also monitor for any error events that might trigger
     page.execute_script(<<~JS)
-      window.xssDetected = false;
-      window.originalAlert = window.alert;
-      window.alert = function(msg) {
-        window.xssDetected = true;
-        window.xssMessage = msg;
-        return window.originalAlert(msg);
-      };
-
-      // Also monitor for any error events that might trigger
       window.addEventListener('error', function(e) {
         if (e.target && e.target.tagName === 'IMG') {
           window.imgErrorTriggered = true;
@@ -132,15 +128,9 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
       });
     JS
 
-    click_button 'Reveal'
-
-    # Verify the payload is safely displayed as text
-    decrypted_secret = find('#dec-msg').value
+    decrypted_secret = reveal_secret(secret_url)
     expect(decrypted_secret).to eq malicious_payload
-
-    # Verify no XSS was triggered
-    xss_detected = page.evaluate_script('window.xssDetected')
-    expect(xss_detected).to be false
+    verify_no_xss_detected
 
     # Verify no img error event was triggered from malicious payload
     img_error_triggered = page.evaluate_script('window.imgErrorTriggered || false')
@@ -213,69 +203,21 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
   scenario 'Password-protected secret with JavaScript payload does not execute' do
     malicious_payload = "alert('XSS in password protected secret');"
 
-    visit '/'
-    fill_in 'bin[payload]', with: malicious_payload
-
-    # Enable password protection
-    page.execute_script("document.getElementById('has_password').click()")
-    expect(page).to have_field('add-password', visible: true)
-    fill_in 'add-password', with: 'testpassword'
-
-    click_button 'Create Secret'
-    secret_url = find('#secret-url').value
-
+    secret_url = create_secret(malicious_payload, password: 'testpassword')
     visit secret_url
+    setup_alert_detection
 
-    # Set up XSS detection
-    page.execute_script(<<~JS)
-      window.alertCalled = false;
-      window.originalAlert = window.alert;
-      window.alert = function(msg) {
-        window.alertCalled = true;
-        window.alertMessage = msg;
-        return window.originalAlert(msg);
-      };
-    JS
-
-    # Enter correct password and unlock
-    fill_in 'passwd', with: 'testpassword'
-    click_button 'Unlock'
-
-    # Verify the malicious payload is displayed as plain text
-    decrypted_secret = find('#dec-msg').value
+    decrypted_secret = reveal_secret(secret_url, password: 'testpassword')
     expect(decrypted_secret).to eq malicious_payload
-
-    # Verify no alert was triggered during the unlock/decrypt process
-    alert_was_called = page.evaluate_script('window.alertCalled')
-    expect(alert_was_called).to be false
+    verify_no_alert_called
   end
 
   scenario 'Incorrect password for password-protected secret does not expose or execute payload' do
     malicious_payload = "alert('XSS in password protected secret');"
 
-    visit '/'
-    fill_in 'bin[payload]', with: malicious_payload
-
-    # Enable password protection
-    page.execute_script("document.getElementById('has_password').click()")
-    expect(page).to have_field('add-password', visible: true)
-    fill_in 'add-password', with: 'testpassword'
-
-    click_button 'Create Secret'
-    secret_url = find('#secret-url').value
-
+    secret_url = create_secret(malicious_payload, password: 'testpassword')
     visit secret_url
-
-    # Set up XSS detection
-    page.execute_script(<<~JS)
-      window.alertCalled = false;
-      window.originalAlert = window.alert;
-      window.alert = function(msg) {
-        window.alertCalled = true;
-        window.alertMessage = msg;
-        return window.originalAlert(msg);
-      };
-    JS
+    setup_alert_detection
 
     # Enter incorrect password and attempt to unlock
     fill_in 'passwd', with: 'wrongpassword'
@@ -288,35 +230,18 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
     expect(page).to have_content(/decryption error\. is the password correct\?/i)
 
     # Verify no alert was triggered during the failed unlock attempt
-    alert_was_called = page.evaluate_script('window.alertCalled')
-    expect(alert_was_called).to be false
+    verify_no_alert_called
   end
 
   scenario 'Verify textarea properly escapes content and prevents DOM manipulation' do
     # Test payload that could potentially break out of textarea context
     malicious_payload = '</textarea><script>alert("Broke out of textarea!");</script><textarea>'
 
-    visit '/'
-    fill_in 'bin[payload]', with: malicious_payload
-    click_button 'Create Secret'
-    secret_url = find('#secret-url').value
-
+    secret_url = create_secret(malicious_payload)
     visit secret_url
+    setup_alert_detection
 
-    # Set up XSS detection
-    page.execute_script(<<~JS)
-      window.alertCalled = false;
-      window.originalAlert = window.alert;
-      window.alert = function(msg) {
-        window.alertCalled = true;
-        return window.originalAlert(msg);
-      };
-    JS
-
-    click_button 'Reveal'
-
-    # Verify the textarea still contains the full payload as text
-    decrypted_secret = find('#dec-msg').value
+    decrypted_secret = reveal_secret(secret_url)
     expect(decrypted_secret).to eq malicious_payload
 
     # Verify no additional script elements were created
@@ -329,7 +254,6 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
     expect(textarea_element[:readonly]).to be_truthy
 
     # Verify no alert was triggered
-    alert_was_called = page.evaluate_script('window.alertCalled')
-    expect(alert_was_called).to be false
+    verify_no_alert_called
   end
 end
