@@ -1,4 +1,31 @@
 feature 'JavaScript Security in Secrets', type: :feature, js: true do
+
+  scenario 'Proof of concept: XSS detection works when script actually executes' do
+    # This test proves our XSS detection mechanism works by intentionally executing JS
+    visit '/'
+
+    # Set up XSS detection before any potential execution
+    page.execute_script(<<~JS)
+      window.xssDetected = false;
+      window.originalAlert = window.alert;
+      window.alert = function(msg) {
+        window.xssDetected = true;
+        window.xssMessage = msg;
+        return window.originalAlert(msg);
+      };
+    JS
+
+    # Intentionally execute JavaScript to prove detection works
+    page.execute_script("alert('Test XSS execution for detection proof');")
+
+    # Verify our detection mechanism caught the execution
+    xss_detected = page.evaluate_script('window.xssDetected')
+    xss_message = page.evaluate_script('window.xssMessage')
+
+    expect(xss_detected).to be true
+    expect(xss_message).to eq 'Test XSS execution for detection proof'
+  end
+
   scenario 'JavaScript alert in secret payload does not execute' do
     malicious_payload = "alert('XSS executed!');"
 
