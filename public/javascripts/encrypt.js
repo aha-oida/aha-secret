@@ -163,17 +163,15 @@ async function encryptEvent() {
 const messageEle = document.getElementById('message');
 const counterEle = document.getElementById('msg-counter');
 
-messageEle.addEventListener('input', function (e) {
-  const target = e.target;
-
+function updateLenghtdisplay() {
   // Get the `maxlength` attribute
-  const maxLength = target.getAttribute('maxlength');
-
+  const maxLength = messageEle.getAttribute('maxlength');
   // Count the current number of characters
-  const currentLength = target.value.length;
-
+  const currentLength = messageEle.value.length;
   counterEle.innerHTML = `${currentLength}/${maxLength}`;
-});
+}
+
+messageEle.addEventListener('keyup', updateLenghtdisplay);
 
 const encryptionForm = document.querySelector("#enc-form form");
 

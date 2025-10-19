@@ -9,6 +9,11 @@ default: &common_settings
   session_secret:
   memcache_url: ""
   permitted_origins: ""
+  random_secret_default_length: 16
+  random_secret_symbols: true
+  random_secret_numbers: true
+  random_secret_capitals: true
+  random_secret_lowers: true
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
     html_title: false # possible values: false, replace, append

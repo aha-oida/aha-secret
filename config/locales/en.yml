@@ -12,6 +12,14 @@ en:
           attributes:
             payload:
               too_long: is too long
+  random_secret: Generate Random
+  use_symbols: Symbols
+  use_numbers: Numbers
+  use_capital: Capital
+  use_lower: Lower Case
+  random_settings: Customize
+  random_length: Secret length
+  add_random: Add generic message
   additional_password: Set additional password
   additional_password_info: The sender has set an additional password that allows to access the secret.
   copied_clipboard: 'Copied: '

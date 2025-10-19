@@ -7,7 +7,7 @@
     <div id="label-button">
       <label for="secret-url"><%= t :share_link %>:</label>
       <div class="tooltip">
-        <button id="copy-button" >
+        <button id="copy-button" class="copy-button" >
           <span class="tooltiptext" id="myTooltip" data-text="<%= t :copy_clipboard %>" data-copied="<%= t :copied_clipboard %>"><%= t :copy_clipboard %></span>
           <svg id="copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
@@ -25,7 +25,7 @@
   <form>
     <textarea id="message" name="bin[payload]" rows="15" cols="40" placeholder="<%= t :payload_placeholder %>" required maxlength="<%= max_msg_length %>"></textarea>
     <div id="msg-counter"></div>
-    <div id="retention-pane">
+    <div id="retention-pane" class="flex-container-row">
       <label for="retention"><%= t :delete_label %>: </label>
       <select name="retention" id="retention">
         <option value="10080">7 <%= t :days %></option>
@@ -37,6 +37,65 @@
         <option value="30">30 <%= t :minutes %></option>
         <option value="5">5 <%= t :minutes %></option>
       </select>
+
+      <div id="copymessageDiv" class="flex-container-row">
+      <div id="copymessageId" class="tooltip">
+        <button type="button" id="copy-button-msg" class="copy-button" >
+          <span class="tooltiptext" id="myMsgTooltip" data-text="<%= t :copy_clipboard %>" data-copied="<%= t :copied_clipboard %>"><%= t :copy_clipboard %></span>
+          <svg id="copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+         </svg>
+        </button>
+      </div>
+      </div>
+    </div>
+    <div id="random-secret">
+      <div
+        id="random-config"
+        data-length="<%= AppConfig.random_secret_default_length %>"
+        data-symbols="<%= AppConfig.random_secret_symbols %>"
+        data-numbers="<%= AppConfig.random_secret_numbers %>"
+        data-capitals="<%= AppConfig.random_secret_capitals %>"
+        data-lowers="<%= AppConfig.random_secret_lowers %>"
+      ></div>
+
+      <fieldset>
+        <div id="randomMain" class="flex-container-row">
+          <div id="randomMainLeft">
+            <button type="button" id="random-button" title="<%= t :add_random %>"><%= t :random_secret %></button>
+          </div>
+          <div id="randomMainRight">
+            <input type="checkbox" id="random_settings" name="random_settings">
+            <label for="random_settings"><%= t :random_settings %></label>
+          </div>
+        </div>
+        <div id="randomSettings" class="hidden flex-container">
+          <div class="custom-random-setting">
+            <label for="random_length"><%= t :random_length %>:</label>
+            <input type="number" id="random_length"  min="16" max="1024" value="<%= AppConfig.random_secret_default_length %>" step="1" />
+          </div>
+
+          <div class="custom-random-setting">
+            <label for="random_symbol"><%= t :use_symbols %>:</label>
+            <input type="checkbox" id="random_symbol" name="random_symbol" <%= "checked" if AppConfig.random_secret_symbols %>>
+          </div>
+
+          <div class="custom-random-setting">
+            <label for="random_numbers"><%= t :use_numbers %>:</label>
+            <input type="checkbox" id="random_numbers" name="random_numbers" <%= "checked" if AppConfig.random_secret_numbers %>>
+          </div>
+
+          <div class="custom-random-setting">
+            <label for="random_capital"><%= t :use_capital %>:</label>
+            <input type="checkbox" id="random_capital" name="random_capital" <%= "checked" if AppConfig.random_secret_capitals %>>
+          </div>
+
+          <div class="custom-random-setting">
+            <label for="random_lower"><%= t :use_lower %>:</label>
+            <input type="checkbox" id="random_lower" name="random_lower" <%= "checked" if AppConfig.random_secret_lowers %>>
+          </div>
+        </div>
+      </fieldset>
     </div>
     <div id="additional-password">
       <fieldset>

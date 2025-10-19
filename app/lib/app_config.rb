@@ -28,8 +28,22 @@ class AppConfig
 
   @config = nil
   # Core config keys (permitted_origins is optional)
-  REQUIRED_KEYS = %w[rate_limit rate_limit_period cleanup_schedule base_url default_locale max_msg_length custom
-                     memcache_url session_secret].freeze
+  REQUIRED_KEYS = %w[
+    rate_limit
+    rate_limit_period
+    cleanup_schedule
+    base_url
+    default_locale
+    random_secret_default_length
+    random_secret_symbols
+    random_secret_numbers
+    random_secret_capitals
+    random_secret_lowers
+    max_msg_length
+    custom
+    memcache_url
+    session_secret
+  ].freeze
   # Additional config keys that are optional and not validated
   OPTIONAL_KEYS = %w[permitted_origins].freeze
 
