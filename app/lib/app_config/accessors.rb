@@ -41,6 +41,16 @@ class AppConfig
       @config.random_secret_default_length || 16
     end
 
+    def random_secret_max_length
+      load! unless @config
+      @config.random_secret_max_length || 1024
+    end
+
+    def random_secret_min_length
+      load! unless @config
+      @config.random_secret_min_length || 16
+    end
+
     def calc_max_length
       load! unless @config
       max = @config.max_msg_length || 10_000

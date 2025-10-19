@@ -35,6 +35,8 @@ class AppConfig
     base_url
     default_locale
     random_secret_default_length
+    random_secret_min_length
+    random_secret_max_length
     random_secret_symbols
     random_secret_numbers
     random_secret_capitals

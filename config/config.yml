@@ -10,6 +10,8 @@ default: &common_settings
   memcache_url: ""
   permitted_origins: ""
   random_secret_default_length: 16
+  random_secret_min_length: 16
+  random_secret_max_length: 1024
   random_secret_symbols: true
   random_secret_numbers: true
   random_secret_capitals: true

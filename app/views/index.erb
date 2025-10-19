@@ -72,7 +72,7 @@
         <div id="randomSettings" class="hidden flex-container">
           <div class="custom-random-setting">
             <label for="random_length"><%= t :random_length %>:</label>
-            <input type="number" id="random_length"  min="16" max="1024" value="<%= AppConfig.random_secret_default_length %>" step="1" />
+            <input type="number" id="random_length"  min="<%= AppConfig.random_secret_min_length %>" max="<%= AppConfig.random_secret_max_length %>" value="<%= AppConfig.random_secret_default_length %>" step="1" />
           </div>
 
           <div class="custom-random-setting">
