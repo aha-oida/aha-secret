@@ -12,13 +12,6 @@ en:
           attributes:
             payload:
               too_long: is too long
-  random_secret: Generate Random
-  use_symbols: Symbols
-  use_numbers: Numbers
-  use_capital: Capital
-  use_lower: Lower Case
-  random_settings: Customize
-  random_length: Secret length
   add_random: Add generic message
   additional_password: Set additional password
   additional_password_info: The sender has set an additional password that allows to access the secret.
@@ -41,9 +34,16 @@ en:
   open_source: is free open source software
   pastelimit_exceeded: Pasting this content exceeds the maximum allowed characters
   payload_placeholder: Encrypt me in your browser!
+  random_length: Secret length
+  random_secret: Generate Random
+  random_settings: Customize
   reveal_info: Click this button to reveal the secret
   reveal_label: Reveal
   secret_destroy: Keep in mind that this secret is automatically destroyed after it is revealed for the first time
   share_link: Share the following link
   show_header: Someone shares a secret with you
   unlock_label: Unlock
+  use_capital: Capital
+  use_lower: Lower Case
+  use_numbers: Numbers
+  use_symbols: Symbols

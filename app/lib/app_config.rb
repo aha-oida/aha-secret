@@ -34,9 +34,6 @@ class AppConfig
     cleanup_schedule
     base_url
     default_locale
-    random_secret_default_length
-    random_secret_min_length
-    random_secret_max_length
     random_secret_symbols
     random_secret_numbers
     random_secret_capitals
@@ -47,7 +44,12 @@ class AppConfig
     session_secret
   ].freeze
   # Additional config keys that are optional and not validated
-  OPTIONAL_KEYS = %w[permitted_origins].freeze
+  OPTIONAL_KEYS = %w[
+    permitted_origins
+    random_secret_default_length
+    random_secret_min_length
+    random_secret_max_length
+  ].freeze
 
   # ConfigStruct includes REQUIRED_KEYS + OPTIONAL_KEYS
   ConfigStruct = Struct.new(*(REQUIRED_KEYS + OPTIONAL_KEYS).map(&:to_sym)) do
