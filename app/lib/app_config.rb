@@ -34,10 +34,6 @@ class AppConfig
     cleanup_schedule
     base_url
     default_locale
-    random_secret_symbols
-    random_secret_numbers
-    random_secret_capitals
-    random_secret_lowers
     max_msg_length
     custom
     memcache_url
@@ -46,9 +42,13 @@ class AppConfig
   # Additional config keys that are optional and not validated
   OPTIONAL_KEYS = %w[
     permitted_origins
+    random_secret_symbols
     random_secret_default_length
     random_secret_min_length
     random_secret_max_length
+    random_secret_numbers
+    random_secret_capitals
+    random_secret_lowers
   ].freeze
 
   # ConfigStruct includes REQUIRED_KEYS + OPTIONAL_KEYS

@@ -36,6 +36,34 @@ class AppConfig
       @config.max_msg_length || 10_000
     end
 
+    def random_secret_symbols
+      load! unless @config
+      ret = @config.random_secret_symbols
+      ret = true if @config.random_secret_symbols.nil?
+      ret
+    end
+
+    def random_secret_numbers
+      load! unless @config
+      ret = @config.random_secret_numbers
+      ret = true if @config.random_secret_numbers.nil?
+      ret
+    end
+
+    def random_secret_capitals
+      load! unless @config
+      ret = @config.random_secret_capitals
+      ret = true if @config.random_secret_capitals.nil?
+      ret
+    end
+
+    def random_secret_lowers
+      load! unless @config
+      ret = @config.random_secret_lowers
+      ret = true if @config.random_secret_lowers.nil?
+      ret
+    end
+
     def random_secret_default_length
       load! unless @config
       @config.random_secret_default_length || 16
