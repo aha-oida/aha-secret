@@ -42,6 +42,13 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `20000` | |
 | `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | |
 | `AHA_SECRET_APP_LOCALE` | Force app locale | `en` | |
+| `AHA_SECRET_RANDOM_SECRET_DEFAULT_LENGTH` | Default length for random secrets | `16` | |
+| `AHA_SECRET_RANDOM_SECRET_MIN_LENGTH` | Minimum length for random secrets | `16` | |
+| `AHA_SECRET_RANDOM_SECRET_MAX_LENGTH` | Maximum length for random secrets | `1024` | |
+| `AHA_SECRET_RANDOM_SECRET_SYMBOLS` | Include symbols for random secrets | `true` | |
+| `AHA_SECRET_RANDOM_SECRET_NUMBERS` | Include numbers for random secrets | `true` | |
+| `AHA_SECRET_RANDOM_SECRET_CAPITALS` | Include capital letters for random secrets | `true` | |
+| `AHA_SECRET_RANDOM_SECRET_LOWERS` | Include lower letters for random secrets | `true` | |
 | `APP_LOCALE` | (Deprecated) Old app locale variable | `en` | Use `AHA_SECRET_APP_LOCALE` instead |
 | `RACK_ENV` | Rack environment | `development` | Use `production` for deployment, `test` for tests |
 | `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | Set to `true` in test/CI |
