@@ -1,5 +1,7 @@
 # aha-secret
 
+[![CodeQL](https://github.com/aha-oida/aha-secret/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/aha-oida/aha-secret/actions/workflows/github-code-scanning/codeql)
+
 > Sensitive information should not be stored in a mailbox or chat history.
 
 aha-secret allows you to store a secret message encrypted. Only the generated
