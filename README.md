@@ -2,6 +2,7 @@
 
 [![CodeQL](https://github.com/aha-oida/aha-secret/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/aha-oida/aha-secret/actions/workflows/github-code-scanning/codeql)
 ![GitHub Release](https://img.shields.io/github/v/release/aha-oida/aha-secret)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
 > Sensitive information should not be stored in a mailbox or chat history.
@@ -41,4 +42,4 @@ For further information see the [documentation](https://aha-oida.github.io/aha-s
 
 # License
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+GNU General Public License v3.0 or later
