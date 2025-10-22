@@ -10,7 +10,7 @@ Builds are continually released and security fixes will always be available in t
 
 >**NOTE:** Before reporting a vulnerability, please verify that you have followed the published guidelines for configuring the AHA-secret project and that the vulnerability is still repeatable with the recommended configuration applied. Vulnerabilities reported about information leakage when debug mode is enabled are usually not helpful and are generally a waste of time for both the maintainer team and the security researchers involved.
 
-If you discover a security vulnerability within AHA-secret, please [submit a new Security Advisory through Github](https://github.com/aha-oida/aha-secret/security/advisories/new). All security vulnerabilities will be promptly addressed. We will review the security vulnerability and will publish an advisory if we determine that the vulnerability exists and can be exploited, and have made available the steps to mitigate the vulnerability. 
+If you discover a security vulnerability within AHA-secret, please [submit a new Security Advisory through Github](https://github.com/aha-oida/aha-secret/security/advisories/new). All security vulnerabilities will be promptly addressed. We will review the security vulnerability and will publish an advisory if we determine that the vulnerability exists and can be exploited, and have made available the steps to mitigate the vulnerability.
 
 Please note that Github is the CVE Numbering Authority (CNA) of choice for the AHA-secret project and all related projects. In accordance with [CNA Rules 4.3.2](https://www.cve.org/ResourcesSupport/AllResources/CNARules#section_4-3_Notification) any alternative CNA is required to notify us through this method before they are permitted to publish a CVE.
 
