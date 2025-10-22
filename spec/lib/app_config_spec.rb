@@ -115,6 +115,9 @@ RSpec.describe AppConfig do
     end
 
     it 'uses MEMCACHE env var for memcache_url' do
+      # Clear the new variable to test the legacy one
+      ENV.delete('AHA_SECRET_MEMCACHE_URL')
+
       allow(YAML).to receive(:load_file).and_return({ 'test' => {
                                                       'rate_limit' => 1,
                                                       'rate_limit_period' => 1,
@@ -150,6 +153,9 @@ RSpec.describe AppConfig do
     end
 
     it 'warns when using deprecated URL env var' do
+      # Clear the new variable to test the legacy one
+      ENV.delete('AHA_SECRET_PERMITTED_ORIGINS')
+
       ENV['URL'] = '/legacy-url'
       expect do
         AppConfig.reload!('test')
@@ -158,6 +164,9 @@ RSpec.describe AppConfig do
     end
 
     it 'warns when using deprecated MEMCACHE env var' do
+      # Clear the new variable to test the legacy one
+      ENV.delete('AHA_SECRET_MEMCACHE_URL')
+
       ENV['MEMCACHE'] = 'legacy-cache'
       expect do
         AppConfig.reload!('test')
@@ -174,6 +183,9 @@ RSpec.describe AppConfig do
     end
 
     it 'warns when using deprecated PERMITTED_ORIGINS env var' do
+      # Clear the new variable to test the legacy one
+      ENV.delete('AHA_SECRET_PERMITTED_ORIGINS')
+
       ENV['PERMITTED_ORIGINS'] = 'legacy-origin'
       expect do
         AppConfig.reload!('test')
