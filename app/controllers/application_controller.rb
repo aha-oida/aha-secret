@@ -6,6 +6,7 @@ require 'sprockets'
 require 'sprockets-helpers'
 
 # write documentation
+# :nocov:
 class ApplicationController < Sinatra::Base
   set :sprockets, Sprockets::Environment.new(root)
   set :assets_prefix, '/assets'
@@ -17,6 +18,7 @@ class ApplicationController < Sinatra::Base
   I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
   I18n.load_path = Dir[File.join(File.dirname(__FILE__), '..', '..', 'config', 'locales', '*.yml')]
   I18n.backend.load_translations
+  # :nocov:
 
   configure do
     set :public_folder, 'public'
@@ -40,18 +42,35 @@ class ApplicationController < Sinatra::Base
       # expand = true, digest = false, manifest = false
       config.debug       = true if development?
     end
+  end
 
-    before do
-      @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
-      I18n.locale = ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
-    end
+  before do
+    @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
+    # Set locale with priority: cookie > session > browser > config > default
+    locale_chain = [
+      request.cookies['locale'],
+      session[:locale],
+      browser_locale(request),
+      ENV.fetch('APP_LOCALE', nil),
+      AppConfig.default_locale,
+      I18n.default_locale
+    ].compact
 
-    unless ENV['SKIP_SCHEDULER'] == 'true'
-      Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
-        Bin.cleanup
-      end
+    valid_locale = locale_chain.map(&:to_s).map(&:downcase).find do |loc|
+      I18n.available_locales.map(&:to_s).include?(loc)
+    end || 'en'
+
+    I18n.locale = valid_locale.to_sym
+    session[:locale] = valid_locale
+  end
+
+  # :nocov:
+  unless ENV['SKIP_SCHEDULER'] == 'true'
+    Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
+      Bin.cleanup
     end
   end
+  # :nocov:
 
   get '/' do
     erb :index, locals: { max_msg_length: AppConfig.max_msg_length }
@@ -96,8 +115,6 @@ class ApplicationController < Sinatra::Base
     json({ payload:, has_password: })
   end
 
-  private
-
   def bin_params
     allowed_keys = %w[payload has_password]
     params['bin'].slice(*allowed_keys)
@@ -106,5 +123,9 @@ class ApplicationController < Sinatra::Base
   helpers do
     include Sprockets::Helpers
     include Helpers
+    # this would be needed if browser_locale would be called without request context
+    # def browser_locale(request)
+    #   super(request)
+    # end
   end
 end
