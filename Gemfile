@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'activerecord', '~> 8.0.3', require: 'active_record'
+gem 'activerecord', '~> 8.1.0', require: 'active_record'
 gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0'
 gem 'erubis', '~> 2.7'
