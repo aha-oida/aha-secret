@@ -2,6 +2,8 @@
 
 class AppConfig
   # Module containing specific configuration accessor methods
+  # Some legacy overrides are still present for backward compatibility
+  # see line \# legacy override, remove in future
   module Accessors
     def custom
       load! unless @config
@@ -9,7 +11,6 @@ class AppConfig
     end
 
     def permitted_origins
-      # ENV override takes priority
       return ENV['AHA_SECRET_PERMITTED_ORIGINS'] if ENV.key?('AHA_SECRET_PERMITTED_ORIGINS')
 
       load! unless @config
@@ -17,7 +18,7 @@ class AppConfig
       origin = @config.permitted_origins
       return origin unless origin.nil? || origin.to_s.empty?
 
-      # Legacy fallback to URL environment variable
+      # legacy override, remove in future
       ENV.fetch('URL', nil)
     end
 
@@ -57,9 +58,9 @@ class AppConfig
     end
 
     def session_secret
-      # New prefix-based ENV override
       return ENV['AHA_SECRET_SESSION_SECRET'] if ENV.key?('AHA_SECRET_SESSION_SECRET')
-      # Legacy env var for backward compatibility
+
+      # legacy override, remove in future
       return ENV['SESSION_SECRET'] if ENV.key?('SESSION_SECRET')
 
       load! unless @config
@@ -74,6 +75,18 @@ class AppConfig
     def base_url
       load! unless @config
       @config.base_url || '/'
+    end
+
+    def app_locale
+      return ENV['AHA_SECRET_APP_LOCALE'] if ENV.key?('AHA_SECRET_APP_LOCALE')
+
+      # legacy override, remove in future
+      if ENV.key?('APP_LOCALE')
+        warn "[DEPRECATION] ENV['APP_LOCALE'] is deprecated; use ENV['AHA_SECRET_APP_LOCALE'] instead"
+        return ENV['APP_LOCALE']
+      end
+
+      nil
     end
   end
 end

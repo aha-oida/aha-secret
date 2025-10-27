@@ -213,6 +213,14 @@ RSpec.describe AppConfig do
       end.to output(/\[DEPRECATION\] ENV\['PERMITTED_ORIGINS'\] is deprecated; use ENV\['AHA_SECRET_PERMITTED_ORIGINS'\] instead/).to_stderr
       expect(AppConfig.permitted_origins).to eq('legacy-origin')
     end
+
+    it 'warns when using deprecated APP_LOCALE env var' do
+      ENV['APP_LOCALE'] = 'de'
+      expect do
+        AppConfig.reload!('test')
+        AppConfig.app_locale  # This actually triggers the deprecation warning
+      end.to output(/\[DEPRECATION\] ENV\['APP_LOCALE'\] is deprecated; use ENV\['AHA_SECRET_APP_LOCALE'\] instead/).to_stderr
+    end
   end
 
   context 'deprecated config keys' do
