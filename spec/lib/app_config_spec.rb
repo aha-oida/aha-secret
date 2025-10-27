@@ -66,6 +66,7 @@ RSpec.describe AppConfig do
 
   it 'loads config from ENV for custom keys and uses ENV values' do
     allow(YAML).to receive(:load_file).and_return({ 'test' => { 'base_url' => '/' } })
+    ENV['AHA_SECRET_BASE_URL'] = '/env-base-url'
     ENV['AHA_SECRET_PERMITTED_ORIGINS'] = '/env-url'
     ENV['AHA_SECRET_SESSION_SECRET'] = 'env-secret'
     ENV['AHA_SECRET_MEMCACHE_URL'] = 'env-memcache-url'
@@ -78,6 +79,7 @@ RSpec.describe AppConfig do
     ENV['AHA_SECRET_CUSTOM'] = '{"foo": "bar"}'
 
     AppConfig.reload!('test')
+    expect(AppConfig.base_url).to eq('/env-base-url')
     expect(AppConfig.permitted_origins).to eq('/env-url')
     expect(AppConfig.session_secret).to eq('env-secret')
     expect(AppConfig.memcache_url).to eq('env-memcache-url')
@@ -88,7 +90,7 @@ RSpec.describe AppConfig do
     expect(AppConfig.max_msg_length).to eq('12345')
     expect(AppConfig.custom).to eq('{"foo": "bar"}')
     # Clean up ENV
-    %w[AHA_SECRET_SESSION_SECRET AHA_SECRET_MEMCACHE_URL AHA_SECRET_APP_LOCALE AHA_SECRET_RATE_LIMIT
+    %w[AHA_SECRET_BASE_URL AHA_SECRET_SESSION_SECRET AHA_SECRET_MEMCACHE_URL AHA_SECRET_APP_LOCALE AHA_SECRET_RATE_LIMIT
        AHA_SECRET_RATE_LIMIT_PERIOD AHA_SECRET_CLEANUP_SCHEDULE AHA_SECRET_DEFAULT_LOCALE AHA_SECRET_MAX_MSG_LENGTH AHA_SECRET_CUSTOM].each do |k|
       ENV.delete(k)
     end
@@ -133,6 +135,25 @@ RSpec.describe AppConfig do
 
       AppConfig.reload!('test')
       expect(AppConfig.memcache_url).to eq('legacy-memcache')
+    end
+
+    it 'prefers AHA_SECRET_MEMCACHE_URL over MEMCACHE' do
+      allow(YAML).to receive(:load_file).and_return({ 'test' => {
+                                                      'rate_limit' => 1,
+                                                      'rate_limit_period' => 1,
+                                                      'cleanup_schedule' => '1m',
+                                                      'default_locale' => 'en',
+                                                      'max_msg_length' => 100,
+                                                      'custom' => {},
+                                                      'memcache_url' => nil,
+                                                      'session_secret' => 'abc',
+                                                      'base_url' => '/'
+                                                    } })
+      ENV['MEMCACHE'] = 'legacy-memcache'
+      ENV['AHA_SECRET_MEMCACHE_URL'] = 'new-memcache'
+
+      AppConfig.reload!('test')
+      expect(AppConfig.memcache_url).to eq('new-memcache')
     end
   end
 
