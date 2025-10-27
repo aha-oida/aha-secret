@@ -2,6 +2,8 @@
 # this is used in the test job of the workflow file
 # Welcome to Jekyll!
 #
+# !!!USE THIS CONFIG FILE FOR LOCAL BUILDS!!!
+#
 # This config file is meant for settings that affect your whole blog, values
 # which you are expected to set up once and rarely edit after that. If you find
 # yourself editing this file very often, consider using Jekyll's data files
@@ -32,7 +34,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 # url: "https://aha-oida.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-# theme: just-the-docs
+theme: just-the-docs
 # remote_theme: just-the-docs/just-the-docs@v0.10.0
 plugins:
   - jekyll-feed

@@ -15,19 +15,19 @@ The documentation is made with [Jekyll] and the [just-the-docs theme].
 First download the docs-branch:
 
 ```bash
-$ git clone -b docs git@github.com:aha-oida/aha-secret.git
+git clone -b docs git@github.com:aha-oida/aha-secret.git
 ```
 
 Change into the docs-subdirectory:
 
 ```bash
-$ cd aha-secret/docs
+cd aha-secret/docs
 ```
 
 Next run bundler:
 
 ```bash
-$ bundle install
+bundle install
 ```
 
 Before we can run jekyll locally, we need to modify the `_config.yml`.
@@ -48,12 +48,14 @@ theme: just-the-docs
 Now run Jekyll and connect to `http://localhost:4000`:
 
 ```
-$ bundle exec jekyll server
+bundle exec jekyll server
 ```
 
 {: .warning }
 > Please note that you have to undo the changes in _`_config.yml` before pushing
 to the repository.
+
+Instead of manually changing `_config.yml` and switching back, you can also run the script `bin/run_local`.
 
 ----
 [Jekyll]: https://jekyllrb.com/docs/

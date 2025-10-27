@@ -130,11 +130,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const togglePasswordButton = document.getElementById("togglePassword");
 
-  togglePasswordButton.addEventListener("click", () => {
-    // Toggle the type attribute between 'password' and 'text'
-    const isPasswordVisible = passwordField.type === "text";
-    passwordField.type = isPasswordVisible ? "password" : "text";
-    document.getElementById("eyeopen").classList.toggle("hidden");
-    document.getElementById("eyeclosed").classList.toggle("hidden");
-  });
+  if (togglePasswordButton && passwordField) {
+    togglePasswordButton.addEventListener("click", () => {
+      // Toggle the type attribute between 'password' and 'text'
+      const isPasswordVisible = passwordField.type === "text";
+      passwordField.type = isPasswordVisible ? "password" : "text";
+      document.getElementById("eyeopen").classList.toggle("hidden");
+      document.getElementById("eyeclosed").classList.toggle("hidden");
+    });
+  }
+
+  const textarea = document.getElementById("message");
+
+  if (textarea) {
+    textarea.addEventListener('paste', (event) => {
+      const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
+      const clipboardData = event.clipboardData.getData('text');
+
+      if (clipboardData.length > maxLength) {
+        event.preventDefault();
+        setAlert("pasteLimitExceeded");
+        return;
+      }
+    });
+  }
 });

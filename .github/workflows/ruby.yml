@@ -18,12 +18,18 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     strategy:
       matrix:
         ruby-version: ['3.2.6', '3.4.2']
+    services:
+      memcached:
+        image: memcached:latest
+        ports:
+          - 11211:11211
     env:
-      undercover_version: 'TEMPORARY_DISABLED'
+      MEMCACHE: "localhost:11211"
+      undercover_version: 'DEACTIVATED_SET_3.4.2_TO_REACTIVATE'
 
     steps:
       - uses: actions/checkout@v3
@@ -31,7 +37,7 @@ jobs:
       # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
       # change this to (see https://github.com/ruby/setup-ruby#versioning):
       # uses: ruby/setup-ruby@v1
-        uses: ruby/setup-ruby@v1 # v1.146.0
+        uses: useblacksmith/setup-ruby@v2 # v1.146.0
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
@@ -44,22 +50,6 @@ jobs:
           sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
       - name: Run brakeman
         run: bundle exec brakeman
-      - name: setup playwright
-        run: bin/playwright_setup
-      - name: Cache Playwright headless browser
-        id: playwright-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install Playwright headless browser (with deps)
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn run playwright install --with-deps chromium-headless-shell
-
-      - name: Install Playwright headless browser deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: yarn run playwright install-deps chromium-headless-shell
       - name: Run tests with coverage
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:
@@ -71,9 +61,9 @@ jobs:
         run: bundle exec rspec
       # only upload coverage once
       - name: undercover
-        if: ${{ matrix.ruby-version == env.undercover_version }}
+        if: ${{ matrix.ruby-version == env.undercover_version && github.ref_name == 'main' }}
         run: |
           ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
             --repo ${{ github.repository }} \
             --commit ${{ github.event.pull_request.head.sha || github.sha }} \
-            --lcov coverage/lcov/aha-secret.lcov
+            --lcov /home/runner/_work/aha-secret/aha-secret/coverage/lcov/aha-secret.lcov

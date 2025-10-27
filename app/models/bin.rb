@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../config/binconf'
 # A bin is the model that stores the encrypted secret.
 # It has a payload, which is the encrypted secret, and a id, which is the unique identifier for the bin.
 # Bins are only temporary and thrown away after expiry or reveal.
@@ -8,6 +7,17 @@ class Bin < Sequel::Model
   plugin :validation_helpers
   plugin :timestamps, update_on_create: true
   plugin :whitelist_security
+
+  validates :payload, presence: true, length: { maximum: AppConfig.calc_max_length }
+  validate :expire_date_cannot_be_bigger_than_7_days
+  has_secure_token :id
+  self.primary_key = :id
+
+  scope :expired, -> { where('expire_date < ?', Time.now.utc) }
+
+  def expire_date_cannot_be_bigger_than_7_days
+    nil unless expire_date
+  end
 
   set_primary_key :id
 
@@ -19,7 +29,7 @@ class Bin < Sequel::Model
     bin_conf = BinConf.instance
     validates_presence [:payload]
     validates_max_length bin_conf.calc_max_length, :payload
-    return unless expire_date && expire_date > (Time.now.utc + 7 * 24 * 60 * 60)
+    return unless expire_date && expire_date > (Time.now.utc + (7 * 24 * 60 * 60))
 
     errors.add(:expire_date, "Can't be bigger than 7 days")
   end
@@ -35,7 +45,7 @@ class Bin < Sequel::Model
   def password?
     !!self[:has_password]
   end
-  alias_method :has_password?, :password?
+  alias has_password? password?
 
   def self.expired
     where { expire_date < Time.now.utc }.all

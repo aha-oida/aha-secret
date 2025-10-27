@@ -18,7 +18,7 @@ stores prebuilt images of [aha-secret]. However it is also possible to build it 
 [aha-secret] ships with a [Dockerfile]. The following command will build the image:
 
 ```bash
-$ docker build -t aha-secret .
+docker build -t aha-secret .
 ```
 
 ## Run Application
@@ -26,7 +26,7 @@ $ docker build -t aha-secret .
 *Please note that the following command will not persist any data and stored secrets will be deleted if the container is stopped*
 
 ```bash
-$ docker run --rm -it aha-secret
+docker run --rm -it aha-secret
 ```
 
 ## Using Volumes
@@ -34,7 +34,7 @@ $ docker run --rm -it aha-secret
 In order to persist the database, use volumes:
 
 ```bash
-$ docker run --rm -v ahadb:/usr/src/app/db/database aha-secret
+docker run --rm -v ahadb:/usr/src/app/db/database aha-secret
 ```
 
 ### Custom Config
@@ -42,7 +42,7 @@ $ docker run --rm -v ahadb:/usr/src/app/db/database aha-secret
 If you want to replace the config with your own, use a volume:
 
 ```bash
-$ docker run --rm -v $PWD/config.yml:/usr/src/app/config/config.yml -v ahadb:/usr/src/app/db/database aha-secret
+docker run --rm -v $PWD/config.yml:/usr/src/app/config/config.yml -v ahadb:/usr/src/app/db/database aha-secret
 ```
 
 ### Custom CSS
@@ -50,7 +50,7 @@ $ docker run --rm -v $PWD/config.yml:/usr/src/app/config/config.yml -v ahadb:/us
 It is even possible to add a custom.css using volumes:
 
 ```bash
-$ docker run --rm -v $PWD/custom.css:/usr/src/app/public/stylesheets/custom.css -v ahadb:/usr/src/app/db/database aha-secret
+docker run --rm -v $PWD/custom.css:/usr/src/app/public/stylesheets/custom.css -v ahadb:/usr/src/app/db/database aha-secret
 ```
 
 

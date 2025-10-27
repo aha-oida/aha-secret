@@ -2,44 +2,41 @@
 
 source 'https://rubygems.org'
 
-gem 'sequel', '~> 5.77'
-
-# gem 'activerecord', '~> 8.0.2', require: 'active_record'
-# gem 'sinatra-activerecord', require: 'sinatra/activerecord'
-
 gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0'
 gem 'erubis', '~> 2.7'
 gem 'i18n', '~> 1.14.7'
-gem 'puma', '~> 6.6'
-gem 'rack-attack', '~> 6.7'
+gem 'puma', '~> 7.1'
+gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.2'
 gem 'rake', '~> 13.2'
-gem 'require_all', '~> 3.0'
 gem 'rspec', '~> 3.13'
 gem 'rufus-scheduler', '~> 3.9'
-gem 'sinatra', '~> 4.0'
+gem 'sequel', '~> 5.77'
+gem 'sinatra', '~> 4.2'
 gem 'sprockets-helpers'
 
 github 'sinatra/sinatra' do
   gem 'sinatra-contrib'
 end
-gem 'sqlite3', '~> 2.6'
+gem 'sqlite3', '~> 2.7'
 
 group :development do
-  gem 'brakeman', '~> 7.0.2'
+  gem 'brakeman', '~> 7.1.0'
   gem 'i18n-tasks', '~> 1.0.15'
-  gem 'overcommit', '~> 0.67'
+  gem 'overcommit', '~> 0.68'
   gem 'rerun', '~> 0.14.0'
-  gem 'rubocop', '~> 1.75'
+  gem 'rubocop', '~> 1.81'
 end
 
 group :test do
   gem 'capybara', '~> 3.40.0'
-  gem 'capybara-playwright-driver'
+  gem 'cuprite'
   gem 'database_cleaner', '~> 2.1.0'
-  gem 'faker', '~> 3.5.1'
+  gem 'faker', '~> 3.5.2'
   gem 'rack-test', '~> 2.2'
   gem 'simplecov'
   gem 'simplecov-lcov'
+  gem 'timecop'
+  gem 'undercover', '~> 0.8.1'
 end

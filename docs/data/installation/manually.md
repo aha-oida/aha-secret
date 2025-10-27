@@ -71,7 +71,18 @@ WantedBy=multi-user.target
 
 # Run aha-secret manually
 
-First run a database-migration:
+First install all dependencies:
+
+```bash
+bundle install
+```
+
+{: .note-title }
+> SQLITE3 NEEDED
+>
+> Please make sure that sqlite3 is installed
+
+Next run a database-migration:
 
 ```bash
 bundle exec rake db:migrate
@@ -80,7 +91,7 @@ bundle exec rake db:migrate
 Run application with german translation:
 
 ```bash
-$ APP_LOCALE=de bundle exec rerun rackup
+APP_LOCALE=de bundle exec rerun rackup
 ```
 
 ----

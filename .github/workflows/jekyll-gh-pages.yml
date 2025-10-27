@@ -34,12 +34,12 @@ defaults:
 jobs:
   # Test with htmlproofer
   test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: useblacksmith/setup-ruby@v2
         with:
           ruby-version: '3.3.6' # Not needed with a .ruby-version file
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
@@ -47,18 +47,18 @@ jobs:
           working-directory: docs
       - name: Build site for testing
         run: |
-          bundle exec jekyll build --config _build_config.yml -d _testoutput
+          bundle exec jekyll build --config _local_config.yml -d _testoutput
       - name: Run htmlproofer
         run: |
           bundle exec htmlproofer --ignore-urls  "/www.gnu.org/" ./_testoutput
   # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: useblacksmith/setup-ruby@v2
         with:
           ruby-version: '3.3.6' # Not needed with a .ruby-version file
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
@@ -70,6 +70,7 @@ jobs:
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: |
+          bundle install
           bundle exec jekyll build -d ../_site -c _config.yml
         env:
           JEKYLL_ENV: production
@@ -82,7 +83,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     needs: build
     steps:
       - name: Deploy to GitHub Pages

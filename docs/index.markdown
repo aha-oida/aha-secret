@@ -40,7 +40,7 @@ Sensitive information should not be stored in a mailbox or chat history.
 Even if [aha-secret] can be installed [manually]({{ 'data/installation/manually' | relative_url }}) or by using [docker]({{ 'data/installation/docker' | relative_url }}) it is
 recommended to use [docker-compose]({{ 'data/installation/docker-compose' | relative_url }}).
 For installation instructions please read the [Getting started]({{ 'getting-started' | relative_url }}) or the [Installation section]({{ 'data/installation' | relative_url  }}). For customization
-or all the configuration options read the section [Configuration]({{ '/configuration' | relative_url }}).
+or all the configuration options read the section [Configuration]({{ '/configuration' | relative_url }}). For advanced configuration and all environment variables, see the [Configuration documentation]({{ '/configuration' | relative_url }}).
 
 # Translations
 
@@ -52,6 +52,31 @@ or all the configuration options read the section [Configuration]({{ '/configura
 # License
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+## Environment Variables
+
+The application is configured using environment variables. Use the new `AHA_SECRET_*` variables for all new deployments. Deprecated variables are supported for backward compatibility but should be avoided.
+
+See the [Configuration](/configuration/) page for a complete list and details.
+
+**Example:**
+
+```bash
+AHA_SECRET_BASE_URL=http://localhost
+AHA_SECRET_MEMCACHE_URL=localhost:11211
+AHA_SECRET_SESSION_SECRET=your-secret
+AHA_SECRET_APP_LOCALE=en
+AHA_SECRET_CLEANUP_SCHEDULE=10m
+AHA_SECRET_RATE_LIMIT=64
+AHA_SECRET_RATE_LIMIT_PERIOD=60
+AHA_SECRET_MAX_MSG_LENGTH=20000
+SKIP_SCHEDULER=true
+```
+
+- For tests, `SKIP_SCHEDULER=true` is set automatically to avoid running background jobs.
+- For CI, `CI=true` and other test-specific variables are set automatically.
+
+> **Deprecated:** `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` (use the new `AHA_SECRET_*` variables instead).
 
 ----
 

@@ -1,3 +1,5 @@
 #!/bin/bash
 
+eval 'export SKIP_SCHEDULER=true'
+
 bundle exec irb -I. -r config/environment.rb

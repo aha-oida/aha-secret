@@ -1,30 +1,28 @@
 ---
 default: &common_settings
+  rate_limit: 15
+  rate_limit_period: 60 # in seconds
   cleanup_schedule: "5m"
-  url: "/"
+  base_url: "/"
   default_locale: "en"
   max_msg_length: 10000
+  session_secret:
+  memcache_url: ""
+  permitted_origins: ""
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
     html_title: false # possible values: false, replace, append
-    html_title_string: your-custom-title-here
+    html_title_string: Share secrets encrypted
     meta_description: false # possible values: false, replace, append
-    meta_description_string: your-custom-description-here
-    meta_description_keywords: your, keywords, here
+    meta_description_string: Share secrets encrypted
+    meta_description_keywords: Share, Secrets, Encrypted
     footer: false # possible values: false, replace, append
     footer_string: '<p>your-custom-footer-here <a href="https://example.com">Example</a></p>'
 
 production:
   <<: *common_settings
-
-development:
-  <<: *common_settings
+  # base_url: "https://example.com" # set to your production URL
   cleanup_schedule: "5m"
-
-test:
-  <<: *common_settings
-  # TODO: not needed anymore because we do not use rufus in tests?
-  cleanup_schedule: "2s"
   custom:
     stylesheet: false
     html_title: false # possible values: false, replace, append
@@ -34,3 +32,18 @@ test:
     meta_description_keywords: custom, meta, description
     footer: false
     footer_string: custom-footer
+
+development:
+  <<: *common_settings
+
+test:
+  <<: *common_settings
+  custom:
+    stylesheet: false
+    html_title: false
+    html_title_string: test-title
+    meta_description: false
+    meta_description_string: test-meta-description
+    meta_description_keywords: test, meta, description
+    footer: false
+    footer_string: test-footer
