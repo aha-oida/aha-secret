@@ -49,8 +49,6 @@ class AppConfig
 
     def apply_env_overrides(config_hash)
       REQUIRED_KEYS.each do |key|
-        next if key == 'base_url' # base_url has no AHA_SECRET_BASE_URL, only comes from config file
-
         env_key = "AHA_SECRET_#{key.upcase}"
         config_hash[key] = ENV[env_key] if ENV.key?(env_key)
       end

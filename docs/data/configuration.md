@@ -18,7 +18,7 @@ The following environment variables can be set to configure the application:
 
 | Variable       | Description | Default |
 |----------------|-------------|---------|
-| AHA_SECRET_BASE_URL | Set base-url of Website. (default: /) | base-url |
+| AHA_SECRET_BASE_URL | Set base-url of Website.  | / |
 | AHA_SECRET_PERMITTED_ORIGINS | CORS/CSRF allowed origins | *(none)* |
 | AHA_SECRET_SESSION_SECRET | Set custom session-secret | random |
 | AHA_SECRET_MEMCACHE_URL | Set a memcache-server and enable rack-attack | empty (disable rack-attack) |
@@ -30,12 +30,12 @@ The following environment variables can be used to configure **aha-secret**. Mos
 
 | Variable | Description | Default | Notes |
 |----------|-------------|---------|-------|
-| `AHA_SECRET_BASE_URL` | Set base-url of Website. (default: /) | `base-url` | |
+| `AHA_SECRET_BASE_URL` | Set base-url of Website. | / | |
 | `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
 | `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | Use `AHA_SECRET_MEMCACHE_URL` instead |
 | `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | Set for production deployments |
 | `SESSION_SECRET` | (Deprecated) Old session secret variable | Random | Use `AHA_SECRET_SESSION_SECRET` instead |
-| `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `10m` | Example: `1h`, `10m` |
+| `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `5m` | Example: `1h`, `5m` |
 | `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `64` | Used by Rack::Attack |
 | `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | Used by Rack::Attack |
 | `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | |
