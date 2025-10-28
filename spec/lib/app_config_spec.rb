@@ -64,6 +64,41 @@ RSpec.describe AppConfig do
     expect(AppConfig.calc_max_length).to eq(20_000)
   end
 
+  it 'returns 256 for calc_max_length when max_msg_length is less than 128' do
+    allow(YAML).to receive(:load_file).and_return({ 'test' => { 'max_msg_length' => 100, 'rate_limit' => 1,
+                                                                'rate_limit_period' => 1, 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
+    AppConfig.reload!('test')
+    expect(AppConfig.calc_max_length).to eq(256)
+  end
+
+  it 'returns doubled value for calc_max_length when max_msg_length is 128 or more' do
+    allow(YAML).to receive(:load_file).and_return({ 'test' => { 'max_msg_length' => 500, 'rate_limit' => 1,
+                                                                'rate_limit_period' => 1, 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
+    AppConfig.reload!('test')
+    expect(AppConfig.calc_max_length).to eq(1000)
+  end
+
+  it 'returns default values for rate_limit and rate_limit_period when not configured' do
+    allow(YAML).to receive(:load_file).and_return({ 'test' => { 'max_msg_length' => 100,
+                                                                'rate_limit' => nil, 'rate_limit_period' => nil,
+                                                                'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
+    AppConfig.reload!('test')
+    expect(AppConfig.rate_limit).to eq(15)
+    expect(AppConfig.rate_limit_period).to eq(1.minute)
+  end
+
+  it 'returns nil for app_locale when AHA_SECRET_APP_LOCALE is not set' do
+    AppConfig.reload!('test')
+    expect(AppConfig.app_locale).to be_nil
+  end
+
+  it 'returns AHA_SECRET_APP_LOCALE when set' do
+    ENV['AHA_SECRET_APP_LOCALE'] = 'es'
+    AppConfig.reload!('test')
+    expect(AppConfig.app_locale).to eq('es')
+    ENV.delete('AHA_SECRET_APP_LOCALE')
+  end
+
   it 'loads config from ENV for custom keys and uses ENV values' do
     allow(YAML).to receive(:load_file).and_return({ 'test' => { 'base_url' => '/' } })
     ENV['AHA_SECRET_BASE_URL'] = '/env-base-url'
@@ -91,7 +126,7 @@ RSpec.describe AppConfig do
     expect(AppConfig.custom).to eq('{"foo": "bar"}')
     # Clean up ENV
     %w[AHA_SECRET_BASE_URL AHA_SECRET_SESSION_SECRET AHA_SECRET_MEMCACHE_URL AHA_SECRET_APP_LOCALE AHA_SECRET_RATE_LIMIT
-       AHA_SECRET_RATE_LIMIT_PERIOD AHA_SECRET_CLEANUP_SCHEDULE AHA_SECRET_DEFAULT_LOCALE AHA_SECRET_MAX_MSG_LENGTH AHA_SECRET_CUSTOM].each do |k|
+       AHA_SECRET_RATE_LIMIT_PERIOD AHA_SECRET_CLEANUP_SCHEDULE AHA_SECRET_DEFAULT_LOCALE AHA_SECRET_MAX_MSG_LENGTH AHA_SECRET_CUSTOM AHA_SECRET_PERMITTED_ORIGINS].each do |k|
       ENV.delete(k)
     end
   end
@@ -154,6 +189,46 @@ RSpec.describe AppConfig do
 
       AppConfig.reload!('test')
       expect(AppConfig.memcache_url).to eq('new-memcache')
+    end
+
+    it 'prefers AHA_SECRET_PERMITTED_ORIGINS over URL legacy env' do
+      allow(YAML).to receive(:load_file).and_return({ 'test' => {
+                                                      'rate_limit' => 1,
+                                                      'rate_limit_period' => 1,
+                                                      'cleanup_schedule' => '1m',
+                                                      'default_locale' => 'en',
+                                                      'max_msg_length' => 100,
+                                                      'custom' => {},
+                                                      'memcache_url' => '',
+                                                      'session_secret' => 'abc',
+                                                      'base_url' => '/',
+                                                      'permitted_origins' => 'config-origins'
+                                                    } })
+      ENV['URL'] = 'legacy-url'
+      ENV['AHA_SECRET_PERMITTED_ORIGINS'] = 'new-origins'
+
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to eq('new-origins')
+    end
+
+    it 'falls back to URL env when AHA_SECRET_PERMITTED_ORIGINS is not set' do
+      allow(YAML).to receive(:load_file).and_return({ 'test' => {
+                                                      'rate_limit' => 1,
+                                                      'rate_limit_period' => 1,
+                                                      'cleanup_schedule' => '1m',
+                                                      'default_locale' => 'en',
+                                                      'max_msg_length' => 100,
+                                                      'custom' => {},
+                                                      'memcache_url' => '',
+                                                      'session_secret' => 'abc',
+                                                      'base_url' => '/',
+                                                      'permitted_origins' => ''
+                                                    } })
+      ENV.delete('AHA_SECRET_PERMITTED_ORIGINS')
+      ENV['URL'] = 'fallback-url'
+
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to eq('fallback-url')
     end
   end
 
