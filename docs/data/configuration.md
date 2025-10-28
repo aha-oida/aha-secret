@@ -57,6 +57,62 @@ The following environment variables can be used to configure **aha-secret**. Mos
 - `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` are deprecated. Use the `AHA_SECRET_*` equivalents.
 - Deprecated variables are still supported for backward compatibility but will show a warning.
 
+## Creating a config.yml File
+
+The application can use a `config/config.yml` file for configuration instead of environment variables. This is useful for static deployments or when you prefer file-based configuration.
+
+### Sample config.yml
+
+```yaml
+---
+default: &common_settings
+  rate_limit: 15
+  rate_limit_period: 60  # in seconds
+  cleanup_schedule: "5m"
+  base_url: "/"
+  default_locale: "en"
+  max_msg_length: 10000
+  session_secret: "your-secret-key-here"
+  memcache_url: "localhost:11211"
+  permitted_origins: "https://yourdomain.com"
+  custom:
+    stylesheet: true
+    html_title: false
+    html_title_string: "Share secrets encrypted"
+    meta_description: false
+    meta_description_string: "Share secrets encrypted"
+    meta_description_keywords: "Share, Secrets, Encrypted"
+    footer: false
+    footer_string: '<p>Custom footer <a href="https://example.com">link</a></p>'
+
+development:
+  <<: *common_settings
+  session_secret: "dev-secret"
+  memcache_url: ""
+  permitted_origins: "http://localhost:9292"
+
+production:
+  <<: *common_settings
+  session_secret: "CHANGE-THIS-TO-A-SECURE-RANDOM-STRING"
+  memcache_url: "memcached:11211"
+  permitted_origins: "https://yourdomain.com"
+
+test:
+  <<: *common_settings
+  session_secret: "test-secret"
+  memcache_url: ""
+  permitted_origins: ""
+  max_msg_length: 1000
+```
+
+### Configuration Notes
+
+- **session_secret**: Should be a long, random string for production
+- **memcache_url**: Leave empty to disable rate limiting, or set to your memcache server
+- **permitted_origins**: Set to your domain for CORS/CSRF protection
+- **Environment-specific sections**: Override common settings per environment
+- **custom**: Configure UI customization options
+
 ### Precedence and Override Logic
 
 - Environment variables override values in `config/config.yml`.
