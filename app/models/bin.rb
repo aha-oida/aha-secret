@@ -7,39 +7,30 @@ class Bin < Sequel::Model
   plugin :validation_helpers
   plugin :timestamps, update_on_create: true
   plugin :whitelist_security
+  plugin :defaults_setter  # Use database defaults for columns
 
-  validates :payload, presence: true, length: { maximum: AppConfig.calc_max_length }
-  validate :expire_date_cannot_be_bigger_than_7_days
-  has_secure_token :id
-  self.primary_key = :id
-
-  scope :expired, -> { where('expire_date < ?', Time.now.utc) }
-
-  def expire_date_cannot_be_bigger_than_7_days
-    nil unless expire_date
-  end
-
+  # Set the primary key (custom ID)
   set_primary_key :id
+  unrestrict_primary_key
 
-  # Allow mass-assignment for has_password
+  # Allow mass-assignment for these columns
   set_allowed_columns :payload, :has_password, :expire_date
 
+  # Validation
   def validate
     super
-    bin_conf = BinConf.instance
-    validates_presence [:payload]
-    validates_max_length bin_conf.calc_max_length, :payload
-    return unless expire_date && expire_date > (Time.now.utc + (7 * 24 * 60 * 60))
-
-    errors.add(:expire_date, "Can't be bigger than 7 days")
+    validates_presence [:payload, :expire_date]
+    validates_max_length AppConfig.calc_max_length, :payload
+    
+    # Validate expire_date is not more than 7 days in the future
+    if expire_date && expire_date > (Time.now.utc + (7 * 24 * 60 * 60))
+      errors.add(:expire_date, "can't be bigger than 7 days")
+    end
   end
 
+  # Instance methods
   def expired?
     expire_date < Time.now.utc
-  end
-
-  def self.cleanup
-    where { expire_date < Time.now.utc }.each(&:delete)
   end
 
   def password?
@@ -47,10 +38,16 @@ class Bin < Sequel::Model
   end
   alias has_password? password?
 
-  def self.expired
-    where { expire_date < Time.now.utc }.all
+  # Class methods
+  def self.cleanup
+    where { expire_date < Time.now.utc }.delete
   end
 
+  def self.expired
+    where { expire_date < Time.now.utc }
+  end
+
+  # Hooks
   def before_create
     super
     self.id ||= generate_unique_id
