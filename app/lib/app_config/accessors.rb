@@ -49,7 +49,7 @@ class AppConfig
 
     def rate_limit
       load! unless @config
-      @config.rate_limit || 15
+      @config.rate_limit || 65
     end
 
     def rate_limit_period

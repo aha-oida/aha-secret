@@ -28,26 +28,26 @@ The following environment variables can be set to configure the application:
 
 The following environment variables can be used to configure **aha-secret**. Most can be set in your shell, `.env` file, or via your deployment platform.
 
-| Variable | Description | Default | Notes |
-|----------|-------------|---------|-------|
-| `AHA_SECRET_BASE_URL` | Set base-url of Website. | / | |
-| `URL` | (Deprecated) Old base URL variable | / | Use `AHA_SECRET_BASE_URL` instead |
-| `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
-| `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | Use `AHA_SECRET_MEMCACHE_URL` instead |
-| `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | Set for production deployments |
-| `SESSION_SECRET` | (Deprecated) Old session secret variable | Random | Use `AHA_SECRET_SESSION_SECRET` instead |
-| `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `5m` | Example: `1h`, `5m` |
-| `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `15` | Used by Rack::Attack |
-| `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | Used by Rack::Attack |
-| `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | |
-| `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `10000` | |
-| `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | |
-| `PERMITTED_ORIGINS` | (Deprecated) Old CORS origins variable | *(none)* | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
-| `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | Overrides default_locale when set |
-| `APP_LOCALE` | (Deprecated) Old app locale variable | *(none)* | Use `AHA_SECRET_APP_LOCALE` instead |
-| `RACK_ENV` | Rack environment | `development` | Use `production` for deployment, `test` for tests |
-| `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | Set to `true` in test/CI |
-| `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | Used in test/CI |
+| Variable | Description | Default | Config.yml Key | Notes |
+|----------|-------------|---------|----------------|-------|
+| `AHA_SECRET_BASE_URL` | Set base-url of Website. | / | `base_url` | |
+| `URL` | (Deprecated) Old base URL variable | / | `base_url` | Use `AHA_SECRET_BASE_URL` instead |
+| `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | `memcache_url` | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
+| `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | `memcache_url` | Use `AHA_SECRET_MEMCACHE_URL` instead |
+| `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | `session_secret` | Set for production deployments |
+| `SESSION_SECRET` | (Deprecated) Old session secret variable | Random | `session_secret` | Use `AHA_SECRET_SESSION_SECRET` instead |
+| `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `10m` | `cleanup_schedule` | Example: `1h`, `5m` |
+| `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `65` | `rate_limit` | Used by Rack::Attack |
+| `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | `rate_limit_period` | Used by Rack::Attack |
+| `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | `default_locale` | |
+| `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `10000` | `max_msg_length` | |
+| `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | `permitted_origins` | |
+| `PERMITTED_ORIGINS` | (Deprecated) Old CORS origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
+| `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | *(none)* | Overrides default_locale when set |
+| `APP_LOCALE` | (Deprecated) Old app locale variable | *(none)* | *(none)* | Use `AHA_SECRET_APP_LOCALE` instead |
+| `RACK_ENV` | Rack environment | `development` | *(none)* | Use `production` for deployment, `test` for tests |
+| `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | *(none)* | Set to `true` in test/CI |
+| `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | *(none)* | Used in test/CI |
 | `CI` | Set automatically in CI | *(none)* | Used to enable CI-specific logic |
 | `SHOW_BROWSER` | Show browser in e2e tests | *(none)* | Set to `true` to see browser window |
 | `undercover_version` | Used in CI for coverage matrix | *(none)* | |
