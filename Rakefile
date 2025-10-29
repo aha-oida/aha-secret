@@ -22,6 +22,12 @@ end
 
 RSpec::Core::RakeTask.new(:spec)
 
+desc 'Load the application environment'
+task :environment do
+  # Environment is already loaded via require_relative 'config/environment' at the top
+  # This task exists for compatibility with tasks that depend on :environment
+end
+
 desc 'Run all tests, even those usually excluded.'
 task all_tests: :environment do
   ENV['RUN_ALL_TESTS'] = 'true'
