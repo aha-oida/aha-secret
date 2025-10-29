@@ -52,10 +52,15 @@ jobs:
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:
           COVERAGE: "true"
+          CI: "true"
+          MEMCACHE: "localhost:11211"
         run: bundle exec rspec
       # Run tests without coverage for other Ruby versions
       - name: Run tests
         if: ${{ matrix.ruby-version != env.undercover_version }}
+        env:
+          CI: "true"
+          MEMCACHE: "localhost:11211"
         run: bundle exec rspec
       # only upload coverage once
       - name: undercover
