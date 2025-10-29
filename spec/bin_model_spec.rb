@@ -42,13 +42,13 @@ describe Bin do
     bin = Bin.create(payload: 'Hello, World!')
     expect(Bin.expired.all).to eq []
     bin.update(expire_date: Time.now - 1*24*60*60)
-    expect(Bin.expired.all).to eq [bin]
+    expect(Bin.expired.all.map(&:id)).to eq [bin.id]
   end
 
   it 'has a cleanup method' do
     bin = Bin.create(payload: 'Hello, World!')
     bin.update(expire_date: Time.now - 1*24*60*60)
-    expect(Bin.expired.all).to eq [bin]
+    expect(Bin.expired.all.map(&:id)).to eq [bin.id]
     Bin.cleanup
     expect(Bin.expired.all).to eq []
   end
