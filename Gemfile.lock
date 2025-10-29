@@ -167,7 +167,7 @@ GEM
       iniparse (~> 1.4)
       rexml (>= 3.3.9)
     parallel (1.27.0)
-    parser (3.3.9.0)
+    parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
     pp (0.6.3)
@@ -362,4 +362,4 @@ DEPENDENCIES
   undercover (~> 0.8.1)
 
 BUNDLED WITH
-   2.6.6
+   2.7.2
