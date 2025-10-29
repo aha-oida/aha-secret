@@ -32,12 +32,6 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activemodel (8.1.0)
-      activesupport (= 8.1.0)
-    activerecord (8.1.0)
-      activemodel (= 8.1.0)
-      activesupport (= 8.1.0)
-      timeout (>= 0.4.0)
     activesupport (8.1.0)
       base64
       bigdecimal
@@ -77,12 +71,10 @@ GEM
       capybara (~> 3.0)
       ferrum (~> 0.17.0)
     dalli (3.2.8)
-    database_cleaner (2.1.0)
-      database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.2)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
+    database_cleaner-sequel (2.0.2)
+      database_cleaner-core (~> 2.0.0)
+      sequel
     date (3.4.1)
     debug (1.11.0)
       irb (~> 1.10)
@@ -303,7 +295,6 @@ GEM
     thor (1.4.0)
     tilt (2.6.1)
     timecop (0.9.10)
-    timeout (0.4.3)
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -344,7 +335,7 @@ DEPENDENCIES
   capybara (~> 3.40.0)
   cuprite
   dalli (>= 3.2)
-  database_cleaner (~> 2.1.0)
+  database_cleaner-sequel
   debug (>= 1.0.0)
   erubis (~> 2.7)
   faker (~> 3.5.2)

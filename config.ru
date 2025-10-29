@@ -6,7 +6,7 @@ require 'rack/protection'
 require 'rack/attack'
 require 'dalli'
 
-ActiveRecord::Migration.check_all_pending!
+# Migration check is done in config/environment.rb via Sequel::Migrator.check_current
 
 if AppConfig.memcache_url
   use Rack::Attack
