@@ -80,12 +80,4 @@ namespace :db do
   task :seed do
     load 'db/seeds.rb'
   end
-
-  # rubocop:disable Metrics/BlockLength
-  desc 'Prepare the database (for compatibility with Rails/Overcommit)'
-  task prepare: :migrate do
-    # No-op for Sequel, but required for Overcommit compatibility
-    puts('db:prepare: ran db:migrate (Sequel)')
-  end
-  # rubocop:enable Metrics/BlockLength
 end
