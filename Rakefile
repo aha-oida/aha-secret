@@ -3,8 +3,10 @@
 ENV['RACK_ENV'] ||= 'development'
 
 require_relative 'config/environment'
-require 'sinatra/activerecord/rake'
+# require 'sinatra/activerecord/rake'
 require 'rspec/core/rake_task'
+require 'sequel'
+require 'sequel/extensions/migration'
 
 task default: :spec
 
@@ -19,6 +21,12 @@ task :rerun do
 end
 
 RSpec::Core::RakeTask.new(:spec)
+
+desc 'Load the application environment'
+task :environment do
+  # Environment is already loaded via require_relative 'config/environment' at the top
+  # This task exists for compatibility with tasks that depend on :environment
+end
 
 desc 'Run all tests, even those usually excluded.'
 task all_tests: :environment do
@@ -44,9 +52,32 @@ task :migrateserv do
   Rake::Task['serve'].invoke
 end
 
-task :after_migration_hook do
-  ENV['SCHEMA_FORMAT'] = 'sql'
-  Rake::Task['db:schema:dump'].invoke
-end
+namespace :db do
+  desc 'Migrate the database (Sequel)'
+  task :migrate do
+    Sequel::Migrator.run(DB, 'db/migrate')
+    puts 'Migrations complete.'
+  end
 
-Rake::Task['db:migrate'].enhance [:after_migration_hook]
+  desc 'Create the database (noop for SQLite)'
+  task :create do
+    # For SQLite, DB file is created automatically on connect
+    puts 'Database create: noop (SQLite)'
+  end
+
+  desc 'Drop the database (deletes SQLite file)'
+  task :drop do
+    db_path = DB.uri.split(':///').last
+    if File.exist?(db_path)
+      File.delete(db_path)
+      puts('Deleted', db_path)
+    else
+      puts('No database file found at', db_path)
+    end
+  end
+
+  desc 'Seed the database'
+  task :seed do
+    load 'db/seeds.rb'
+  end
+end
