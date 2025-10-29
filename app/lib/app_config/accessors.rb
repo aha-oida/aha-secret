@@ -54,7 +54,7 @@ class AppConfig
 
     def rate_limit_period
       load! unless @config
-      @config.rate_limit_period || 1.minute
+      @config.rate_limit_period || 60 # in seconds
     end
 
     def session_secret
