@@ -14,6 +14,11 @@ describe Bin do
     expect { bin.save }.to raise_error(Sequel::ValidationFailed)
   end
 
+  it 'does not save a new bin without an expire_date' do
+    bin = Bin.new(payload: 'Hello, World!', expire_date: nil)
+    expect { bin.save }.to raise_error(Sequel::ValidationFailed)
+  end
+
   it 'has a expire_date' do
     bin = Bin.new(payload: 'Hello, World!')
     expect { bin.save }.not_to raise_error
@@ -35,17 +40,17 @@ describe Bin do
 
   it 'can be filtered by expiration' do
     bin = Bin.create(payload: 'Hello, World!')
-    expect(Bin.expired).to eq []
+    expect(Bin.expired.all).to eq []
     bin.update(expire_date: Time.now - 1*24*60*60)
-    expect(Bin.expired).to eq [bin]
+    expect(Bin.expired.all).to eq [bin]
   end
 
   it 'has a cleanup method' do
     bin = Bin.create(payload: 'Hello, World!')
     bin.update(expire_date: Time.now - 1*24*60*60)
-    expect(Bin.expired).to eq [bin]
+    expect(Bin.expired.all).to eq [bin]
     Bin.cleanup
-    expect(Bin.expired).to eq []
+    expect(Bin.expired.all).to eq []
   end
 
   it 'has a has_password? method' do
