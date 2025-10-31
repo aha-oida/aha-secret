@@ -28,7 +28,7 @@ class AppConfig
       deprecated_config_mappings.each do |old_key, new_key|
         next unless config_hash.key?(old_key)
 
-        warn "[DEPRECATION] Config key '#{old_key}' is deprecated; use '#{new_key}' instead"
+        Accessors.warn_deprecated_config(old_key, new_key)
         # Only set the new key if it's not explicitly set (new key takes precedence)
         # But we need to distinguish between inherited values and explicitly set values
         # For now, we'll use a simple approach: if both exist, prefer the new key
@@ -42,7 +42,7 @@ class AppConfig
         next unless ENV.key?(old_var)
 
         new_var = "AHA_SECRET_#{config_keys.first.upcase}"
-        warn "[DEPRECATION] ENV['#{old_var}'] is deprecated; use ENV['#{new_var}'] instead"
+        Accessors.warn_deprecated_env(old_var, new_var)
         config_keys.each { |k| config_hash[k] = ENV.fetch(old_var, nil) }
       end
     end
