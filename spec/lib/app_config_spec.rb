@@ -15,7 +15,7 @@ RSpec.describe AppConfig do
 
   it 'loads the test environment config with fallback to default' do
     AppConfig.load!
-    expect(AppConfig.cleanup_schedule).to eq('5m')
+    expect(AppConfig.cleanup_schedule).to eq('10m')
     expect(AppConfig.custom['stylesheet']).to eq(false)
   end
 
@@ -54,7 +54,7 @@ RSpec.describe AppConfig do
 
   it 'can reload config' do
     AppConfig.reload!('test')
-    expect(AppConfig.cleanup_schedule).to eq('5m')
+    expect(AppConfig.cleanup_schedule).to eq('10m')
   end
 
   it 'returns default max_msg_length if missing' do

@@ -68,7 +68,7 @@ The application can use a `config/config.yml` file for configuration instead of 
 default: &common_settings
   rate_limit: 65
   rate_limit_period: 60  # in seconds
-  cleanup_schedule: "5m"
+  cleanup_schedule: "10m"
   base_url: "/"
   default_locale: "en"
   max_msg_length: 10000

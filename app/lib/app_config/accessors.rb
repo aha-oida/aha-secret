@@ -24,7 +24,7 @@ class AppConfig
 
     def cleanup_schedule
       load! unless @config
-      @config.cleanup_schedule || '5m'
+      @config.cleanup_schedule || '10m'
     end
 
     def default_locale
