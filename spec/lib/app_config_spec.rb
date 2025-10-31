@@ -83,7 +83,7 @@ RSpec.describe AppConfig do
                                                                 'rate_limit' => nil, 'rate_limit_period' => nil,
                                                                 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
     AppConfig.reload!('test')
-    expect(AppConfig.rate_limit).to eq(15)
+    expect(AppConfig.rate_limit).to eq(65)
     expect(AppConfig.rate_limit_period).to eq(1.minute)
   end
 

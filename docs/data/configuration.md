@@ -66,7 +66,7 @@ The application can use a `config/config.yml` file for configuration instead of 
 ```yaml
 ---
 default: &common_settings
-  rate_limit: 15
+  rate_limit: 65
   rate_limit_period: 60  # in seconds
   cleanup_schedule: "5m"
   base_url: "/"

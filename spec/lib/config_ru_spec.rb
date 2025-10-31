@@ -41,7 +41,7 @@ describe 'config.ru Rate Limiting' do
     expect { app }.not_to raise_error
 
     # Verify that AppConfig methods return the expected values from the real config
-    expect(AppConfig.rate_limit).to eq(15)  # From config.yml default
+    expect(AppConfig.rate_limit).to eq(65)  # From config.yml default
     expect(AppConfig.rate_limit_period).to eq(60)  # From config.yml default
   end
 
@@ -61,7 +61,7 @@ describe 'config.ru Rate Limiting' do
   describe 'throttle block logic unit tests' do
     it 'uses correct rate limit values from AppConfig' do
       # Test that AppConfig provides the expected rate limit values
-      expect(AppConfig.rate_limit).to eq(15)  # Default from config
+      expect(AppConfig.rate_limit).to eq(65)  # Default from config
       expect(AppConfig.rate_limit_period).to eq(60)  # Default from config
     end
 
