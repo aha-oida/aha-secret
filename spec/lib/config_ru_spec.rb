@@ -41,8 +41,19 @@ describe 'config.ru Rate Limiting' do
     expect { app }.not_to raise_error
 
     # Verify that AppConfig methods return the expected values from the real config
-    expect(AppConfig.rate_limit).to eq(65)  # From config.yml default
-    expect(AppConfig.rate_limit_period).to eq(60)  # From config.yml default
+    expect(AppConfig.rate_limit).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT)  # From config.yml default
+    expect(AppConfig.rate_limit_period).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)  # From config.yml default
+  end
+
+  it 'configures rate limiting with custom ENV values' do
+    ENV['AHA_SECRET_RATE_LIMIT'] = '42'
+    ENV['AHA_SECRET_RATE_LIMIT_PERIOD'] = '120'
+    AppConfig.reload!('test')
+
+    expect { app }.not_to raise_error
+
+    expect(AppConfig.rate_limit).to eq('42')
+    expect(AppConfig.rate_limit_period).to eq('120')
   end
 
   it 'handles test environment rate limiting' do
@@ -60,9 +71,14 @@ describe 'config.ru Rate Limiting' do
 
   describe 'throttle block logic unit tests' do
     it 'uses correct rate limit values from AppConfig' do
+      # Ensure clean ENV state
+      ENV.delete('AHA_SECRET_RATE_LIMIT')
+      ENV.delete('AHA_SECRET_RATE_LIMIT_PERIOD')
+      AppConfig.reload!('test')
+      
       # Test that AppConfig provides the expected rate limit values
-      expect(AppConfig.rate_limit).to eq(65)  # Default from config
-      expect(AppConfig.rate_limit_period).to eq(60)  # Default from config
+      expect(AppConfig.rate_limit).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT)  # Default from config
+      expect(AppConfig.rate_limit_period).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)  # Default from config
     end
 
     it 'handles IP address extraction logic in test environment' do
@@ -82,6 +98,41 @@ describe 'config.ru Rate Limiting' do
       # In test environment without REMOTE_ADDR, should fall back to req.ip
       expect(mock_request.env['REMOTE_ADDR']).to be_nil
       expect(mock_request.ip).to eq('127.0.0.1')
+    end
+
+    context 'when AppConfig returns invalid values' do
+      it 'raises error when rate_limit is nil' do
+        allow(AppConfig).to receive(:rate_limit).and_return(nil)
+        allow(AppConfig).to receive(:rate_limit_period).and_return(nil)
+
+        # Rack::Attack requires :limit option, will raise ArgumentError if nil
+        expect { app }.to raise_error(ArgumentError, /Must pass :limit option/)
+      end
+
+      it 'handles negative rate_limit and rate_limit_period gracefully' do
+        allow(AppConfig).to receive(:rate_limit).and_return(-5)
+        allow(AppConfig).to receive(:rate_limit_period).and_return(-10)
+
+        expect { get '/' }.not_to raise_error
+        expect(last_response.status).to be_between(200, 499)
+      end
+
+      it 'handles non-numeric rate_limit gracefully' do
+        allow(AppConfig).to receive(:rate_limit).and_return('invalid')
+        allow(AppConfig).to receive(:rate_limit_period).and_return(60)
+
+        # String values may be coerced or cause errors
+        # Test that app can be loaded without crashing during initialization
+        expect { get '/' }.not_to raise_error
+      end
+
+      it 'raises error when rate_limit_period is zero (division by zero)' do
+        allow(AppConfig).to receive(:rate_limit).and_return(10)
+        allow(AppConfig).to receive(:rate_limit_period).and_return(0)
+
+        # Zero period causes division by zero in rate calculations
+        expect { get '/' }.to raise_error(ZeroDivisionError)
+      end
     end
   end
 end
