@@ -13,8 +13,10 @@ services:
       - "9292:9292"
     #  environment:
        #      RACK_ENV: production
-       #      # URL: "https://please.change.me.now"
-       #      MEMCACHE: "memcached:11211"
+       #      AHA_SECRET_BASE_URL: "https://please.change.me.now"
+       #      AHA_SECRET_PERMITTED_ORIGINS: "https://please.change.me.now"
+       #      AHA_SECRET_MEMCACHE_URL: "memcached:11211"
+       #      AHA_SECRET_SESSION_SECRET: "your-secure-random-session-secret-here"
     env_file: .env
     depends_on:
       - memcached

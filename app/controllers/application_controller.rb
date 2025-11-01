@@ -43,7 +43,7 @@ class ApplicationController < Sinatra::Base
 
     before do
       @authenticity_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
-      I18n.locale = ENV['APP_LOCALE'] || AppConfig.default_locale || I18n.default_locale
+      I18n.locale = AppConfig.app_locale || AppConfig.default_locale || I18n.default_locale
     end
 
     unless ENV['SKIP_SCHEDULER'] == 'true'
