@@ -77,8 +77,8 @@ describe 'config.ru Rate Limiting' do
       AppConfig.reload!('test')
 
       # Test that AppConfig provides the expected rate limit values
-      expect(AppConfig.rate_limit).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT)  # Default from config
-      expect(AppConfig.rate_limit_period).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)  # Default from config
+      expect(AppConfig.rate_limit).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT)  # Default constant value
+      expect(AppConfig.rate_limit_period).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)  # Default constant value
     end
 
     it 'handles IP address extraction logic in test environment' do
