@@ -3,7 +3,7 @@
 class AppConfig
   # Module containing specific configuration accessor methods
   # Some legacy overrides are still present for backward compatibility
-  # see line \# legacy override, remove in future
+  # see comments marked # legacy override, remove in future
   module Accessors
     # Default configuration values
     DEFAULT_CLEANUP_SCHEDULE = '10m'
