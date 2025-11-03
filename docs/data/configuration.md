@@ -31,7 +31,7 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | Variable | Description | Default | Config.yml Key | Notes |
 |----------|-------------|---------|----------------|-------|
 | `AHA_SECRET_BASE_URL` | Set base-url of Website. | / | `base_url` | |
-| `URL` | (Deprecated) Old base URL variable | / | `base_url` | Use `AHA_SECRET_BASE_URL` instead |
+| `URL` | (Deprecated) Old permitted origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
 | `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | `memcache_url` | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
 | `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | `memcache_url` | Use `AHA_SECRET_MEMCACHE_URL` instead |
 | `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | `session_secret` | Set for production deployments |
