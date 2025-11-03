@@ -59,7 +59,7 @@ class AppConfig
     def calc_max_length
       load! unless @config
       max = @config.max_msg_length || DEFAULT_MAX_MSG_LENGTH
-      if max < DEFAULT_CALC_LENGTH_THRESHOLD
+      if max <= DEFAULT_CALC_LENGTH_THRESHOLD
         DEFAULT_MIN_CALC_LENGTH
       else
         max * 2
