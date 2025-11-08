@@ -4,6 +4,39 @@ require_relative 'spec_helper'
 include Helpers
 
 RSpec.describe Helpers, type: :helper do
+
+  describe '#browser_locale' do
+    let(:helper) { Object.new.extend(Helpers) }
+    let(:supported_locales) { %i[en de] }
+
+    before do
+      allow(I18n).to receive(:available_locales).and_return(supported_locales)
+    end
+
+    def mock_request(header)
+      double('request', env: { 'HTTP_ACCEPT_LANGUAGE' => header })
+    end
+
+    it 'returns supported locale from Accept-Language header (good input)' do
+      request = mock_request('de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7')
+      expect(helper.browser_locale(request)).to eq('de')
+    end
+
+    it 'returns nil for unsupported locale' do
+      request = mock_request('fr-FR,fr;q=0.9')
+      expect(helper.browser_locale(request)).to be_nil
+    end
+
+    it 'returns nil for malformed header (bad input)' do
+      request = mock_request('!!!,@@@')
+      expect(helper.browser_locale(request)).to be_nil
+    end
+
+    it 'returns nil if header is missing' do
+      request = double('request', env: {})
+      expect(helper.browser_locale(request)).to be_nil
+    end
+  end
   describe '#bin_retrieval_url' do
     let(:request) { double('request', base_url: 'http://example.org') }
 
