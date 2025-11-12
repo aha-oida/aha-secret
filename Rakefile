@@ -53,9 +53,9 @@ task :migrateserv do
 end
 
 namespace :db do
-  desc 'Migrate the database (Sequel)'
+  desc 'Migrate the database (Sequel, timestamp-based)'
   task :migrate do
-    Sequel::Migrator.run(DB, 'db/migrate')
+    Sequel::TimestampMigrator.run(DB, 'db/migrate')
     puts 'Migrations complete.'
   end
 
