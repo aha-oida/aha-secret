@@ -40,7 +40,7 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `65` | `rate_limit` | Used by Rack::Attack |
 | `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | `rate_limit_period` | Used by Rack::Attack |
 | `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | `default_locale` | |
-| `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `10000` | `max_msg_length` | |
+| `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `20000` | `max_msg_length` | |
 | `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | `permitted_origins` | |
 | `PERMITTED_ORIGINS` | (Deprecated) Old CORS origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
 | `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | *(none)* | Overrides default_locale when set |
@@ -71,7 +71,7 @@ default: &common_settings
   cleanup_schedule: "10m"
   base_url: "/"
   default_locale: "en"
-  max_msg_length: 10000
+  max_msg_length: 20000
   session_secret: "your-secret-key-here"
   memcache_url: "localhost:11211"
   permitted_origins: "https://yourdomain.com"

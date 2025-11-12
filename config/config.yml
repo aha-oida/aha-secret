@@ -5,7 +5,7 @@ default: &common_settings
   cleanup_schedule: "10m"
   base_url: "/"
   default_locale: "en"
-  max_msg_length: 10000
+  max_msg_length: 20000
   session_secret:
   memcache_url: ""
   permitted_origins: ""

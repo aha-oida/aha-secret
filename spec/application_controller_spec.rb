@@ -57,7 +57,7 @@ describe ApplicationController do
   end
 
   it 'does not save a new bin with a payload that is too long' do
-    post '/', bin: { payload: 'a' * 20_001 }
+    post '/', bin: { payload: 'a' * (AppConfig.calc_max_length + 1) }
     expect(last_response.status).to eq(422)
     expect(Bin.count).to eq(0)
   end
