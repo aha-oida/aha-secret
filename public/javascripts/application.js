@@ -115,16 +115,16 @@ function generateSecret(length, charset) {
          return [...array].map(x => charset[x % charset.length]).join('');
 }
 
-function generateSecretCallback() {
+function getRandSettings() {
 	var charset = "";
 	var rand_length = 15;
 	var rand_symbols = true;
 	var rand_numbers = true;
 	var rand_capitals = true;
 	var rand_lowers = true;
-	const msgarea = document.getElementById('message');
 	const rand_settings = document.getElementById("random_settings").checked;
-	if(rand_settings) {
+
+        if(rand_settings) {
 	    rand_length = document.getElementById("random_length").value;
 	    rand_symbols = document.getElementById("random_symbol").checked;
 	    rand_numbers = document.getElementById("random_numbers").checked;
@@ -139,26 +139,53 @@ function generateSecretCallback() {
     	    rand_lowers = document.getElementById("random-config").dataset.lowers;
 	}
 
-    	    if(rand_lowers) {
-    	    	charset += "abcdefghijklmnopqrstuvwxyz";
-    	    }
+    	if(rand_lowers) {
+    	    charset += "abcdefghijklmnopqrstuvwxyz";
+    	}
 
-    	    if(rand_capitals) {
-    	    	charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    	    }
+    	if(rand_capitals) {
+    	    charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    	}
 
-    	    if(rand_numbers) {
-    	    	charset += "0123456789";
-    	    }
+    	if(rand_numbers) {
+    	    charset += "0123456789";
+    	}
 
-    	    if(rand_symbols) {
-    	    	charset += "!@#$%^&*()";
-    	    }
+    	if(rand_symbols) {
+    	    charset += "!@#$%^&*()";
+    	}
 
+        return [charset, rand_length];
+}
+
+function generateSecretCallback() {
+	const msgarea = document.getElementById('message');
+	const [charset, rand_length] = getRandSettings();
 	const secret = generateSecret(rand_length, charset);
 
 	msgarea.value += secret + "\n";
 	updateLenghtdisplay();
+}
+
+function entropyCallback() {
+        const [charset, secret_len] = getRandSettings();
+	const entropy = calcEntropy(charset.length, secret_len);
+	const random_strength = document.getElementById("random_strength");
+	const random_entropy = document.getElementById("random_entropy");
+	const random_meter = document.getElementById("random_meter");
+	random_entropy.textContent = parseFloat(entropy).toFixed(2) + "bit";
+
+	random_meter.value = entropy;
+}
+
+function calcEntropy(charset_len, secret_len) {
+	ret = Math.log2(Math.pow(charset_len, secret_len))
+
+	if( !isFinite(ret) ) {
+		ret = 0;
+	}
+
+	return ret;
 }
 
 function changePassword() {
@@ -188,6 +215,12 @@ document.getElementById("passwd")?.addEventListener("keyup", function(event){
 });
 document.getElementById("has_password")?.addEventListener("click", addPassword);
 document.getElementById("random_settings")?.addEventListener("click", showRandomSettings);
+document.getElementById("random_settings")?.addEventListener("click", entropyCallback);
+document.getElementById("random_length")?.addEventListener("change", entropyCallback);
+document.getElementById("random_symbol")?.addEventListener("change", entropyCallback);
+document.getElementById("random_numbers")?.addEventListener("change", entropyCallback);
+document.getElementById("random_capital")?.addEventListener("change", entropyCallback);
+document.getElementById("random_lower")?.addEventListener("change", entropyCallback);
 document.getElementById("add-password")?.addEventListener("keydown", changePassword);
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button-msg")?.addEventListener("click", copyMsgToClip);

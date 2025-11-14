@@ -35,6 +35,7 @@ en:
   pastelimit_exceeded: Pasting this content exceeds the maximum allowed characters
   payload_placeholder: Encrypt me in your browser!
   random_length: Secret length
+  random_quality: Quality
   random_secret: Generate Random
   random_settings: Customize
   reveal_info: Click this button to reveal the secret

@@ -70,6 +70,13 @@
           </div>
         </div>
         <div id="randomSettings" class="hidden flex-container">
+
+          <div class="custom-random-setting">
+            <label for="random_meter"><%= t :random_quality %>:</label>
+            <meter id="random_meter" min="0" low="40" high="75" optimum="100" max="256" value="40">41%</meter>
+            <span id="random_entropy">98bit</span>
+          </div>
+
           <div class="custom-random-setting">
             <label for="random_length"><%= t :random_length %>:</label>
             <input type="number" id="random_length"  min="<%= AppConfig.random_secret_min_length %>" max="<%= AppConfig.random_secret_max_length %>" value="<%= AppConfig.random_secret_default_length %>" step="1" />

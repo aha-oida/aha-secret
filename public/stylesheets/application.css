@@ -353,3 +353,11 @@
 	margin-left: 1pt;
 	margin-right: 5pt;
 }
+
+#random_meter {
+	width: 50%;
+}
+
+#random_entropy {
+	font-size: small;
+}
