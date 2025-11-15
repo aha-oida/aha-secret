@@ -40,14 +40,16 @@ class Bin < Sequel::Model
   end
   alias has_password? password?
 
-  # Class methods
-  def self.cleanup
-    # there are no callbacks on delete, so this is more efficient than calling destroy
-    where { expire_date < Time.now.utc }.delete
-  end
+  # Dataset methods (class-level query methods)
+  dataset_module do
+    def expired
+      where { expire_date < Time.now.utc }
+    end
 
-  def self.expired
-    where { expire_date < Time.now.utc }
+    def cleanup!
+      # there are no callbacks on delete, so this is more efficient than calling destroy
+      expired.delete
+    end
   end
 
   # Hooks

@@ -48,7 +48,7 @@ class ApplicationController < Sinatra::Base
 
     unless ENV['SKIP_SCHEDULER'] == 'true'
       Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
-        Bin.cleanup
+        Bin.cleanup!
       end
     end
   end

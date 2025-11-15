@@ -49,7 +49,7 @@ describe Bin do
     bin = Bin.create(payload: 'Hello, World!')
     bin.update(expire_date: Time.now - 1*24*60*60)
     expect(Bin.expired.all.map(&:id)).to eq [bin.id]
-    Bin.cleanup
+    Bin.cleanup!
     expect(Bin.expired.all).to eq []
   end
 

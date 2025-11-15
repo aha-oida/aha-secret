@@ -80,7 +80,7 @@ describe ApplicationController do
     Bin.create(payload: 'Hello, World!', expire_date: Time.now.utc - 1)
     expect(Bin.count).to eq(1)
     # manually call rufus cleanup function
-    Bin.cleanup
+    Bin.cleanup!
     get '/'
     expect(Bin.count).to eq(0)
   end

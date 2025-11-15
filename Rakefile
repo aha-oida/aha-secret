@@ -35,7 +35,7 @@ end
 
 desc 'Cleanup expired bins.'
 task cleanup: :environment do
-  Bin.cleanup
+  Bin.cleanup!
 end
 
 desc 'Prepare db and serve.'
