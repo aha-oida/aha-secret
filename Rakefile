@@ -48,6 +48,10 @@ end
 namespace :db do
   desc 'Migrate the database (Sequel, timestamp-based)'
   task :migrate do
+    # Reuse the migration preparation functions from migration_check.rb
+    ensure_schema_migrations_filename_column!
+    populate_schema_migrations_filenames!
+
     Sequel::TimestampMigrator.run(DB, 'db/migrate')
     puts 'Migrations complete.'
   end
