@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ENV['RACK_ENV'] ||= 'development'
+ENV['RUNNING_RAKE'] = 'true'
 
 require_relative 'config/environment'
 require 'rspec/core/rake_task'

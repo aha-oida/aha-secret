@@ -50,6 +50,6 @@ rescue Sequel::Migrator::NotCurrentError
 end
 
 # Only check for pending migrations unless running tests or rake tasks
-unless (defined?(running_tests) && running_tests) || (defined?(running_rake) && running_rake)
+unless (defined?(running_tests) && running_tests) || ENV['RUNNING_RAKE']
   check_pending_migrations!
 end
