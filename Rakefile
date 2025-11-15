@@ -3,7 +3,6 @@
 ENV['RACK_ENV'] ||= 'development'
 
 require_relative 'config/environment'
-# require 'sinatra/activerecord/rake'
 require 'rspec/core/rake_task'
 require 'sequel'
 require 'sequel/extensions/migration'
@@ -34,13 +33,6 @@ task all_tests: :environment do
   Rake::Task['spec'].invoke
 end
 
-# does not work - but the executed cmd manually does
-# desc 'Simulate autotest with rerun.'
-# task :autotest do
-#   ENV['RUN_ALL_TESTS'] = 'true'
-#   `bundle exec rerun -cx rspec`
-# end
-
 desc 'Cleanup expired bins.'
 task cleanup: :environment do
   Bin.cleanup
@@ -59,23 +51,18 @@ namespace :db do
     puts 'Migrations complete.'
   end
 
-  desc 'Create the database (noop for SQLite)'
-  task :create do
-    # For SQLite, DB file is created automatically on connect
-    puts 'Database create: noop (SQLite)'
-  end
-
   desc 'Drop the database (deletes SQLite file)'
   task :drop do
     db_path = DB.uri.split(':///').last
     if File.exist?(db_path)
       File.delete(db_path)
-      puts('Deleted', db_path)
+      puts("Deleted #{db_path}")
     else
-      puts('No database file found at', db_path)
+      puts("No database file found at #{db_path}")
     end
   end
 
+  # useless because we have no seed data
   desc 'Seed the database'
   task :seed do
     load 'db/seeds.rb'
