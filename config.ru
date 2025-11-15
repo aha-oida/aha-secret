@@ -38,7 +38,7 @@ if ENV.include?('MEMCACHE') && ENV['RACK_ENV'] == 'test'
   Rack::Attack.cache.store = Dalli::Client.new(ENV.fetch('MEMCACHE'), options)
 
   # Don't allow localhost in test environment
-  Rack::Attack.safelist('allow from localhost') do |req|
+  Rack::Attack.safelist('allow from localhost') do |_req|
     false
   end
 
