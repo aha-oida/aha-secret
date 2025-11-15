@@ -12,7 +12,7 @@ if ENV['COVERAGE']
 end
 
 ENV['RACK_ENV'] = 'test'
-ENV['DATABASE_URL'] ||= 'sqlite://db/test.sqlite3'
+ENV['DATABASE_URL'] ||= 'sqlite://db/database/test.sqlite3'
 
 # Ensure MEMCACHE is set for rate limiting in test/CI
 env_memcache = ENV['MEMCACHE'] || 'localhost:11211'
@@ -53,7 +53,7 @@ RSpec.configure do |config|
   # config.filter_run :focus
   config.include Rack::Test::Methods
   config.include Capybara::DSL
-  
+
   # Configure DatabaseCleaner for Sequel
   config.before(:suite) do
     DatabaseCleaner[:sequel, db: DB].strategy = :truncation
