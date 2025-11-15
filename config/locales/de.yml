@@ -12,7 +12,7 @@ de:
           attributes:
             payload:
               too_long: ist zu lange
-  add_random: Generiere zufälliges Nachricht
+  add_random: Generiere zufällige Nachricht
   additional_password: Zusätzliches Passwort festlegen
   additional_password_info: Der Absender hat ein zusätzliches Passwort festgelegt, das den Zugriff auf das Geheimnis ermöglicht.
   copied_clipboard: 'Kopiert: '
