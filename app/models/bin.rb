@@ -6,7 +6,7 @@
 class Bin < Sequel::Model
   plugin :validation_helpers
   plugin :timestamps, update_on_create: true
-  plugin :whitelist_security, allowed: %i[payload has_password expire_date]
+  plugin :whitelist_security
   plugin :defaults_setter # Use database defaults for columns
 
   # Set the primary key (custom ID)
