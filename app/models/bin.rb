@@ -6,26 +6,28 @@
 class Bin < Sequel::Model
   plugin :validation_helpers
   plugin :timestamps, update_on_create: true
-  plugin :whitelist_security
-  plugin :defaults_setter  # Use database defaults for columns
+  plugin :whitelist_security, allowed: %i[payload has_password expire_date]
+  plugin :defaults_setter # Use database defaults for columns
 
   # Set the primary key (custom ID)
   set_primary_key :id
   unrestrict_primary_key
 
   # Allow mass-assignment for these columns
+  SEVEN_DAY_LIMIT_SECONDS = 7 * 24 * 60 * 60
+
   set_allowed_columns :payload, :has_password, :expire_date
 
   # Validation
   def validate
     super
-    validates_presence [:payload, :expire_date]
+    validates_presence %i[payload expire_date]
     validates_max_length AppConfig.calc_max_length, :payload
-    
+
     # Validate expire_date is not more than 7 days in the future
-    if expire_date && expire_date > (Time.now.utc + (7 * 24 * 60 * 60))
-      errors.add(:expire_date, "can't be bigger than 7 days")
-    end
+    return unless expire_date && expire_date > (Time.now.utc + SEVEN_DAY_LIMIT_SECONDS)
+
+    errors.add(:expire_date, "can't be bigger than 7 days")
   end
 
   # Instance methods
@@ -40,6 +42,7 @@ class Bin < Sequel::Model
 
   # Class methods
   def self.cleanup
+    # there are no callbacks on delete, so this is more efficient than calling destroy
     where { expire_date < Time.now.utc }.delete
   end
 
