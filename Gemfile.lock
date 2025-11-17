@@ -56,7 +56,7 @@ GEM
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (3.3.1)
-    brakeman (7.1.0)
+    brakeman (7.1.1)
       racc
     builder (3.3.0)
     capybara (3.40.0)
@@ -342,7 +342,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 8.1.0)
-  brakeman (~> 7.1.0)
+  brakeman (~> 7.1.1)
   capybara (~> 3.40.0)
   cuprite
   dalli (>= 3.2)
