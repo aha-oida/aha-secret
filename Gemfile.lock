@@ -308,7 +308,7 @@ GEM
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    undercover (0.8.1)
+    undercover (0.8.2)
       base64
       bigdecimal
       imagen (>= 0.2.0)
@@ -370,7 +370,7 @@ DEPENDENCIES
   sprockets-helpers
   sqlite3 (~> 2.8)
   timecop
-  undercover (~> 0.8.1)
+  undercover (~> 0.8.2)
 
 BUNDLED WITH
    2.7.2
