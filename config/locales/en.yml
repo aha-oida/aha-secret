@@ -12,7 +12,7 @@ en:
           attributes:
             payload:
               too_long: is too long
-  add_random: Add generic message
+  add_random: Generate secret
   additional_password: Set additional password
   additional_password_info: The sender has set an additional password that allows to access the secret.
   copied_clipboard: 'Copied: '
