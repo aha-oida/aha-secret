@@ -39,5 +39,5 @@ group :test do
   gem 'simplecov'
   gem 'simplecov-lcov'
   gem 'timecop'
-  gem 'undercover', '~> 0.8.1'
+  gem 'undercover', '~> 0.8.3'
 end
