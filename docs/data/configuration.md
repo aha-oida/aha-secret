@@ -74,7 +74,7 @@ default: &common_settings
   max_msg_length: 20000
   session_secret: "your-secret-key-here"
   memcache_url: "localhost:11211"
-  permitted_origins: "https://yourdomain.com"
+  permitted_origins: "http://localhost"
   custom:
     stylesheet: true
     html_title: false
@@ -95,7 +95,7 @@ production:
   <<: *common_settings
   session_secret: "CHANGE-THIS-TO-A-SECURE-RANDOM-STRING"
   memcache_url: "memcached:11211"
-  permitted_origins: "https://yourdomain.com"
+  permitted_origins: "http://localhost"
 
 test:
   <<: *common_settings

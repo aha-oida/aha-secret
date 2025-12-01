@@ -19,8 +19,8 @@ Next create a .env-file use setting for your installation:
 
 ```bash
 RACK_ENV=production
-AHA_SECRET_BASE_URL=https://yourdomain.com
-AHA_SECRET_PERMITTED_ORIGINS=https://yourdomain.com
+AHA_SECRET_BASE_URL=http://localhost
+AHA_SECRET_PERMITTED_ORIGINS=http://localhost
 AHA_SECRET_MEMCACHE_URL=memcached:11211
 AHA_SECRET_SESSION_SECRET=your-secure-random-session-secret-here
 AHA_SECRET_RATE_LIMIT=65
@@ -55,8 +55,8 @@ services:
       - "9292:9292"
     #  environment:
        #      RACK_ENV: production
-       #      AHA_SECRET_BASE_URL: https://yourdomain.com
-       #      AHA_SECRET_PERMITTED_ORIGINS: https://yourdomain.com
+       #      AHA_SECRET_BASE_URL: http://localhost
+       #      AHA_SECRET_PERMITTED_ORIGINS: http://localhost
        #      AHA_SECRET_MEMCACHE_URL: memcached:11211
        #      AHA_SECRET_SESSION_SECRET: your-secure-random-session-secret-here
     env_file: .env
