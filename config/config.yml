@@ -1,11 +1,11 @@
 ---
 default: &common_settings
-  rate_limit: 15
+  rate_limit: 65
   rate_limit_period: 60 # in seconds
-  cleanup_schedule: "5m"
+  cleanup_schedule: "10m"
   base_url: "/"
   default_locale: "en"
-  max_msg_length: 10000
+  max_msg_length: 20000
   session_secret:
   memcache_url: ""
   permitted_origins: ""
@@ -22,7 +22,7 @@ default: &common_settings
 production:
   <<: *common_settings
   # base_url: "https://example.com" # set to your production URL
-  cleanup_schedule: "5m"
+  cleanup_schedule: "10m"
   custom:
     stylesheet: false
     html_title: false # possible values: false, replace, append
