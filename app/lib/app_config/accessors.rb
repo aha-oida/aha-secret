@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
+
 class AppConfig
   # Module containing specific configuration accessor methods
   # Some legacy overrides are still present for backward compatibility
@@ -54,6 +56,49 @@ class AppConfig
     def max_msg_length
       load! unless @config
       @config.max_msg_length || DEFAULT_MAX_MSG_LENGTH
+    end
+
+    def random_secret_symbols
+      load! unless @config
+      ret = @config.random_secret_symbols
+      ret = true if @config.random_secret_symbols.nil?
+      ret
+    end
+
+    def random_secret_numbers
+      load! unless @config
+      ret = @config.random_secret_numbers
+      ret = true if @config.random_secret_numbers.nil?
+      ret
+    end
+
+    def random_secret_capitals
+      load! unless @config
+      ret = @config.random_secret_capitals
+      ret = true if @config.random_secret_capitals.nil?
+      ret
+    end
+
+    def random_secret_lowers
+      load! unless @config
+      ret = @config.random_secret_lowers
+      ret = true if @config.random_secret_lowers.nil?
+      ret
+    end
+
+    def random_secret_default_length
+      load! unless @config
+      @config.random_secret_default_length || 16
+    end
+
+    def random_secret_max_length
+      load! unless @config
+      @config.random_secret_max_length || 1024
+    end
+
+    def random_secret_min_length
+      load! unless @config
+      @config.random_secret_min_length || 16
     end
 
     def calc_max_length
@@ -112,3 +157,4 @@ class AppConfig
     end
   end
 end
+# rubocop:enable Metrics/ModuleLength
