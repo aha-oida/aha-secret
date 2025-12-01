@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'activerecord', '~> 8.1.0', require: 'active_record'
+gem 'activerecord', '~> 8.1.1', require: 'active_record'
 gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0'
 gem 'erubis', '~> 2.7'
@@ -20,10 +20,10 @@ gem 'sprockets-helpers'
 github 'sinatra/sinatra' do
   gem 'sinatra-contrib'
 end
-gem 'sqlite3', '~> 2.7'
+gem 'sqlite3', '~> 2.8'
 
 group :development do
-  gem 'brakeman', '~> 7.1.0'
+  gem 'brakeman', '~> 7.1.1'
   gem 'i18n-tasks', '~> 1.0.15'
   gem 'overcommit', '~> 0.68'
   gem 'rerun', '~> 0.14.0'

@@ -68,6 +68,7 @@ RSpec.configure do |config|
       headless: (ENV['SHOW_BROWSER'] ? false : true),
       # headless: true,
       timeout: 15,
+      process_timeout: 20,
       # inspector: true
     )
   end
