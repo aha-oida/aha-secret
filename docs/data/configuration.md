@@ -133,11 +133,11 @@ Set `SKIP_SCHEDULER=true` to prevent Rufus::Scheduler from running background jo
 The application can be customized by changing the following files:
 
 - 'config/config.yml' - set 'custom_stylesheet' to true
-- 'public/custom.css' - add your custom css to this file
+- 'public/stylesheets/custom.css' - add your custom CSS overrides here
 
-See the file 'public/application.css' for defined css classes you could simply overwrite.
+See the file 'public/stylesheets/application.css' for defined css classes you could simply overwrite.
 
-You can even add your own logo by copying a logo to the 'public' folder and setting a background image in the 'public/custom.css' file.
+You can even add your own logo by copying a logo to the 'public' folder and setting a background image in the 'public/stylesheets/custom.css' file.
 
 Example:
 
