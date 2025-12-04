@@ -55,7 +55,7 @@ class AppConfig
 
     def max_msg_length
       load! unless @config
-      @config.max_msg_length || DEFAULT_MAX_MSG_LENGTH
+      coerce_integer(@config.max_msg_length, DEFAULT_MAX_MSG_LENGTH)
     end
 
     def random_secret_symbols
@@ -88,22 +88,22 @@ class AppConfig
 
     def random_secret_default_length
       load! unless @config
-      @config.random_secret_default_length || 16
+      coerce_integer(@config.random_secret_default_length, 16)
     end
 
     def random_secret_max_length
       load! unless @config
-      @config.random_secret_max_length || 1024
+      coerce_integer(@config.random_secret_max_length, 1024)
     end
 
     def random_secret_min_length
       load! unless @config
-      @config.random_secret_min_length || 16
+      coerce_integer(@config.random_secret_min_length, 16)
     end
 
     def calc_max_length
       load! unless @config
-      max = @config.max_msg_length || DEFAULT_MAX_MSG_LENGTH
+      max = max_msg_length
       if max <= DEFAULT_CALC_LENGTH_THRESHOLD
         DEFAULT_MIN_CALC_LENGTH
       else
@@ -113,12 +113,12 @@ class AppConfig
 
     def rate_limit
       load! unless @config
-      @config.rate_limit || DEFAULT_RATE_LIMIT
+      coerce_integer(@config.rate_limit, DEFAULT_RATE_LIMIT)
     end
 
     def rate_limit_period
       load! unless @config
-      @config.rate_limit_period || DEFAULT_RATE_LIMIT_PERIOD
+      coerce_integer(@config.rate_limit_period, DEFAULT_RATE_LIMIT_PERIOD)
     end
 
     def session_secret
@@ -154,6 +154,18 @@ class AppConfig
       end
 
       nil
+    end
+
+    private
+
+    def coerce_integer(value, default)
+      return default if value.nil?
+      return value if value.is_a?(Integer)
+
+      Integer(value)
+    rescue ArgumentError, TypeError
+      warn "[CONFIG WARNING] Expected integer but got '#{value.inspect}'. Falling back to #{default}."
+      default
     end
   end
 end

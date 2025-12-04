@@ -52,8 +52,8 @@ describe 'config.ru Rate Limiting' do
 
     expect { app }.not_to raise_error
 
-    expect(AppConfig.rate_limit).to eq('42')
-    expect(AppConfig.rate_limit_period).to eq('120')
+    expect(AppConfig.rate_limit).to eq(42)
+    expect(AppConfig.rate_limit_period).to eq(120)
   end
 
   it 'handles test environment rate limiting' do

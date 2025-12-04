@@ -13,6 +13,23 @@ RSpec.describe AppConfig do
     ENV.replace(@original_env)
   end
 
+  def stub_config(overrides = {})
+    base_config = {
+      'rate_limit' => 65,
+      'rate_limit_period' => 60,
+      'cleanup_schedule' => '10m',
+      'base_url' => '/',
+      'default_locale' => 'en',
+      'max_msg_length' => 20_000,
+      'custom' => {},
+      'memcache_url' => '',
+      'session_secret' => 'abc',
+      'permitted_origins' => ''
+    }
+
+    allow(YAML).to receive(:load_file).and_return({ 'test' => base_config.merge(overrides) })
+  end
+
   it 'loads the test environment config with fallback to default' do
     AppConfig.load!
     expect(AppConfig.cleanup_schedule).to eq(AppConfig::Accessors::DEFAULT_CLEANUP_SCHEDULE)
@@ -94,13 +111,16 @@ RSpec.describe AppConfig do
     expect(AppConfig.rate_limit_period).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)
   end
 
-  it 'returns config value for rate_limit when set to string' do
+  it 'warns and falls back to default when rate_limit is a non-numeric string' do
     allow(YAML).to receive(:load_file).and_return({ 'test' => { 'max_msg_length' => 100,
                                                                 'rate_limit' => 'invalid', 'rate_limit_period' => 1,
                                                                 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
     AppConfig.reload!('test')
-    # AppConfig returns the value as-is; validation happens at usage point
-    expect(AppConfig.rate_limit).to eq('invalid')
+    value = nil
+    expect do
+      value = AppConfig.rate_limit
+    end.to output(/\[CONFIG WARNING\] Expected integer but got/).to_stderr
+    expect(value).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT)
   end
 
   it 'returns config value for rate_limit when set to negative' do
@@ -119,12 +139,16 @@ RSpec.describe AppConfig do
     expect(AppConfig.rate_limit).to eq(0)
   end
 
-  it 'returns config value for rate_limit_period when set to string' do
+  it 'warns and falls back to default when rate_limit_period is a non-numeric string' do
     allow(YAML).to receive(:load_file).and_return({ 'test' => { 'max_msg_length' => 100,
                                                                 'rate_limit' => 1, 'rate_limit_period' => 'invalid',
                                                                 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
     AppConfig.reload!('test')
-    expect(AppConfig.rate_limit_period).to eq('invalid')
+    value = nil
+    expect do
+      value = AppConfig.rate_limit_period
+    end.to output(/\[CONFIG WARNING\] Expected integer but got/).to_stderr
+    expect(value).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)
   end
 
   it 'returns config value for rate_limit_period when set to negative' do
@@ -141,6 +165,74 @@ RSpec.describe AppConfig do
                                                                 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
     AppConfig.reload!('test')
     expect(AppConfig.rate_limit_period).to eq(0)
+  end
+
+  context 'integer coercion' do
+    it 'coerces numeric strings from config into integers' do
+      stub_config('rate_limit' => '70', 'rate_limit_period' => '120')
+      AppConfig.reload!('test')
+      expect(AppConfig.rate_limit).to eq(70)
+      expect(AppConfig.rate_limit_period).to eq(120)
+    end
+
+    it 'coerces numeric string max_msg_length values for calc_max_length' do
+      stub_config('max_msg_length' => '150')
+      AppConfig.reload!('test')
+      expect(AppConfig.max_msg_length).to eq(150)
+      expect(AppConfig.calc_max_length).to eq(300)
+    end
+
+    it 'coerces numeric string max_msg_length from ENV overrides' do
+      stub_config
+      ENV['AHA_SECRET_MAX_MSG_LENGTH'] = '300'
+      AppConfig.reload!('test')
+      expect(AppConfig.max_msg_length).to eq(300)
+      expect(AppConfig.calc_max_length).to eq(600)
+    end
+
+    it 'warns and falls back to default when max_msg_length cannot be coerced' do
+      stub_config('max_msg_length' => 'too-large')
+      AppConfig.reload!('test')
+      value = nil
+      expect do
+        value = AppConfig.max_msg_length
+      end.to output(/\[CONFIG WARNING\] Expected integer but got/).to_stderr
+      expect(value).to eq(AppConfig::Accessors::DEFAULT_MAX_MSG_LENGTH)
+
+      calc_value = nil
+      expect do
+        calc_value = AppConfig.calc_max_length
+      end.to output(/\[CONFIG WARNING\] Expected integer but got/).to_stderr
+      expect(calc_value).to eq(AppConfig::Accessors::DEFAULT_MAX_MSG_LENGTH * 2)
+    end
+
+    it 'coerces numeric string ENV overrides to integers' do
+      stub_config
+      ENV['AHA_SECRET_RATE_LIMIT'] = '80'
+      ENV['AHA_SECRET_RATE_LIMIT_PERIOD'] = '200'
+      AppConfig.reload!('test')
+      expect(AppConfig.rate_limit).to eq(80)
+      expect(AppConfig.rate_limit_period).to eq(200)
+    end
+
+    it 'warns and falls back to defaults when ENV overrides are non-numeric' do
+      stub_config('rate_limit' => 10, 'rate_limit_period' => 15)
+      ENV['AHA_SECRET_RATE_LIMIT'] = 'nope'
+      ENV['AHA_SECRET_RATE_LIMIT_PERIOD'] = 'nah'
+      AppConfig.reload!('test')
+
+      rl_value = nil
+      expect do
+        rl_value = AppConfig.rate_limit
+      end.to output(/\[CONFIG WARNING\] Expected integer but got/).to_stderr
+      expect(rl_value).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT)
+
+      rlp_value = nil
+      expect do
+        rlp_value = AppConfig.rate_limit_period
+      end.to output(/\[CONFIG WARNING\] Expected integer but got/).to_stderr
+      expect(rlp_value).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)
+    end
   end
 
   it 'returns nil for app_locale when AHA_SECRET_APP_LOCALE is not set' do
@@ -187,10 +279,10 @@ RSpec.describe AppConfig do
     expect(AppConfig.session_secret).to eq('env-secret')
     expect(AppConfig.memcache_url).to eq('env-memcache-url')
     expect(AppConfig.default_locale).to eq('fr')
-    expect(AppConfig.rate_limit).to eq('42')
-    expect(AppConfig.rate_limit_period).to eq('99')
+    expect(AppConfig.rate_limit).to eq(42)
+    expect(AppConfig.rate_limit_period).to eq(99)
     expect(AppConfig.cleanup_schedule).to eq('1h')
-    expect(AppConfig.max_msg_length).to eq('12345')
+    expect(AppConfig.max_msg_length).to eq(12_345)
     expect(AppConfig.custom).to eq('{"foo": "bar"}')
     # Clean up ENV
     %w[
