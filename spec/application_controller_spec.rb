@@ -45,7 +45,7 @@ describe ApplicationController do
   end
 
   it 'saves a new bin with a retention time of 7 days' do
-    post '/', bin: { payload: 'Hello, World!' }, retention: '10080'
+    post '/', bin: { payload: 'Hello, World!' }, retention: (7*24*60).to_s
     expect(last_response.status).to eq(200)
     expect(Bin.count).to eq(1)
   end
@@ -63,7 +63,8 @@ describe ApplicationController do
   end
 
   it 'does not save a new bin with expire_date greater than 7days' do
-    post '/', bin: { payload: 'a'}, retention: '10081'
+    # 7 days in minutes = 10080, so use 10081
+    post '/', bin: { payload: 'a'}, retention: (7*24*60 + 1).to_s
     expect(last_response.status).to eq(422)
     expect(Bin.count).to eq(0)
   end
@@ -99,10 +100,10 @@ describe ApplicationController do
   end
 
   it 'cleans up expired bins' do
-    bin = Bin.create(payload: 'Hello, World!', expire_date: Time.now - 1)
+    Bin.create(payload: 'Hello, World!', expire_date: Time.now.utc - 1)
     expect(Bin.count).to eq(1)
     # manually call rufus cleanup function
-    Bin.cleanup
+    Bin.cleanup!
     get '/'
     expect(Bin.count).to eq(0)
   end

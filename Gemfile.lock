@@ -77,12 +77,10 @@ GEM
       capybara (~> 3.0)
       ferrum (~> 0.17.0)
     dalli (3.2.8)
-    database_cleaner (2.1.0)
-      database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.2)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
+    database_cleaner-sequel (2.0.2)
+      database_cleaner-core (~> 2.0.0)
+      sequel
     date (3.5.1)
     debug (1.11.0)
       irb (~> 1.10)
@@ -268,6 +266,8 @@ GEM
       fugit (~> 1.1, >= 1.11.1)
     rugged (1.9.0)
     securerandom (0.4.1)
+    sequel (5.97.0)
+      bigdecimal
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -282,9 +282,6 @@ GEM
       rack-protection (= 4.2.1)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
-    sinatra-activerecord (2.0.28)
-      activerecord (>= 4.1)
-      sinatra (>= 1.0)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -342,12 +339,11 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  activerecord (~> 8.1.1)
   brakeman (~> 7.1.1)
   capybara (~> 3.40.0)
   cuprite
   dalli (>= 3.2)
-  database_cleaner (~> 2.1.0)
+  database_cleaner-sequel
   debug (>= 1.0.0)
   erubis (~> 2.7)
   faker (~> 3.5.3)
@@ -363,10 +359,10 @@ DEPENDENCIES
   rspec (~> 3.13)
   rubocop (~> 1.81)
   rufus-scheduler (~> 3.9)
+  sequel (~> 5.77)
   simplecov
   simplecov-lcov
   sinatra (~> 4.2)
-  sinatra-activerecord
   sinatra-contrib!
   sprockets-helpers
   sqlite3 (~> 2.8)
