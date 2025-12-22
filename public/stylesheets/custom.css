@@ -1,1 +1,3 @@
-/* override css from application.css here */
+#titlebar {
+	background: red;
+}

@@ -10,9 +10,9 @@
 
     <title><%= html_title(custom:AppConfig.custom['html_title'], content: AppConfig.custom['html_title_string']) %></title>
     <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'application' %>" />
-    <% if AppConfig.custom['stylesheet'] %>
+    <%# if AppConfig.custom['stylesheet'] %>
       <link rel="stylesheet" type="text/css" href="<%= stylesheet_path 'custom' %>" />
-    <% end %>
+    <%# end %>
 
     <%#= csp_meta_tag %>
 
