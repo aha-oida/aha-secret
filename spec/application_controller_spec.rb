@@ -14,6 +14,29 @@ describe ApplicationController do
     expect(last_response.body).to include('AHA-Secret')
   end
 
+  describe 'locale precedence' do
+    around(:each) do |example|
+      original_env = ENV.to_hash.dup
+      original_locale = I18n.locale
+
+      example.run
+
+      ENV.replace(original_env)
+      AppConfig.reload!('test')
+      I18n.locale = original_locale
+    end
+
+    it 'uses AHA_SECRET_APP_LOCALE over APP_LOCALE for I18n.locale' do
+      # This test should fail until we fix the controller logic
+      ENV['APP_LOCALE'] = 'en'
+      ENV['AHA_SECRET_APP_LOCALE'] = 'de'
+      AppConfig.reload!('test')
+
+      get '/'
+      expect(I18n.locale.to_s).to eq('de'), 'AHA_SECRET_APP_LOCALE should take precedence over APP_LOCALE'
+    end
+  end
+
   it 'saves a new bin' do
     post '/', bin: { payload: 'Hello, World!' }
     expect(last_response.status).to eq(200)
@@ -34,7 +57,7 @@ describe ApplicationController do
   end
 
   it 'does not save a new bin with a payload that is too long' do
-    post '/', bin: { payload: 'a' * 20_001 }
+    post '/', bin: { payload: 'a' * (AppConfig.calc_max_length + 1) }
     expect(last_response.status).to eq(422)
     expect(Bin.count).to eq(0)
   end

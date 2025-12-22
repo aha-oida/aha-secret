@@ -1,14 +1,21 @@
 ---
 default: &common_settings
-  rate_limit: 15
+  rate_limit: 65
   rate_limit_period: 60 # in seconds
-  cleanup_schedule: "5m"
+  cleanup_schedule: "10m"
   base_url: "/"
   default_locale: "en"
-  max_msg_length: 10000
+  max_msg_length: 20000
   session_secret:
   memcache_url: ""
   permitted_origins: ""
+  random_secret_default_length: 16
+  random_secret_min_length: 5
+  random_secret_max_length: 1024
+  random_secret_symbols: true
+  random_secret_numbers: true
+  random_secret_capitals: true
+  random_secret_lowers: true
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
     html_title: false # possible values: false, replace, append
@@ -22,7 +29,7 @@ default: &common_settings
 production:
   <<: *common_settings
   # base_url: "https://example.com" # set to your production URL
-  cleanup_schedule: "5m"
+  cleanup_schedule: "10m"
   custom:
     stylesheet: false
     html_title: false # possible values: false, replace, append

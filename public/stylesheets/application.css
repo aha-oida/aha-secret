@@ -64,6 +64,11 @@
 	flex-direction: column;
 }
 
+.flex-container-row{
+	display: flex;
+	flex-direction: row;
+}
+
 #content {
 	display: flex;
 	flex-direction: column;
@@ -154,12 +159,12 @@
   opacity: 1;
 }
 
-#copy-button {
+.copy-button {
 	width: 50px;
 	height: 30px;
 }
 
-#copy-button:hover, #revealbutton:hover, #revealpwbutton:hover, #create-secret:hover {
+.copy-button:hover, #revealbutton:hover, #revealpwbutton:hover, #create-secret:hover {
 	cursor: pointer;
 }
 
@@ -195,6 +200,10 @@
 	margin-top: 30px;
 }
 
+#retention {
+	margin-left: 10px;
+}
+
 #retention-pane {
 	margin-top: 10pt;
 	margin-bottom: 10pt;
@@ -208,6 +217,11 @@
 #msg-counter {
 	text-align: right;
 	font-weight: 200;
+}
+
+#copymessageDiv {
+	width: 49%;
+	justify-content: flex-end;
 }
 
 #message {
@@ -297,8 +311,53 @@
 
 .hidden{ display: none; }
 
+
 #togglePassword {
   width: 3em;
   cursor: pointer;
   vertical-align: middle;
+}
+
+#random-secret {
+	margin-bottom: 10px;
+}
+
+#random-button {
+	padding-bottom: 0.5rem;
+	padding-top: 0.5rem;
+	width: 100%;
+}
+
+#randomMainLeft {
+	flex: 50%;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+#randomMainRight {
+	flex: 50%;
+	padding-top: 0.5rem;
+	vertical-align: middle;
+}
+
+#randomSettings {
+	margin-top: 15pt;
+	padding-left: 0.5rem;
+}
+
+.custom-random-setting {
+	margin-bottom: 0.5rem;
+}
+
+.custom-random-setting label {
+	margin-left: 1pt;
+	margin-right: 5pt;
+}
+
+#random_meter {
+	width: 50%;
+}
+
+#random_entropy {
+	font-size: small;
 }

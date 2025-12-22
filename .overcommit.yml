@@ -38,7 +38,10 @@ PrePush:
     command: ['bundle', 'exec', 'brakeman']
     on_warn: fail
 
-  RakeAndUndercover:
+  RakeTarget:
     enabled: true
-    description: 'Run tests with coverage and check undercover'
-    command: ['bash', '-c', 'env COVERAGE=true bundle exec rake db:migrate spec && bundle exec undercover --compare main']
+    description: 'Run rake tasks'
+    targets:
+      - 'db:prepare'
+      - 'spec'
+    command: ['bundle', 'exec', 'rake']

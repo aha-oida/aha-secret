@@ -95,4 +95,19 @@ feature 'Create Bin', type: :feature, js: true do
     expect(textarea.value).to be_empty
     expect(page).to have_content 'Pasting this content exceeds the maximum allowed characters'
   end
+
+  scenario 'Verify if a click on generate secret adds text to the textfield' do
+    visit '/'
+    find('#random-button').click
+    textarea = find('#message')
+    expect(textarea.value.length).to be == 17
+  end
+
+  scenario 'Verify if a click on customize shows the secret-settings' do
+    visit '/'
+    find('#random_settings').click
+    expect(page).to have_selector('#randomSettings', visible: true)
+  end
+
+
 end

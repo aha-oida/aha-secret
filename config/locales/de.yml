@@ -12,6 +12,7 @@ de:
           attributes:
             payload:
               too_long: ist zu lange
+  add_random: Generiere zufällige Nachricht
   additional_password: Zusätzliches Passwort festlegen
   additional_password_info: Der Absender hat ein zusätzliches Passwort festgelegt, das den Zugriff auf das Geheimnis ermöglicht.
   copied_clipboard: 'Kopiert: '
@@ -33,9 +34,17 @@ de:
   open_source: ist freie Software mit offenem Quellcode
   pastelimit_exceeded: Das Einfügen dieses Inhalts überschreitet die maximal zulässige Zeichenanzahl
   payload_placeholder: Text hier eingeben, wird im Webbrowser verschlüsselt!
+  random_length: Secret length
+  random_quality: Qualität
+  random_secret: Zufällig generieren
+  random_settings: Anpassen
   reveal_info: Klicke diesen Button, um das Geheimnis zu lüften
   reveal_label: Anzeigen
   secret_destroy: Beachte, dass dieses Geheimnis automatisch zerstört wird, nachdem es zum ersten Mal angezeigt wurde
   share_link: Teile den folgenden Link
   show_header: Jemand teilt eine verschlüsselte Nachricht mit Dir
   unlock_label: Entsperren
+  use_capital: Großbuchstaben
+  use_lower: Kleinbuchstaben
+  use_numbers: Nummern
+  use_symbols: Symbole

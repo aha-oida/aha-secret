@@ -42,8 +42,8 @@ if ENV.include?('MEMCACHE') && ENV['RACK_ENV'] == 'test'
     false
   end
 
-  # Lower limit for testing (3 requests per 60 seconds)
-  Rack::Attack.throttle('requests by ip', limit: 3, period: 60) do |req|
+  Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : AppConfig.rate_limit),
+                                          period: AppConfig.rate_limit_period) do |req|
     # In test, use REMOTE_ADDR if present, fallback to req.ip
     req.env['REMOTE_ADDR'] || req.ip
   end
