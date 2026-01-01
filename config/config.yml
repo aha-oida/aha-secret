@@ -31,7 +31,7 @@ production:
   # base_url: "https://example.com" # set to your production URL
   cleanup_schedule: "10m"
   custom:
-    stylesheet: false
+    stylesheet: true
     html_title: false # possible values: false, replace, append
     html_title_string: custom-title
     meta_description: false # possible values: false, replace, append
@@ -46,7 +46,7 @@ development:
 test:
   <<: *common_settings
   custom:
-    stylesheet: false
+    stylesheet: true
     html_title: false
     html_title_string: test-title
     meta_description: false
