@@ -23,7 +23,7 @@ end
 gem 'sqlite3', '~> 2.8'
 
 group :development do
-  gem 'brakeman', '~> 7.1.1'
+  gem 'brakeman', '~> 7.1.2'
   gem 'i18n-tasks', '~> 1.1.2'
   gem 'overcommit', '~> 0.68'
   gem 'rerun', '~> 0.14.0'
