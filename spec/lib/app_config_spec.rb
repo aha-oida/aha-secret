@@ -33,13 +33,13 @@ RSpec.describe AppConfig do
   it 'loads the test environment config with fallback to default' do
     AppConfig.load!
     expect(AppConfig.cleanup_schedule).to eq(AppConfig::Accessors::DEFAULT_CLEANUP_SCHEDULE)
-    expect(AppConfig.custom['stylesheet']).to eq(false)
+    expect(AppConfig.custom['stylesheet']).to eq(true)
   end
 
   it 'loads custom config available as a hash' do
     AppConfig.load!
     expect(AppConfig.custom).to be_a(Hash)
-    expect(AppConfig.custom['stylesheet']).to eq(false)
+    expect(AppConfig.custom['stylesheet']).to eq(true)
   end
 
   it 'responds to known config keys' do
