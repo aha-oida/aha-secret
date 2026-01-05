@@ -13,12 +13,12 @@ if AppConfig.memcache_url
   options = { namespace: 'app_v1' }
   Rack::Attack.cache.store = Dalli::Client.new(AppConfig.memcache_url, options)
 
+  rack_env_test = ENV['RACK_ENV'] == 'test'
+
   Rack::Attack.safelist('allow from localhost') do |req|
     allow_local = ['127.0.0.1', '::1'].include?(req.ip)
-    allow_local && ENV['RACK_ENV'] != 'test'
+    allow_local && !rack_env_test
   end
-
-  rack_env_test = ENV['RACK_ENV'] == 'test'
   throttle_limit = rack_env_test ? 3 : AppConfig.rate_limit
 
   Rack::Attack.throttle('requests by ip', limit: throttle_limit, period: AppConfig.rate_limit_period) do |req|
