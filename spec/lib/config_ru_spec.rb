@@ -56,19 +56,6 @@ describe 'config.ru Rate Limiting' do
     expect(AppConfig.rate_limit_period).to eq(120)
   end
 
-  it 'handles test environment rate limiting' do
-    ENV['REMOTE_ADDR'] = '192.168.1.100'
-
-    # Make a request that will trigger the throttle block
-    get '/', {}, { 'REMOTE_ADDR' => '192.168.1.100' }
-
-    # If the request completes without raising an exception, it proves that:
-    # 1. The throttle block executed successfully
-    # 2. The IP extraction logic (REMOTE_ADDR vs req.ip) worked correctly
-    # 3. The rate limiting configuration loaded properly
-    expect(last_response.status).to be_between(200, 499)
-  end
-
   describe 'throttle block logic unit tests' do
     it 'uses correct rate limit values from AppConfig' do
       # Ensure clean ENV state
@@ -81,23 +68,23 @@ describe 'config.ru Rate Limiting' do
       expect(AppConfig.rate_limit_period).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)  # Default constant value
     end
 
-    it 'handles IP address extraction logic in test environment' do
-      # Create a mock request object
-      request_env = { 'REMOTE_ADDR' => '192.168.1.100' }
-      mock_request = double('request', env: request_env, ip: '127.0.0.1')
+    it 'prefers REMOTE_ADDR over req.ip in test throttling logic' do
+      ENV['MEMCACHE'] = 'localhost:11211'
+      allow(Dalli::Client).to receive(:new).and_return(instance_double('Dalli::Client', close: true))
 
-      # In test environment, config.ru's throttle block prefers req.env['REMOTE_ADDR'] over req.ip
-      # This allows tests to control which IP is used for rate limiting
-      expect(mock_request.env['REMOTE_ADDR']).to eq('192.168.1.100')
-    end
+      # Force config.ru to run with the modified ENV
+      @app = nil
+      expect { app }.not_to raise_error
 
-    it 'falls back to req.ip when REMOTE_ADDR not available in test' do
-      request_env = {}  # No REMOTE_ADDR
-      mock_request = double('request', env: request_env, ip: '127.0.0.1')
+      throttle = Rack::Attack.throttles['requests by ip']
+      expect(throttle).not_to be_nil
 
-      # In test environment without REMOTE_ADDR, should fall back to req.ip
-      expect(mock_request.env['REMOTE_ADDR']).to be_nil
-      expect(mock_request.ip).to eq('127.0.0.1')
+      discriminator = throttle.block
+      request_with_remote = double('request', env: { 'REMOTE_ADDR' => '192.168.1.100' }, ip: '127.0.0.1')
+      request_without_remote = double('request', env: {}, ip: '127.0.0.1')
+
+      expect(discriminator.call(request_with_remote)).to eq('192.168.1.100')
+      expect(discriminator.call(request_without_remote)).to eq('127.0.0.1')
     end
 
     context 'when AppConfig returns invalid values' do
@@ -132,6 +119,27 @@ describe 'config.ru Rate Limiting' do
 
         # Zero period causes division by zero in rate calculations
         expect { get '/' }.to raise_error(ZeroDivisionError)
+      end
+    end
+
+    context 'when memcache comes from AppConfig only' do
+      around do |example|
+        original_env = ENV.to_hash.dup
+        ENV.delete('MEMCACHE')
+        example.run
+        ENV.replace(original_env)
+      end
+
+      it 'still configures the REMOTE_ADDR throttle (currently failing bug repro)' do
+        allow(AppConfig).to receive(:memcache_url).and_return('memcached:11211')
+        allow(Dalli::Client).to receive(:new).and_call_original
+
+        @app = nil
+        expect { app }.not_to raise_error
+
+        throttle = Rack::Attack.throttles['requests by ip']
+        expect(throttle).not_to be_nil
+        expect(throttle.limit).to eq(3)
       end
     end
   end
