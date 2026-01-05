@@ -92,8 +92,8 @@ describe 'config.ru Rate Limiting' do
         allow(AppConfig).to receive(:rate_limit).and_return(nil)
         allow(AppConfig).to receive(:rate_limit_period).and_return(nil)
 
-        # Rack::Attack requires :limit option, will raise ArgumentError if nil
-        expect { app }.to raise_error(ArgumentError, /Must pass :limit option/)
+        # Rack::Attack requires :period option first when nil, so error should surface
+        expect { app }.to raise_error(ArgumentError, /Must pass :period option/)
       end
 
       it 'handles negative rate_limit and rate_limit_period gracefully' do
