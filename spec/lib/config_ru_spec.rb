@@ -79,7 +79,12 @@ describe 'config.ru Rate Limiting' do
       throttle = Rack::Attack.throttles['requests by ip']
       expect(throttle).not_to be_nil
 
-      discriminator = throttle.block
+      discriminator = if defined?(THROTTLE_DISCRIMINATOR)
+                        expect(throttle.block).to eq(THROTTLE_DISCRIMINATOR)
+                        THROTTLE_DISCRIMINATOR
+                      else
+                        throttle.block
+                      end
       request_with_remote = double('request', env: { 'REMOTE_ADDR' => '192.168.1.100' }, ip: '127.0.0.1')
       request_without_remote = double('request', env: {}, ip: '127.0.0.1')
 
