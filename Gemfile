@@ -20,7 +20,7 @@ gem 'sprockets-helpers'
 github 'sinatra/sinatra' do
   gem 'sinatra-contrib'
 end
-gem 'sqlite3', '~> 2.8'
+gem 'sqlite3', '~> 2.9'
 
 group :development do
   gem 'brakeman', '~> 7.1.2'
