@@ -135,7 +135,7 @@ describe 'config.ru Rate Limiting' do
         ENV.replace(original_env)
       end
 
-      it 'still configures the REMOTE_ADDR throttle (currently failing bug repro)' do
+      it 'still configures the REMOTE_ADDR throttle (reproduces previously failing bug where memcache from AppConfig was not checked)' do
         allow(AppConfig).to receive(:memcache_url).and_return('memcached:11211')
         allow(Dalli::Client).to receive(:new).and_call_original
 
