@@ -10,17 +10,15 @@ ActiveRecord::Migration.check_all_pending!
 
 TEST_ENV = ENV['RACK_ENV'] == 'test' unless defined?(TEST_ENV)
 
-THROTTLE_DISCRIMINATOR = if defined?(THROTTLE_DISCRIMINATOR) # idempotency
-                           THROTTLE_DISCRIMINATOR
-                         else
-                           lambda do |req|
-                             if TEST_ENV && req.env['REMOTE_ADDR']
-                               req.env['REMOTE_ADDR']
-                             else
-                               req.ip
-                             end
-                           end
-                         end
+unless defined?(THROTTLE_DISCRIMINATOR)
+  THROTTLE_DISCRIMINATOR = lambda do |req|
+    if TEST_ENV && req.env['REMOTE_ADDR']
+      req.env['REMOTE_ADDR']
+    else
+      req.ip
+    end
+  end
+end
 
 if AppConfig.memcache_url
   use Rack::Attack
