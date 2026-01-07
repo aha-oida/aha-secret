@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: 4062e3669c7dff0f59ca1d0b0bfa67f7eef444af
+  revision: 074d876e0c54ffbe605bb733cefc5a71bb22dbc1
   specs:
     rack-protection (4.2.1)
       base64 (>= 0.1.0)
@@ -151,7 +151,7 @@ GEM
     matrix (0.4.3)
     mini_mime (1.1.5)
     minitest (5.26.2)
-    multi_json (1.17.0)
+    multi_json (1.19.1)
     mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.7.4)
