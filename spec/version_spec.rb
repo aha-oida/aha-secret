@@ -11,9 +11,9 @@ RSpec.describe 'AhaSecret::VERSION' do
     end
 
     it 'returns a valid version format' do
-      # Should match git describe format or "unknown"
-      # Examples: v1.2.2-2-g7c6cee5, v1.2.2-0-g1234567, unknown
-      expect(AhaSecret::VERSION).to match(/^(v\d+\.\d+\.\d+(-\d+-g[a-f0-9]{7})?(-dirty)?|unknown)$/)
+      # Should match git describe format, commit hash only (CI/shallow clone), or "unknown"
+      # Examples: v1.2.2-2-g7c6cee5, v1.2.2-0-g1234567, 53edd7b (no tags), unknown
+      expect(AhaSecret::VERSION).to match(/^(v\d+\.\d+\.\d+(-\d+-g[a-f0-9]{7})?(-dirty)?|[a-f0-9]{7}(-dirty)?|unknown)$/)
     end
 
     context 'in production with VERSION file' do
@@ -45,8 +45,10 @@ RSpec.describe 'AhaSecret::VERSION' do
         AhaSecret.send(:remove_const, :VERSION) if AhaSecret.const_defined?(:VERSION)
         load version_rb_path
 
-        # Should fall back to git describe
-        expect(AhaSecret::VERSION).to match(/^(v\d+\.\d+\.\d+|unknown)/)
+        # Should fall back to git describe (could be version tag, commit hash, or unknown)
+        # In CI without tags: just commit hash like '53edd7b'
+        # With tags: 'v1.2.2-2-g7c6cee5'
+        expect(AhaSecret::VERSION).to match(/^(v\d+\.\d+\.\d+|[a-f0-9]{7}|unknown)/)
       end
     end
   end
