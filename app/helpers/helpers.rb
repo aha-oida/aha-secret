@@ -48,7 +48,7 @@ module Helpers
 
     # Prepare version string if display_version is explicitly set to true
     version_content = if AppConfig.respond_to?(:display_version) && AppConfig.display_version == true
-                        "<p style=\"font-size: 0.8em; opacity: 0.7;\">Version: #{AhaSecret::VERSION}</p>"
+                        "<p>Version: #{AhaSecret::VERSION}</p>"
                       else
                         ''
                       end
