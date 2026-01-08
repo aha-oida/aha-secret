@@ -3,13 +3,13 @@
 VERSION_FILE="VERSION"
 
 # Fallback if git is not installed
-if [ ! `command -v git` ]
+if ! command -v git >/dev/null 2>&1
 then
 	echo "Git is not installed. Won't set the BUILD_ID"
 	exit 1
 fi
 
-BUILD_ID=`git describe --tags --long --always --dirty 2> /dev/null`
+BUILD_ID=$(git describe --tags --long --always --dirty 2> /dev/null)
 
 # Fallback if this is not a git installation
 if [ $? -ne 0 ]

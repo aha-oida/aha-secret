@@ -63,4 +63,51 @@ RSpec.describe 'AppConfig version display' do
       expect(AppConfig::OPTIONAL_KEYS).to include('display_version')
     end
   end
+
+  describe 'environment variable boolean conversion' do
+    before do
+      allow(YAML).to receive(:load_file).and_return('test' => base_config)
+    end
+
+    after do
+      ENV.delete('AHA_SECRET_DISPLAY_VERSION')
+    end
+
+    context 'with truthy string values' do
+      ['true', 'TRUE', 'True', '1', 'yes', 'YES', 'on', 'ON'].each do |value|
+        it "converts '#{value}' to boolean true" do
+          ENV['AHA_SECRET_DISPLAY_VERSION'] = value
+          AppConfig.load!('test')
+          expect(AppConfig.display_version).to eq(true)
+          AppConfig.instance_variable_set(:@config, nil)
+        end
+      end
+    end
+
+    context 'with falsy string values' do
+      ['false', 'FALSE', 'False', '0', 'no', 'NO', 'off', 'OFF', ''].each do |value|
+        it "converts '#{value}' to boolean false" do
+          ENV['AHA_SECRET_DISPLAY_VERSION'] = value
+          AppConfig.load!('test')
+          expect(AppConfig.display_version).to eq(false)
+          AppConfig.instance_variable_set(:@config, nil)
+        end
+      end
+    end
+
+    context 'with non-boolean string values' do
+      it 'keeps the string value as-is for non-boolean values' do
+        ENV['AHA_SECRET_DISPLAY_VERSION'] = 'some-random-string'
+        AppConfig.load!('test')
+        expect(AppConfig.display_version).to eq('some-random-string')
+      end
+    end
+
+    it 'environment variable overrides config file value' do
+      allow(YAML).to receive(:load_file).and_return('test' => base_config.merge('display_version' => true))
+      ENV['AHA_SECRET_DISPLAY_VERSION'] = 'false'
+      AppConfig.load!('test')
+      expect(AppConfig.display_version).to eq(false)
+    end
+  end
 end
