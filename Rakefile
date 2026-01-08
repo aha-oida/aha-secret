@@ -46,6 +46,9 @@ task :migrateserv do
 end
 
 namespace :db do
+  desc 'Prepare the database (alias for migrate)'
+  task prepare: :migrate
+
   desc 'Migrate the database (Sequel, timestamp-based)'
   task :migrate do
     # Reuse the migration preparation functions from migration_check.rb
