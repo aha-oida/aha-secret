@@ -18,6 +18,9 @@ WORKDIR /usr/src/app
 
 COPY . .
 
+# Generate VERSION file from git before bundle install
+RUN chmod +x scripts/addbuildid.sh && ./scripts/addbuildid.sh || true
+
 RUN bundle install
 
 CMD ["bundle","exec","rake","migrateserv"]
