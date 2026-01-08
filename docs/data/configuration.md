@@ -41,6 +41,7 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | `rate_limit_period` | Used by Rack::Attack |
 | `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | `default_locale` | |
 | `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `20000` | `max_msg_length` | |
+| `AHA_SECRET_DISPLAY_VERSION` | Display version in footer | `false` | `display_version` | Set to `true` to show version |
 | `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | `permitted_origins` | |
 | `PERMITTED_ORIGINS` | (Deprecated) Old CORS origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
 | `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | *(none)* | Overrides default_locale when set |
@@ -75,6 +76,7 @@ default: &common_settings
   session_secret: "your-secret-key-here"
   memcache_url: "localhost:11211"
   permitted_origins: "http://localhost"
+  display_version: false  # Set to true to display version in footer
   custom:
     stylesheet: true
     html_title: false
@@ -96,6 +98,7 @@ production:
   session_secret: "CHANGE-THIS-TO-A-SECURE-RANDOM-STRING"
   memcache_url: "memcached:11211"
   permitted_origins: "http://localhost"
+  display_version: false  # Don't display version in production for security
 
 test:
   <<: *common_settings
@@ -110,6 +113,7 @@ test:
 - **session_secret**: Should be a long, random string for production
 - **memcache_url**: Leave empty to disable rate limiting, or set to your memcache server
 - **permitted_origins**: Set to your domain for CORS/CSRF protection
+- **display_version**: Shows application version in footer. Set to `false` in production for security
 - **Environment-specific sections**: Override common settings per environment
 - **custom**: Configure UI customization options
 
