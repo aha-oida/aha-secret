@@ -54,16 +54,68 @@ RSpec.describe Helpers, type: :helper do
   end
 
   describe '#footer_content' do
-    it 'returns the default footer content' do
-      expect(footer_content(custom:false, content:nil)).to eq("<p><a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}</p>")
+    context 'when display_version is false or nil' do
+      before do
+        allow(AppConfig).to receive(:display_version).and_return(false)
+      end
+
+      it 'returns the default footer content without version' do
+        result = footer_content(custom: false, content: nil)
+        expect(result).to eq("<p><a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}</p>")
+        expect(result).not_to include('Version:')
+      end
+
+      it 'returns the custom footer content without version when replace' do
+        result = footer_content(custom: 'replace', content: 'Custom Content')
+        expect(result).to eq('Custom Content')
+        expect(result).not_to include('Version:')
+      end
+
+      it 'merges the custom footer content with the default footer content without version' do
+        result = footer_content(custom: 'append', content: 'Custom Content')
+        expect(result).to eq("Custom Content <p><a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}</p>")
+        expect(result).not_to include('Version:')
+      end
     end
 
-    it 'returns the custom footer content' do
-      expect(footer_content(custom:'replace', content:'Custom Content')).to eq('Custom Content')
+    context 'when display_version is true' do
+      before do
+        allow(AppConfig).to receive(:respond_to?).with(:display_version).and_return(true)
+        allow(AppConfig).to receive(:display_version).and_return(true)
+      end
+
+      it 'returns the default footer content with version' do
+        result = footer_content(custom: false, content: nil)
+        expect(result).to include("<a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a>")
+        expect(result).to include('Version:')
+        expect(result).to include(AhaSecret::VERSION)
+      end
+
+      it 'returns the custom footer content with version when replace' do
+        result = footer_content(custom: 'replace', content: 'Custom Content')
+        expect(result).to include('Custom Content')
+        expect(result).to include('Version:')
+        expect(result).to include(AhaSecret::VERSION)
+      end
+
+      it 'merges the custom footer content with the default footer content and version' do
+        result = footer_content(custom: 'append', content: 'Custom Content')
+        expect(result).to include('Custom Content')
+        expect(result).to include("<a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a>")
+        expect(result).to include('Version:')
+        expect(result).to include(AhaSecret::VERSION)
+      end
     end
 
-    it 'merges the custom footer content with the default footer content' do
-      expect(footer_content(custom:'append', content:'Custom Content')).to eq("Custom Content <p><a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}</p>")
+    context 'when display_version config is missing (backward compatibility)' do
+      before do
+        allow(AppConfig).to receive(:respond_to?).with(:display_version).and_return(false)
+      end
+
+      it 'does not display version' do
+        result = footer_content(custom: false, content: nil)
+        expect(result).not_to include('Version:')
+      end
     end
   end
 end

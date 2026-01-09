@@ -42,11 +42,23 @@ module Helpers
   end
 
   def footer_content(custom:, content:)
+    require_relative '../../lib/aha_secret/version'
+
     default_content = "<p><a href=\"https://github.com/aha-oida/aha-secret.git\">aha-secret</a> #{t :open_source}</p>"
-    return default_content unless custom
 
-    return content if custom == 'replace'
+    # Prepare version string if display_version is explicitly set to true
+    version_content = if AppConfig.respond_to?(:display_version) && AppConfig.display_version == true
+                        "<p>Version: #{AhaSecret::VERSION}</p>"
+                      else
+                        ''
+                      end
 
-    "#{content} #{default_content}"
+    return default_content + version_content unless custom
+
+    # When custom footer replaces default, still append version if enabled
+    return content + version_content if custom == 'replace'
+
+    # When custom footer is appended to default
+    "#{content} #{default_content}#{version_content}"
   end
 end
