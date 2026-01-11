@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION_FILE="VERSION"
+VERSION_FILE="lib/aha_secret/version.rb"
 
 # Fallback if git is not installed
 if ! command -v git >/dev/null 2>&1
@@ -21,7 +21,7 @@ fi
 echo "BUILD_ID: $BUILD_ID"
 
 # Write version to file
-echo "$BUILD_ID" > $VERSION_FILE
+echo "module AhaSecret\n  VERSION = '$BUILD_ID'\nend" > $VERSION_FILE
 
 echo "Version file created: $VERSION_FILE"
 exit 0
