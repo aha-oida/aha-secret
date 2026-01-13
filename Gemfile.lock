@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: 074d876e0c54ffbe605bb733cefc5a71bb22dbc1
+  revision: 9e5c4ec8ade92c7375f44acf4c6e1103d32d6c12
   specs:
     rack-protection (4.2.1)
       base64 (>= 0.1.0)
@@ -303,7 +303,7 @@ GEM
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.4.0)
-    tilt (2.6.1)
+    tilt (2.7.0)
     timecop (0.9.10)
     timeout (0.4.4)
     tsort (0.2.0)
