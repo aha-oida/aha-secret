@@ -16,7 +16,7 @@ default: &common_settings
   random_secret_numbers: true
   random_secret_capitals: true
   random_secret_lowers: true
-  display_version: true # set to true to display version in footer
+  display_version: false # set to true to display version in footer
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
     html_title: false # possible values: false, replace, append
