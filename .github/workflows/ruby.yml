@@ -18,7 +18,8 @@ permissions:
 
 jobs:
   test:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    #runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby-version: ['3.4.8 ','4.0.1']
@@ -36,7 +37,7 @@ jobs:
       - name: Set up Ruby
       # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
       # change this to (see https://github.com/ruby/setup-ruby#versioning):
-        uses: ruby/setup-ruby@ab177d40ee5483edb974554986f56b33477e21d0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
