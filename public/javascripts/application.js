@@ -260,7 +260,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (textarea) {
-
     textarea.addEventListener('paste', (event) => {
       const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
       const clipboardData = event.clipboardData.getData('text');
