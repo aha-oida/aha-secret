@@ -251,6 +251,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const textarea = document.getElementById("message");
 
   if (textarea) {
+    textarea.focus();
+    
     textarea.addEventListener('paste', (event) => {
       const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
       const clipboardData = event.clipboardData.getData('text');
