@@ -230,39 +230,36 @@ document.getElementById("revealpwbutton")?.addEventListener("click", revealpw);
 document.getElementById("message")?.addEventListener("focus", resetAlert);
 
 document.addEventListener("DOMContentLoaded", () => {
-  let passwordField = document.getElementById("passwd");
-  if (!passwordField) {
-    passwordField = document.getElementById("add-password");
-  } else {
-    // Focus the password input when revealed
-    passwordField.focus();
-  }
-
-  // Focus the reveal button if no password is set
+  const passwordField = document.getElementById("passwd");
   const revealButton = document.getElementById("revealbutton");
-  if (revealButton) {
+  const textarea = document.getElementById("message");
+
+  // Focus the appropriate element based on which page we're on
+  if (passwordField) {
+    // Focus the password input on password-protected reveal page
+    passwordField.focus();
+  } else if (revealButton) {
+    // Focus the reveal button on non-password-protected reveal page
     revealButton.focus();
+  } else if (textarea) {
+    // Focus the textarea on the home page
+    textarea.focus();
   }
 
   const togglePasswordButton = document.getElementById("togglePassword");
+  const passwordFieldForToggle = passwordField || document.getElementById("add-password");
 
-  if (togglePasswordButton && passwordField) {
+  if (togglePasswordButton && passwordFieldForToggle) {
     togglePasswordButton.addEventListener("click", () => {
       // Toggle the type attribute between 'password' and 'text'
-      const isPasswordVisible = passwordField.type === "text";
-      passwordField.type = isPasswordVisible ? "password" : "text";
+      const isPasswordVisible = passwordFieldForToggle.type === "text";
+      passwordFieldForToggle.type = isPasswordVisible ? "password" : "text";
       document.getElementById("eyeopen").classList.toggle("hidden");
       document.getElementById("eyeclosed").classList.toggle("hidden");
     });
   }
 
-  const textarea = document.getElementById("message");
-
   if (textarea) {
-    const shouldFocusTextarea = !passwordField && !revealButton;
-    if (shouldFocusTextarea) {
-      textarea.focus();
-    }
 
     textarea.addEventListener('paste', (event) => {
       const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
