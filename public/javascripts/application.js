@@ -234,8 +234,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!passwordField) {
     passwordField = document.getElementById("add-password");
   } else {
-    console.log("passwd found, SHOW");
+    // Focus the password input when revealed
+    passwordField.focus();
   }
+
+  // Focus the reveal button if no password is set
+  const revealButton = document.getElementById("revealbutton");
+  if (revealButton) {
+    revealButton.focus();
+  }
+
   const togglePasswordButton = document.getElementById("togglePassword");
 
   if (togglePasswordButton && passwordField) {
@@ -252,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (textarea) {
     textarea.focus();
-    
+
     textarea.addEventListener('paste', (event) => {
       const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
       const clipboardData = event.clipboardData.getData('text');
