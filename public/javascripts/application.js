@@ -259,7 +259,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const textarea = document.getElementById("message");
 
   if (textarea) {
-    textarea.focus();
+    const shouldFocusTextarea = !passwordField && !revealButton;
+    if (shouldFocusTextarea) {
+      textarea.focus();
+    }
 
     textarea.addEventListener('paste', (event) => {
       const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
