@@ -48,6 +48,7 @@ class AppConfig
     random_secret_max_length
     random_secret_numbers
     random_secret_capitals
+    display_version
     random_secret_lowers
   ].freeze
 
