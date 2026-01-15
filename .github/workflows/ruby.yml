@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.2.6', '3.4.7']
+        ruby-version: ['3.4.8 ', '4.0.1']
     services:
       memcached:
         image: memcached:latest
