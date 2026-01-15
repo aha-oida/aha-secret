@@ -18,10 +18,10 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4cpu-ubuntu-2404
     strategy:
       matrix:
-        ruby-version: ['3.4.8 ', '4.0.1']
+        ruby-version: ['3.4.8 ','4.0.1']
     services:
       memcached:
         image: memcached:latest
