@@ -72,8 +72,7 @@ async function encryptMessage(key) {
     encoded
   );
 
-  const base64cipher = window.btoa(String.fromCharCode.apply(null, new Uint8Array(ciphertext)));
-  return base64cipher;
+  return window.btoa(String.fromCharCode.apply(null, new Uint8Array(ciphertext)));
 }
 
 function createLink(id) {
@@ -108,7 +107,7 @@ async function getKey(password, salt) {
 }
 
 async function customEncryptEvent() {
-  var message = document.getElementById("message");
+  const message = document.getElementById("message");
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const addpass = document.getElementById("add-password").value;
   const key = await getKey(addpass, salt);
@@ -117,7 +116,7 @@ async function customEncryptEvent() {
   const cipher = new Uint8Array(
     await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, contentBytes)
   );
-  var result = {
+  const result = {
 	  salt: bytesToBase64(salt),
 	  iv: bytesToBase64(iv),
 	  cipher: bytesToBase64(cipher)
