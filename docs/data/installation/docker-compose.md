@@ -52,7 +52,7 @@ services:
       - ./config.yml:/usr/src/app/config/config.yml
       - ./custom.css:/usr/src/app/public/stylesheets/custom.css
     ports:
-      - "9292:9292"
+      - "127.0.0.1:9292:9292"
     #  environment:
        #      RACK_ENV: production
        #      AHA_SECRET_BASE_URL: http://localhost
