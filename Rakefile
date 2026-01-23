@@ -51,9 +51,8 @@ namespace :db do
 
   desc 'Migrate the database (Sequel, timestamp-based)'
   task :migrate do
-    # Reuse the migration preparation functions from migration_check.rb
-    ensure_schema_migrations_filename_column!
-    populate_schema_migrations_filenames!
+    # Convert ActiveRecord schema_migrations to Sequel format if needed (verbose mode for rake)
+    convert_activerecord_schema_migrations_to_sequel!(DB, verbose: true)
 
     Sequel::TimestampMigrator.run(DB, 'db/migrate')
     puts 'Migrations complete.'

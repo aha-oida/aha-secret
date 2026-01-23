@@ -24,8 +24,14 @@ ENV['SKIP_SCHEDULER'] = 'true'
 # Set up database and run migrations BEFORE loading models
 require 'sequel'
 require 'sequel/extensions/migration'
+require_relative '../config/initializers/migration_check'
+
 test_db = Sequel.connect(ENV['DATABASE_URL'])
-Sequel::Migrator.run(test_db, 'db/migrate')
+
+# Convert ActiveRecord schema_migrations if needed
+convert_activerecord_schema_migrations_to_sequel!(test_db, verbose: false)
+
+Sequel::TimestampMigrator.run(test_db, 'db/migrate')
 test_db.disconnect
 
 # Now load the application (which will reconnect to the DB)
