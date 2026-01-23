@@ -47,6 +47,7 @@ class AppConfig
       end
     end
 
+    # rubocop:disable Metrics/MethodLength
     def apply_env_overrides(config_hash)
       # Apply environment variable overrides for both required and optional keys
       (REQUIRED_KEYS + OPTIONAL_KEYS).each do |key|
@@ -67,6 +68,7 @@ class AppConfig
         config_hash[key] = value
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def deprecated_mappings
       {
