@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # A bin is the model that stores the encrypted secret.
-# It has a payload, which is the encrypted secret, and a id, which is the unique identifier for the bin.
+# It has a payload, which is the encrypted secret, and an id, which is the unique identifier for the bin.
 # Bins are only temporary and thrown away after expiry or reveal.
 class Bin < Sequel::Model
   plugin :validation_helpers

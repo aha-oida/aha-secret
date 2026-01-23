@@ -76,7 +76,7 @@ class ApplicationController < Sinatra::Base
 
   get '/bins/:id' do
     @bin = Bin[params[:id]]
-    return status 404 unless @bin&.id
+    return status 404 unless @bin
 
     erb :show
   end
@@ -88,7 +88,7 @@ class ApplicationController < Sinatra::Base
 
   patch '/bins/:id/reveal' do
     bin = Bin[params[:id]]
-    return status 422 unless bin&.id
+    return status 422 unless bin
 
     payload = bin.payload
     has_password = bin.has_password
