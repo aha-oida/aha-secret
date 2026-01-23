@@ -50,6 +50,15 @@ jobs:
           sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
       - name: Run brakeman
         run: bundle exec brakeman
+      - name: Run rubocop
+        run: bundle exec rubocop
+      - name: Check for trailing whitespace
+        run: |
+          # Check for trailing whitespace, excluding db directory
+          if git grep -n '[[:space:]]$' -- ':!db/**' ':!*.sql'; then
+            echo "Error: Trailing whitespace found. Please remove it."
+            exit 1
+          fi
       - name: Run tests with coverage
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:
