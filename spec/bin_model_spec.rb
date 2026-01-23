@@ -28,26 +28,26 @@ describe Bin do
   it 'has a expired? method' do
     bin = Bin.create(payload: 'Hello, World!')
     expect(bin.expired?).to be false
-    bin.update(expire_date: Time.now - 1*24*60*60)
+    bin.update(expire_date: Time.now.utc - 1*24*60*60)
     expect(bin.expired?).to be true
   end
 
   it 'must not have an expire_date greater than 7days' do
     expect {
-      Bin.create(payload: "Hello!", expire_date: Time.now + 8*24*60*60)
+      Bin.create(payload: "Hello!", expire_date: Time.now.utc + 8*24*60*60)
     }.to raise_error(Sequel::ValidationFailed)
   end
 
   it 'can be filtered by expiration' do
     bin = Bin.create(payload: 'Hello, World!')
     expect(Bin.expired.all).to eq []
-    bin.update(expire_date: Time.now - 1*24*60*60)
+    bin.update(expire_date: Time.now.utc - 1*24*60*60)
     expect(Bin.expired.all.map(&:id)).to eq [bin.id]
   end
 
   it 'has a cleanup method' do
     bin = Bin.create(payload: 'Hello, World!')
-    bin.update(expire_date: Time.now - 1*24*60*60)
+    bin.update(expire_date: Time.now.utc - 1*24*60*60)
     expect(Bin.expired.all.map(&:id)).to eq [bin.id]
     Bin.cleanup!
     expect(Bin.expired.all).to eq []
