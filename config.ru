@@ -5,8 +5,13 @@ require 'securerandom'
 require 'rack/protection'
 require 'rack/attack'
 require 'dalli'
+require_relative 'lib/aha_secret/version'
 
 # Migration check is done in config/environment.rb via Sequel::Migrator.check_current
+
+# Log application version on startup
+logger = Logger.new($stdout)
+logger.info("AHA-Secret version: #{AhaSecret::VERSION}")
 
 if AppConfig.memcache_url
   use Rack::Attack

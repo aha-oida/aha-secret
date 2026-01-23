@@ -48,9 +48,24 @@ class AppConfig
     end
 
     def apply_env_overrides(config_hash)
-      REQUIRED_KEYS.each do |key|
+      # Apply environment variable overrides for both required and optional keys
+      (REQUIRED_KEYS + OPTIONAL_KEYS).each do |key|
         env_key = "AHA_SECRET_#{key.upcase}"
-        config_hash[key] = ENV[env_key] if ENV.key?(env_key)
+        next unless ENV.key?(env_key)
+
+        config_hash[key] = coerce_boolean_string(ENV.fetch(env_key, nil))
+      end
+    end
+
+    def coerce_boolean_string(value)
+      # Convert boolean-like strings to actual booleans
+      case value.to_s.downcase
+      when 'true', '1', 'yes', 'on'
+        true
+      when 'false', '0', 'no', 'off', ''
+        false
+      else
+        value
       end
     end
 

@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0'
 gem 'erubis', '~> 2.7'
-gem 'i18n', '~> 1.14.7'
+gem 'i18n', '~> 1.14.8'
 gem 'puma', '~> 7.1'
 gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.3'
@@ -19,14 +19,14 @@ gem 'sprockets-helpers'
 github 'sinatra/sinatra' do
   gem 'sinatra-contrib'
 end
-gem 'sqlite3', '~> 2.8'
+gem 'sqlite3', '~> 2.9'
 
 group :development do
-  gem 'brakeman', '~> 7.1.1'
+  gem 'brakeman', '~> 7.1.2'
   gem 'i18n-tasks', '~> 1.1.2'
   gem 'overcommit', '~> 0.68'
   gem 'rerun', '~> 0.14.0'
-  gem 'rubocop', '~> 1.81'
+  gem 'rubocop', '~> 1.82'
 end
 
 group :test do
@@ -38,5 +38,5 @@ group :test do
   gem 'simplecov'
   gem 'simplecov-lcov'
   gem 'timecop'
-  gem 'undercover', '~> 0.8.1'
+  gem 'undercover', '~> 0.8.3'
 end

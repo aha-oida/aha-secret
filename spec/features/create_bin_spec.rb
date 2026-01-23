@@ -32,6 +32,9 @@ feature 'Create Bin', type: :feature, js: true do
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
+    # Check that reveal button receives focus
+    focused_element = page.evaluate_script('document.activeElement.id')
+    expect(focused_element).to eq 'revealbutton'
     click_button 'Reveal'
     decrypted_secret = find('#dec-msg').value
     expect(decrypted_secret).to eq 'Hello, World!'
@@ -65,6 +68,9 @@ feature 'Create Bin', type: :feature, js: true do
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
+    # Check that password input receives focus
+    focused_element = page.evaluate_script('document.activeElement.id')
+    expect(focused_element).to eq 'passwd'
     fill_in 'passwd', with: 'asdf'
     send_keys :tab
     click_button 'Unlock'

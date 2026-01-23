@@ -1,4 +1,4 @@
-FROM ruby:3.3
+FROM ruby:4.0.1
 LABEL authors="Wolfgang Hotwagner"
 
 RUN apt-get update
@@ -17,6 +17,9 @@ RUN bundle config set --local without 'development test'
 WORKDIR /usr/src/app
 
 COPY . .
+
+# Generate VERSION file from git before bundle install
+RUN chmod +x scripts/addbuildid.sh && ./scripts/addbuildid.sh || true
 
 RUN bundle install
 

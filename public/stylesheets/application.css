@@ -217,6 +217,8 @@
 #msg-counter {
 	text-align: right;
 	font-weight: 200;
+	min-height: 1.5em;
+	line-height: 1.5em;
 }
 
 #copymessageDiv {

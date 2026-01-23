@@ -16,6 +16,7 @@ default: &common_settings
   random_secret_numbers: true
   random_secret_capitals: true
   random_secret_lowers: true
+  display_version: false # set to true to display version in footer
   custom:
     stylesheet: true # set to true to use custom stylesheet in public/stylesheets/custom.css
     html_title: false # possible values: false, replace, append
@@ -30,8 +31,9 @@ production:
   <<: *common_settings
   # base_url: "https://example.com" # set to your production URL
   cleanup_schedule: "10m"
+  display_version: false # don't display version in production for security
   custom:
-    stylesheet: false
+    stylesheet: true
     html_title: false # possible values: false, replace, append
     html_title_string: custom-title
     meta_description: false # possible values: false, replace, append
@@ -46,7 +48,7 @@ development:
 test:
   <<: *common_settings
   custom:
-    stylesheet: false
+    stylesheet: true
     html_title: false
     html_title_string: test-title
     meta_description: false

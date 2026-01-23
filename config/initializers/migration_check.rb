@@ -16,6 +16,9 @@ def warn_pending_migrations
   exit 1
 end
 
+# rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+# This is a one-time migration utility to convert from ActiveRecord to Sequel.
+# The complexity is acceptable for a migration utility that will be removed in the future.
 def convert_activerecord_schema_migrations_to_sequel!(db = DB, verbose: false)
   # Skip if schema_migrations table doesn't exist (fresh install)
   return unless db.table_exists?(:schema_migrations)
@@ -49,8 +52,8 @@ def convert_activerecord_schema_migrations_to_sequel!(db = DB, verbose: false)
     if filename
       db[:schema_migrations_new].insert(filename: filename)
       puts "  Migrated: #{version} -> #{filename}" if verbose
-    else
-      warn "  Warning: No migration file found for version #{version}" if verbose
+    elsif verbose
+      warn "  Warning: No migration file found for version #{version}"
     end
   end
 
@@ -60,6 +63,7 @@ def convert_activerecord_schema_migrations_to_sequel!(db = DB, verbose: false)
 
   puts 'Conversion complete!' if verbose
 end
+# rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
 def check_pending_migrations!
   # Convert ActiveRecord schema_migrations if needed (silent mode for startup)
