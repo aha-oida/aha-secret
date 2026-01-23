@@ -54,8 +54,8 @@ jobs:
         run: bundle exec rubocop
       - name: Check for trailing whitespace
         run: |
-          # Check for trailing whitespace, excluding db directory
-          if git grep -n '[[:space:]]$' -- ':!db/**' ':!*.sql'; then
+          # Check for trailing whitespace, excluding db directory and binary files
+          if git grep -I -n '[[:space:]]$' -- ':!db/**' ':!*.sql'; then
             echo "Error: Trailing whitespace found. Please remove it."
             exit 1
           fi
