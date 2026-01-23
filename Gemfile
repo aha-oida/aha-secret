@@ -25,7 +25,6 @@ gem 'sqlite3', '~> 2.9'
 group :development, :test do
   gem 'brakeman', '~> 7.1.2'
   gem 'rubocop', '~> 1.82'
-  gem 'rubocop-rake', require: false
 end
 
 group :development do
