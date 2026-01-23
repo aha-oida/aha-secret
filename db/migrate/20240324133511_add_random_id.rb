@@ -1,6 +1,9 @@
 Sequel.migration do
   change do
-    add_column :bins, :random_id, String
-    add_index :bins, :random_id, unique: true
+    # This migration is intentionally left blank.
+    # The bins.id primary key (and any previous random_id handling)
+    # is now fully defined in the initial create_bins migration
+    # (20240322074525_create_bins), so no additional columns or
+    # indexes are added here.
   end
 end
