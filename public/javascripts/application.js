@@ -2,7 +2,7 @@ function setAlert(msg, lookup=true) {
 	const messages = document.getElementById("error-messages");
 	const alertbox = document.getElementById("alertbox");
 	const alertspan = document.getElementById("alert");
-	var alertmsg = "";
+	let alertmsg = "";
 	if(lookup) {
 	  alertmsg = messages.dataset[msg];
 	} else {
@@ -29,7 +29,7 @@ function showMessageContent() {
 }
 
 async function revealpw() {
-	var msg = null;
+	let msg = null;
 	const pw = document.getElementById("passwd").value;
 
 	resetAlert();
@@ -63,7 +63,7 @@ function copyToClip() {
   cpText.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(cpText.value);
 
-  var tooltip = document.getElementById("myTooltip");
+  const tooltip = document.getElementById("myTooltip");
   tooltip.innerHTML = tooltip.dataset.copied;
 }
 
@@ -73,12 +73,12 @@ function copyMsgToClip() {
   cpText.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(cpText.value);
 
-  var tooltip = document.getElementById("myMsgTooltip");
+  const tooltip = document.getElementById("myMsgTooltip");
   tooltip.innerHTML = tooltip.dataset.copied;
 }
 
 function showTooltip() {
-  var tooltip = document.getElementById("myTooltip");
+  const tooltip = document.getElementById("myTooltip");
   tooltip.innerHTML = tooltip.dataset.text;
 }
 
@@ -89,7 +89,7 @@ function getAuthenticityToken() {
 function addPassword() {
   const haspw = document.getElementById("has_password");
   if(haspw.checked) {
-	if(document.getElementById("add-password").value.length == 0) {
+	if(document.getElementById("add-password").value.length === 0) {
             document.getElementById("create-secret").setAttribute("disabled", "disabled");
 	}
 	document.getElementById("additional-password-field").style.display = "block";
@@ -116,12 +116,12 @@ function generateSecret(length, charset) {
 }
 
 function getRandSettings() {
-	var charset = "";
-	var rand_length = 15;
-	var rand_symbols = true;
-	var rand_numbers = true;
-	var rand_capitals = true;
-	var rand_lowers = true;
+	let charset = "";
+	let rand_length = 15;
+	let rand_symbols = true;
+	let rand_numbers = true;
+	let rand_capitals = true;
+	let rand_lowers = true;
 	const rand_settings = document.getElementById("random_settings").checked;
 
         if(rand_settings) {
@@ -179,7 +179,7 @@ function entropyCallback() {
 }
 
 function calcEntropy(charset_len, secret_len) {
-	ret = Math.log2(Math.pow(charset_len, secret_len))
+	let ret = Math.log2(Math.pow(charset_len, secret_len));
 
 	if( !isFinite(ret) ) {
 		ret = 0;
@@ -209,7 +209,7 @@ document.getElementById("passwd")?.addEventListener("keydown", enterPassword);
 document.getElementById("random-button")?.addEventListener("click", generateSecretCallback);
 document.getElementById("passwd")?.addEventListener("keyup", function(event){
 	event.preventDefault();
-	if (event.keyCode === 13) {
+	if (event.key === "Enter") {
 		document.getElementById("revealpwbutton").click();
 	}
 });
@@ -260,7 +260,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (textarea) {
-
     textarea.addEventListener('paste', (event) => {
       const maxLength = parseInt(textarea.getAttribute('maxlength'), 10);
       const clipboardData = event.clipboardData.getData('text');

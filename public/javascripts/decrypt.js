@@ -32,7 +32,7 @@ async function getKey(password, salt) {
 
 
 function getKeyFromUrl(){
-  const hash = window.location.hash;
+  const {hash} = window.location;
   const key = hash.match(/^[^#]*#(.*)/)[1];
   let keyv = key.split('&');
   /* replace urlsafe b64, with normal b64 */
@@ -56,11 +56,10 @@ function base64ToBytes(base64) {
 }
 
 async function getKeyfromB64(base64key) {
-  const key = await window.crypto.subtle.importKey("raw", base64ToBytes(base64key), "AES-GCM", true, [
+  return await window.crypto.subtle.importKey("raw", base64ToBytes(base64key), "AES-GCM", true, [
     "encrypt",
     "decrypt",
   ]);
-  return key;
 }
 
 async function decryptMessage(key, ciphertext, iv) {
@@ -96,7 +95,7 @@ async function fetchEncrypted() {
 }
 
 async function decryptWithPW(password, msg){
-  var jdecmsg = JSON.parse(msg);
+  const jdecmsg = JSON.parse(msg);
   const salt = base64ToBytes(jdecmsg.salt);
   const key = await getKey(password, salt);
   const iv = base64ToBytes(jdecmsg.iv);
