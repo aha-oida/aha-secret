@@ -22,7 +22,7 @@ read it. The first time someone clicks on the link, the message is automatically
 *  Self destruction
 *  No registration
 *  Ratelimit
-*  Command-Line Client in Rust: aha-cli
+*  Command-Line Client in Rust: [aha-cli](https://github.com/aha-oida/ahasecret-cli)
 *  Minimum Features / Dependencies
 
 # Installation
