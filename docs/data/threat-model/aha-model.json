@@ -732,6 +732,10 @@
                 "y": 110
               },
               {
+                "x": 610,
+                "y": 110
+              },
+              {
                 "x": 640,
                 "y": 130
               }
@@ -786,6 +790,10 @@
               },
               {
                 "x": 590,
+                "y": 230
+              },
+              {
+                "x": 570,
                 "y": 230
               }
             ]
@@ -1401,6 +1409,19 @@
                   "new": false,
                   "number": 73,
                   "score": ""
+                },
+                {
+                  "id": "0eb3e799-7800-4bbd-98c7-8ab1a0a74fd1",
+                  "title": "Compromised memcache can elevate privileges via deserialisation vulnerability",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Per default dalli uses mashalling for deserialization. A compromised memcache could therefor lead to a remote code execution on the aha-secret server",
+                  "mitigation": "aha-secret uses json for the memcache deserialisation",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 74,
+                  "score": ""
                 }
               ],
               "threatFrequency": {
@@ -1409,15 +1430,8 @@
                 "repudiation": 0,
                 "informationDisclosure": 1,
                 "denialOfService": 0,
-                "elevationOfPrivilege": 0
+                "elevationOfPrivilege": 1
               }
-            },
-            "tools": {
-              "items": [
-                "boundary",
-                "button-remove"
-              ],
-              "name": null
             }
           },
           {
@@ -2073,6 +2087,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "whotwagner",
-    "threatTop": 73
+    "threatTop": 74
   }
 }
