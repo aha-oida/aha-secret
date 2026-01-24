@@ -15,7 +15,7 @@ logger.info("AHA-Secret version: #{AhaSecret::VERSION}")
 
 if AppConfig.memcache_url
   use Rack::Attack
-  options = { namespace: 'app_v1' }
+  options = { namespace: 'app_v1', serializer: JSON }
   Rack::Attack.cache.store = Dalli::Client.new(AppConfig.memcache_url, options)
 
   Rack::Attack.safelist('allow from localhost') do |req|
@@ -38,7 +38,7 @@ use Rack::Protection,
 
 if ENV.include? 'MEMCACHE'
   # Minimal working example for IP throttling with Memcached
-  options = { namespace: 'app_v1' }
+  options = { namespace: 'app_v1', serializer: JSON }
   Rack::Attack.cache.store = Dalli::Client.new(ENV.fetch('MEMCACHE'), options)
 
   # Allow localhost, except in test environment
