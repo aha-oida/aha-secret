@@ -44,20 +44,24 @@ jobs:
       - name: Create db and run migrations
         env:
           RACK_ENV: test
+          DATABASE_URL: sqlite://db/database/test.sqlite3
         run: |
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
-          sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
+          bundle exec rake db:migrate
       - name: Run brakeman
         run: bundle exec brakeman
       - name: Run tests with coverage
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:
           COVERAGE: "true"
+          CI: "true"
+          MEMCACHE: "localhost:11211"
         run: bundle exec rspec
       # Run tests without coverage for other Ruby versions
       - name: Run tests
         if: ${{ matrix.ruby-version != env.undercover_version }}
+        env:
+          CI: "true"
+          MEMCACHE: "localhost:11211"
         run: bundle exec rspec
       # only upload coverage once
       - name: undercover

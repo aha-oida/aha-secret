@@ -12,6 +12,7 @@ if ENV['COVERAGE']
 end
 
 ENV['RACK_ENV'] = 'test'
+ENV['DATABASE_URL'] ||= 'sqlite://db/database/test.sqlite3'
 
 # Ensure MEMCACHE is set for rate limiting in test/CI
 env_memcache = ENV['MEMCACHE'] || 'localhost:11211'
@@ -20,20 +21,32 @@ ENV['MEMCACHE'] = env_memcache
 # Ensure SKIP_SCHEDULER is set to 'true' for all tests to avoid running Rufus::Scheduler
 ENV['SKIP_SCHEDULER'] = 'true'
 
+# Set up database and run migrations BEFORE loading models
+require 'sequel'
+require 'sequel/extensions/migration'
+require_relative '../config/initializers/migration_check'
+
+test_db = Sequel.connect(ENV['DATABASE_URL'])
+
+# Convert ActiveRecord schema_migrations if needed
+convert_activerecord_schema_migrations_to_sequel!(test_db, verbose: false)
+
+Sequel::TimestampMigrator.run(test_db, 'db/migrate')
+test_db.disconnect
+
+# Now load the application (which will reconnect to the DB)
 require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
-require 'database_cleaner'
 require 'capybara/cuprite'
+require 'database_cleaner/sequel'
 
 # puts "Running with cuprite driver"
 # puts "PATH: #{ENV['PATH']}"
 # puts "which chromium: #{`which chromium`.strip}"
 # puts "which chromium-browser: #{`which chromium-browser`.strip}"
 # puts "which google-chrome: #{`which google-chrome`.strip}"
-
-ActiveRecord::Base.logger = nil
 
 class CapybaraNullDriver < Capybara::Driver::Base
   def needs_server?
@@ -46,13 +59,18 @@ RSpec.configure do |config|
   # config.filter_run :focus
   config.include Rack::Test::Methods
   config.include Capybara::DSL
-  DatabaseCleaner.strategy = :truncation
-  config.before do
-    DatabaseCleaner.clean
+
+  # Configure DatabaseCleaner for Sequel
+  config.before(:suite) do
+    DatabaseCleaner[:sequel, db: DB].strategy = :truncation
   end
 
-  config.after do
-    DatabaseCleaner.clean
+  config.before(:each) do
+    DatabaseCleaner[:sequel, db: DB].start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner[:sequel, db: DB].clean
   end
 
   # config.order = 'default'

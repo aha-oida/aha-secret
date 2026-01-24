@@ -1,5 +1,5 @@
-class AddHasPasswordToBins < ActiveRecord::Migration[7.2]
-  def change
-    add_column :bins, :has_password, :boolean, default: false
+Sequel.migration do
+  change do
+    add_column :bins, :has_password, TrueClass, default: false
   end
 end
