@@ -53,6 +53,12 @@ or all the configuration options read the section [Configuration]({{ '/configura
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+# Contributing
+
+All contributions, translations, bug reports, bug fixes, documentation improvements, enhancements, and any ideas are welcome.
+
+Before starting work on the aha-secret codebase, please check the [CONTRIBUTING guide]({{ 'contributing' | relative_url }})
+
 ## Environment Variables
 
 The application is configured using environment variables. Use the new `AHA_SECRET_*` variables for all new deployments. Deprecated variables are supported for backward compatibility but should be avoided.
