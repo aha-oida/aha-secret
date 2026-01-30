@@ -40,6 +40,12 @@ For further information see the [documentation](https://aha-oida.github.io/aha-s
 * German 🇩🇪
 * English 🇬🇧
 
+# Contributing
+
+All contributions, translations, bug reports, bug fixes, documentation improvements, enhancements, and any ideas are welcome.
+
+Before starting work on the aha-secret codebase, please check the [CONTRIBUTING guide](https://aha-oida.github.io/aha-secret/contributing).
+
 # License
 
 GNU General Public License v3.0 or later
