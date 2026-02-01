@@ -1,0 +1,28 @@
+// custom SCSS (or CSS) goes here
+
+
+.nav-list-item a:active {
+  color: $link-color;
+}
+
+.nav-list-item a {
+  color: $sidebar-link-color;
+}
+
+.nav-list-link {
+  color: $sidebar-link-color;
+}
+
+
+
+.site-footer {
+  color: $sidebar-footer-color;
+}
+
+a.site-footer {
+  color: $sidebar-footer-link-color;
+}
+
+.site-footer a:visited {
+  color: $sidebar-footer-link-visited;
+}

@@ -47,7 +47,9 @@ heading_anchors: true
 
 permalink: pretty
 
-color_scheme: light
+color_scheme: aha_light
+favicon_ico: "/images/favicon.ico"
+logo: "/images/aha_logo.svg"
 
 # Back to top link
 back_to_top: true

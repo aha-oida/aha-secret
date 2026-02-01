@@ -1,0 +1,9 @@
+$sidebar-color: #4c57a3;
+$nav-child-link-color: darken($white, 3%);
+$sidebar-link-color: $white;
+$sidebar-footer-color: darken($sidebar-link-color, 30%);
+$sidebar-footer-link-color: $white;
+$sidebar-footer-link-visited: darken($sidebar-footer-link-color, 5%);
+
+@import "./color_schemes/light";
+
