@@ -56,7 +56,7 @@ GEM
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (4.0.1)
-    brakeman (7.1.2)
+    brakeman (8.0.1)
       racc
     builder (3.3.0)
     capybara (3.40.0)
@@ -152,16 +152,12 @@ GEM
       nokogiri (>= 1.12.0)
     matrix (0.4.3)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (6.0.1)
       prism (~> 1.5)
     multi_json (1.19.1)
     mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.7.4)
-    nokogiri (1.18.10)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.10-aarch64-linux-musl)
@@ -350,7 +346,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 8.1.2)
-  brakeman (~> 7.1.2)
+  brakeman (~> 8.0.1)
   capybara (~> 3.40.0)
   cuprite
   dalli (>= 3.2)
