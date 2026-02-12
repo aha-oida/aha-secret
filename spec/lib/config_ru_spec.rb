@@ -155,11 +155,6 @@ describe 'config.ru Rate Limiting' do
         allow(AppConfig).to receive(:rate_limit).and_return(10)
         allow(AppConfig).to receive(:rate_limit_period).and_return(0)
 
-        if ENV['DEBUG_CONFIG_RU']
-          RSpec.configuration.reporter.message("[DEBUG] rate_limit=#{AppConfig.rate_limit.inspect}")
-          RSpec.configuration.reporter.message("[DEBUG] rate_limit_period=#{AppConfig.rate_limit_period.inspect}")
-        end
-
         expect { get '/' }.not_to raise_error
       end
     end
