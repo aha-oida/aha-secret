@@ -42,6 +42,8 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler: '4.0.3'
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        env:
+          BUNDLE_CACHE_VERSION: v2
       - name: Create db and run migrations
         env:
           RACK_ENV: test
