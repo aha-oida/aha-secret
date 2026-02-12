@@ -157,7 +157,7 @@ GEM
     multi_json (1.19.1)
     mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
-    nio4r (2.7.4)
+    nio4r (2.7.5)
     nokogiri (1.19.0-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.0-aarch64-linux-musl)
@@ -190,7 +190,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (7.1.0)
+    puma (7.2.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -357,7 +357,7 @@ DEPENDENCIES
   i18n (~> 1.14.8)
   i18n-tasks (~> 1.1.2)
   overcommit (~> 0.68)
-  puma (~> 7.1)
+  puma (~> 7.2)
   rack-attack (~> 6.8)
   rack-test (~> 2.2)
   rackup (~> 2.3)
