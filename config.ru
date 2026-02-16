@@ -20,7 +20,7 @@ if AppConfig.memcache_url
 
   Rack::Attack.safelist('allow from localhost') do |req|
     # Requests are allowed if the return value is truthy
-    ['127.0.0.1', '::1'].include?(req.ip)
+    ['127.0.0.1', '::1'].include?(req.ip) && ENV['RACK_ENV'] != 'test'
   end
 
   Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : AppConfig.rate_limit),
