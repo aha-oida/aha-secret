@@ -31,8 +31,6 @@ jobs:
     env:
       MEMCACHE: "localhost:11211"
       undercover_version: 'DEACTIVATED_SET_3.4.2_TO_REACTIVATE'
-      AHA_SECRET_RATE_LIMIT: "3"
-      AHA_SECRET_RATE_LIMIT_PERIOD: "60"
 
     steps:
       - uses: actions/checkout@v3
