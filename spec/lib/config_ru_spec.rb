@@ -82,16 +82,6 @@ describe 'config.ru Rate Limiting' do
       expect(AppConfig.rate_limit_period).to eq(AppConfig::Accessors::DEFAULT_RATE_LIMIT_PERIOD)  # Default constant value
     end
 
-    it 'handles IP address extraction logic in test environment' do
-      # Create a mock request object
-      request_env = { 'REMOTE_ADDR' => '192.168.1.100' }
-      mock_request = double('request', env: request_env, ip: '127.0.0.1')
-
-      # In test environment, config.ru's throttle block prefers req.env['REMOTE_ADDR'] over req.ip
-      # This allows tests to control which IP is used for rate limiting
-      expect(mock_request.env['REMOTE_ADDR']).to eq('192.168.1.100')
-    end
-
     it 'falls back to req.ip when REMOTE_ADDR not available in test' do
       request_env = {}  # No REMOTE_ADDR
       mock_request = double('request', env: request_env, ip: '127.0.0.1')
@@ -111,11 +101,12 @@ describe 'config.ru Rate Limiting' do
       end
 
       it 'handles non-numeric rate_limit gracefully' do
-        allow(AppConfig).to receive(:rate_limit).and_return('invalid')
-        allow(AppConfig).to receive(:rate_limit_period).and_return(60)
+        ENV['AHA_SECRET_RATE_LIMIT'] = 'invalid'
+        ENV['AHA_SECRET_RATE_LIMIT_PERIOD'] = '60'
+        AppConfig.reload!('test')
+        @app = nil
 
-        # String values may be coerced or cause errors
-        # Test that app can be loaded without crashing during initialization
+        # Non-numeric env input should be coerced by AppConfig accessor fallback.
         expect { get '/' }.not_to raise_error
       end
 

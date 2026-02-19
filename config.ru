@@ -23,15 +23,16 @@ if AppConfig.memcache_url
     ['127.0.0.1', '::1'].include?(req.ip) && ENV['RACK_ENV'] != 'test'
   end
 
-  Rack::Attack.throttle('requests by ip', limit: (ENV['RACK_ENV'] == 'test' ? 3 : AppConfig.rate_limit),
-                                          period: AppConfig.rate_limit_period) do |req|
-    # In test, use REMOTE_ADDR if present, fallback to req.ip
-    if ENV['RACK_ENV'] == 'test' && req.env['REMOTE_ADDR']
-      req.env['REMOTE_ADDR']
-    else
-      req.ip
-    end
-  end
+  # if you want to test the rate limit configuration locally, you can set the AHA_SECRET_RATE_LIMIT
+  # and AHA_SECRET_RATE_LIMIT_PERIOD environment variables to low values
+  # (e.g., 3 requests per minute) and run the spec
+  # AHA_SECRET_RATE_LIMIT=3 AHA_SECRET_RATE_LIMIT_PERIOD=60 CI=true bundle exec rspec spec/features/rate_limit_feature_spec.rb # rubocop:disable Layout/LineLength
+
+  Rack::Attack.throttle(
+    'requests by ip',
+    limit: AppConfig.rate_limit,
+    period: AppConfig.rate_limit_period, &:ip
+  )
 end
 
 use Rack::MethodOverride
