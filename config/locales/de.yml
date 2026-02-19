@@ -1,17 +1,5 @@
 ---
 de:
-  activerecord:
-    attributes:
-      bin:
-        payload:
-          one: Nachricht
-          other: Nachrichten
-    errors:
-      models:
-        bin:
-          attributes:
-            payload:
-              too_long: ist zu lange
   add_random: Generiere zufällige Nachricht
   additional_password: Zusätzliches Passwort festlegen
   additional_password_info: Der Absender hat ein zusätzliches Passwort festgelegt, das den Zugriff auf das Geheimnis ermöglicht.
