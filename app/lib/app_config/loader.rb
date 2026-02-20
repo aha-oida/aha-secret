@@ -6,7 +6,7 @@ class AppConfig
   # Module responsible for loading and building configuration from YAML files and environment variables
   module Loader
     BOOLEAN_TRUE_VALUES = %w[true 1 yes on].freeze
-    BOOLEAN_FALSE_VALUES = ['false', '0', 'no', 'off', ''].freeze
+    BOOLEAN_FALSE_VALUES = %w[false 0 no off].freeze
 
     def load_config_file
       config_path = File.expand_path('../../../config/config.yml', __dir__)
