@@ -57,11 +57,16 @@ jobs:
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:
           COVERAGE: "true"
-        run: bundle exec rspec
+        run: bundle exec rspec --exclude-pattern "spec/features/rate_limit_feature_spec.rb"
       # Run tests without coverage for other Ruby versions
       - name: Run tests
         if: ${{ matrix.ruby-version != env.undercover_version }}
-        run: bundle exec rspec
+        run: bundle exec rspec --exclude-pattern "spec/features/rate_limit_feature_spec.rb"
+      - name: Run rate limit feature spec with test-specific limits
+        env:
+          AHA_SECRET_RATE_LIMIT: "3"
+          AHA_SECRET_RATE_LIMIT_PERIOD: "60"
+        run: bundle exec rspec spec/features/rate_limit_feature_spec.rb
       # only upload coverage once
       - name: undercover
         if: ${{ matrix.ruby-version == env.undercover_version && github.ref_name == 'main' }}
