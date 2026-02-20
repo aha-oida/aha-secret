@@ -13,9 +13,9 @@ end
 
 ENV['RACK_ENV'] = 'test'
 
-# Ensure MEMCACHE is set for rate limiting in test/CI
-env_memcache = ENV['MEMCACHE'] || 'localhost:11211'
-ENV['MEMCACHE'] = env_memcache
+# Ensure AHA_SECRET_MEMCACHE_URL is set for rate limiting in test/CI
+env_memcache = ENV['AHA_SECRET_MEMCACHE_URL'] || 'localhost:11211'
+ENV['AHA_SECRET_MEMCACHE_URL'] = env_memcache
 
 # Ensure SKIP_SCHEDULER is set to 'true' for all tests to avoid running Rufus::Scheduler
 ENV['SKIP_SCHEDULER'] = 'true'

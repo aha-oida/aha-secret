@@ -29,7 +29,7 @@ jobs:
         ports:
           - 11211:11211
     env:
-      MEMCACHE: "localhost:11211"
+      AHA_SECRET_MEMCACHE_URL: "localhost:11211"
       undercover_version: 'DEACTIVATED_SET_3.4.2_TO_REACTIVATE'
 
     steps:
