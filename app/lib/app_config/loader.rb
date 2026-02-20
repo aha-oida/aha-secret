@@ -5,6 +5,9 @@ require 'yaml'
 class AppConfig
   # Module responsible for loading and building configuration from YAML files and environment variables
   module Loader
+    BOOLEAN_TRUE_VALUES = %w[true 1 yes on].freeze
+    BOOLEAN_FALSE_VALUES = ['false', '0', 'no', 'off', ''].freeze
+
     def load_config_file
       config_path = File.expand_path('../../../config/config.yml', __dir__)
       raise "Config file not found: #{config_path}" unless File.exist?(config_path)
@@ -48,24 +51,32 @@ class AppConfig
     end
 
     def apply_env_overrides(config_hash)
-      # Apply environment variable overrides for both required and optional keys
-      (REQUIRED_KEYS + OPTIONAL_KEYS).each do |key|
-        env_key = "AHA_SECRET_#{key.upcase}"
-        next unless ENV.key?(env_key)
+      config_override_keys.each { |key| apply_env_override(config_hash, key) }
+    end
 
-        # Convert boolean-like strings to actual booleans
-        value = ENV.fetch(env_key, nil)
-        value = case value.to_s.downcase
-                when 'true', '1', 'yes', 'on'
-                  true
-                when 'false', '0', 'no', 'off', ''
-                  false
-                else
-                  value
-                end
+    private
 
-        config_hash[key] = value
-      end
+    def config_override_keys
+      REQUIRED_KEYS + OPTIONAL_KEYS
+    end
+
+    def apply_env_override(config_hash, key)
+      env_key = env_override_key(key)
+      return unless ENV.key?(env_key)
+
+      config_hash[key] = normalize_env_override(ENV.fetch(env_key, nil))
+    end
+
+    def env_override_key(key)
+      "AHA_SECRET_#{key.upcase}"
+    end
+
+    def normalize_env_override(value)
+      normalized = value.to_s.downcase
+      return true if BOOLEAN_TRUE_VALUES.include?(normalized)
+      return false if BOOLEAN_FALSE_VALUES.include?(normalized)
+
+      value
     end
 
     def deprecated_mappings
