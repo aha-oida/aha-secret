@@ -113,11 +113,13 @@ class AppConfig
 
     def rate_limit
       load! unless @config
+      # TODO: Consider validating non-positive or non-numeric values and falling back to defaults.
       coerce_integer(@config.rate_limit, DEFAULT_RATE_LIMIT)
     end
 
     def rate_limit_period
       load! unless @config
+      # TODO: Consider validating non-positive or non-numeric values and falling back to defaults.
       coerce_integer(@config.rate_limit_period, DEFAULT_RATE_LIMIT_PERIOD)
     end
 
