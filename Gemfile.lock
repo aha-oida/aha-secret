@@ -179,7 +179,7 @@ GEM
       iniparse (~> 1.4)
       rexml (>= 3.3.9)
     parallel (1.27.0)
-    parser (3.3.10.1)
+    parser (3.3.10.2)
       ast (~> 2.4.1)
       racc
     pp (0.6.3)
@@ -312,7 +312,7 @@ GEM
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    undercover (0.8.3)
+    undercover (0.8.4)
       base64
       bigdecimal
       imagen (>= 0.2.0)
@@ -374,7 +374,7 @@ DEPENDENCIES
   sprockets-helpers
   sqlite3 (~> 2.9)
   timecop
-  undercover (~> 0.8.3)
+  undercover (~> 0.8.4)
 
 BUNDLED WITH
   4.0.3
