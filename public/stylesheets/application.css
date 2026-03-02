@@ -386,6 +386,15 @@ input[type='checkbox'] {
   justify-content: center;
 }
 
+#reveal-content {
+  text-align: center;
+}
+
+#reveal-content > #revealbutton {
+  display: block;
+  margin: 0.6rem auto 0;
+}
+
 #pwenterset {
   display: flex;
   flex-direction: row;
@@ -437,8 +446,20 @@ input[type='checkbox'] {
 
 #retention-pane {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
+}
+
+#additional-password {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#retention-pane > fieldset {
+  flex-shrink: 0;
+  margin: 0 0 0 1rem;
+  align-self: flex-start;
+  align-items: center;
 }
 
 fieldset {
@@ -532,9 +553,18 @@ button:hover,
 }
 
 #randomSettings .flex-container-row,
-#retention-pane.flex-container-row,
 #additional-password {
   flex-wrap: wrap;
+}
+
+#retention-pane.flex-container-row {
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 900px) {
+  #retention-pane.flex-container-row {
+    flex-wrap: wrap;
+  }
 }
 
 #randomSettings .flex-container-row {
