@@ -22,6 +22,11 @@ body {
   letter-spacing: 0.4px;
 }
 
+span,
+p {
+  text-decoration: none;
+}
+
 #logo {
   max-height: 116px;
 }
@@ -354,7 +359,6 @@ body {
 
 #additional-password {
   display: flex;
-  margin-bottom: 10px;
 }
 
 #additional-password fieldset {
@@ -465,6 +469,8 @@ button,
   align-items: center;
   width: fit-content;
   text-decoration: none;
+  min-height: 36px;
+  box-sizing: border-box;
 }
 
 button span,
@@ -515,6 +521,7 @@ button:hover,
   max-width: 0vw;
   overflow: hidden;
   transition: all 150ms;
+  margin: 0.6rem 0;
 }
 
 #randomSettings {
@@ -523,8 +530,18 @@ button:hover,
   overflow: hidden;
 }
 
+#randomSettings .flex-container-row,
+#retention-pane.flex-container-row,
+#additional-password {
+  flex-wrap: wrap;
+}
+
 #randomSettings .flex-container-row {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+#randomSettings .flex-container-row > * {
+  margin-top: 0.6rem;
 }
 
 .custom-random-setting.checked {
