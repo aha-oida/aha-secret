@@ -87,25 +87,42 @@ function getAuthenticityToken() {
 
 function addPassword() {
   const haspw = document.getElementById("has_password");
+  const addPasswordField = document.getElementById("add-password");
+  const createSecretButton = document.getElementById("create-secret");
+  const additionalPasswordField = document.getElementById("additional-password-field");
+
+  if (!haspw || !additionalPasswordField) {
+    return;
+  }
+
+  additionalPasswordField.style.maxWidth = haspw.checked ? "100vw" : "0px";
+  additionalPasswordField.style.opacity = haspw.checked ? "1" : "0";
+
   if (haspw.checked) {
-    if (document.getElementById("add-password").value.length === 0) {
-      document.getElementById("create-secret").setAttribute("disabled", "disabled");
+    if (createSecretButton && (!addPasswordField || addPasswordField.value.length === 0)) {
+      createSecretButton.setAttribute("disabled", "disabled");
     }
-    document.getElementById("additional-password-field").style.maxWidth = "100vw";
   } else {
-    document.getElementById("create-secret").removeAttribute("disabled");
-    document.getElementById("additional-password-field").style.maxWidth = "0px";
+    if (createSecretButton) {
+      createSecretButton.removeAttribute("disabled");
+    }
   }
 }
 
 function showRandomSettings() {
   const pwsettings = document.getElementById("random_settings");
+  const settingsPanel = document.getElementById("randomSettings");
+
+  if (!pwsettings || !settingsPanel) {
+    return;
+  }
+
   if (pwsettings.checked) {
-    document.getElementById("randomSettings").style.maxHeight = "100vh";
-    document.getElementById("randomSettings").style.overflow = "visible";
+    settingsPanel.style.maxHeight = "100vh";
+    settingsPanel.style.overflow = "visible";
   } else {
-    document.getElementById("randomSettings").style.maxHeight = "0vh";
-    document.getElementById("randomSettings").style.overflow = "hidden";
+    settingsPanel.style.maxHeight = "0vh";
+    settingsPanel.style.overflow = "hidden";
   }
 }
 
@@ -169,13 +186,16 @@ function generateSecretCallback() {
 }
 
 function entropyCallback() {
-  const [charset, secret_len] = getRandSettings();
-  const entropy = calcEntropy(charset.length, secret_len);
-  const random_strength = document.getElementById("random_strength");
   const random_entropy = document.getElementById("random_entropy");
   const random_meter = document.getElementById("random_meter");
-  random_entropy.textContent = parseFloat(entropy).toFixed(2) + "bit";
 
+  if (!random_entropy || !random_meter || !document.getElementById("random_settings")) {
+    return;
+  }
+
+  const [charset, secret_len] = getRandSettings();
+  const entropy = calcEntropy(charset.length, secret_len);
+  random_entropy.textContent = parseFloat(entropy).toFixed(2) + "bit";
   random_meter.value = entropy;
 }
 
@@ -190,10 +210,17 @@ function calcEntropy(charset_len, secret_len) {
 }
 
 function changePassword() {
-  if (document.getElementById("add-password").value.length > 0) {
-    document.getElementById("create-secret").removeAttribute("disabled");
+  const addPasswordField = document.getElementById("add-password");
+  const createSecretButton = document.getElementById("create-secret");
+
+  if (!addPasswordField || !createSecretButton) {
+    return;
+  }
+
+  if (addPasswordField.value.length > 0) {
+    createSecretButton.removeAttribute("disabled");
   } else {
-    document.getElementById("create-secret").setAttribute("disabled", "disabled");
+    createSecretButton.setAttribute("disabled", "disabled");
   }
 }
 
@@ -234,6 +261,7 @@ document.getElementById("passwd")?.addEventListener("keyup", function (event) {
   }
 });
 document.getElementById("has_password")?.addEventListener("change", addPassword);
+document.getElementById("has_password")?.addEventListener("click", addPassword);
 document.getElementById("random_settings")?.addEventListener("change", showRandomSettings);
 document.getElementById("random_settings")?.addEventListener("change", entropyCallback);
 document.getElementById("random_length")?.addEventListener("change", entropyCallback);

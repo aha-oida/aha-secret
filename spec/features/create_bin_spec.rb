@@ -111,7 +111,7 @@ feature 'Create Bin', type: :feature, js: true do
 
   scenario 'Verify if a click on customize shows the secret-settings' do
     visit '/'
-    find('#random_settings').click
+    find(:xpath, "//label[input[@id='random_settings']]", visible: true).click
     expect(page).to have_selector('#randomSettings', visible: true)
   end
 
