@@ -517,8 +517,9 @@ button:hover,
 }
 
 #additional-password-field {
+  max-width: 0px;
+  opacity: 0;
   display: block;
-  max-width: 0vw;
   overflow: hidden;
   transition: all 150ms;
   margin: 0.6rem 0;
