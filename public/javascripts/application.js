@@ -99,13 +99,12 @@ function addPassword() {
   additionalPasswordField.style.opacity = haspw.checked ? "1" : "0";
 
   if (haspw.checked) {
-      if (createSecretButton && (!addPasswordField || addPasswordField.value.length === 0)) {
-        createSecretButton.setAttribute("disabled", "disabled");
-      }
+    if (createSecretButton && (!addPasswordField || addPasswordField.value.length === 0)) {
+      createSecretButton.setAttribute("disabled", "disabled");
     }
-  else if (createSecretButton) {
-        createSecretButton.removeAttribute("disabled");
-      }
+  } else if (createSecretButton) {
+    createSecretButton.removeAttribute("disabled");
+  }
 }
 
 function showRandomSettings() {
