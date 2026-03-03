@@ -260,7 +260,7 @@ document.getElementById("passwd")?.addEventListener("keyup", function (event) {
   }
 });
 document.getElementById("has_password")?.addEventListener("change", addPassword);
-document.getElementById("has_password")?.addEventListener("click", addPassword);
+
 document.getElementById("random_settings")?.addEventListener("change", showRandomSettings);
 document.getElementById("random_settings")?.addEventListener("change", entropyCallback);
 document.getElementById("random_length")?.addEventListener("change", entropyCallback);
