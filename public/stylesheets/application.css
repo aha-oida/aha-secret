@@ -152,6 +152,7 @@ p {
 #bin-content {
   /* visibility: hidden; */
   display: none;
+  width: 100%;
 }
 
 #bin-content p {
@@ -260,16 +261,25 @@ p {
   margin-top: 10pt;
 }
 
+#message,
 #dec-msg {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  background-color: #ecf2f9;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 10px;
-}
-
-#dec-msg p {
-  margin-top: 30px;
+  border: 0;
+  border-radius: 21px;
+  background: #ffffff17;
+  transition: all 400ms;
+  color: #fff;
+  text-align: left;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+  letter-spacing: 0.8px;
+  font-size: 1.1rem;
 }
 
 #retention-pane {
@@ -297,22 +307,22 @@ p {
 }
 
 #message {
-  padding: 10px;
-  border: 0;
-  border-radius: 21px;
-  min-width: 40vw;
-  background: #ffffff17;
-  transition: all 400ms;
-  color: #fff;
-  text-align: left;
-  border-top-left-radius: 0;
-  border-bottom-right-radius: 0;
-  letter-spacing: 0.8px;
-  font-size: 1.1rem;
   cursor: cell;
 }
+
+#message::placeholder {
+  color: #accaf5d7;
+  opacity: 1;
+}
+
+#dec-msg {
+  cursor: text;
+}
+
 #message:focus,
-#message:hover {
+#message:hover,
+#dec-msg:focus,
+#dec-msg:hover {
   background: #ffffff28;
   outline: none;
   border: none;
