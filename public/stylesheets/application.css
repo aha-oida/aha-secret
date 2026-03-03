@@ -357,10 +357,6 @@ p {
   margin-bottom: 20px;
 }
 
-#additional-password {
-  display: flex;
-}
-
 #additional-password fieldset {
   display: flex;
   height: 100%;
@@ -552,8 +548,7 @@ button:hover,
   overflow: hidden;
 }
 
-#randomSettings .flex-container-row,
-#additional-password {
+#randomSettings .flex-container-row {
   flex-wrap: wrap;
 }
 
