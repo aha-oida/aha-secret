@@ -7,7 +7,7 @@
     <div id="label-button">
       <label for="secret-url"><%= t :share_link %>:</label>
       <div class="tooltip">
-        <button type="button" id="copy-button-msg" class="icon" >
+        <button type="button" id="copy-button" class="icon" >
           <span class="tooltiptext" id="myTooltip" data-text="<%= t :copy_clipboard %>" data-copied="<%= t :copied_clipboard %>"><%= t :copy_clipboard %></span>
 
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
@@ -26,7 +26,7 @@
 <div id="enc-form">
   <form>
     <textarea id="message" name="bin[payload]" rows="15" cols="50" placeholder="<%= t :payload_placeholder %>" required maxlength="<%= max_msg_length %>"></textarea>
-    <div id="msg-counter">0/20000</div>
+    <div id="msg-counter">0/<%= max_msg_length %></div>
 
     <div id="random-secret">
       <div
@@ -76,7 +76,7 @@
         <div id="randomSettings">
 
           <div class="custom-random-setting">
-            <label class="quality-string" for="random_meter"><%= t :random_quality %>: <span id="random_entropy">98bit</span></label>
+            <label class="quality-string" for="random_meter"><%= t :random_quality %>: <span id="random_entropy"></span></label>
             <meter id="random_meter" min="0" low="40" high="75" optimum="100" max="256" value="40">41%</meter>
           </div>
 
@@ -116,7 +116,7 @@
 
         <div id="retention-pane" class="flex-container-row">
 
-      <div id="additional-password">    
+      <div id="additional-password">
         <label class="button">
           <input type="checkbox" id="has_password" name="has_password" class="hidden">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
@@ -128,7 +128,7 @@
         </label>
 
         <fieldset>
-        <div id="additional-password-field" style="max-width: 0px; opacity: 0;">
+        <div id="additional-password-field">
           <fieldset>
             <input type="password" id="add-password" class="textinput"  placeholder="<%= t :enter_additional_password %>" size="40">
             <button type="button" id="togglePassword" title="Mask/Unmask password" class="icon">
@@ -160,7 +160,7 @@
         </select>
       </fieldset>
 
-      
+
 
     </div>
 

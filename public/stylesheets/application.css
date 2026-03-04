@@ -152,10 +152,12 @@ p {
 #bin-content {
   /* visibility: hidden; */
   display: none;
+  width: 100%;
 }
 
 #bin-content p {
   margin-top: 20px;
+  text-align: center;
 }
 
 #share-box {
@@ -260,16 +262,25 @@ p {
   margin-top: 10pt;
 }
 
+#message,
 #dec-msg {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  background-color: #ecf2f9;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 10px;
-}
-
-#dec-msg p {
-  margin-top: 30px;
+  border: 0;
+  border-radius: 21px;
+  background: #ffffff17;
+  transition: all 400ms;
+  color: #fff;
+  text-align: left;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+  letter-spacing: 0.8px;
+  font-size: 1.1rem;
 }
 
 #retention-pane {
@@ -297,22 +308,22 @@ p {
 }
 
 #message {
-  padding: 10px;
-  border: 0;
-  border-radius: 21px;
-  min-width: 40vw;
-  background: #ffffff17;
-  transition: all 400ms;
-  color: #fff;
-  text-align: left;
-  border-top-left-radius: 0;
-  border-bottom-right-radius: 0;
-  letter-spacing: 0.8px;
-  font-size: 1.1rem;
   cursor: cell;
 }
+
+#message::placeholder {
+  color: #accaf5d7;
+  opacity: 1;
+}
+
+#dec-msg {
+  cursor: text;
+}
+
 #message:focus,
-#message:hover {
+#message:hover,
+#dec-msg:focus,
+#dec-msg:hover {
   background: #ffffff28;
   outline: none;
   border: none;
@@ -357,10 +368,6 @@ p {
   margin-bottom: 20px;
 }
 
-#additional-password {
-  display: flex;
-}
-
 #additional-password fieldset {
   display: flex;
   height: 100%;
@@ -384,6 +391,15 @@ input[type='checkbox'] {
   /* margin: 0 auto; */
   align-items: center;
   justify-content: center;
+}
+
+#reveal-content {
+  text-align: center;
+}
+
+#reveal-content > #revealbutton {
+  display: block;
+  margin: 0.6rem auto 0;
 }
 
 #pwenterset {
@@ -437,8 +453,20 @@ input[type='checkbox'] {
 
 #retention-pane {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
+}
+
+#additional-password {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#retention-pane > fieldset {
+  flex-shrink: 0;
+  margin: 0 0 0 1rem;
+  align-self: flex-start;
+  align-items: center;
 }
 
 fieldset {
@@ -517,8 +545,9 @@ button:hover,
 }
 
 #additional-password-field {
+  max-width: 0px;
+  opacity: 0;
   display: block;
-  max-width: 0vw;
   overflow: hidden;
   transition: all 150ms;
   margin: 0.6rem 0;
@@ -530,10 +559,18 @@ button:hover,
   overflow: hidden;
 }
 
-#randomSettings .flex-container-row,
-#retention-pane.flex-container-row,
-#additional-password {
+#randomSettings .flex-container-row {
   flex-wrap: wrap;
+}
+
+#retention-pane.flex-container-row {
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 900px) {
+  #retention-pane.flex-container-row {
+    flex-wrap: wrap;
+  }
 }
 
 #randomSettings .flex-container-row {
