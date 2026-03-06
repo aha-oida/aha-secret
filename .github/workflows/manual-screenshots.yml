@@ -18,6 +18,7 @@ jobs:
       AHA_SECRET_MEMCACHE_URL: "localhost:11211"
       AHA_SECRET_SCREENSHOT_DIR: tmp/capybara
       RUN_MANUAL_SCREENSHOTS: "true"
+      RACK_ENV: test
 
     steps:
       - uses: actions/checkout@v3
@@ -32,12 +33,9 @@ jobs:
           BUNDLE_CACHE_VERSION: v2
 
       - name: Create db and run migrations
-        env:
-          RACK_ENV: test
         run: |
           bundle exec rake db:create
           bundle exec rake db:schema:load
-          sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
 
       - name: Run manual screenshot scenario
         run: bundle exec rspec spec/features/manual_screenshots_spec.rb
