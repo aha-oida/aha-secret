@@ -62,7 +62,13 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :cuprite
   Capybara.default_max_wait_time = 5
   Capybara.disable_animation = true
-  Capybara.save_path = ENV.fetch('AHA_SECRET_SCREENSHOT_DIR', File.expand_path('../tmp/capybara', __dir__))
+  screenshot_dir = ENV['AHA_SECRET_SCREENSHOT_DIR']
+  Capybara.save_path =
+    if screenshot_dir && !screenshot_dir.empty?
+      File.expand_path(screenshot_dir)
+    else
+      File.expand_path('../tmp/capybara', __dir__)
+    end
   FileUtils.mkdir_p(Capybara.save_path)
   Capybara.register_driver(:cuprite) do |app|
     Capybara::Cuprite::Driver.new(app,
@@ -82,14 +88,14 @@ RSpec.configure do |config|
   config.after(:each, type: :feature) do |example|
     next unless example.exception
 
-    timestamp = Time.now.utc.strftime('%Y%m%d-%H%M%S')
+    timestamp = Time.now.utc.strftime('%Y%m%d-%H%M%S-%L')
     safe_name = example.full_description
       .downcase
       .gsub(/[^a-z0-9]+/, '-')
       .gsub(/\A-|\z/, '')
       .slice(0, 120)
 
-    screenshot_path = File.join(Capybara.save_path, "failure-#{safe_name}-#{timestamp}.png")
+    screenshot_path = File.join(Capybara.save_path, "failure-#{safe_name}-p#{Process.pid}-#{timestamp}.png")
     page.save_screenshot(screenshot_path, full: true)
   rescue StandardError => e
     STDERR.puts "Failed to save screenshot for '#{example.full_description}': #{e.message}"
