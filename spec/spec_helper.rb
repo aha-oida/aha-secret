@@ -26,6 +26,7 @@ require 'capybara/rspec'
 require 'capybara/dsl'
 require 'database_cleaner'
 require 'capybara/cuprite'
+require 'fileutils'
 
 # puts "Running with cuprite driver"
 # puts "PATH: #{ENV['PATH']}"
@@ -43,6 +44,7 @@ end
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
+  config.filter_run_excluding screenshots: true unless ENV['RUN_MANUAL_SCREENSHOTS'] == 'true'
   # config.filter_run :focus
   config.include Rack::Test::Methods
   config.include Capybara::DSL
@@ -60,6 +62,8 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :cuprite
   Capybara.default_max_wait_time = 5
   Capybara.disable_animation = true
+  Capybara.save_path = ENV.fetch('AHA_SECRET_SCREENSHOT_DIR', File.expand_path('../tmp/capybara', __dir__))
+  FileUtils.mkdir_p(Capybara.save_path)
   Capybara.register_driver(:cuprite) do |app|
     Capybara::Cuprite::Driver.new(app,
       js_errors: true,
@@ -74,6 +78,22 @@ RSpec.configure do |config|
   end
 
   config.filter_gems_from_backtrace("capybara", "cuprite", "ferrum")
+
+  config.after(:each, type: :feature) do |example|
+    next unless example.exception
+
+    timestamp = Time.now.utc.strftime('%Y%m%d-%H%M%S')
+    safe_name = example.full_description
+      .downcase
+      .gsub(/[^a-z0-9]+/, '-')
+      .gsub(/\A-|\z/, '')
+      .slice(0, 120)
+
+    screenshot_path = File.join(Capybara.save_path, "failure-#{safe_name}-#{timestamp}.png")
+    page.save_screenshot(screenshot_path, full: true)
+  rescue StandardError => e
+    warn "Failed to save screenshot for '#{example.full_description}': #{e.message}"
+  end
 
   unless ENV['SHOW_BROWSER']
     original_stderr = $stderr

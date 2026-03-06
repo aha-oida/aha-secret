@@ -1,0 +1,52 @@
+name: Manual Screenshots
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    services:
+      memcached:
+        image: memcached:latest
+        ports:
+          - 11211:11211
+    env:
+      AHA_SECRET_MEMCACHE_URL: "localhost:11211"
+      AHA_SECRET_SCREENSHOT_DIR: tmp/capybara
+      RUN_MANUAL_SCREENSHOTS: "true"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.8'
+          bundler: '4.0.3'
+          bundler-cache: true
+        env:
+          BUNDLE_CACHE_VERSION: v2
+
+      - name: Create db and run migrations
+        env:
+          RACK_ENV: test
+        run: |
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
+          sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
+
+      - name: Run manual screenshot scenario
+        run: bundle exec rspec spec/features/manual_screenshots_spec.rb
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manual-screenshots-${{ github.run_id }}
+          path: tmp/capybara
+          if-no-files-found: warn
+          retention-days: 14
