@@ -22,7 +22,7 @@ The workflow runs a single end-to-end scenario and creates screenshots for:
 
 Local run:
 
-`bundle exec rspec spec/features/manual_screenshots_spec.rb`
+`RUN_MANUAL_SCREENSHOTS=true bundle exec rspec spec/features/manual_screenshots_spec.rb`
 
 Screenshots are written to `tmp/capybara`.
 
