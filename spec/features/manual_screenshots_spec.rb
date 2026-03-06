@@ -21,8 +21,9 @@ feature 'Manual screenshot flow', type: :feature, js: true, screenshots: true do
       });
     JS
 
+    tooltip_text_before = page.evaluate_script("document.getElementById('myTooltip').textContent")
     click_button 'copy-button'
-    expect(page).to have_content(/copied|copy/i)
+    expect(page.evaluate_script("document.getElementById('myTooltip').textContent")).not_to eq(tooltip_text_before)
     page.save_screenshot(File.join(Capybara.save_path, 'manual-03-copy-link.png'), full: true)
 
     visit secret_url

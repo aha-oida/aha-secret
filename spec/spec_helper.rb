@@ -92,7 +92,7 @@ RSpec.configure do |config|
     screenshot_path = File.join(Capybara.save_path, "failure-#{safe_name}-#{timestamp}.png")
     page.save_screenshot(screenshot_path, full: true)
   rescue StandardError => e
-    warn "Failed to save screenshot for '#{example.full_description}': #{e.message}"
+    STDERR.puts "Failed to save screenshot for '#{example.full_description}': #{e.message}"
   end
 
   unless ENV['SHOW_BROWSER']
