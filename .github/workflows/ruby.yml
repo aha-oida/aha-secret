@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.4.8 ','4.0.1']
+        ruby-version: ['3.4.8','4.0.1']
     services:
       memcached:
         image: memcached:latest
@@ -67,6 +67,14 @@ jobs:
           AHA_SECRET_RATE_LIMIT: "3"
           AHA_SECRET_RATE_LIMIT_PERIOD: "60"
         run: bundle exec rspec spec/features/rate_limit_feature_spec.rb
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rspec-screenshots-ruby-${{ matrix.ruby-version }}-${{ github.run_id }}
+          path: tmp/capybara
+          if-no-files-found: ignore
+          retention-days: 7
       # only upload coverage once
       - name: undercover
         if: ${{ matrix.ruby-version == env.undercover_version && github.ref_name == 'main' }}
