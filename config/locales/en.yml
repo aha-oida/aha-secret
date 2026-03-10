@@ -30,6 +30,25 @@ en:
   error_msg: This entry was not found. Maybe the retention time has already expired
   hour: hour
   hours: hours
+  landing_help:
+    cards:
+      additional_password:
+        body:
+        - Add a password if you want a second layer of protection.
+        title: Add a password
+      one_time_secret:
+        body:
+        - The secret gets destroyed after the first successful reveal.
+        title: One-time only
+      share_link:
+        body:
+        - Copy the generated link and send it to the recipient.
+        title: Share the link
+      what_happens:
+        body:
+        - Write a message, encrypt it in your browser, and create a secret link.
+        title: Share encrypted
+    title: How it works
   minutes: minutes
   open_source: is free open source software
   pastelimit_exceeded: Pasting this content exceeds the maximum allowed characters
