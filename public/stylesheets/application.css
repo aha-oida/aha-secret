@@ -607,3 +607,127 @@ meter:-moz-meter-sub-optimum::-moz-meter-bar {
 meter:-moz-meter-sub-sub-optimum::-moz-meter-bar {
   background: #e7817a;
 }
+
+.landing-help {
+  width: 100%;
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.landing-help__header {
+  text-align: center;
+}
+
+.landing-help__header h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.landing-help__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.landing-help-card {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  padding: 2rem 1.6rem 1.8rem;
+  box-sizing: border-box;
+  min-height: 100%;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 16px 32px rgba(22, 28, 45, 0.2);
+  text-align: center;
+}
+
+.landing-help-card__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.landing-help-card__icon {
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 999px;
+  background: #eef4ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.landing-help-card--info .landing-help-card__icon {
+  background: #eef7ff;
+  color: #0ea5e9;
+}
+
+.landing-help-card--share .landing-help-card__icon {
+  background: #fff1f2;
+  color: #ef4444;
+}
+
+.landing-help-card--password .landing-help-card__icon {
+  background: #eefbf3;
+  color: #16a34a;
+}
+
+.landing-help-card--time .landing-help-card__icon {
+  background: #f5f0ff;
+  color: #7c3aed;
+}
+
+.landing-help-card__icon svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.landing-help-card h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 650;
+  line-height: 1.2;
+  color: #ffffff;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.landing-help-card p,
+.landing-help-card li {
+  color: #eef5ff;
+  line-height: 1.7;
+  font-size: 1.12rem;
+  overflow-wrap: anywhere;
+}
+
+.landing-help-card p {
+  margin: 0;
+}
+
+.landing-help-card p:last-child,
+.landing-help-card ul:last-child {
+  margin-bottom: 0;
+}
+
+.landing-help-card ul {
+  margin: 0.9rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.landing-help-card li + li {
+  margin-top: 0.45rem;
+}
+
+@media only screen and (min-width: 1100px) {
+  .landing-help__grid {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}

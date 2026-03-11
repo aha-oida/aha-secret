@@ -167,4 +167,30 @@
     <input id="create-secret" type="submit" value="<%= t :create %>">
   </form>
 </div>
+
+<section class="landing-help" aria-labelledby="landing-help-title">
+  <div class="landing-help__header">
+    <h2 id="landing-help-title"><%= t('landing_help.title') %></h2>
+  </div>
+
+  <div class="landing-help__grid">
+    <% Helpers::LANDING_HELP_CARDS.each do |card| %>
+      <article class="landing-help-card <%= card[:theme_class] %>">
+        <div class="landing-help-card__header">
+          <div class="landing-help-card__icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="<%= card[:icon_path] %>" />
+            </svg>
+          </div>
+
+          <h3><%= t("landing_help.cards.#{card[:key]}.title") %></h3>
+        </div>
+
+        <p><%= t("landing_help.cards.#{card[:key]}.body") %></p>
+
+      </article>
+    <% end %>
+  </div>
+</section>
+
 <script src="<%= javascript_path 'encrypt' %>"></script>
