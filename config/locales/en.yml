@@ -33,20 +33,16 @@ en:
   landing_help:
     cards:
       additional_password:
-        body:
-        - Add a password if you want a second layer of protection.
+        body: Add a password if you want a second layer of protection.
         title: Add a password
       one_time_secret:
-        body:
-        - The secret gets destroyed after the first successful reveal.
+        body: The secret gets destroyed after the first successful reveal.
         title: One-time only
       share_link:
-        body:
-        - Copy the generated link and send it to the recipient.
+        body: Copy the generated link and send it to the recipient.
         title: Share the link
       what_happens:
-        body:
-        - Write a message, encrypt it in your browser, and create a secret link.
+        body: Write a message, encrypt it in your browser, and create a secret link.
         title: Share encrypted
     title: How it works
   minutes: minutes

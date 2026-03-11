@@ -186,9 +186,7 @@
           <h3><%= t("landing_help.cards.#{card[:key]}.title") %></h3>
         </div>
 
-        <% Array(t("landing_help.cards.#{card[:key]}.body")).each do |paragraph| %>
-          <p><%= paragraph %></p>
-        <% end %>
+        <p><%= t("landing_help.cards.#{card[:key]}.body") %></p>
 
       </article>
     <% end %>
