@@ -30,10 +30,23 @@ class AppConfig
     end
 
     def permitted_origins
-      return ENV['AHA_SECRET_PERMITTED_ORIGINS'] if ENV.key?('AHA_SECRET_PERMITTED_ORIGINS')
+      value =
+        if ENV.key?('AHA_SECRET_PERMITTED_ORIGINS')
+          ENV['AHA_SECRET_PERMITTED_ORIGINS']
+        else
+          ensure_loaded
+          @config.permitted_origins
+        end
 
-      ensure_loaded
-      @config.permitted_origins
+      return nil if value.nil?
+
+      if value.respond_to?(:strip)
+        stripped = value.strip
+        return nil if stripped.empty?
+        return stripped
+      end
+
+      value
     end
 
     def cleanup_schedule

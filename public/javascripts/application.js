@@ -175,6 +175,11 @@ function getRandSettings() {
     charset += "!@#$%^&*()";
   }
 
+  if (!charset) {
+    // Fallback to a safe default charset if all character classes are disabled
+    charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+  }
+
   return [charset, rand_length];
 }
 
