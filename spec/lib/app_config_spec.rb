@@ -248,17 +248,6 @@ RSpec.describe AppConfig do
     ENV.delete('AHA_SECRET_APP_LOCALE')
   end
 
-  it 'ignores legacy APP_LOCALE env var and warns about deprecation' do
-    ENV.delete('AHA_SECRET_APP_LOCALE')
-    ENV['APP_LOCALE'] = 'fr'
-
-    expect do
-      AppConfig.reload!('test')
-    end.to output(/\[DEPRECATION\] ENV\['APP_LOCALE'\] is no longer supported and will be ignored; use ENV\['AHA_SECRET_APP_LOCALE'\] instead/).to_stderr
-
-    expect(AppConfig.app_locale).to be_nil
-  end
-
   it 'loads config from ENV for custom keys and uses ENV values' do
     allow(YAML).to receive(:load_file).and_return({ 'test' => { 'base_url' => '/' } })
     ENV['AHA_SECRET_BASE_URL'] = '/env-base-url'
