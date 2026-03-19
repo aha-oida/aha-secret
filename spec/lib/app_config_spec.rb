@@ -5,16 +5,17 @@ require_relative '../../app/lib/app_config'
 
 RSpec.describe AppConfig do
   # Save and restore ENV for tests that modify ENV
-  before(:each) do
-    @original_env = ENV.to_hash.dup
+  around do |example|
+    original_env = ENV.to_hash.dup
+    begin
+      example.run
+    ensure
+      ENV.replace(original_env)
+    end
   end
 
-  after(:each) do
-    ENV.replace(@original_env)
-  end
-
-  def stub_config(overrides = {})
-    base_config = {
+  def base_config(overrides = {})
+    {
       'rate_limit' => 65,
       'rate_limit_period' => 60,
       'cleanup_schedule' => '10m',
@@ -25,9 +26,11 @@ RSpec.describe AppConfig do
       'memcache_url' => '',
       'session_secret' => 'abc',
       'permitted_origins' => ''
-    }
+    }.merge(overrides)
+  end
 
-    allow(YAML).to receive(:load_file).and_return({ 'test' => base_config.merge(overrides) })
+  def stub_config(overrides = {})
+    allow(YAML).to receive(:load_file).and_return({ 'test' => base_config(overrides) })
   end
 
   it 'loads the test environment config with fallback to default' do
@@ -75,8 +78,7 @@ RSpec.describe AppConfig do
   end
 
   it 'returns default max_msg_length if missing' do
-    allow(YAML).to receive(:load_file).and_return({ 'test' => { 'max_msg_length' => nil, 'rate_limit' => 1,
-                                                                'rate_limit_period' => 1, 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
+    allow(YAML).to receive(:load_file).and_return({ 'test' => base_config('max_msg_length' => nil, 'session_secret' => '123') })
     AppConfig.reload!('test')
     expect(AppConfig.calc_max_length).to eq(AppConfig::Accessors::DEFAULT_MAX_MSG_LENGTH * 2)
   end
@@ -96,8 +98,7 @@ RSpec.describe AppConfig do
   end
 
   it 'returns doubled value for calc_max_length when max_msg_length is 128 or more' do
-    allow(YAML).to receive(:load_file).and_return({ 'test' => { 'max_msg_length' => 500, 'rate_limit' => 1,
-                                                                'rate_limit_period' => 1, 'cleanup_schedule' => '1m', 'default_locale' => 'en', 'custom' => {}, 'session_secret' => '123', 'memcache_url' => '', 'base_url' => '/' } })
+    allow(YAML).to receive(:load_file).and_return({ 'test' => base_config('max_msg_length' => 500, 'session_secret' => '123') })
     AppConfig.reload!('test')
     expect(AppConfig.calc_max_length).to eq(1000)
   end
@@ -235,6 +236,28 @@ RSpec.describe AppConfig do
     end
   end
 
+  context 'permitted_origins normalization' do
+    it 'returns nil for a blank config value' do
+      stub_config('permitted_origins' => '')
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to be_nil
+    end
+
+    it 'returns nil for a blank ENV override' do
+      stub_config('permitted_origins' => 'https://config.example')
+      ENV['AHA_SECRET_PERMITTED_ORIGINS'] = ''
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to be_nil
+    end
+
+    it 'strips surrounding whitespace from an ENV override' do
+      stub_config('permitted_origins' => 'https://config.example')
+      ENV['AHA_SECRET_PERMITTED_ORIGINS'] = '  https://env.example  '
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to eq('https://env.example')
+    end
+  end
+
   it 'returns nil for app_locale when AHA_SECRET_APP_LOCALE is not set' do
     AppConfig.reload!('test')
     expect(AppConfig.app_locale).to be_nil
@@ -245,18 +268,6 @@ RSpec.describe AppConfig do
     AppConfig.reload!('test')
     expect(AppConfig.app_locale).to eq('es')
     ENV.delete('AHA_SECRET_APP_LOCALE')
-  end
-
-  it 'falls back to legacy APP_LOCALE env var and warns about deprecation' do
-    ENV.delete('AHA_SECRET_APP_LOCALE')
-    ENV['APP_LOCALE'] = 'fr'
-
-    expect do
-      AppConfig.reload!('test')
-      AppConfig.app_locale
-    end.to output(/\[DEPRECATION\] ENV\['APP_LOCALE'\] is deprecated; use ENV\['AHA_SECRET_APP_LOCALE'\] instead/).to_stderr
-
-    expect(AppConfig.app_locale).to eq('fr')
   end
 
   it 'loads config from ENV for custom keys and uses ENV values' do
@@ -302,128 +313,7 @@ RSpec.describe AppConfig do
     end
   end
 
-  context 'legacy ENV overrides' do
-    it 'uses SESSION_SECRET env var for session_secret' do
-      # Stub minimal YAML config with required keys
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => '',
-                                                      'session_secret' => nil,
-                                                      'base_url' => '/'
-                                                    } })
-      ENV['SESSION_SECRET'] = 'legacy-secret'
-
-      AppConfig.reload!('test')
-      expect(AppConfig.session_secret).to eq('legacy-secret')
-    end
-
-    it 'uses MEMCACHE env var for memcache_url' do
-      # Clear the new variable to test the legacy one
-      ENV.delete('AHA_SECRET_MEMCACHE_URL')
-
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => nil,
-                                                      'session_secret' => 'abc',
-                                                      'base_url' => '/'
-                                                    } })
-      ENV['MEMCACHE'] = 'legacy-memcache'
-
-      AppConfig.reload!('test')
-      expect(AppConfig.memcache_url).to eq('legacy-memcache')
-    end
-
-    it 'prefers AHA_SECRET_MEMCACHE_URL over MEMCACHE' do
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => nil,
-                                                      'session_secret' => 'abc',
-                                                      'base_url' => '/'
-                                                    } })
-      ENV['MEMCACHE'] = 'legacy-memcache'
-      ENV['AHA_SECRET_MEMCACHE_URL'] = 'new-memcache'
-
-      AppConfig.reload!('test')
-      expect(AppConfig.memcache_url).to eq('new-memcache')
-    end
-
-    it 'returns nil when both MEMCACHE and AHA_SECRET_MEMCACHE_URL are unset' do
-      ENV.delete('AHA_SECRET_MEMCACHE_URL')
-      ENV.delete('MEMCACHE')
-
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => nil,
-                                                      'session_secret' => 'abc',
-                                                      'base_url' => '/'
-                                                    } })
-
-      AppConfig.reload!('test')
-      expect(AppConfig.memcache_url).to be_nil
-    end
-
-    it 'prefers AHA_SECRET_PERMITTED_ORIGINS over URL legacy env' do
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => '',
-                                                      'session_secret' => 'abc',
-                                                      'base_url' => '/',
-                                                      'permitted_origins' => 'config-origins'
-                                                    } })
-      ENV['URL'] = 'legacy-url'
-      ENV['AHA_SECRET_PERMITTED_ORIGINS'] = 'new-origins'
-
-      AppConfig.reload!('test')
-      expect(AppConfig.permitted_origins).to eq('new-origins')
-    end
-
-    it 'falls back to URL env when AHA_SECRET_PERMITTED_ORIGINS is not set' do
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => '',
-                                                      'session_secret' => 'abc',
-                                                      'base_url' => '/',
-                                                      'permitted_origins' => ''
-                                                    } })
-      ENV.delete('AHA_SECRET_PERMITTED_ORIGINS')
-      ENV['URL'] = 'fallback-url'
-
-      AppConfig.reload!('test')
-      expect(AppConfig.permitted_origins).to eq('fallback-url')
-    end
-  end
-
-  context 'deprecated ENV warnings' do
+  context 'legacy ENV vars are ignored' do
     before do
       # stub minimal valid config
       allow(YAML).to receive(:load_file).and_return({ 'test' => {
@@ -433,98 +323,99 @@ RSpec.describe AppConfig do
                                                       'default_locale' => 'en',
                                                       'max_msg_length' => 100,
                                                       'custom' => {},
-                                                      'memcache_url' => '',
+                                                      'memcache_url' => nil,
                                                       'session_secret' => 'abc',
-                                                      'base_url' => '/'
+                                                      'base_url' => '/',
+                                                      'permitted_origins' => 'config-origin'
                                                     } })
     end
 
-    it 'warns when using deprecated URL env var' do
-      # Clear the new variable to test the legacy one
-      ENV.delete('AHA_SECRET_PERMITTED_ORIGINS')
+    shared_examples 'ignored legacy env var' do |legacy_var:, legacy_value:, aha_var:, reader:, expected:, unset_aha: true|
+      it "warns and ignores legacy #{legacy_var} env var" do
+        ENV.delete(aha_var) if unset_aha
+        ENV[legacy_var] = legacy_value
 
-      ENV['URL'] = '/legacy-url'
-      expect do
-        AppConfig.reload!('test')
-      end.to output(/\[DEPRECATION\] ENV\['URL'\] is deprecated; use ENV\['AHA_SECRET_PERMITTED_ORIGINS'\] instead/).to_stderr
-      expect(AppConfig.permitted_origins).to eq('/legacy-url')
+        warning = "[DEPRECATION] ENV['#{legacy_var}'] is no longer supported and will be ignored; use ENV['#{aha_var}'] instead"
+
+        expect do
+          AppConfig.reload!('test')
+        end.to output(/#{Regexp.escape(warning)}/).to_stderr
+
+        expect(AppConfig.public_send(reader)).to eq(expected)
+      end
     end
 
-    it 'warns when using deprecated MEMCACHE env var' do
-      # Clear the new variable to test the legacy one
-      ENV.delete('AHA_SECRET_MEMCACHE_URL')
+    include_examples 'ignored legacy env var',
+                     legacy_var: 'URL',
+                     legacy_value: '/legacy-url',
+                     aha_var: 'AHA_SECRET_PERMITTED_ORIGINS',
+                     reader: :permitted_origins,
+                     expected: 'config-origin'
 
-      ENV['MEMCACHE'] = 'legacy-cache'
-      expect do
-        AppConfig.reload!('test')
-      end.to output(/\[DEPRECATION\] ENV\['MEMCACHE'\] is deprecated; use ENV\['AHA_SECRET_MEMCACHE_URL'\] instead/).to_stderr
-      expect(AppConfig.memcache_url).to eq('legacy-cache')
-    end
+    include_examples 'ignored legacy env var',
+                     legacy_var: 'MEMCACHE',
+                     legacy_value: 'legacy-cache',
+                     aha_var: 'AHA_SECRET_MEMCACHE_URL',
+                     reader: :memcache_url,
+                     expected: nil
 
-    it 'warns when using deprecated SESSION_SECRET env var' do
-      ENV['SESSION_SECRET'] = 'legacy-secret'
-      expect do
-        AppConfig.reload!('test')
-      end.to output(/\[DEPRECATION\] ENV\['SESSION_SECRET'\] is deprecated; use ENV\['AHA_SECRET_SESSION_SECRET'\] instead/).to_stderr
-      expect(AppConfig.session_secret).to eq('legacy-secret')
-    end
+    include_examples 'ignored legacy env var',
+                     legacy_var: 'SESSION_SECRET',
+                     legacy_value: 'legacy-secret',
+                     aha_var: 'AHA_SECRET_SESSION_SECRET',
+                     reader: :session_secret,
+                     expected: 'abc'
 
-    it 'warns when using deprecated PERMITTED_ORIGINS env var' do
-      # Clear the new variable to test the legacy one
-      ENV.delete('AHA_SECRET_PERMITTED_ORIGINS')
+    include_examples 'ignored legacy env var',
+                     legacy_var: 'PERMITTED_ORIGINS',
+                     legacy_value: 'legacy-origin',
+                     aha_var: 'AHA_SECRET_PERMITTED_ORIGINS',
+                     reader: :permitted_origins,
+                     expected: 'config-origin'
 
-      ENV['PERMITTED_ORIGINS'] = 'legacy-origin'
-      expect do
-        AppConfig.reload!('test')
-      end.to output(/\[DEPRECATION\] ENV\['PERMITTED_ORIGINS'\] is deprecated; use ENV\['AHA_SECRET_PERMITTED_ORIGINS'\] instead/).to_stderr
-      expect(AppConfig.permitted_origins).to eq('legacy-origin')
-    end
-
-    it 'warns when using deprecated APP_LOCALE env var' do
-      ENV['APP_LOCALE'] = 'de'
-      expect do
-        AppConfig.reload!('test')
-        AppConfig.app_locale  # This actually triggers the deprecation warning
-      end.to output(/\[DEPRECATION\] ENV\['APP_LOCALE'\] is deprecated; use ENV\['AHA_SECRET_APP_LOCALE'\] instead/).to_stderr
-    end
+    include_examples 'ignored legacy env var',
+                     legacy_var: 'APP_LOCALE',
+                     legacy_value: 'de',
+                     aha_var: 'AHA_SECRET_APP_LOCALE',
+                     reader: :app_locale,
+                     expected: nil
   end
 
   context 'deprecated config keys' do
-    it 'warns when using deprecated url config key and maps to base_url' do
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => '',
-                                                      'session_secret' => 'abc',
-                                                      'url' => '/legacy-base-url'
-                                                    } })
-      expect do
-        AppConfig.reload!('test')
-      end.to output(/\[DEPRECATION\] Config key 'url' is deprecated; use 'base_url' instead/).to_stderr
-      expect(AppConfig.base_url).to eq('/legacy-base-url')
+    shared_examples 'deprecated url config key handling' do |config_overrides:, expected_error: nil, expected_base_url: nil|
+      it "handles deprecated url key with config #{config_overrides.keys.sort.join(', ')}" do
+        base = base_config('memcache_url' => '', 'session_secret' => 'abc')
+        # For these tests, base_url should only come from config_overrides,
+        # so remove it from the base config.
+        base.delete('base_url')
+
+        allow(YAML).to receive(:load_file).and_return({ 'test' => base.merge(config_overrides) })
+
+        warning = "[DEPRECATION] Config key 'url' is no longer supported and will be ignored; use 'base_url' instead"
+        warning_regex = /#{Regexp.escape(warning)}/
+
+        if expected_error
+          expect do
+            AppConfig.reload!('test')
+          end.to output(warning_regex).to_stderr.and raise_error(expected_error)
+        else
+          expect do
+            AppConfig.reload!('test')
+          end.to output(warning_regex).to_stderr
+          expect(AppConfig.base_url).to eq(expected_base_url)
+        end
+      end
     end
 
-    it 'gives precedence to base_url over deprecated url config key' do
-      allow(YAML).to receive(:load_file).and_return({ 'test' => {
-                                                      'rate_limit' => 1,
-                                                      'rate_limit_period' => 1,
-                                                      'cleanup_schedule' => '1m',
-                                                      'default_locale' => 'en',
-                                                      'max_msg_length' => 100,
-                                                      'custom' => {},
-                                                      'memcache_url' => '',
-                                                      'session_secret' => 'abc',
-                                                      'url' => '/legacy-base-url',
-                                                      'base_url' => '/new-base-url'
-                                                    } })
-      expect do
-        AppConfig.reload!('test')
-      end.to output(/\[DEPRECATION\] Config key 'url' is deprecated; use 'base_url' instead/).to_stderr
-      expect(AppConfig.base_url).to eq('/new-base-url')
-    end
+    include_examples 'deprecated url config key handling',
+                     config_overrides: { 'url' => '/legacy-base-url' },
+                     expected_error: /Missing required config keys: base_url/
+
+    include_examples 'deprecated url config key handling',
+                     config_overrides: {
+                       'url' => '/legacy-base-url',
+                       'base_url' => '/new-base-url'
+                     },
+                     expected_base_url: '/new-base-url'
   end
 end

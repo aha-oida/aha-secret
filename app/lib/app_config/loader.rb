@@ -5,8 +5,20 @@ require 'yaml'
 class AppConfig
   # Module responsible for loading and building configuration from YAML files and environment variables
   module Loader
-    BOOLEAN_TRUE_VALUES = %w[true 1 yes on].freeze
+    BOOLEAN_TRUE_VALUES  = %w[true 1 yes on].freeze
     BOOLEAN_FALSE_VALUES = %w[false 0 no off].freeze
+
+    LEGACY_ENV_MAPPINGS = {
+      'URL' => 'AHA_SECRET_PERMITTED_ORIGINS',
+      'MEMCACHE' => 'AHA_SECRET_MEMCACHE_URL',
+      'SESSION_SECRET' => 'AHA_SECRET_SESSION_SECRET',
+      'PERMITTED_ORIGINS' => 'AHA_SECRET_PERMITTED_ORIGINS',
+      'APP_LOCALE' => 'AHA_SECRET_APP_LOCALE'
+    }.freeze
+
+    LEGACY_CONFIG_MAPPINGS = {
+      'url' => 'base_url'
+    }.freeze
 
     def load_config_file
       config_path = File.expand_path('../../../config/config.yml', __dir__)
@@ -17,41 +29,36 @@ class AppConfig
 
     def build_config_hash(raw, env)
       config_hash = load_base_config(raw, env)
-      apply_deprecated_config_keys(config_hash)
-      apply_deprecated_env_vars(config_hash)
+      warn_ignored_legacy_config_keys(config_hash)
+      warn_ignored_legacy_env_vars
       apply_env_overrides(config_hash)
       config_hash
     end
 
     def load_base_config(raw, env)
-      ((raw[env] || raw['default']) || {}).transform_keys(&:to_s)
+      (raw[env] || raw['default'] || {}).transform_keys(&:to_s)
     end
 
-    def apply_deprecated_config_keys(config_hash)
-      deprecated_config_mappings.each do |old_key, new_key|
+    def warn_ignored_legacy_config_keys(config_hash)
+      LEGACY_CONFIG_MAPPINGS.each do |old_key, new_key|
         next unless config_hash.key?(old_key)
 
         Accessors.warn_deprecated_config(old_key, new_key)
-        # Only set the new key if it's not explicitly set (new key takes precedence)
-        # But we need to distinguish between inherited values and explicitly set values
-        # For now, we'll use a simple approach: if both exist, prefer the new key
-        config_hash[new_key] = config_hash[old_key] unless config_hash.key?(new_key)
-        config_hash.delete(old_key)
       end
     end
 
-    def apply_deprecated_env_vars(config_hash)
-      deprecated_mappings.each do |old_var, config_keys|
+    def warn_ignored_legacy_env_vars
+      LEGACY_ENV_MAPPINGS.each do |old_var, new_var|
         next unless ENV.key?(old_var)
 
-        new_var = "AHA_SECRET_#{config_keys.first.upcase}"
         Accessors.warn_deprecated_env(old_var, new_var)
-        config_keys.each { |k| config_hash[k] = ENV.fetch(old_var, nil) }
       end
     end
 
     def apply_env_overrides(config_hash)
-      config_override_keys.each { |key| apply_env_override(config_hash, key) }
+      config_override_keys.each do |key|
+        apply_env_override(config_hash, key)
+      end
     end
 
     private
@@ -64,7 +71,7 @@ class AppConfig
       env_key = env_override_key(key)
       return unless ENV.key?(env_key)
 
-      config_hash[key] = normalize_env_override(ENV.fetch(env_key, nil))
+      config_hash[key] = normalize_env_override(ENV.fetch(env_key))
     end
 
     def env_override_key(key)
@@ -73,30 +80,15 @@ class AppConfig
 
     def normalize_env_override(value)
       normalized = value.to_s.downcase
-      return true if BOOLEAN_TRUE_VALUES.include?(normalized)
+      return true  if BOOLEAN_TRUE_VALUES.include?(normalized)
       return false if BOOLEAN_FALSE_VALUES.include?(normalized)
 
       value
     end
 
-    def deprecated_mappings
-      {
-        'URL' => %w[permitted_origins],
-        'MEMCACHE' => %w[memcache_url],
-        'SESSION_SECRET' => %w[session_secret],
-        'PERMITTED_ORIGINS' => %w[permitted_origins]
-      }
-    end
-
-    def deprecated_config_mappings
-      {
-        'url' => 'base_url'
-      }
-    end
-
     def validate_config!(config_hash)
       missing = REQUIRED_KEYS - config_hash.keys
-      raise "Missing required config keys: #{missing.join(', ')}" unless missing.empty?
+      raise "Missing required config keys: #{missing.join(', ')}" if missing.any?
     end
   end
 end

@@ -8,11 +8,48 @@ layout: default
 
 # Configuration
 
-It is possible to configure [aha-secret] by setting environment variables.
+You can configure [aha-secret] using either environment variables or `config/config.yml`.
+If both are provided, environment variables take precedence.
 
 ## Environment Variables
 
-The application is configured using environment variables. Use the new AHA_SECRET_* variables for all new deployments. Deprecated variables are supported for backward compatibility but should be avoided.
+Environment variables are the preferred override mechanism. Use the `AHA_SECRET_*` variables.
+
+## Configuration Tiers
+
+The application requires different types of configuration:
+
+### **Tier 1: System-Required Variables**
+These 9 variables are essential for the application to function. All have sensible defaults defined in `config/config.yml`:
+- `base_url`, `rate_limit`, `rate_limit_period`, `cleanup_schedule`, `default_locale`, `max_msg_length`, `session_secret`, `memcache_url`, and `custom`
+
+**Impact if missing:** Application will fail to start.
+
+### **Tier 2: Production-Required Security Setup**
+These settings are required for a working production setup:
+- HTTPS (SSL/TLS) — required because the browser WebCrypto API only works in secure contexts (except `localhost`)
+- `permitted_origins` — required in production for Rack::Protection origin checks and bandwidth-limitation related protection behavior
+
+**Impact if missing:** Encryption flows can fail in browsers (without HTTPS), and origin protection behavior is not configured as intended (without `permitted_origins`).
+
+### **Tier 3: Production Best Practices**
+These variables should be customized for production deployments:
+- `session_secret` — Should be a long, random string (not a default)
+- `rate_limit` and `rate_limit_period` — Tune to your traffic expectations
+- `base_url` — Update if deployed at a non-root path
+- `cleanup_schedule` — Adjust cleanup frequency based on data volume
+
+**Impact if not customized:** Application runs with defaults, but may be insecure or inefficient.
+
+### **Tier 4: Optional Features**
+These variables enable specific features or customizations:
+- `display_version` — Show version in footer
+- `random_secret_*` — Random secret generation options
+- `custom.*` — UI customization options
+
+**Impact if missing:** Features are disabled or use defaults.
+
+---
 
 The following environment variables can be set to configure the application:
 
@@ -30,33 +67,28 @@ The following environment variables can be used to configure **aha-secret**. Mos
 
 | Variable | Description | Default | Config.yml Key | Notes |
 |----------|-------------|---------|----------------|-------|
-| `AHA_SECRET_BASE_URL` | Set base-url of Website. | / | `base_url` | |
-| `URL` | (Deprecated) Old permitted origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
-| `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | `memcache_url` | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
-| `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | `memcache_url` | Use `AHA_SECRET_MEMCACHE_URL` instead |
-| `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | `session_secret` | Set for production deployments |
-| `SESSION_SECRET` | (Deprecated) Old session secret variable | Random | `session_secret` | Use `AHA_SECRET_SESSION_SECRET` instead |
-| `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `10m` | `cleanup_schedule` | Example: `1h`, `5m` |
-| `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `65` | `rate_limit` | Used by Rack::Attack |
-| `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | `rate_limit_period` | Used by Rack::Attack |
-| `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | `default_locale` | |
-| `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `20000` | `max_msg_length` | |
-| `AHA_SECRET_DISPLAY_VERSION` | Display version in footer | `false` | `display_version` | Set to `true` to show version |
-| `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | `permitted_origins` | |
-| `PERMITTED_ORIGINS` | (Deprecated) Old CORS origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
-| `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | *(none)* | Overrides default_locale when set |
-| `APP_LOCALE` | (Deprecated) Old app locale variable | *(none)* | *(none)* | Use `AHA_SECRET_APP_LOCALE` instead |
-| `RACK_ENV` | Rack environment | `development` | *(none)* | Use `production` for deployment, `test` for tests |
-| `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | *(none)* | Set to `true` in test/CI |
-| `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | *(none)* | Used in test/CI |
-| `CI` | Set automatically in CI | *(none)* | Used to enable CI-specific logic |
-| `SHOW_BROWSER` | Show browser in e2e tests | *(none)* | Set to `true` to see browser window |
-| `undercover_version` | Used in CI for coverage matrix | *(none)* | |
+| `AHA_SECRET_BASE_URL` | Set base-url of Website. | / | `base_url` | [REQUIRED] [RECOMMENDED] |
+| `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | `memcache_url` | [REQUIRED] [RECOMMENDED] Enables Rack::Attack. Example: `localhost:11211` |
+| `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | `session_secret` | [REQUIRED] [RECOMMENDED] Must be long, random string for production |
+| `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `10m` | `cleanup_schedule` | [REQUIRED] [RECOMMENDED] Example: `1h`, `5m` |
+| `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `65` | `rate_limit` | [REQUIRED] [RECOMMENDED] Tune based on traffic. Used by Rack::Attack |
+| `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | `rate_limit_period` | [REQUIRED] Used by Rack::Attack |
+| `AHA_SECRET_DEFAULT_LOCALE` | Default locale | `en` | `default_locale` | [REQUIRED] |
+| `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `20000` | `max_msg_length` | [REQUIRED] |
+| `AHA_SECRET_DISPLAY_VERSION` | Display version in footer | `false` | `display_version` | [OPTIONAL] Set to `true` to show version |
+| `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | `permitted_origins` | [REQUIRED FOR PRODUCTION] See [Permitted Origins documentation](#permitted-origins) |
+| `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | *(none)* | [OPTIONAL] Overrides default_locale when set |
+| `RACK_ENV` | Rack environment | `development` | *(none)* | [RECOMMENDED] Use `production` for deployment, `test` for tests |
+| `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | *(none)* | [OPTIONAL] Set to `true` in test/CI |
+| `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | *(none)* | [OPTIONAL] Used in test/CI |
+| `CI` | Set automatically in CI | *(none)* | *(none)* | [OPTIONAL] Used to enable CI-specific logic |
+| `SHOW_BROWSER` | Show browser in e2e tests | *(none)* | *(none)* | [OPTIONAL] Set to `true` to see browser window |
+| `undercover_version` | Used in CI for coverage matrix | *(none)* | *(none)* | [OPTIONAL] |
 
-### Deprecated Environment Variables
+### Removed Legacy Variables
 
-- `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` are deprecated. Use the `AHA_SECRET_*` equivalents.
-- Deprecated variables are still supported for backward compatibility but will show a warning.
+- `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, and `PERMITTED_ORIGINS` are no longer supported.
+- If set, the application prints a deprecation warning and ignores them.
 
 ## Creating a config.yml File
 
@@ -112,16 +144,51 @@ test:
 
 - **session_secret**: Should be a long, random string for production
 - **memcache_url**: Leave empty to disable rate limiting, or set to your memcache server
-- **permitted_origins**: Set to your domain for CORS/CSRF protection
 - **display_version**: Shows application version in footer. Set to `false` in production for security
 - **Environment-specific sections**: Override common settings per environment
 - **custom**: Configure UI customization options
+
+### HTTPS / SSL Requirement
+
+For production, serve the application over HTTPS (SSL/TLS). The browser WebCrypto API requires a secure context and is only available on non-HTTPS origins for `localhost`.
+
+Without HTTPS in production, client-side encryption/decryption flows will not work reliably.
+
+#### Permitted Origins
+
+`AHA_SECRET_PERMITTED_ORIGINS` controls which origins are allowed to access the application and protects against CORS and CSRF attacks.
+
+**Format:** Comma-separated list of allowed origins, or leave empty/unset (default) to disable origin checking.
+
+**Examples:**
+
+```bash
+# Single origin (typical for production)
+AHA_SECRET_PERMITTED_ORIGINS=https://example.com
+
+# Multiple origins
+AHA_SECRET_PERMITTED_ORIGINS=https://example.com,https://www.example.com
+
+# Local development
+AHA_SECRET_PERMITTED_ORIGINS=http://localhost:9292,http://localhost:3000
+
+# Wildcard (not recommended for production)
+AHA_SECRET_PERMITTED_ORIGINS=*
+```
+
+In `config/config.yml`:
+
+```yaml
+permitted_origins: "https://example.com,https://www.example.com"
+```
+
+**Note:** For production, this value should be treated as required. Set it to your domain(s) so Rack::Protection origin checks and bandwidth-limitation related protection behavior are applied as intended.
 
 ### Precedence and Override Logic
 
 - Environment variables override values in `config/config.yml`.
 - If neither is set, built-in defaults are used.
-- Deprecated ENV vars are mapped to new ones with a warning.
+- Legacy non-`AHA_SECRET_*` ENV vars are ignored with a warning.
 
 ### Test/CI-Specific Variables
 
