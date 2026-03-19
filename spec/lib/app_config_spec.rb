@@ -236,6 +236,28 @@ RSpec.describe AppConfig do
     end
   end
 
+  context 'permitted_origins normalization' do
+    it 'returns nil for a blank config value' do
+      stub_config('permitted_origins' => '')
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to be_nil
+    end
+
+    it 'returns nil for a blank ENV override' do
+      stub_config('permitted_origins' => 'https://config.example')
+      ENV['AHA_SECRET_PERMITTED_ORIGINS'] = ''
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to be_nil
+    end
+
+    it 'strips surrounding whitespace from an ENV override' do
+      stub_config('permitted_origins' => 'https://config.example')
+      ENV['AHA_SECRET_PERMITTED_ORIGINS'] = '  https://env.example  '
+      AppConfig.reload!('test')
+      expect(AppConfig.permitted_origins).to eq('https://env.example')
+    end
+  end
+
   it 'returns nil for app_locale when AHA_SECRET_APP_LOCALE is not set' do
     AppConfig.reload!('test')
     expect(AppConfig.app_locale).to be_nil

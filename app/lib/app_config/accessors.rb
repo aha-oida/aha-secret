@@ -30,23 +30,7 @@ class AppConfig
     end
 
     def permitted_origins
-      value =
-        if ENV.key?('AHA_SECRET_PERMITTED_ORIGINS')
-          ENV['AHA_SECRET_PERMITTED_ORIGINS']
-        else
-          ensure_loaded
-          @config.permitted_origins
-        end
-
-      return nil if value.nil?
-
-      if value.respond_to?(:strip)
-        stripped = value.strip
-        return nil if stripped.empty?
-        return stripped
-      end
-
-      value
+      normalize_permitted_origins(raw_permitted_origins_value)
     end
 
     def cleanup_schedule
@@ -138,6 +122,26 @@ class AppConfig
 
     def ensure_loaded
       load! unless @config
+    end
+
+    def raw_permitted_origins_value
+      return ENV['AHA_SECRET_PERMITTED_ORIGINS'] if ENV.key?('AHA_SECRET_PERMITTED_ORIGINS')
+
+      ensure_loaded
+      @config.permitted_origins
+    end
+
+    def normalize_permitted_origins(value)
+      return nil if value.nil?
+
+      if value.respond_to?(:strip)
+        stripped = value.strip
+        return nil if stripped.empty?
+
+        return stripped
+      end
+
+      value
     end
 
     def random_secret_flag(field)
