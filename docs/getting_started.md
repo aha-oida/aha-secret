@@ -33,7 +33,7 @@ AHA_SECRET_MEMCACHE_URL=memcached:11211
 - For tests, `SKIP_SCHEDULER=true` is set automatically to avoid running background jobs.
 - For CI, `CI=true` and other test-specific variables are set automatically.
 
-> **Deprecated:** `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` (use the new `AHA_SECRET_*` variables instead).
+> Legacy variables `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, and `PERMITTED_ORIGINS` are no longer supported and are ignored with a warning.
 
 For a full list of optional and advanced environment variables, see the [Complete Environment Variables Reference]({{ site.baseurl }}/configuration/#complete-environment-variables-reference).
 

@@ -45,6 +45,4 @@ use Rack::Protection,
     use: %i[content_security_policy authenticity_token],
     permitted_origins: AppConfig.permitted_origins
 
-# NOTE: Legacy MEMCACHE support is handled by AppConfig.memcache_url. No separate block needed.
-
 run ApplicationController

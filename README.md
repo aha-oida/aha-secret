@@ -12,6 +12,10 @@ link could decrypt the message again. The message is encrypted by your
 browser and decrypted by the browser of the person who is allowed to
 read it. The first time someone clicks on the link, the message is automatically deleted from the server.
 
+# Current Status
+
+aha-secret is feature-complete; that is, it solves the problem it was created to solve.
+
 ![Screenrecord of encryption and decryption](/images/ahanimation.gif)
 
 # Features

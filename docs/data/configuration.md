@@ -12,7 +12,7 @@ It is possible to configure [aha-secret] by setting environment variables.
 
 ## Environment Variables
 
-The application is configured using environment variables. Use the new AHA_SECRET_* variables for all new deployments. Deprecated variables are supported for backward compatibility but should be avoided.
+The application is configured using environment variables. Use the `AHA_SECRET_*` variables.
 
 The following environment variables can be set to configure the application:
 
@@ -31,11 +31,8 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | Variable | Description | Default | Config.yml Key | Notes |
 |----------|-------------|---------|----------------|-------|
 | `AHA_SECRET_BASE_URL` | Set base-url of Website. | / | `base_url` | |
-| `URL` | (Deprecated) Old permitted origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
 | `AHA_SECRET_MEMCACHE_URL` | Memcache server URL for rate limiting and caching | *(none)* | `memcache_url` | Recommended. Enables Rack::Attack. Example: `localhost:11211` |
-| `MEMCACHE` | (Deprecated) Old memcache server variable | *(none)* | `memcache_url` | Use `AHA_SECRET_MEMCACHE_URL` instead |
 | `AHA_SECRET_SESSION_SECRET` | Secret for session encryption | Random | `session_secret` | Set for production deployments |
-| `SESSION_SECRET` | (Deprecated) Old session secret variable | Random | `session_secret` | Use `AHA_SECRET_SESSION_SECRET` instead |
 | `AHA_SECRET_CLEANUP_SCHEDULE` | Cron/interval for background cleanup | `10m` | `cleanup_schedule` | Example: `1h`, `5m` |
 | `AHA_SECRET_RATE_LIMIT` | Requests per period per IP | `65` | `rate_limit` | Used by Rack::Attack |
 | `AHA_SECRET_RATE_LIMIT_PERIOD` | Rate limit period (seconds) | `60` | `rate_limit_period` | Used by Rack::Attack |
@@ -43,9 +40,7 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | `AHA_SECRET_MAX_MSG_LENGTH` | Max message length | `20000` | `max_msg_length` | |
 | `AHA_SECRET_DISPLAY_VERSION` | Display version in footer | `false` | `display_version` | Set to `true` to show version |
 | `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | `permitted_origins` | |
-| `PERMITTED_ORIGINS` | (Deprecated) Old CORS origins variable | *(none)* | `permitted_origins` | Use `AHA_SECRET_PERMITTED_ORIGINS` instead |
 | `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | *(none)* | Overrides default_locale when set |
-| `APP_LOCALE` | (Deprecated) Old app locale variable | *(none)* | *(none)* | Use `AHA_SECRET_APP_LOCALE` instead |
 | `RACK_ENV` | Rack environment | `development` | *(none)* | Use `production` for deployment, `test` for tests |
 | `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | *(none)* | Set to `true` in test/CI |
 | `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | *(none)* | Used in test/CI |
@@ -53,10 +48,10 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | `SHOW_BROWSER` | Show browser in e2e tests | *(none)* | Set to `true` to see browser window |
 | `undercover_version` | Used in CI for coverage matrix | *(none)* | |
 
-### Deprecated Environment Variables
+### Removed Legacy Variables
 
-- `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, `PERMITTED_ORIGINS` are deprecated. Use the `AHA_SECRET_*` equivalents.
-- Deprecated variables are still supported for backward compatibility but will show a warning.
+- `MEMCACHE`, `SESSION_SECRET`, `APP_LOCALE`, `URL`, and `PERMITTED_ORIGINS` are no longer supported.
+- If set, the application prints a deprecation warning and ignores them.
 
 ## Creating a config.yml File
 
@@ -121,7 +116,7 @@ test:
 
 - Environment variables override values in `config/config.yml`.
 - If neither is set, built-in defaults are used.
-- Deprecated ENV vars are mapped to new ones with a warning.
+- Legacy non-`AHA_SECRET_*` ENV vars are ignored with a warning.
 
 ### Test/CI-Specific Variables
 

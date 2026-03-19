@@ -70,6 +70,25 @@ describe 'config.ru Rate Limiting' do
     expect(last_response.status).to be_between(200, 499)
   end
 
+  context 'without memcache' do
+    it 'boots when AppConfig.memcache_url is nil' do
+      allow(AppConfig).to receive(:memcache_url).and_return(nil)
+      @app = nil
+
+      expect { app }.not_to raise_error
+      expect { get '/' }.not_to raise_error
+      expect(last_response.status).to be_between(200, 499)
+    end
+
+    it 'still uses AppConfig.permitted_origins for Rack::Protection when memcache_url is nil' do
+      allow(AppConfig).to receive(:memcache_url).and_return(nil)
+      expect(AppConfig).to receive(:permitted_origins).and_call_original
+      @app = nil
+
+      expect { app }.not_to raise_error
+    end
+  end
+
   describe 'throttle block logic unit tests' do
     it 'uses correct rate limit values from AppConfig' do
       # Ensure clean ENV state

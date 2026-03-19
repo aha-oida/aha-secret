@@ -131,6 +131,10 @@ function generateSecret(length, charset) {
   return [...array].map(x => charset[x % charset.length]).join('');
 }
 
+function parseDatasetBoolean(value) {
+  return value === "true" || value === true;
+}
+
 function getRandSettings() {
   let charset = "";
   let rand_length = 15;
@@ -149,10 +153,10 @@ function getRandSettings() {
   } else {
 
     rand_length = document.getElementById("random-config").dataset.length;
-    rand_symbols = document.getElementById("random-config").dataset.symbols;
-    rand_numbers = document.getElementById("random-config").dataset.numbers;
-    rand_capitals = document.getElementById("random-config").dataset.capitals;
-    rand_lowers = document.getElementById("random-config").dataset.lowers;
+    rand_symbols = parseDatasetBoolean(document.getElementById("random-config").dataset.symbols);
+    rand_numbers = parseDatasetBoolean(document.getElementById("random-config").dataset.numbers);
+    rand_capitals = parseDatasetBoolean(document.getElementById("random-config").dataset.capitals);
+    rand_lowers = parseDatasetBoolean(document.getElementById("random-config").dataset.lowers);
   }
 
   if (rand_lowers) {
@@ -169,6 +173,11 @@ function getRandSettings() {
 
   if (rand_symbols) {
     charset += "!@#$%^&*()";
+  }
+
+  if (!charset) {
+    // Fallback to a safe default charset if all character classes are disabled
+    charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
   }
 
   return [charset, rand_length];
