@@ -178,3 +178,28 @@ encryptionForm?.addEventListener("submit", async function (e) {
   e.preventDefault()
   await encryptEvent();
 })
+
+// Clear form fields when page is restored from back-forward cache or before unload
+function clearSensitiveFields() {
+  const messageField = document.getElementById('message');
+  const passwordField = document.getElementById('add-password');
+
+  if (messageField) {
+    messageField.value = '';
+  }
+  if (passwordField) {
+    passwordField.value = '';
+  }
+}
+
+// Handle back-forward cache restoration (pageshow with persisted flag)
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    clearSensitiveFields();
+  }
+});
+
+// Handle navigation away and unload events
+window.addEventListener('beforeunload', function() {
+  clearSensitiveFields();
+});
