@@ -67,6 +67,11 @@ jobs:
           AHA_SECRET_RATE_LIMIT: "3"
           AHA_SECRET_RATE_LIMIT_PERIOD: "60"
         run: bundle exec rspec spec/features/rate_limit_feature_spec.rb
+      - name: Build screenshot summary
+        if: always()
+        env:
+          AHA_SECRET_SCREENSHOT_ARTIFACT_NAME: rspec-screenshots-ruby-${{ matrix.ruby-version }}-${{ github.run_id }}
+        run: ruby scripts/render_screenshot_summary.rb tmp/capybara >> "$GITHUB_STEP_SUMMARY"
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4

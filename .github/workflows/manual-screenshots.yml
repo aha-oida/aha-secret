@@ -40,6 +40,12 @@ jobs:
       - name: Run manual screenshot scenario
         run: bundle exec rspec spec/features/manual_screenshots_spec.rb
 
+      - name: Build screenshot summary
+        if: always()
+        env:
+          AHA_SECRET_SCREENSHOT_ARTIFACT_NAME: manual-screenshots-${{ github.run_id }}
+        run: ruby scripts/render_screenshot_summary.rb tmp/capybara >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4

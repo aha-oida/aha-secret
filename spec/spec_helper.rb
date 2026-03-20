@@ -28,6 +28,24 @@ require 'database_cleaner'
 require 'capybara/cuprite'
 require 'fileutils'
 
+FAILURE_ARTIFACT_SETTLE_SCRIPT = <<~JS
+  const done = arguments[0];
+
+  const finish = () => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setTimeout(() => done(true), 150);
+      });
+    });
+  };
+
+  if (document.readyState === 'complete') {
+    finish();
+  } else {
+    window.addEventListener('load', finish, { once: true });
+  }
+JS
+
 # puts "Running with cuprite driver"
 # puts "PATH: #{ENV['PATH']}"
 # puts "which chromium: #{`which chromium`.strip}"
@@ -95,7 +113,14 @@ RSpec.configure do |config|
       .gsub(/\A-|\z/, '')
       .slice(0, 120)
 
+    if example.metadata[:js]
+      page.evaluate_async_script(FAILURE_ARTIFACT_SETTLE_SCRIPT)
+    end
+
     screenshot_path = File.join(Capybara.save_path, "failure-#{safe_name}-p#{Process.pid}-#{timestamp}.png")
+    html_path = screenshot_path.sub(/\.png\z/, '.html')
+
+    page.save_page(html_path)
     page.save_screenshot(screenshot_path, full: true)
   rescue StandardError => e
     warn "Failed to save screenshot for '#{example.full_description}': #{e.message}"
