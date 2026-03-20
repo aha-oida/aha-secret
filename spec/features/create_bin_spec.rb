@@ -156,9 +156,7 @@ feature 'Create Bin', type: :feature, js: true do
 
     page.execute_script('history.back()')
     expect(page).to have_selector('#message', visible: :all)
-
-    restored_payload = find('#message', visible: :all).value
-    expect(restored_payload).to eq('')
+    expect(page).to have_field('bin[payload]', with: '', visible: :all)
   end
 
 

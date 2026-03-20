@@ -192,14 +192,7 @@ function clearSensitiveFields() {
   }
 }
 
-// Handle back-forward cache restoration (pageshow with persisted flag)
-window.addEventListener('pageshow', function(event) {
-  if (event.persisted) {
-    clearSensitiveFields();
-  }
-});
-
-// Handle navigation away and unload events
-window.addEventListener('beforeunload', function() {
+// Clear sensitive fields whenever the page is shown, including BFCache restores
+window.addEventListener('pageshow', function() {
   clearSensitiveFields();
 });
