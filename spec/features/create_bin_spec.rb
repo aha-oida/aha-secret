@@ -145,5 +145,21 @@ feature 'Create Bin', type: :feature, js: true do
     expect(page).to have_selector('#randomSettings', visible: true)
   end
 
+  scenario 'Regression: secret input should not reappear after navigating back' do
+    visit '/'
+    payload = "TOP-SECRET-#{SecureRandom.hex(4)}"
+    fill_in 'bin[payload]', with: payload
+    click_button 'Create Secret'
+
+    secret_url = find('#secret-url', visible: true).value
+    visit secret_url
+
+    page.execute_script('history.back()')
+    expect(page).to have_selector('#message', visible: :all)
+
+    restored_payload = find('#message', visible: :all).value
+    expect(restored_payload).to eq('')
+  end
+
 
 end
