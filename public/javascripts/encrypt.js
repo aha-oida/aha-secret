@@ -179,7 +179,7 @@ encryptionForm?.addEventListener("submit", async function (e) {
   await encryptEvent();
 })
 
-// Clear form fields when page is restored from back-forward cache or before unload
+// Clear form fields whenever the page is shown (covers BFCache restores and regular navigation)
 function clearSensitiveFields() {
   const messageField = document.getElementById('message');
   const passwordField = document.getElementById('add-password');
