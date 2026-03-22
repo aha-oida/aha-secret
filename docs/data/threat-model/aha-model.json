@@ -241,11 +241,24 @@
                   "new": false,
                   "number": 70,
                   "score": ""
+                },
+                {
+                  "id": "c8b61605-40b0-4dbd-809a-23b9f2dce275",
+                  "title": "Secret disclosure by keeping it in the textarea after reloading/back/forward",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Information disclosure",
+                  "description": "When user enters a secret and sends it, the browser might cache it and shows it again when comming back to the site. If this happens when other entities are watching, the secret could be compromised.",
+                  "mitigation": "Automatically empty all textfields during initialisation/reloading of the page",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 75,
+                  "score": ""
                 }
               ],
               "threatFrequency": {
                 "tampering": 1,
-                "informationDisclosure": 1,
+                "informationDisclosure": 2,
                 "denialOfService": 0
               }
             },
@@ -276,7 +289,17 @@
                 "x": 360,
                 "y": 120
               }
-            ]
+            ],
+            "tools": {
+              "items": [
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead"
+              ],
+              "name": null
+            }
           },
           {
             "shape": "flow",
@@ -2087,6 +2110,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "whotwagner",
-    "threatTop": 74
+    "threatTop": 75
   }
 }
