@@ -355,7 +355,6 @@ p {
   padding: 1rem !important;
   cursor: pointer;
   transition: all 200ms;
-  text-transform: lowercase;
   font-size: 1rem;
 }
 
