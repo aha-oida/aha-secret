@@ -69,7 +69,7 @@ def check_pending_migrations!
   # Convert ActiveRecord schema_migrations if needed (silent mode for startup)
   convert_activerecord_schema_migrations_to_sequel!(DB, verbose: false)
 
-  Sequel::TimestampMigrator.check_current(DB, 'db/migrate')
+  Sequel::TimestampMigrator.check_current(DB, 'db/migrate', allow_missing_migration_files: true)
 rescue Sequel::Migrator::NotCurrentError
   warn_pending_migrations
 end

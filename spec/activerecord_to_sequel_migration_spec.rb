@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# TODO: we can remove this, if the feature branch is merged
 
 require_relative 'spec_helper'
 require 'tempfile'
@@ -22,12 +21,11 @@ RSpec.describe 'ActiveRecord to Sequel migration' do
 
     # Insert some test versions
     test_db[:schema_migrations].insert(version: '20240322074525')
-    test_db[:schema_migrations].insert(version: '20240324133511')
     test_db[:schema_migrations].insert(version: '20240914195836')
 
     # Verify initial state
     expect(test_db.schema(:schema_migrations).map(&:first)).to eq([:version])
-    expect(test_db[:schema_migrations].count).to eq(3)
+    expect(test_db[:schema_migrations].count).to eq(2)
 
     # Run the conversion
     convert_activerecord_schema_migrations_to_sequel!(test_db, verbose: false)
@@ -40,7 +38,6 @@ RSpec.describe 'ActiveRecord to Sequel migration' do
     filenames = test_db[:schema_migrations].select_order_map(:filename)
     expect(filenames).to contain_exactly(
       '20240322074525_create_bins.rb',
-      '20240324133511_add_random_id.rb',
       '20240914195836_add_has_password_to_bins.rb'
     )
   end
@@ -112,7 +109,6 @@ RSpec.describe 'ActiveRecord to Sequel migration' do
 
     # Insert migration versions (simulating main branch state)
     test_db[:schema_migrations].insert(version: '20240322074525')
-    test_db[:schema_migrations].insert(version: '20240324133511')
     test_db[:schema_migrations].insert(version: '20240325152739')
     test_db[:schema_migrations].insert(version: '20240914195836')
 
@@ -155,5 +151,42 @@ RSpec.describe 'ActiveRecord to Sequel migration' do
     deleted_count = test_db[:bins].where(id: secret_id).delete
     expect(deleted_count).to eq(1)
     expect(test_db[:bins].where(id: secret_id).first).to be_nil
+  end
+
+  it 'runs migrator successfully on a database that still tracks removed blank migrations' do
+    # Simulate an existing Sequel-managed database that previously had the 3 blank migrations applied.
+    # After those files are removed, the migrator must not raise when
+    # allow_missing_migration_files: true is passed.
+    test_db.create_table(:schema_migrations) do
+      String :filename, primary_key: true, null: false
+    end
+
+    # All 6 original migrations (including the 3 now-removed blank ones)
+    %w[
+      20240322074525_create_bins.rb
+      20240324133511_add_random_id.rb
+      20240325152739_add_expire_date_to_bins.rb
+      20240326191856_remove_id_from_bins.rb
+      20240407035007_rename_random_id_to_id.rb
+      20240914195836_add_has_password_to_bins.rb
+    ].each { |f| test_db[:schema_migrations].insert(filename: f) }
+
+    # Create the bins table so it matches the already-applied schema
+    test_db.create_table(:bins) do
+      String :id, primary_key: true, null: false
+      Text :payload
+      DateTime :created_at, null: false
+      DateTime :updated_at, null: false
+      DateTime :expire_date
+      TrueClass :has_password, default: false
+    end
+
+    expect {
+      Sequel::TimestampMigrator.run(test_db, 'db/migrate', allow_missing_migration_files: true)
+    }.not_to raise_error
+
+    expect {
+      Sequel::TimestampMigrator.check_current(test_db, 'db/migrate', allow_missing_migration_files: true)
+    }.not_to raise_error
   end
 end

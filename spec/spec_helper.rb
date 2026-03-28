@@ -26,15 +26,12 @@ require 'sequel'
 require 'sequel/extensions/migration'
 require_relative '../config/initializers/migration_check'
 
-test_db = Sequel.connect(ENV['DATABASE_URL'])
+# DB is already connected via database.rb (required by migration_check.rb)
+# Convert ActiveRecord schema_migrations if needed, then run migrations
+convert_activerecord_schema_migrations_to_sequel!(DB, verbose: false)
+Sequel::TimestampMigrator.run(DB, 'db/migrate', allow_missing_migration_files: true)
 
-# Convert ActiveRecord schema_migrations if needed
-convert_activerecord_schema_migrations_to_sequel!(test_db, verbose: false)
-
-Sequel::TimestampMigrator.run(test_db, 'db/migrate')
-test_db.disconnect
-
-# Now load the application (which will reconnect to the DB)
+# Now load the rest of the application
 require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'
