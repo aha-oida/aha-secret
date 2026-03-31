@@ -93,7 +93,6 @@ GEM
     drb (2.2.3)
     erb (6.0.1)
     erubi (1.13.1)
-    erubis (2.7.0)
     et-orbi (1.4.0)
       tzinfo
     faker (3.6.1)
@@ -353,7 +352,6 @@ DEPENDENCIES
   dalli (>= 3.2)
   database_cleaner (~> 2.1.0)
   debug (>= 1.0.0)
-  erubis (~> 2.7)
   faker (~> 3.6.1)
   i18n (~> 1.14.8)
   i18n-tasks (~> 1.1.2)

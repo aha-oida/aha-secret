@@ -11,8 +11,6 @@ class ApplicationController < Sinatra::Base
   set :assets_prefix, '/assets'
   set :digest_assets, true
 
-  set :erubis, escape_html: true
-
   I18n.config.available_locales = %i[en de]
   I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
   I18n.load_path = Dir[File.join(File.dirname(__FILE__), '..', '..', 'config', 'locales', '*.yml')]
