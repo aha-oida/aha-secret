@@ -29,6 +29,7 @@ require_relative '../config/initializers/migration_check'
 # DB is already connected via database.rb (required by migration_check.rb)
 # Convert ActiveRecord schema_migrations if needed, then run migrations
 convert_activerecord_schema_migrations_to_sequel!(DB, verbose: false)
+# allow_missing_migration_files: true — see config/initializers/migration_check.rb for rationale.
 Sequel::TimestampMigrator.run(DB, 'db/migrate', allow_missing_migration_files: true)
 
 # Now load the rest of the application
