@@ -14,11 +14,6 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 require_relative 'initializers/migration_check'
 
-# Database connection setup for Sequel
-require_relative 'initializers/database'
-
-DB.loggers << Logger.new($stdout) if ENV['RACK_ENV'] == 'development'
-
 # Determine if we're running in a context where we should skip migration checks and model loading
 running_rake = defined?(Rake) && Rake.application.top_level_tasks.any?
 running_db_task = running_rake && Rake.application.top_level_tasks.any? { |task| task.start_with?('db:') }

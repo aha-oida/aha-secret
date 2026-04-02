@@ -54,7 +54,9 @@ namespace :db do
     # Convert ActiveRecord schema_migrations to Sequel format if needed (verbose mode for rake)
     convert_activerecord_schema_migrations_to_sequel!(DB, verbose: true)
 
-    Sequel::TimestampMigrator.run(DB, 'db/migrate')
+    # Only skip the missing-file safety check when the DB still tracks removed
+    # blank migration filenames (see REMOVED_MIGRATION_FILES in migration_check.rb).
+    Sequel::TimestampMigrator.run(DB, 'db/migrate', allow_missing_migration_files: removed_migrations_tracked?)
     puts 'Migrations complete.'
   end
 
