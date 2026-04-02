@@ -155,21 +155,18 @@ RSpec.describe 'ActiveRecord to Sequel migration' do
 
   it 'runs migrator successfully on a database that still tracks removed blank migrations' do
     # Simulate an existing Sequel-managed database that previously had the 3 blank migrations applied.
-    # After those files are removed, the migrator must not raise when
-    # allow_missing_migration_files: true is passed.
+    # After those files are removed, removed_migrations_tracked? returns true and the migrator
+    # must not raise.
     test_db.create_table(:schema_migrations) do
       String :filename, primary_key: true, null: false
     end
 
-    # All 6 original migrations (including the 3 now-removed blank ones)
-    %w[
-      20240322074525_create_bins.rb
-      20240324133511_add_random_id.rb
-      20240325152739_add_expire_date_to_bins.rb
-      20240326191856_remove_id_from_bins.rb
-      20240407035007_rename_random_id_to_id.rb
-      20240914195836_add_has_password_to_bins.rb
-    ].each { |f| test_db[:schema_migrations].insert(filename: f) }
+    # All currently-existing migrations plus the 3 now-removed blank ones.
+    # Built dynamically so the test stays valid as new migrations are added.
+    applied_filenames =
+      Dir[File.join('db', 'migrate', '*.rb')].map { |f| File.basename(f) } +
+      REMOVED_MIGRATION_FILES
+    applied_filenames.each { |f| test_db[:schema_migrations].insert(filename: f) }
 
     # Create the bins table so it matches the already-applied schema
     test_db.create_table(:bins) do
@@ -182,11 +179,11 @@ RSpec.describe 'ActiveRecord to Sequel migration' do
     end
 
     expect {
-      Sequel::TimestampMigrator.run(test_db, 'db/migrate', allow_missing_migration_files: true)
+      Sequel::TimestampMigrator.run(test_db, 'db/migrate', allow_missing_migration_files: removed_migrations_tracked?(test_db))
     }.not_to raise_error
 
     expect {
-      Sequel::TimestampMigrator.check_current(test_db, 'db/migrate', allow_missing_migration_files: true)
+      Sequel::TimestampMigrator.check_current(test_db, 'db/migrate', allow_missing_migration_files: removed_migrations_tracked?(test_db))
     }.not_to raise_error
   end
 end

@@ -3,6 +3,28 @@
 require_relative 'database'
 require 'sequel/extensions/migration'
 
+# The 3 blank migration files deleted during the ActiveRecord→Sequel transition.
+# They were no-ops consolidated into 20240322074525_create_bins.rb, but existing
+# databases may still have their filenames recorded in schema_migrations.
+REMOVED_MIGRATION_FILES = %w[
+  20240324133511_add_random_id.rb
+  20240326191856_remove_id_from_bins.rb
+  20240407035007_rename_random_id_to_id.rb
+].freeze
+
+# Returns true only if the database still tracks any of the removed blank
+# migration filenames — meaning allow_missing_migration_files: true is needed.
+# Returns false on a fresh install (no schema_migrations table yet) or once all
+# deployments have passed through the transition and the filenames are gone.
+def removed_migrations_tracked?(db = DB)
+  return false unless db.table_exists?(:schema_migrations)
+
+  columns = db.schema(:schema_migrations).map(&:first)
+  return false unless columns.include?(:filename)
+
+  db[:schema_migrations].where(filename: REMOVED_MIGRATION_FILES).any?
+end
+
 def warn_pending_migrations
   warn "\n#{'=' * 80}"
   warn 'ERROR: Database migrations are pending!'
@@ -69,13 +91,10 @@ def check_pending_migrations!
   # Convert ActiveRecord schema_migrations if needed (silent mode for startup)
   convert_activerecord_schema_migrations_to_sequel!(DB, verbose: false)
 
-  # allow_missing_migration_files: true is required during the ActiveRecord→Sequel transition.
-  # Several blank migration files were deleted from db/migrate, but databases that ran them
-  # still have their filenames recorded in schema_migrations. Without this option, Sequel
-  # raises "Applied migration files not in file system" on every startup.
-  # This option can be removed once all deployments have been migrated through the transition
-  # and no database still tracks those removed filenames.
-  Sequel::TimestampMigrator.check_current(DB, 'db/migrate', allow_missing_migration_files: true)
+  # Only skip the missing-file safety check when the DB still tracks the removed
+  # blank migration filenames (see REMOVED_MIGRATION_FILES). This ensures the
+  # safety net is preserved for fully-migrated databases and fresh installs.
+  Sequel::TimestampMigrator.check_current(DB, 'db/migrate', allow_missing_migration_files: removed_migrations_tracked?)
 rescue Sequel::Migrator::NotCurrentError
   warn_pending_migrations
 end
