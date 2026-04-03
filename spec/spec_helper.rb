@@ -14,9 +14,9 @@ end
 ENV['RACK_ENV'] = 'test'
 ENV['DATABASE_URL'] ||= 'sqlite://db/database/test.sqlite3'
 
-# Ensure MEMCACHE is set for rate limiting in test/CI
-env_memcache = ENV['MEMCACHE'] || 'localhost:11211'
-ENV['MEMCACHE'] = env_memcache
+# Ensure AHA_SECRET_MEMCACHE_URL is set for rate limiting in test/CI
+env_memcache = ENV['AHA_SECRET_MEMCACHE_URL'] || 'localhost:11211'
+ENV['AHA_SECRET_MEMCACHE_URL'] = env_memcache
 
 # Ensure SKIP_SCHEDULER is set to 'true' for all tests to avoid running Rufus::Scheduler
 ENV['SKIP_SCHEDULER'] = 'true'
@@ -39,6 +39,7 @@ require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/cuprite'
 require 'database_cleaner/sequel'
+require 'fileutils'
 
 # puts "Running with cuprite driver"
 # puts "PATH: #{ENV['PATH']}"
@@ -54,6 +55,7 @@ end
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
+  config.filter_run_excluding screenshots: true unless ENV['RUN_MANUAL_SCREENSHOTS'] == 'true'
   # config.filter_run :focus
   config.include Rack::Test::Methods
   config.include Capybara::DSL
@@ -76,6 +78,14 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :cuprite
   Capybara.default_max_wait_time = 5
   Capybara.disable_animation = true
+  screenshot_dir = ENV['AHA_SECRET_SCREENSHOT_DIR']
+  Capybara.save_path =
+    if screenshot_dir && !screenshot_dir.empty?
+      File.expand_path(screenshot_dir)
+    else
+      File.expand_path('../tmp/capybara', __dir__)
+    end
+  FileUtils.mkdir_p(Capybara.save_path)
   Capybara.register_driver(:cuprite) do |app|
     Capybara::Cuprite::Driver.new(app,
       js_errors: true,
@@ -90,6 +100,22 @@ RSpec.configure do |config|
   end
 
   config.filter_gems_from_backtrace("capybara", "cuprite", "ferrum")
+
+  config.after(:each, type: :feature) do |example|
+    next unless example.exception
+
+    timestamp = Time.now.utc.strftime('%Y%m%d-%H%M%S-%L')
+    safe_name = example.full_description
+      .downcase
+      .gsub(/[^a-z0-9]+/, '-')
+      .gsub(/\A-|\z/, '')
+      .slice(0, 120)
+
+    screenshot_path = File.join(Capybara.save_path, "failure-#{safe_name}-p#{Process.pid}-#{timestamp}.png")
+    page.save_screenshot(screenshot_path, full: true)
+  rescue StandardError => e
+    warn "Failed to save screenshot for '#{example.full_description}': #{e.message}"
+  end
 
   unless ENV['SHOW_BROWSER']
     original_stderr = $stderr

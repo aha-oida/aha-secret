@@ -4,9 +4,8 @@ source 'https://rubygems.org'
 
 gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0'
-gem 'erubis', '~> 2.7'
 gem 'i18n', '~> 1.14.8'
-gem 'puma', '~> 7.1'
+gem 'puma', '~> 7.2'
 gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.3'
 gem 'rake', '~> 13.3'
@@ -22,21 +21,21 @@ end
 gem 'sqlite3', '~> 2.9'
 
 group :development do
-  gem 'brakeman', '~> 7.1.2'
+  gem 'brakeman', '~> 8.0.4'
   gem 'i18n-tasks', '~> 1.1.2'
   gem 'overcommit', '~> 0.68'
   gem 'rerun', '~> 0.14.0'
-  gem 'rubocop', '~> 1.82'
+  gem 'rubocop', '~> 1.86'
 end
 
 group :test do
   gem 'capybara', '~> 3.40.0'
   gem 'cuprite'
   gem 'database_cleaner-sequel'
-  gem 'faker', '~> 3.5.3'
+  gem 'faker', '~> 3.6.1'
   gem 'rack-test', '~> 2.2'
   gem 'simplecov'
   gem 'simplecov-lcov'
   gem 'timecop'
-  gem 'undercover', '~> 0.8.3'
+  gem 'undercover', '~> 0.8.4'
 end

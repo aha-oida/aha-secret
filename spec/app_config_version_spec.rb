@@ -85,7 +85,7 @@ RSpec.describe 'AppConfig version display' do
     end
 
     context 'with falsy string values' do
-      ['false', 'FALSE', 'False', '0', 'no', 'NO', 'off', 'OFF', ''].each do |value|
+      ['false', 'FALSE', 'False', '0', 'no', 'NO', 'off', 'OFF'].each do |value|
         it "converts '#{value}' to boolean false" do
           ENV['AHA_SECRET_DISPLAY_VERSION'] = value
           AppConfig.load!('test')

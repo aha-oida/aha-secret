@@ -7,48 +7,27 @@
     <div id="label-button">
       <label for="secret-url"><%= t :share_link %>:</label>
       <div class="tooltip">
-        <button id="copy-button" class="copy-button" >
+        <button type="button" id="copy-button" class="icon" >
           <span class="tooltiptext" id="myTooltip" data-text="<%= t :copy_clipboard %>" data-copied="<%= t :copied_clipboard %>"><%= t :copy_clipboard %></span>
-          <svg id="copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-         </svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+        </svg>
+
         </button>
       </div>
     </div>
     <input type="text" class="textinput hidden" readonly id="secret-url">
     <p><%= t :secret_destroy %>.</p>
-    <a id="another-secret" href="/"><%= t :create_another %></a>
+    <a class="button" id="another-secret" href="/"><%= t :create_another %></a>
   </div>
 </div>
 
 <div id="enc-form">
   <form>
-    <textarea id="message" name="bin[payload]" rows="15" cols="50" placeholder="<%= t :payload_placeholder %>" required maxlength="<%= max_msg_length %>"></textarea>
-    <div id="msg-counter"></div>
-    <div id="retention-pane" class="flex-container-row">
-      <label for="retention"><%= t :delete_label %>: </label>
-      <select name="retention" id="retention">
-        <option value="10080">7 <%= t :days %></option>
-        <option value="4320">3 <%= t :days %></option>
-        <option value="1440">1 <%= t :day %></option>
-        <option value="720">12 <%= t :hours %></option>
-        <option value="240">4 <%= t :hours %></option>
-        <option value="60">1 <%= t :hour %></option>
-        <option value="30">30 <%= t :minutes %></option>
-        <option value="5">5 <%= t :minutes %></option>
-      </select>
+    <textarea id="message" name="bin[payload]" rows="15" cols="50" placeholder="<%= t :payload_placeholder %>" required maxlength="<%= max_msg_length %>" autocomplete="off"></textarea>
+    <div id="msg-counter">0/<%= max_msg_length %></div>
 
-      <div id="copymessageDiv" class="flex-container-row">
-      <div id="copymessageId" class="tooltip">
-        <button type="button" id="copy-button-msg" class="copy-button" >
-          <span class="tooltiptext" id="myMsgTooltip" data-text="<%= t :copy_clipboard %>" data-copied="<%= t :copied_clipboard %>"><%= t :copy_clipboard %></span>
-          <svg id="copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-         </svg>
-        </button>
-      </div>
-      </div>
-    </div>
     <div id="random-secret">
       <div
         id="random-config"
@@ -60,71 +39,158 @@
       ></div>
 
       <fieldset>
-        <div id="randomMain" class="flex-container-row">
-          <div id="randomMainLeft">
-            <button type="button" id="random-button" title="<%= t :add_random %>"><%= t :random_secret %></button>
-          </div>
-          <div id="randomMainRight">
-            <input type="checkbox" id="random_settings" name="random_settings">
-            <label for="random_settings"><%= t :random_settings %></label>
+          <button type="button" id="random-button" title="<%= t :add_random %>">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+            </svg>
+
+            <span>
+              <%= t :random_secret %>
+            </span>
+          </button>
+            <label class="button">
+              <input type="checkbox" id="random_settings" name="random_settings" class="hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+
+              <span>
+                <%= t :random_settings %>
+              </span>
+            </label>
+
+            <div id="copymessageDiv" class="flex-container-row">
+            <div id="copymessageId" class="tooltip">
+              <button type="button" id="copy-button-msg" class="icon" >
+                <span class="tooltiptext" id="myMsgTooltip" data-text="<%= t :copy_clipboard %>" data-copied="<%= t :copied_clipboard %>"><%= t :copy_clipboard %></span>
+
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+              </svg>
+
+              </button>
+            </div>
           </div>
         </div>
-        <div id="randomSettings" class="hidden flex-container">
+        <div id="randomSettings">
 
           <div class="custom-random-setting">
-            <label for="random_meter"><%= t :random_quality %>:</label>
+            <label class="quality-string" for="random_meter"><%= t :random_quality %>: <span id="random_entropy"></span></label>
             <meter id="random_meter" min="0" low="40" high="75" optimum="100" max="256" value="40">41%</meter>
-            <span id="random_entropy">98bit</span>
           </div>
 
-          <div class="custom-random-setting">
-            <label for="random_length"><%= t :random_length %>:</label>
-            <input type="number" id="random_length"  min="<%= AppConfig.random_secret_min_length %>" max="<%= AppConfig.random_secret_max_length %>" value="<%= AppConfig.random_secret_default_length %>" step="1" />
-          </div>
+          <div class="flex-container-row">
 
-          <div class="custom-random-setting">
-            <label for="random_symbol"><%= t :use_symbols %>:</label>
-            <input type="checkbox" id="random_symbol" name="random_symbol" <%= "checked" if AppConfig.random_secret_symbols %>>
-          </div>
+            <label for="random_symbol" class="custom-random-setting button tooltip" >
+              <span class="tooltiptext" id="myTooltip" data-text="<%= t :use_symbols %>"><%= t :use_symbols %></span>
+              <span>!@#$%^&*()</span>
+              <input type="checkbox" class="hidden" id="random_symbol" name="random_symbol" <%= "checked" if AppConfig.random_secret_symbols %>>
+            </label>
 
-          <div class="custom-random-setting">
-            <label for="random_numbers"><%= t :use_numbers %>:</label>
-            <input type="checkbox" id="random_numbers" name="random_numbers" <%= "checked" if AppConfig.random_secret_numbers %>>
-          </div>
+            <label for="random_numbers" class="custom-random-setting button tooltip" >
+              <span class="tooltiptext" id="myTooltip" data-text="<%= t :use_numbers %>"><%= t :use_numbers %></span>
+              <span>0123456789</span>
+              <input type="checkbox" class="hidden" id="random_numbers" name="random_numbers" <%= "checked" if AppConfig.random_secret_numbers %>>
+            </label>
 
-          <div class="custom-random-setting">
-            <label for="random_capital"><%= t :use_capital %>:</label>
-            <input type="checkbox" id="random_capital" name="random_capital" <%= "checked" if AppConfig.random_secret_capitals %>>
-          </div>
+            <label for="random_capital" class="custom-random-setting button tooltip" >
+              <span class="tooltiptext" id="myTooltip" data-text="<%= t :use_capital %>"><%= t :use_capital %></span>
+              <span>ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
+              <input type="checkbox" class="hidden" id="random_capital" name="random_capital" <%= "checked" if AppConfig.random_secret_capitals %>>
+            </label>
 
-          <div class="custom-random-setting">
-            <label for="random_lower"><%= t :use_lower %>:</label>
-            <input type="checkbox" id="random_lower" name="random_lower" <%= "checked" if AppConfig.random_secret_lowers %>>
+            <label for="random_lower" class="custom-random-setting button tooltip" >
+              <span class="tooltiptext" id="myTooltip" data-text="<%= t :use_lower %>"><%= t :use_lower %></span>
+              <span>abcdefghijklmnopqrstuvwxyz</span>
+              <input type="checkbox" class="hidden" id="random_lower" name="random_lower" <%= "checked" if AppConfig.random_secret_lowers %>>
+            </label>
+
+            <div class="custom-random-setting">
+              <label for="random_length"><%= t :random_length %>:</label>
+              <input type="number" class="textinput" id="random_length"  min="<%= AppConfig.random_secret_min_length %>" max="<%= AppConfig.random_secret_max_length %>" value="<%= AppConfig.random_secret_default_length %>" step="1" />
+            </div>
           </div>
         </div>
-      </fieldset>
-    </div>
-    <div id="additional-password">
-      <fieldset>
-      <input type="checkbox" id="has_password" name="has_password">
-      <label for="has_password"><%= t :additional_password %></label>
-      <div id="additional-password-field">
-        <input type="password" id="add-password" class="textinput"  placeholder="<%= t :enter_additional_password %>" size="40">
-        <button type="button" id="togglePassword" title="Mask/Unmask password">
-          <svg id="eyeopen" class="" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24">
-            <path fill="currentColor" d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z">
-            </path>
-          </svg>
+    </fieldset>
 
-          <svg id="eyeclosed" class="hidden" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="24" height="24">
-            <path fill="currentColor" d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144.13 144.13 0 0 1-26 2.61zm313.82 58.1l-110.55-85.44a331.25 331.25 0 0 0 81.25-102.07 32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45zm-183.72-142l-39.3-30.38A94.75 94.75 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.64 46.64 0 0 1-1.54 10l-73.61-56.89A142.31 142.31 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z">
-            </path>
+        <div id="retention-pane" class="flex-container-row">
+
+      <div id="additional-password">
+        <label class="button">
+          <input type="checkbox" id="has_password" name="has_password" class="hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
           </svg>
-        </button>
+          <span>
+            <%= t :additional_password %>
+          </span>
+        </label>
+
+        <fieldset>
+        <div id="additional-password-field">
+          <fieldset>
+            <input type="password" id="add-password" class="textinput"  placeholder="<%= t :enter_additional_password %>" size="40" autocomplete="new-password">
+            <button type="button" id="togglePassword" title="Mask/Unmask password" class="icon">
+              <svg id="eyeopen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+
+              <svg id="eyeclosed" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            </button>
+          </fieldset>
+        </div>
+        </fieldset>
       </div>
+
+      <fieldset>
+        <label for="retention"><%= t :delete_label %>: </label>
+        <select name="retention" id="retention">
+          <option value="10080">7 <%= t :days %></option>
+          <option value="4320">3 <%= t :days %></option>
+          <option value="1440">1 <%= t :day %></option>
+          <option value="720">12 <%= t :hours %></option>
+          <option value="240">4 <%= t :hours %></option>
+          <option value="60">1 <%= t :hour %></option>
+          <option value="30">30 <%= t :minutes %></option>
+          <option value="5">5 <%= t :minutes %></option>
+        </select>
       </fieldset>
+
+
+
     </div>
+
     <input id="create-secret" type="submit" value="<%= t :create %>">
   </form>
 </div>
+
+<section class="landing-help" aria-labelledby="landing-help-title">
+  <div class="landing-help__header">
+    <h2 id="landing-help-title"><%= t('landing_help.title') %></h2>
+  </div>
+
+  <div class="landing-help__grid">
+    <% Helpers::LANDING_HELP_CARDS.each do |card| %>
+      <article class="landing-help-card <%= card[:theme_class] %>">
+        <div class="landing-help-card__header">
+          <div class="landing-help-card__icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="<%= card[:icon_path] %>" />
+            </svg>
+          </div>
+
+          <h3><%= t("landing_help.cards.#{card[:key]}.title") %></h3>
+        </div>
+
+        <p><%= t("landing_help.cards.#{card[:key]}.body") %></p>
+
+      </article>
+    <% end %>
+  </div>
+</section>
+
 <script src="<%= javascript_path 'encrypt' %>"></script>

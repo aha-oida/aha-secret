@@ -241,11 +241,24 @@
                   "new": false,
                   "number": 70,
                   "score": ""
+                },
+                {
+                  "id": "c8b61605-40b0-4dbd-809a-23b9f2dce275",
+                  "title": "Secret disclosure by keeping it in the textarea after reloading/back/forward",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Information disclosure",
+                  "description": "When user enters a secret and sends it, the browser might cache it and shows it again when comming back to the site. If this happens when other entities are watching, the secret could be compromised.",
+                  "mitigation": "Automatically empty all textfields during initialisation/reloading of the page",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 75,
+                  "score": ""
                 }
               ],
               "threatFrequency": {
                 "tampering": 1,
-                "informationDisclosure": 1,
+                "informationDisclosure": 2,
                 "denialOfService": 0
               }
             },
@@ -276,7 +289,17 @@
                 "x": 360,
                 "y": 120
               }
-            ]
+            ],
+            "tools": {
+              "items": [
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead"
+              ],
+              "name": null
+            }
           },
           {
             "shape": "flow",
@@ -732,6 +755,10 @@
                 "y": 110
               },
               {
+                "x": 610,
+                "y": 110
+              },
+              {
                 "x": 640,
                 "y": 130
               }
@@ -786,6 +813,10 @@
               },
               {
                 "x": 590,
+                "y": 230
+              },
+              {
+                "x": 570,
                 "y": 230
               }
             ]
@@ -1401,6 +1432,19 @@
                   "new": false,
                   "number": 73,
                   "score": ""
+                },
+                {
+                  "id": "0eb3e799-7800-4bbd-98c7-8ab1a0a74fd1",
+                  "title": "Compromised memcache can elevate privileges via deserialisation vulnerability",
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Per default dalli uses mashalling for deserialization. A compromised memcache could therefor lead to a remote code execution on the aha-secret server",
+                  "mitigation": "aha-secret uses json for the memcache deserialisation",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 74,
+                  "score": ""
                 }
               ],
               "threatFrequency": {
@@ -1409,15 +1453,8 @@
                 "repudiation": 0,
                 "informationDisclosure": 1,
                 "denialOfService": 0,
-                "elevationOfPrivilege": 0
+                "elevationOfPrivilege": 1
               }
-            },
-            "tools": {
-              "items": [
-                "boundary",
-                "button-remove"
-              ],
-              "name": null
             }
           },
           {
@@ -2073,6 +2110,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "whotwagner",
-    "threatTop": 73
+    "threatTop": 75
   }
 }

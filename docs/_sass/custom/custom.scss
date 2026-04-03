@@ -1,0 +1,89 @@
+// custom SCSS (or CSS) goes here
+
+
+.nav-list-item a:active {
+  color: $link-color;
+}
+
+.nav-list-item a {
+  color: $sidebar-link-color;
+}
+
+.nav-list-link {
+  color: $sidebar-link-color;
+}
+
+
+
+.site-footer {
+  color: $sidebar-footer-color;
+}
+
+a.site-footer {
+  color: $sidebar-footer-link-color;
+}
+
+.site-footer a:visited {
+  color: $sidebar-footer-link-visited;
+}
+
+// Use more horizontal space for documentation pages.
+// Just the Docs limits `.main` to 50rem on larger screens; remove that cap.
+@media (min-width: 50rem) {
+  .main {
+    max-width: none;
+  }
+}
+
+// Keep sidebar width stable instead of expanding to center a fixed-width layout.
+@media (min-width: 66.5rem) {
+  .side-bar {
+    width: 16.5rem;
+    min-width: 16.5rem;
+  }
+
+  .side-bar + .main {
+    margin-left: 16.5rem;
+  }
+}
+
+// Widen the "Complete Environment Variables Reference" table and give the
+// Notes column more room to avoid cramped wrapping.
+// Markdown tables are wrapped in `.table-wrapper` by the theme.
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table th:nth-child(1),
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table td:nth-child(1) {
+  width: 20%;
+}
+
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table th:nth-child(2),
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table td:nth-child(2) {
+  width: 20%;
+}
+
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table th:nth-child(3),
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table td:nth-child(3) {
+  width: 10%;
+}
+
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table th:nth-child(4),
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table td:nth-child(4) {
+  width: 12%;
+}
+
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table th:nth-child(5),
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table td:nth-child(5) {
+  width: 38%;
+}
+
+// Allow long tokens in variable/config columns to wrap instead of forcing
+// the notes column to collapse.
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table td:nth-child(1) code,
+.main-content h2#complete-environment-variables-reference + p + .table-wrapper table td:nth-child(4) code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}

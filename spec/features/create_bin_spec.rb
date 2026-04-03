@@ -109,10 +109,54 @@ feature 'Create Bin', type: :feature, js: true do
     expect(textarea.value.length).to be == 17
   end
 
+  scenario 'Generate secret honors disabled default character classes' do
+    allow(AppConfig).to receive(:random_secret_symbols).and_return(false)
+    allow(AppConfig).to receive(:random_secret_numbers).and_return(false)
+    allow(AppConfig).to receive(:random_secret_capitals).and_return(false)
+    allow(AppConfig).to receive(:random_secret_lowers).and_return(true)
+    allow(AppConfig).to receive(:random_secret_default_length).and_return(16)
+
+    visit '/'
+    find('#random-button').click
+
+    generated_secret = find('#message').value.chomp
+
+    expect(generated_secret).to match(/\A[a-z]{16}\z/)
+  end
+
+  scenario 'Entropy display honors disabled default character classes' do
+    allow(AppConfig).to receive(:random_secret_symbols).and_return(false)
+    allow(AppConfig).to receive(:random_secret_numbers).and_return(false)
+    allow(AppConfig).to receive(:random_secret_capitals).and_return(false)
+    allow(AppConfig).to receive(:random_secret_lowers).and_return(true)
+    allow(AppConfig).to receive(:random_secret_default_length).and_return(16)
+
+    visit '/'
+
+    entropy_text = find('#random_entropy').text
+    entropy_value = entropy_text.delete_suffix('bit').to_f
+
+    expect(entropy_value).to be > 75
+  end
+
   scenario 'Verify if a click on customize shows the secret-settings' do
     visit '/'
-    find('#random_settings').click
+    find(:xpath, "//label[input[@id='random_settings']]", visible: true).click
     expect(page).to have_selector('#randomSettings', visible: true)
+  end
+
+  scenario 'Regression: secret input should not reappear after navigating back' do
+    visit '/'
+    payload = "TOP-SECRET-#{SecureRandom.hex(4)}"
+    fill_in 'bin[payload]', with: payload
+    click_button 'Create Secret'
+
+    secret_url = find('#secret-url', visible: true).value
+    visit secret_url
+
+    page.execute_script('history.back()')
+    expect(page).to have_selector('#message', visible: :all)
+    expect(page).to have_field('bin[payload]', with: '', visible: :all)
   end
 
 

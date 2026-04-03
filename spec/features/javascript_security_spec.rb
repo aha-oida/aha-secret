@@ -127,7 +127,6 @@ feature 'JavaScript Security in Secrets', type: :feature, js: true do
     verify_no_alert_called
 
     # Verify script tag was not executed by checking DOM
-    page.save_screenshot('tmp/script_tag_xss_test.png', full: true)
     expect(script_tag_content_in_dom).not_to include('XSS via script tag')
   end
 

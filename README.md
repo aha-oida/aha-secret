@@ -12,6 +12,10 @@ link could decrypt the message again. The message is encrypted by your
 browser and decrypted by the browser of the person who is allowed to
 read it. The first time someone clicks on the link, the message is automatically deleted from the server.
 
+# Current Status
+
+aha-secret is feature-complete; that is, it solves the problem it was created to solve.
+
 ![Screenrecord of encryption and decryption](/images/ahanimation.gif)
 
 # Features
@@ -22,7 +26,7 @@ read it. The first time someone clicks on the link, the message is automatically
 *  Self destruction
 *  No registration
 *  Ratelimit
-*  Command-Line Client in Rust: aha-cli
+*  Command-Line Client in Rust: [aha-cli](https://github.com/aha-oida/ahasecret-cli)
 *  Minimum Features / Dependencies
 
 # Installation
@@ -39,6 +43,12 @@ For further information see the [documentation](https://aha-oida.github.io/aha-s
 
 * German 🇩🇪
 * English 🇬🇧
+
+# Contributing
+
+All contributions, translations, bug reports, bug fixes, documentation improvements, enhancements, and any ideas are welcome.
+
+Before starting work on the aha-secret codebase, please check the [CONTRIBUTING guide](https://aha-oida.github.io/aha-secret/contributing).
 
 # License
 

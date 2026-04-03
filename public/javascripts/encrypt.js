@@ -178,3 +178,21 @@ encryptionForm?.addEventListener("submit", async function (e) {
   e.preventDefault()
   await encryptEvent();
 })
+
+// Clear form fields whenever the page is shown (covers BFCache restores and regular navigation)
+function clearSensitiveFields() {
+  const messageField = document.getElementById('message');
+  const passwordField = document.getElementById('add-password');
+
+  if (messageField) {
+    messageField.value = '';
+  }
+  if (passwordField) {
+    passwordField.value = '';
+  }
+}
+
+// Clear sensitive fields whenever the page is shown, including BFCache restores
+window.addEventListener('pageshow', function() {
+  clearSensitiveFields();
+});

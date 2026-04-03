@@ -13,7 +13,7 @@ if ENV['CI']
 
     before(:each) do
       require 'dalli'
-      Dalli::Client.new(ENV['MEMCACHE'] || 'localhost:11211', namespace: 'app_v1').flush
+      Dalli::Client.new(AppConfig.memcache_url || 'localhost:11211', namespace: 'app_v1').flush
       # Set REMOTE_ADDR for all requests in this scenario (works for all requests, including assets)
       if page.driver.respond_to?(:browser)
         # cuprite: set extra HTTP headers for all requests

@@ -32,9 +32,9 @@ baseurl: "/aha-secret" # the subpath of your site, e.g. /blog
 url: "https://aha-oida.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-# theme: just-the-docs
-# remote_theme: just-the-docs/just-the-docs@v0.10.0
 theme: just-the-docs
+#remote_theme: just-the-docs/just-the-docs@v0.10.0
+#theme: just-the-docs
 plugins:
   - jekyll-feed
 
@@ -46,7 +46,9 @@ heading_anchors: true
 
 permalink: pretty
 
-color_scheme: light
+color_scheme: aha_light
+favicon_ico: "/images/favicon.ico"
+logo: "/images/aha_logo.svg"
 
 # Back to top link
 back_to_top: true

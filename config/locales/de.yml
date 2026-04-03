@@ -30,6 +30,21 @@ de:
   error_msg: Dieser Eintrag wurde nicht gefunden. Möglicherweise ist die Aufbewahrungszeit bereits abgelaufen
   hour: Stunde
   hours: Stunden
+  landing_help:
+    cards:
+      additional_password:
+        body: Setze bei Bedarf ein Passwort als zusätzliche Absicherung.
+        title: Passwort hinzufügen
+      one_time_secret:
+        body: Das Geheimnis wird nach dem ersten erfolgreichen Aufruf zerstört.
+        title: Nur einmal sichtbar
+      share_link:
+        body: Kopiere den erzeugten Link und sende ihn an den Empfänger.
+        title: Link teilen
+      what_happens:
+        body: Schreibe eine Nachricht, verschlüssle sie im Browser und erzeuge einen geheimen Link.
+        title: Verschlüsselt teilen
+    title: So funktioniert es
   minutes: Minuten
   open_source: ist freie Software mit offenem Quellcode
   pastelimit_exceeded: Das Einfügen dieses Inhalts überschreitet die maximal zulässige Zeichenanzahl
