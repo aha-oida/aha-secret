@@ -21,6 +21,13 @@ COPY . .
 # Generate VERSION file from git before bundle install
 RUN chmod +x scripts/addbuildid.sh && ./scripts/addbuildid.sh || true
 
+RUN useradd -m -s /bin/bash appuser
+
 RUN bundle install
+
+RUN chown root.root -R *
+RUN chown appuser.appuser -R db Gemfile.lock
+
+USER appuser
 
 CMD ["bundle","exec","rake","migrateserv"]
