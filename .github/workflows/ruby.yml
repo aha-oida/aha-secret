@@ -52,22 +52,15 @@ jobs:
           bundle exec overcommit --sign
       - name: Run pre-commit checks
         run: bundle exec overcommit --run pre-commit
-      - name: Create db and run migrations
-        run: |
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
-          sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
-      - name: Run brakeman
-        run: bundle exec brakeman
-      - name: Run tests with coverage
+      - name: Run pre-push checks with coverage
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:
           COVERAGE: "true"
-        run: bundle exec rspec
-      # Run tests without coverage for other Ruby versions
-      - name: Run tests
+        run: bundle exec overcommit --run pre-push
+      # Run pre-push checks without coverage for other Ruby versions
+      - name: Run pre-push checks
         if: ${{ matrix.ruby-version != env.undercover_version }}
-        run: bundle exec rspec
+        run: bundle exec overcommit --run pre-push
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
