@@ -122,11 +122,12 @@ end
 # root = File.expand_path(File.join(File.dirname(__FILE__), "../tmp"))
 # Capybara::Screenshot.instance_variable_set :@capybara_root, root
 
-def app
-  Rack::Builder.parse_file('config.ru')
+def build_capybara_app
+  rack_app, = Rack::Builder.parse_file('config.ru')
+  rack_app
 end
 
-Capybara.app = app
+Capybara.app = build_capybara_app
 
 # Disable Rack::Attack by default in test
 default_attack_enabled = false
