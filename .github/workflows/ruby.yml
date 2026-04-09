@@ -52,27 +52,15 @@ jobs:
           git config --global user.email "gh-actions@example.com"
           git config --global user.name "GitHub Actions"
           bundle exec overcommit --sign
-          bundle exec overcommit --sign pre-commit
       - name: Run pre-commit checks
         run: bundle exec overcommit --run pre-commit
       - name: Create db and run migrations
-        env:
-          RACK_ENV: test
         run: |
           bundle exec rake db:create
           bundle exec rake db:schema:load
           sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
-      - name: Run brakeman
-        run: bundle exec brakeman
-      - name: Run tests with coverage
-        if: ${{ matrix.ruby-version == env.undercover_version }}
-        env:
-          COVERAGE: "true"
-        run: bundle exec rspec
-      # Run tests without coverage for other Ruby versions
-      - name: Run tests
-        if: ${{ matrix.ruby-version != env.undercover_version }}
-        run: bundle exec rspec
+      - name: Run pre-push checks
+        run: bundle exec overcommit --run pre-push
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
