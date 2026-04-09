@@ -123,7 +123,8 @@ end
 # Capybara::Screenshot.instance_variable_set :@capybara_root, root
 
 def build_capybara_app
-  rack_app, = Rack::Builder.parse_file('config.ru')
+  config_ru_path = File.expand_path('../config.ru', __dir__)
+  rack_app, = Rack::Builder.parse_file(config_ru_path)
   rack_app
 end
 
