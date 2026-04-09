@@ -31,6 +31,7 @@ jobs:
     env:
       AHA_SECRET_MEMCACHE_URL: "localhost:11211"
       undercover_version: 'DEACTIVATED_SET_3.4.2_TO_REACTIVATE'
+      RACK_ENV: test
 
     steps:
       - uses: actions/checkout@v3
@@ -44,29 +45,22 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
         env:
           BUNDLE_CACHE_VERSION: v2
-      - name: Create db and run migrations
-        env:
-          RACK_ENV: test
+      - name: Prepare overcommit
         run: |
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
-          sqlite3 db/database/test.sqlite3 "select * from schema_migrations"
-      - name: Run brakeman
-        run: bundle exec brakeman
-      - name: Run tests with coverage
+          git config --global user.email "gh-actions@example.com"
+          git config --global user.name "GitHub Actions"
+          bundle exec overcommit --sign
+      - name: Run pre-commit checks
+        run: bundle exec overcommit --run pre-commit
+      - name: Run pre-push checks with coverage
         if: ${{ matrix.ruby-version == env.undercover_version }}
         env:
           COVERAGE: "true"
-        run: bundle exec rspec --exclude-pattern "spec/features/rate_limit_feature_spec.rb"
-      # Run tests without coverage for other Ruby versions
-      - name: Run tests
+        run: bundle exec overcommit --run pre-push
+      # Run pre-push checks without coverage for other Ruby versions
+      - name: Run pre-push checks
         if: ${{ matrix.ruby-version != env.undercover_version }}
-        run: bundle exec rspec --exclude-pattern "spec/features/rate_limit_feature_spec.rb"
-      - name: Run rate limit feature spec with test-specific limits
-        env:
-          AHA_SECRET_RATE_LIMIT: "3"
-          AHA_SECRET_RATE_LIMIT_PERIOD: "60"
-        run: bundle exec rspec spec/features/rate_limit_feature_spec.rb
+        run: bundle exec overcommit --run pre-push
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4

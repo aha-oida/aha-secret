@@ -5,9 +5,32 @@ require 'spec_helper'
 if ENV['CI']
   feature 'Rate Limiting', type: :feature, js: true do
     before(:all) do
+      @previous_rate_limit = ENV['AHA_SECRET_RATE_LIMIT']
+      @previous_rate_limit_period = ENV['AHA_SECRET_RATE_LIMIT_PERIOD']
+      @previous_app = Capybara.app
+
+      ENV['AHA_SECRET_RATE_LIMIT'] = '3'
+      ENV['AHA_SECRET_RATE_LIMIT_PERIOD'] = '60'
+      AppConfig.reload!
+      Capybara.app = build_capybara_app
       Rack::Attack.enabled = true
     end
+
     after(:all) do
+      if @previous_rate_limit.nil?
+        ENV.delete('AHA_SECRET_RATE_LIMIT')
+      else
+        ENV['AHA_SECRET_RATE_LIMIT'] = @previous_rate_limit
+      end
+
+      if @previous_rate_limit_period.nil?
+        ENV.delete('AHA_SECRET_RATE_LIMIT_PERIOD')
+      else
+        ENV['AHA_SECRET_RATE_LIMIT_PERIOD'] = @previous_rate_limit_period
+      end
+
+      AppConfig.reload!
+      Capybara.app = @previous_app
       Rack::Attack.enabled = false
     end
 
