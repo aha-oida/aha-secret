@@ -3,6 +3,9 @@ AllCops:
   Exclude:
     - 'db/**/*'
     - 'spec/**/*'
+    - '.github/**/*'
+    - 'images/**/*'
+    - 'docs/**/*'
 
 Style/OpenStructUse:
   Enabled: false
