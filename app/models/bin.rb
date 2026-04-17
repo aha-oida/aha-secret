@@ -6,17 +6,13 @@
 class Bin < Sequel::Model
   plugin :validation_helpers
   plugin :timestamps, update_on_create: true
-  plugin :whitelist_security
   plugin :defaults_setter # Use database defaults for columns
 
   # Set the primary key (custom ID)
   set_primary_key :id
   unrestrict_primary_key
 
-  # Allow mass-assignment for these columns
   SEVEN_DAY_LIMIT_SECONDS = 7 * 24 * 60 * 60
-
-  set_allowed_columns :payload, :has_password, :expire_date
 
   # Validation
   def validate

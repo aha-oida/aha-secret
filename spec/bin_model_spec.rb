@@ -25,6 +25,12 @@ describe Bin do
     expect(bin.expire_date).not_to be nil
   end
 
+  it 'allows expire_date on internal create' do
+    bin = Bin.create(payload: 'Hello, World!', expire_date: Time.now.utc - 60)
+
+    expect(bin.expired?).to be true
+  end
+
   it 'has a expired? method' do
     bin = Bin.create(payload: 'Hello, World!')
     expect(bin.expired?).to be false
