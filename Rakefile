@@ -62,7 +62,9 @@ namespace :db do
 
   desc 'Drop the database (deletes SQLite file)'
   task :drop do
-    db_path = DB.uri.split(':///').last
+    abort('db:drop only supports SQLite databases') unless DB.database_type == :sqlite
+
+    db_path = DB.opts[:database]
     if File.exist?(db_path)
       File.delete(db_path)
       puts("Deleted #{db_path}")

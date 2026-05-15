@@ -49,6 +49,11 @@ class Bin < Sequel::Model
   end
 
   # Hooks
+  def before_validation
+    super
+    self.expire_date = Time.now.utc + SEVEN_DAY_LIMIT_SECONDS unless values.key?(:expire_date)
+  end
+
   def before_create
     super
     self.id ||= generate_unique_id
