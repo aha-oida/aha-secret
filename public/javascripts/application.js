@@ -239,6 +239,11 @@ function enterPassword() {
   }
 }
 
+function handleRevealPasswordInput() {
+  resetAlert();
+  enterPassword();
+}
+
 function syncLabelCheckedClass(checkbox) {
   const label = checkbox.closest("label");
 
@@ -259,8 +264,7 @@ function initLabelCheckboxState() {
 }
 
 document.getElementById("passwd")?.addEventListener("click", resetAlert);
-document.getElementById("passwd")?.addEventListener("input", resetAlert);
-document.getElementById("passwd")?.addEventListener("input", enterPassword);
+document.getElementById("passwd")?.addEventListener("input", handleRevealPasswordInput);
 document.getElementById("random-button")?.addEventListener("click", generateSecretCallback);
 document.getElementById("passwd")?.addEventListener("keyup", function (event) {
   event.preventDefault();
