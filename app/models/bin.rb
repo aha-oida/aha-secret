@@ -63,9 +63,6 @@ class Bin < Sequel::Model
 
   def generate_unique_id
     require 'securerandom'
-    loop do
-      random_id = SecureRandom.urlsafe_base64(8).tr('-_', 'az')
-      break random_id unless Bin[random_id]
-    end
+    SecureRandom.uuid
   end
 end
