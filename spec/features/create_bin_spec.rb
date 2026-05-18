@@ -78,6 +78,35 @@ feature 'Create Bin', type: :feature, js: true do
     expect(decrypted_secret).to eq 'Hello, World!'
   end
 
+  scenario 'User pastes password to reveal a protected bin' do
+    visit '/'
+    fill_in 'bin[payload]', with: 'Hello, World!'
+    page.execute_script("document.getElementById('has_password').click()")
+    expect(page).to have_field('add-password', visible: true)
+    fill_in 'add-password', with: 'asdf'
+    send_keys :tab
+    click_button 'Create Secret'
+
+    secret_url = find('#secret-url').value
+    visit secret_url
+
+    page.execute_script(<<~JS)
+      const passwordField = document.getElementById('passwd');
+      passwordField.value = 'asdf';
+      passwordField.dispatchEvent(new ClipboardEvent('paste', {
+        bubbles: true,
+        clipboardData: new DataTransfer()
+      }));
+      passwordField.dispatchEvent(new Event('input', { bubbles: true }));
+    JS
+
+    expect(page).to have_button('Unlock', disabled: false)
+    click_button 'Unlock'
+
+    decrypted_secret = find('#dec-msg').value
+    expect(decrypted_secret).to eq 'Hello, World!'
+  end
+
   scenario 'User pastes content exceeding max allowed characters' do
     visit '/'
     textarea = find('textarea[name="bin[payload]"]')
