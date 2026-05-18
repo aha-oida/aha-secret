@@ -259,7 +259,8 @@ function initLabelCheckboxState() {
 }
 
 document.getElementById("passwd")?.addEventListener("click", resetAlert);
-document.getElementById("passwd")?.addEventListener("keydown", enterPassword);
+document.getElementById("passwd")?.addEventListener("input", resetAlert);
+document.getElementById("passwd")?.addEventListener("input", enterPassword);
 document.getElementById("random-button")?.addEventListener("click", generateSecretCallback);
 document.getElementById("passwd")?.addEventListener("keyup", function (event) {
   event.preventDefault();
@@ -276,7 +277,7 @@ document.getElementById("random_symbol")?.addEventListener("change", entropyCall
 document.getElementById("random_numbers")?.addEventListener("change", entropyCallback);
 document.getElementById("random_capital")?.addEventListener("change", entropyCallback);
 document.getElementById("random_lower")?.addEventListener("change", entropyCallback);
-document.getElementById("add-password")?.addEventListener("keydown", changePassword);
+document.getElementById("add-password")?.addEventListener("input", changePassword);
 document.getElementById("copy-button")?.addEventListener("click", copyToClip);
 document.getElementById("copy-button-msg")?.addEventListener("click", copyMsgToClip);
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
