@@ -15,8 +15,10 @@ require 'i18n/backend/fallbacks'
 require_relative 'initializers/migration_check'
 
 # Determine if we're running in a context where we should skip migration checks and model loading
-running_rake = defined?(Rake) && Rake.application.top_level_tasks.any?
-running_db_task = running_rake && Rake.application.top_level_tasks.any? { |task| task.start_with?('db:') }
+rake_app = defined?(Rake.application) ? Rake.application : nil
+rake_tasks = rake_app.respond_to?(:top_level_tasks) ? rake_app.top_level_tasks : []
+running_rake = rake_tasks.any?
+running_db_task = rake_tasks.any? { |task| task.start_with?('db:') }
 running_tests = ENV['RACK_ENV'] == 'test'
 
 # Check for pending migrations before loading models

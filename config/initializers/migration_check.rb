@@ -41,6 +41,9 @@ end
 # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 # This is a one-time migration utility to convert from ActiveRecord to Sequel.
 # The complexity is acceptable for a migration utility that will be removed in the future.
+# TODO: Remove this method and the RuboCop disables once all deployed environments
+# use Sequel-style schema_migrations tables and no ActiveRecord-style version
+# schema_migrations tables remain to migrate.
 def convert_activerecord_schema_migrations_to_sequel!(db = DB, verbose: false)
   # Skip if schema_migrations table doesn't exist (fresh install)
   return unless db.table_exists?(:schema_migrations)
