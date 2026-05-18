@@ -23,7 +23,10 @@ PreCommit:
   TrailingWhitespace:
     enabled: true
     exclude:
-      - '/db/**/*' # Ignore trailing whitespace in generated files
+      - '/db/**/*'     # Ignore trailing whitespace in generated files
+      - '/.github/**/*'
+      - '/images/**/*'
+      - '/docs/**/*'
 
 
 #PostCheckout:
