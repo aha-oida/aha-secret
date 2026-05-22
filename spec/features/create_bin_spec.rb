@@ -1,4 +1,26 @@
 feature 'Create Bin', type: :feature, js: true do
+  def paste_into_field(field_id, text)
+    page.execute_script(<<~JS, field_id, text)
+      ((targetFieldId, pastedText) => {
+        const field = document.getElementById(targetFieldId);
+        const clipboardData = new DataTransfer();
+        clipboardData.setData('text', pastedText);
+
+        field.focus();
+
+        const pasteEvent = new ClipboardEvent('paste', {
+          bubbles: true,
+          clipboardData
+        });
+
+        field.dispatchEvent(pasteEvent);
+
+        field.value = pastedText;
+        field.dispatchEvent(new Event('input', { bubbles: true }));
+      })(...arguments);
+    JS
+  end
+
   scenario 'User creates a bin that is exact max size chars' do
     visit '/'
     fill_in 'bin[payload]', with: SecureRandom.alphanumeric(AppConfig.max_msg_length)
@@ -74,6 +96,29 @@ feature 'Create Bin', type: :feature, js: true do
     fill_in 'passwd', with: 'asdf'
     send_keys :tab
     click_button 'Unlock'
+    decrypted_secret = find('#dec-msg').value
+    expect(decrypted_secret).to eq 'Hello, World!'
+  end
+
+  scenario 'User pastes password to reveal a protected bin' do
+    visit '/'
+    fill_in 'bin[payload]', with: 'Hello, World!'
+    page.execute_script("document.getElementById('has_password').click()")
+    expect(page).to have_field('add-password', visible: true)
+    fill_in 'add-password', with: 'asdf'
+    send_keys :tab
+    click_button 'Create Secret'
+
+    secret_url = find('#secret-url').value
+    visit secret_url
+
+    paste_into_field('passwd', 'asdf')
+
+    password_field = find('#passwd')
+    expect(password_field.value).to eq 'asdf'
+    expect(page).to have_button('Unlock', disabled: false)
+    click_button 'Unlock'
+
     decrypted_secret = find('#dec-msg').value
     expect(decrypted_secret).to eq 'Hello, World!'
   end
