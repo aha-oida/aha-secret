@@ -8,11 +8,12 @@ services:
       # - ./custom.css:/usr/src/app/public/stylesheets/custom.css
     ports:
       - "127.0.0.1:${HOST_PORT:-9292}:9292"
-    # RACK_ENV: production
-    # AHA_SECRET_BASE_URL: "https://please.change.me.now"
-    # AHA_SECRET_PERMITTED_ORIGINS: "https://please.change.me.now"
-    # AHA_SECRET_MEMCACHE_URL: "memcached:11211"
-    # AHA_SECRET_SESSION_SECRET: "your-secure-random-session-secret-here"
+    # environment:
+    #   RACK_ENV: production
+    #   AHA_SECRET_BASE_URL: "https://please.change.me.now"
+    #   AHA_SECRET_PERMITTED_ORIGINS: "https://please.change.me.now"
+    #   AHA_SECRET_MEMCACHE_URL: "memcached:11211"
+    #   AHA_SECRET_SESSION_SECRET: "your-secure-random-session-secret-here"
     env_file: .env
     depends_on:
       - memcached
