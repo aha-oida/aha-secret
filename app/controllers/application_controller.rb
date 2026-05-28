@@ -46,7 +46,7 @@ class ApplicationController < Sinatra::Base
 
     unless ENV['SKIP_SCHEDULER'] == 'true'
       Rufus::Scheduler.s.interval AppConfig.cleanup_schedule do
-        Bin.cleanup
+        Bin.cleanup!
       end
     end
   end
@@ -57,23 +57,24 @@ class ApplicationController < Sinatra::Base
 
   # This will be a ajax call
   post '/' do
-    bin = Bin.new(bin_params)
-    retention_minutes = params[:retention]&.to_i&.minutes
+    bin = Bin.new
+    bin.set_fields(params.fetch('bin', {}), %i[payload has_password], missing: :skip)
+    retention_minutes = params[:retention]&.to_i
     if retention_minutes&.positive?
-      bin.expire_date = Time.now.utc + retention_minutes
+      bin.expire_date = Time.now.utc + (retention_minutes * 60)
       params.delete(:retention)
     end
-
-    unless bin.save
+    begin
+      bin.save
+    rescue Sequel::ValidationFailed
       status 422
       return body json({ msg: bin.errors.full_messages })
     end
-
     json({ id: bin.id, url: bin_retrieval_url(bin) })
   end
 
   get '/bins/:id' do
-    @bin = Bin.find_by_id(params[:id])
+    @bin = Bin[params[:id]]
     return status 404 unless @bin
 
     erb :show
@@ -85,20 +86,13 @@ class ApplicationController < Sinatra::Base
   end
 
   patch '/bins/:id/reveal' do
-    bin = Bin.find_by_id(params[:id])
+    bin = Bin[params[:id]]
     return status 422 unless bin
 
     payload = bin.payload
     has_password = bin.has_password
     bin.destroy
     json({ payload:, has_password: })
-  end
-
-  private
-
-  def bin_params
-    allowed_keys = %w[payload has_password]
-    params['bin'].slice(*allowed_keys)
   end
 
   helpers do

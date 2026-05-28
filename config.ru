@@ -7,7 +7,7 @@ require 'rack/attack'
 require 'dalli'
 require_relative 'lib/aha_secret/version'
 
-ActiveRecord::Migration.check_all_pending!
+# Migration check is done in config/environment.rb via Sequel::Migrator.check_current
 
 # Log application version on startup
 logger = Logger.new($stdout)

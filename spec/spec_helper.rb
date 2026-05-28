@@ -12,6 +12,7 @@ if ENV['COVERAGE']
 end
 
 ENV['RACK_ENV'] = 'test'
+ENV['DATABASE_URL'] ||= 'sqlite://db/database/test.sqlite3'
 
 # Ensure AHA_SECRET_MEMCACHE_URL is set for rate limiting in test/CI
 env_memcache = ENV['AHA_SECRET_MEMCACHE_URL'] || 'localhost:11211'
@@ -20,12 +21,24 @@ ENV['AHA_SECRET_MEMCACHE_URL'] = env_memcache
 # Ensure SKIP_SCHEDULER is set to 'true' for all tests to avoid running Rufus::Scheduler
 ENV['SKIP_SCHEDULER'] = 'true'
 
+# Set up database and run migrations BEFORE loading models
+require 'sequel'
+require 'sequel/extensions/migration'
+require_relative '../config/initializers/migration_check'
+
+# DB is already connected via database.rb (required by migration_check.rb)
+# Convert ActiveRecord schema_migrations if needed, then run migrations
+convert_activerecord_schema_migrations_to_sequel!(DB, verbose: false)
+# Conditionalize the missing-file allowance - see REMOVED_MIGRATION_FILES in migration_check.rb.
+Sequel::TimestampMigrator.run(DB, 'db/migrate', allow_missing_migration_files: removed_migrations_tracked?)
+
+# Now load the rest of the application
 require_relative '../config/environment'
 require 'rack/test'
 require 'capybara/rspec'
 require 'capybara/dsl'
-require 'database_cleaner'
 require 'capybara/cuprite'
+require 'database_cleaner/sequel'
 require 'fileutils'
 
 # puts "Running with cuprite driver"
@@ -33,8 +46,6 @@ require 'fileutils'
 # puts "which chromium: #{`which chromium`.strip}"
 # puts "which chromium-browser: #{`which chromium-browser`.strip}"
 # puts "which google-chrome: #{`which google-chrome`.strip}"
-
-ActiveRecord::Base.logger = nil
 
 class CapybaraNullDriver < Capybara::Driver::Base
   def needs_server?
@@ -48,13 +59,18 @@ RSpec.configure do |config|
   # config.filter_run :focus
   config.include Rack::Test::Methods
   config.include Capybara::DSL
-  DatabaseCleaner.strategy = :truncation
-  config.before do
-    DatabaseCleaner.clean
+
+  # Configure DatabaseCleaner for Sequel
+  config.before(:suite) do
+    DatabaseCleaner[:sequel, db: DB].strategy = :truncation
   end
 
-  config.after do
-    DatabaseCleaner.clean
+  config.before(:each) do
+    DatabaseCleaner[:sequel, db: DB].start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner[:sequel, db: DB].clean
   end
 
   # config.order = 'default'
