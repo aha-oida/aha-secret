@@ -26,7 +26,7 @@ group :development do
   gem 'i18n-tasks', '~> 1.1.2'
   gem 'overcommit', '~> 0.70'
   gem 'rerun', '~> 0.14.0'
-  gem 'rubocop', '~> 1.86'
+  gem 'rubocop', '~> 1.87'
 end
 
 group :test do
