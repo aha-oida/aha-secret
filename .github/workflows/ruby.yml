@@ -30,7 +30,6 @@ jobs:
           - 11211:11211
     env:
       AHA_SECRET_MEMCACHE_URL: "localhost:11211"
-      undercover_version: 'DEACTIVATED_SET_3.4.2_TO_REACTIVATE'
       RACK_ENV: test
 
     steps:
@@ -52,14 +51,7 @@ jobs:
           bundle exec overcommit --sign
       - name: Run pre-commit checks
         run: bundle exec overcommit --run pre-commit
-      - name: Run pre-push checks with coverage
-        if: ${{ matrix.ruby-version == env.undercover_version }}
-        env:
-          COVERAGE: "true"
-        run: bundle exec overcommit --run pre-push
-      # Run pre-push checks without coverage for other Ruby versions
       - name: Run pre-push checks
-        if: ${{ matrix.ruby-version != env.undercover_version }}
         run: bundle exec overcommit --run pre-push
       - name: Upload screenshots
         if: always()
@@ -69,11 +61,3 @@ jobs:
           path: tmp/capybara
           if-no-files-found: ignore
           retention-days: 7
-      # only upload coverage once
-      - name: undercover
-        if: ${{ matrix.ruby-version == env.undercover_version && github.ref_name == 'main' }}
-        run: |
-          ruby -e "$(curl -s https://undercover-ci.com/uploader.rb)" -- \
-            --repo ${{ github.repository }} \
-            --commit ${{ github.event.pull_request.head.sha || github.sha }} \
-            --lcov /home/runner/_work/aha-secret/aha-secret/coverage/lcov/aha-secret.lcov
