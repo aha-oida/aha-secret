@@ -2,7 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'activerecord', '~> 8.1.3', require: 'active_record'
 gem 'dalli', '>= 3.2'
 gem 'debug', '>= 1.0.0'
 gem 'i18n', '~> 1.14.8'
@@ -12,8 +11,8 @@ gem 'rackup', '~> 2.3'
 gem 'rake', '~> 13.4'
 gem 'rspec', '~> 3.13'
 gem 'rufus-scheduler', '~> 3.9'
+gem 'sequel', '~> 5.77'
 gem 'sinatra', '~> 4.2'
-gem 'sinatra-activerecord', require: 'sinatra/activerecord'
 gem 'sprockets-helpers'
 
 github 'sinatra/sinatra' do
@@ -32,7 +31,7 @@ end
 group :test do
   gem 'capybara', '~> 3.40.0'
   gem 'cuprite'
-  gem 'database_cleaner', '~> 2.1.0'
+  gem 'database_cleaner-sequel'
   gem 'faker', '~> 3.8.0'
   gem 'rack-test', '~> 2.2'
   gem 'simplecov'
