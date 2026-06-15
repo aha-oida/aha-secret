@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rufus-scheduler'
-require 'debug' if ENV['RACK_ENV'] == 'development'
+require 'debug' if (ENV['RACK_ENV'] || 'development') == 'development'
 require 'sprockets'
 require 'sprockets-helpers'
 
