@@ -4,10 +4,16 @@ require 'spec_helper'
 require_relative '../../app/lib/app_config'
 
 RSpec.describe AppConfig do
+  ISOLATED_ENV_KEYS = (
+    (AppConfig::REQUIRED_KEYS + AppConfig::OPTIONAL_KEYS).map { |key| "AHA_SECRET_#{key.upcase}" } +
+    AppConfig::Loader::LEGACY_ENV_MAPPINGS.keys
+  ).freeze
+
   # Save and restore ENV for tests that modify ENV
   around do |example|
     original_env = ENV.to_hash.dup
     begin
+      ISOLATED_ENV_KEYS.each { |key| ENV.delete(key) }
       example.run
     ensure
       ENV.replace(original_env)
