@@ -26,13 +26,16 @@ group :development do
   gem 'rubocop', '~> 1.87'
 end
 
+group :development, :test do
+  gem 'rspec', '~> 3.13'
+end
+
 group :test do
   gem 'capybara', '~> 3.40.0'
   gem 'cuprite'
   gem 'database_cleaner-sequel'
   gem 'faker', '~> 3.8.0'
   gem 'rack-test', '~> 2.2'
-  gem 'rspec', '~> 3.13'
   gem 'simplecov'
   gem 'simplecov-lcov'
   gem 'timecop'
