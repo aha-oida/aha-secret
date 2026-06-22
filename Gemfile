@@ -23,7 +23,7 @@ group :development do
   gem 'debug', '>= 1.0.0'
   gem 'overcommit', '~> 0.70'
   gem 'rerun', '~> 0.14.0'
-  gem 'rubocop', '~> 1.87'
+  gem 'rubocop', '~> 1.88'
 end
 
 group :development, :test do
