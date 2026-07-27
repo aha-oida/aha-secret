@@ -55,7 +55,7 @@ en:
   random_settings: Customize
   reveal_info: Click this button to reveal the secret
   reveal_label: Reveal
-  reusable_label: Allow multiple reveals (maximum one hour)
+  reusable_label: Allow multiple reveals
   reusable_revealed_info: This message remains available until scheduled expiry cleanup
   reusable_share_info: This secret can be revealed multiple times until scheduled expiry cleanup
   secret_destroy: Keep in mind that this secret is automatically destroyed after it is revealed for the first time

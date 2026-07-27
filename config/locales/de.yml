@@ -55,7 +55,7 @@ de:
   random_settings: Anpassen
   reveal_info: Klicke diesen Button, um das Geheimnis zu lüften
   reveal_label: Anzeigen
-  reusable_label: Mehrfaches Anzeigen erlauben (maximal eine Stunde)
+  reusable_label: Mehrfaches Anzeigen erlauben
   reusable_revealed_info: Diese Nachricht bleibt bis zur planmäßigen Ablaufbereinigung verfügbar
   reusable_share_info: Dieses Geheimnis kann bis zur planmäßigen Ablaufbereinigung mehrfach angezeigt werden
   secret_destroy: Beachte, dass dieses Geheimnis automatisch zerstört wird, nachdem es zum ersten Mal angezeigt wurde
