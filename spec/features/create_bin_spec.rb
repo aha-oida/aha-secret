@@ -46,6 +46,10 @@ feature 'Create Bin', type: :feature, js: true do
 
     click_button 'Reveal'
     expect(page).to have_content 'This message was deleted from the server'
+
+    visit '/'
+    visit secret_url
+    expect(page).to have_content 'This entry was not found'
   end
 
   scenario 'User creates and reveals a bin' do
@@ -60,6 +64,67 @@ feature 'Create Bin', type: :feature, js: true do
     click_button 'Reveal'
     decrypted_secret = find('#dec-msg').value
     expect(decrypted_secret).to eq 'Hello, World!'
+  end
+
+  scenario 'User enables reusable mode and reveals the secret twice' do
+    visit '/'
+    fill_in 'bin[payload]', with: 'Hello, reusable World!'
+
+    expect(find('#retention').value).to eq '10080'
+    page.execute_script("document.getElementById('reusable').click()")
+
+    expect(find('#retention').value).to eq '15'
+    one_time_options_disabled = page.evaluate_script(<<~JS)
+      Array.from(document.querySelectorAll('#retention option[data-one-time-only]'))
+        .every((option) => option.disabled && option.hidden)
+    JS
+    expect(one_time_options_disabled).to be true
+
+    click_button 'Create Secret'
+    secret_url = find('#secret-url').value
+    expect(page).to have_content 'This secret can be revealed multiple times until scheduled expiry cleanup'
+
+    2.times do
+      visit '/'
+      visit secret_url
+      click_button 'Reveal'
+      expect(find('#dec-msg').value).to eq 'Hello, reusable World!'
+      expect(page).to have_content 'This message remains available until scheduled expiry cleanup'
+    end
+  end
+
+  scenario 'User can return to one-time retention choices after disabling reusable mode' do
+    visit '/'
+
+    page.execute_script("document.getElementById('reusable').click()")
+    expect(find('#retention').value).to eq '15'
+    page.execute_script("document.getElementById('reusable').click()")
+    select '30 minutes', from: 'retention'
+    page.execute_script("document.getElementById('reusable').click()")
+    expect(find('#retention').value).to eq '30'
+    page.execute_script("document.getElementById('reusable').click()")
+
+    one_time_options_enabled = page.evaluate_script(<<~JS)
+      Array.from(document.querySelectorAll('#retention option[data-one-time-only]'))
+        .every((option) => !option.disabled && !option.hidden)
+    JS
+    expect(one_time_options_enabled).to be true
+  end
+
+  scenario 'Wrong outer key does not consume a reusable secret' do
+    visit '/'
+    fill_in 'bin[payload]', with: 'Hello, reusable World!'
+    page.execute_script("document.getElementById('reusable').click()")
+    click_button 'Create Secret'
+    secret_url = find('#secret-url').value
+
+    visit secret_url + 'wrong'
+    click_button 'Reveal'
+
+    visit '/'
+    visit secret_url
+    click_button 'Reveal'
+    expect(find('#dec-msg').value).to eq 'Hello, reusable World!'
   end
 
   scenario 'User creates a bin and reveals with wrong password' do

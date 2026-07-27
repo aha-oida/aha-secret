@@ -32,12 +32,12 @@ en:
   hours: hours
   landing_help:
     cards:
+      access_mode:
+        body: Keep the one-time default or allow repeated reveals for up to one hour.
+        title: Choose access
       additional_password:
         body: Add a password if you want a second layer of protection.
         title: Add a password
-      one_time_secret:
-        body: The secret gets destroyed after the first successful reveal.
-        title: One-time only
       share_link:
         body: Copy the generated link and send it to the recipient.
         title: Share the link
@@ -55,6 +55,9 @@ en:
   random_settings: Customize
   reveal_info: Click this button to reveal the secret
   reveal_label: Reveal
+  reusable_label: Allow multiple reveals (maximum one hour)
+  reusable_revealed_info: This message remains available until scheduled expiry cleanup
+  reusable_share_info: This secret can be revealed multiple times until scheduled expiry cleanup
   secret_destroy: Keep in mind that this secret is automatically destroyed after it is revealed for the first time
   share_link: Share the following link
   show_header: Someone shares a secret with you

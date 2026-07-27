@@ -29,7 +29,7 @@ module Helpers
                  '2.25 0 0 0 2.25 2.25Z'
     },
     {
-      key: 'one_time_secret',
+      key: 'access_mode',
       theme_class: 'landing-help-card--time',
       icon_path: 'M12 6v6l4 2m5-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
     }

@@ -10,7 +10,9 @@
 aha-secret allows you to store a secret message encrypted. Only the generated
 link could decrypt the message again. The message is encrypted by your
 browser and decrypted by the browser of the person who is allowed to
-read it. The first time someone clicks on the link, the message is automatically deleted from the server.
+read it. Secrets are deleted after the first reveal by default. Senders can
+instead allow repeated reveals for up to one hour when a short-lived link needs
+to be shared with a group.
 
 # Current Status
 
@@ -23,6 +25,7 @@ aha-secret is feature-complete; that is, it solves the problem it was created to
 *  100% Free Open Source Software ❤️
 *  End-to-end encryption
 *  One-Time-Secret.
+*  Optional short-lived reusable secrets
 *  Self destruction
 *  No registration
 *  Ratelimit

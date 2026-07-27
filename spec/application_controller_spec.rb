@@ -42,6 +42,7 @@ describe ApplicationController do
     expect(last_response.status).to eq(200)
     expect(Bin.count).to eq(1)
     expect(JSON.parse(last_response.body)).to include('id' => Bin.first.id)
+    expect(Bin.first.reusable?).to be false
   end
 
   it 'saves a new bin with a retention time of 7 days' do
@@ -69,12 +70,58 @@ describe ApplicationController do
     expect(Bin.count).to eq(0)
   end
 
+  it 'defaults reusable bins to a retention time of 15 minutes' do
+    post '/', bin: { payload: 'Hello, World!', reusable: 'true' }
+
+    expect(last_response.status).to eq(200)
+    expect(Bin.first.reusable?).to be true
+    expect(Bin.first.expire_date).to be_within(2).of(Time.now.utc + (15 * 60))
+  end
+
+  ['0', '-5', 'invalid'].each do |retention|
+    it "defaults reusable bins with #{retention.inspect} retention to 15 minutes" do
+      post '/', bin: { payload: 'Hello, World!', reusable: 'true' }, retention: retention
+
+      expect(last_response.status).to eq(200)
+      expect(Bin.first.expire_date).to be_within(2).of(Time.now.utc + (15 * 60))
+    end
+  end
+
+  [5, 15, 30, 60].each do |retention_minutes|
+    it "saves a reusable bin with a retention time of #{retention_minutes} minutes" do
+      post '/', bin: { payload: 'Hello, World!', reusable: 'true' }, retention: retention_minutes.to_s
+
+      expect(last_response.status).to eq(200)
+      expect(Bin.first.reusable?).to be true
+      expect(Bin.first.expire_date).to be_within(2).of(Time.now.utc + (retention_minutes * 60))
+    end
+  end
+
+  it 'does not save a reusable bin with a retention time greater than 60 minutes' do
+    post '/', bin: { payload: 'Hello, World!', reusable: 'true' }, retention: '61'
+
+    expect(last_response.status).to eq(422)
+    expect(JSON.parse(last_response.body).fetch('msg').join).to include('60 minutes')
+    expect(Bin.count).to eq(0)
+  end
+
   it 'deletes bin and returns payload on reveal' do
     bin = Bin.create(payload: 'Hello, World!')
     patch "/bins/#{bin.id}/reveal"
     expect(last_response.status).to eq(200)
     expect(JSON.parse(last_response.body)).to include('payload' => 'Hello, World!')
     expect(Bin.count).to eq(0)
+  end
+
+  it 'retains reusable bins and returns their payload on repeated reveals' do
+    bin = Bin.create(payload: 'Hello, World!', reusable: true)
+
+    2.times do
+      patch "/bins/#{bin.id}/reveal"
+      expect(last_response.status).to eq(200)
+      expect(JSON.parse(last_response.body)).to include('payload' => 'Hello, World!')
+      expect(Bin.count).to eq(1)
+    end
   end
 
   it 'shows a bin' do
@@ -106,6 +153,24 @@ describe ApplicationController do
     Bin.cleanup!
     get '/'
     expect(Bin.count).to eq(0)
+  end
+
+  it 'keeps an expired reusable bin accessible until scheduled cleanup removes it' do
+    bin = Bin.create(payload: 'Hello, World!', reusable: true, expire_date: Time.now.utc - 1)
+
+    get "/bins/#{bin.id}"
+    expect(last_response.status).to eq(200)
+
+    patch "/bins/#{bin.id}/reveal"
+    expect(last_response.status).to eq(200)
+    expect(Bin.count).to eq(1)
+
+    Bin.cleanup!
+
+    get "/bins/#{bin.id}"
+    expect(last_response.status).to eq(404)
+    patch "/bins/#{bin.id}/reveal"
+    expect(last_response.status).to eq(422)
   end
 
   it 'does not allow saving forbidden bin params' do

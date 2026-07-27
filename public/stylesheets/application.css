@@ -461,6 +461,11 @@ input[type='checkbox'] {
   min-width: 0;
 }
 
+#reusable-secret {
+  flex: 0 1 auto;
+  margin-left: 1rem;
+}
+
 #retention-pane > fieldset {
   flex-shrink: 0;
   margin: 0 0 0 1rem;

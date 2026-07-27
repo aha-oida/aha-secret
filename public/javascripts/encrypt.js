@@ -126,6 +126,7 @@ async function customEncryptEvent() {
 
 async function encryptEvent() {
   const hasPassword = document.getElementById("has_password").checked;
+  const reusable = document.getElementById("reusable").checked;
   if(hasPassword) {
     await customEncryptEvent();
   }
@@ -136,7 +137,7 @@ async function encryptEvent() {
 
   await fetch("/", {
     method: 'post',
-    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}&bin[has_password]=${hasPassword}`,
+    body: `bin[payload]=${encodeURIComponent(cipher)}&retention=${retention}&authenticity_token=${authenticityToken}&bin[has_password]=${hasPassword}&bin[reusable]=${reusable}`,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
@@ -147,6 +148,7 @@ async function encryptEvent() {
     return Promise.reject(response);
   }).then((res) => {
     createLink(res.id);
+    showShareModeMessage(reusable);
   }).catch((error) => {
        error.json().then( err => {
 	 setAlert(err.msg, false);

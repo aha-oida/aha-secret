@@ -7,7 +7,7 @@
   <h1><%= t :decrypted_header %>:</h1>
   <span id="bin-id" class="hidden"><%= @bin.id %></span>
   <textarea id="dec-msg" readonly rows="20" cols="40"></textarea>
-  <p><%= t :deleted_info %></p>
+  <p><%= t(@bin.reusable? ? :reusable_revealed_info : :deleted_info) %></p>
 </div>
 
 <div id="reveal-content">
