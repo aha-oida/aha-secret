@@ -1,7 +1,7 @@
 services:
   ahasecret:
     # build: .
-    image: ghcr.io/aha-oida/aha-secret:latest
+    image: ${AHA_SECRET_IMAGE:-ghcr.io/aha-oida/aha-secret:latest}
     volumes:
       - ahadb:/usr/src/app/db/database
       # - ./config.yml:/usr/src/app/config/config.yml

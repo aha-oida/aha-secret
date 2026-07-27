@@ -4,7 +4,6 @@ ENV['RACK_ENV'] ||= 'development'
 ENV['RUNNING_RAKE'] = 'true'
 
 require_relative 'config/environment'
-require 'rspec/core/rake_task'
 require 'sequel'
 require 'sequel/extensions/migration'
 
@@ -20,7 +19,12 @@ task :rerun do
   exec 'bundle exec rerun --dir app,config,public -- rackup  --port=9292'
 end
 
-RSpec::Core::RakeTask.new(:spec)
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+rescue LoadError => e
+  raise unless e.path == 'rspec/core/rake_task'
+end
 
 desc 'Load the application environment'
 task :environment do
