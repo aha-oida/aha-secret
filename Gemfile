@@ -9,7 +9,7 @@ gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.3'
 gem 'rake', '~> 13.4'
 gem 'rufus-scheduler', '~> 3.9'
-gem 'sequel', '~> 5.77'
+gem 'sequel', '~> 5.106'
 gem 'sinatra', '~> 4.2'
 gem 'sprockets-helpers'
 
