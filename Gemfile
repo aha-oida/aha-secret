@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'dalli', '>= 3.2'
-gem 'i18n', '~> 1.14.8'
+gem 'i18n', '~> 1.15.2'
 gem 'puma', '~> 8.0'
 gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.3'
