@@ -71,8 +71,10 @@ feature 'Create Bin', type: :feature, js: true do
     fill_in 'bin[payload]', with: 'Hello, reusable World!'
 
     expect(find('#retention').value).to eq '10080'
+    expect(find('#reusable', visible: :all)[:role]).to eq 'switch'
     page.execute_script("document.getElementById('reusable').click()")
 
+    expect(find('#reusable-secret .toggle-button')[:class].split).to include('checked')
     expect(find('#retention').value).to eq '15'
     one_time_options_disabled = page.evaluate_script(<<~JS)
       Array.from(document.querySelectorAll('#retention option[data-one-time-only]'))

@@ -466,6 +466,65 @@ input[type='checkbox'] {
   margin-left: 1rem;
 }
 
+#reusable-secret .toggle-button {
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  gap: 0.45rem;
+}
+
+#reusable-secret .toggle-button.checked {
+  background: #287a3c;
+  border-color: #83e77a;
+  box-shadow: 0 0 0 2px rgba(131, 231, 122, 0.25);
+}
+
+.toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.toggle-control {
+  position: relative;
+  width: 2rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.toggle-control::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 150ms ease-in-out;
+}
+
+.toggle-input:checked ~ .toggle-control {
+  background: #83e77a;
+}
+
+.toggle-input:checked ~ .toggle-control::after {
+  transform: translateX(0.85rem);
+}
+
+.toggle-input:focus-visible ~ .toggle-control {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
 #retention-pane > fieldset {
   flex-shrink: 0;
   margin: 0 0 0 1rem;
@@ -513,6 +572,10 @@ button span,
 button svg,
 .button svg {
   margin-right: 0.4rem;
+}
+
+#reusable-secret .toggle-button svg {
+  margin-right: 0;
 }
 
 button.icon svg,
