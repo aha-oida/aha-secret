@@ -18,7 +18,7 @@ require_relative 'initializers/migration_check'
 rake_app = defined?(Rake.application) ? Rake.application : nil
 rake_tasks = rake_app.respond_to?(:top_level_tasks) ? rake_app.top_level_tasks : []
 running_rake = rake_tasks.any?
-running_db_task = rake_tasks.any? { |task| task.start_with?('db:') }
+running_db_task = rake_tasks.any? { |task| task == 'migrateserv' || task.start_with?('db:') }
 running_tests = ENV['RACK_ENV'] == 'test'
 
 # Check for pending migrations before loading models
