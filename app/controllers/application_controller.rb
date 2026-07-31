@@ -58,7 +58,7 @@ class ApplicationController < Sinatra::Base
   # This will be a ajax call
   post '/' do
     bin = Bin.new
-    bin.set_fields(params.fetch('bin', {}), %i[payload has_password], missing: :skip)
+    bin.set_fields(params.fetch('bin', {}), %i[payload has_password reusable], missing: :skip)
     retention_minutes = params[:retention]&.to_i
     if retention_minutes&.positive?
       bin.expire_date = Time.now.utc + (retention_minutes * 60)
@@ -91,7 +91,7 @@ class ApplicationController < Sinatra::Base
 
     payload = bin.payload
     has_password = bin.has_password
-    bin.destroy
+    bin.destroy unless bin.reusable?
     json({ payload:, has_password: })
   end
 

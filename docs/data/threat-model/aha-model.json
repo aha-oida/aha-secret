@@ -3,7 +3,7 @@
   "summary": {
     "title": "Aha-Secret",
     "owner": "AHA-OIDA",
-    "description": "aha-secret allows you to store a secret message encrypted. Only the generated link could decrypt the message again. The message is encrypted by your browser and decrypted by the browser of the person who is allowed to read it. The first time someone clicks on the link, the message is automatically deleted from the server.",
+    "description": "aha-secret allows you to store a secret message encrypted. Only the generated link can decrypt the message again. The message is encrypted by the sender's browser and decrypted by the recipient's browser. Secrets are deleted after the first reveal by default. Senders can instead allow repeated reveals for a retention time of up to one hour; those secrets remain available until scheduled expiry cleanup.",
     "id": 0
   },
   "detail": {
@@ -528,7 +528,7 @@
                   "status": "Mitigated",
                   "severity": "Medium",
                   "type": "Information disclosure",
-                  "description": "An attacker could try to enumerate possible id numbers of payload in order to delete secrets of other people.",
+                  "description": "An attacker could try to enumerate payload identifiers and call the reveal endpoint in order to delete one-time secrets belonging to other people.",
                   "mitigation": "Using secure token of the ActiveRecord ",
                   "modelType": "STRIDE",
                   "new": false,
@@ -563,12 +563,12 @@
                 },
                 {
                   "id": "7861e3dd-cf39-4bbb-a122-508b484c89b5",
-                  "title": "Reciever accidentially reveals secret and deletes it",
+                  "title": "Receiver accidentally reveals and deletes a one-time secret",
                   "status": "Mitigated",
                   "severity": "Medium",
                   "type": "Tampering",
-                  "description": "Reciever accidentially reveals secret and deletes it. For example, a sender creates a secret and clicks on the link instead of copy it.",
-                  "mitigation": "Just clicking on the link does not retrieve the secret. Only a PATCH-Operation(/reveal) will fetch the secret and deletes it from the server",
+                  "description": "A receiver can accidentally reveal and delete a one-time secret. For example, a sender creates a secret and reveals it instead of copying the link. Reusable secrets are not deleted on reveal but remain accessible to anyone with the link until scheduled expiry cleanup.",
+                  "mitigation": "Opening the link does not retrieve the secret. Only PATCH /bins/:id/reveal fetches the encrypted payload. The sender can opt into reusable mode for group sharing, limited to a retention time of one hour.",
                   "modelType": "STRIDE",
                   "new": false,
                   "number": 56,
@@ -1362,7 +1362,7 @@
                   "severity": "High",
                   "type": "Repudiation",
                   "description": "AHA-Secret is not responsible for how the decryption-link is shared. If the link is somehow disclosed by the user and an unauthorized entity fetches the secret, it  must be detected.",
-                  "mitigation": "* One-Time-Secrets only! The reciever will notice that the link does not work anymore. \n* Access-Logs\n* Custom passwords could prevent to read the secret with the link only",
+                  "mitigation": "* One-time mode lets the intended receiver notice that the link no longer works. Reusable mode cannot provide that signal before scheduled expiry cleanup.\n* Access logs\n* An additional password can prevent access with the link alone.",
                   "modelType": "STRIDE",
                   "new": false,
                   "number": 52,

@@ -44,6 +44,24 @@ describe Bin do
     }.to raise_error(Sequel::ValidationFailed)
   end
 
+  it 'defaults reusable bins to a 15 minute retention time' do
+    bin = Bin.create(payload: 'Hello, World!', reusable: true)
+
+    expect(bin.expire_date).to be_within(2).of(Time.now.utc + (15 * 60))
+  end
+
+  it 'allows reusable bins to expire within 60 minutes' do
+    bin = Bin.create(payload: 'Hello, World!', reusable: true, expire_date: Time.now.utc + (60 * 60))
+
+    expect(bin.reusable?).to be true
+  end
+
+  it 'rejects reusable bins that expire after 60 minutes' do
+    expect {
+      Bin.create(payload: 'Hello, World!', reusable: true, expire_date: Time.now.utc + (61 * 60))
+    }.to raise_error(Sequel::ValidationFailed)
+  end
+
   it 'can be filtered by expiration' do
     bin = Bin.create(payload: 'Hello, World!')
     expect(Bin.expired.all).to eq []
@@ -73,5 +91,17 @@ describe Bin do
   it 'has a has_password? method that returns false if the password is not in the payload' do
     bin = Bin.create(payload: 'Hello World!')
     expect(bin.has_password?).to be false
+  end
+
+  it 'has a reusable? method that defaults to false' do
+    bin = Bin.create(payload: 'Hello, World!')
+
+    expect(bin.reusable?).to be false
+  end
+
+  it 'has a reusable? method that reflects reusable bins' do
+    bin = Bin.create(payload: 'Hello, World!', reusable: true)
+
+    expect(bin.reusable?).to be true
   end
 end

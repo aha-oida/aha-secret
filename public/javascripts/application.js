@@ -107,6 +107,37 @@ function addPassword() {
   }
 }
 
+function syncReusableRetention() {
+  const reusable = document.getElementById("reusable");
+  const retention = document.getElementById("retention");
+
+  if (!reusable || !retention) {
+    return;
+  }
+
+  const oneTimeOnlyOptions = retention.querySelectorAll("option[data-one-time-only]");
+  oneTimeOnlyOptions.forEach((option) => {
+    option.disabled = reusable.checked;
+    option.hidden = reusable.checked;
+  });
+
+  if (reusable.checked && Number(retention.value) > 60) {
+    retention.value = "15";
+  }
+}
+
+function showShareModeMessage(reusable) {
+  const oneTimeInfo = document.getElementById("one-time-share-info");
+  const reusableInfo = document.getElementById("reusable-share-info");
+
+  if (!oneTimeInfo || !reusableInfo) {
+    return;
+  }
+
+  oneTimeInfo.classList.toggle("hidden", reusable);
+  reusableInfo.classList.toggle("hidden", !reusable);
+}
+
 function showRandomSettings() {
   const pwsettings = document.getElementById("random_settings");
   const settingsPanel = document.getElementById("randomSettings");
@@ -273,6 +304,7 @@ document.getElementById("passwd")?.addEventListener("keyup", function (event) {
   }
 });
 document.getElementById("has_password")?.addEventListener("change", addPassword);
+document.getElementById("reusable")?.addEventListener("change", syncReusableRetention);
 
 document.getElementById("random_settings")?.addEventListener("change", showRandomSettings);
 document.getElementById("random_settings")?.addEventListener("change", entropyCallback);
@@ -292,6 +324,7 @@ document.getElementById("message")?.addEventListener("focus", resetAlert);
 document.addEventListener("DOMContentLoaded", () => {
   initLabelCheckboxState();
   addPassword();
+  syncReusableRetention();
   showRandomSettings();
   entropyCallback();
 
