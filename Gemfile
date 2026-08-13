@@ -9,7 +9,7 @@ gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.3'
 gem 'rake', '~> 13.4'
 gem 'rufus-scheduler', '~> 3.9'
-gem 'sequel', '~> 5.106'
+gem 'sequel', '~> 5.107'
 gem 'sinatra', '~> 4.2'
 gem 'sprockets-helpers'
 
@@ -21,7 +21,7 @@ gem 'sqlite3', '~> 2.9'
 group :development do
   gem 'brakeman', '~> 8.0.4'
   gem 'debug', '>= 1.0.0'
-  gem 'overcommit', '~> 0.70'
+  gem 'overcommit', '~> 0.72'
   gem 'rerun', '~> 0.14.0'
   gem 'rubocop', '~> 1.88'
 end
