@@ -109,10 +109,10 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-musl)
       racc (~> 1.4)
-    overcommit (0.71.0)
+    overcommit (0.72.0)
       childprocess (>= 0.6.3, < 6)
       iniparse (~> 1.4)
-      rexml (>= 3.3.9)
+      rexml (>= 3.4.2)
     parallel (2.1.0)
     parser (3.3.11.1)
       ast (~> 2.4.1)
@@ -245,7 +245,7 @@ DEPENDENCIES
   debug (>= 1.0.0)
   faker (~> 3.8.0)
   i18n (~> 1.15.2)
-  overcommit (~> 0.70)
+  overcommit (~> 0.72)
   puma (~> 8.0)
   rack-attack (~> 6.8)
   rack-test (~> 2.2)
@@ -315,7 +315,7 @@ CHECKSUMS
   nokogiri (1.19.4-x86_64-darwin) sha256=7fd17057d3e1f00e9954a74b3cd76595d3d4a5ef233b7ed9599047c204f70551
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   nokogiri (1.19.4-x86_64-linux-musl) sha256=17dfb7c1fa194ae02fbf7c51a7afc8d278045ab3fdacfd86f91d02d7b274470b
-  overcommit (0.71.0) sha256=6cc72a5359673d9aa96447e25c924d92857216f5595a87ee2404e4687360b216
+  overcommit (0.72.0) sha256=1cb8e39639e2f203ced5a303c2ac1e24ce49824ead52fa3204f954f936a63a3e
   parallel (2.1.0) sha256=b35258865c2e31134c5ecb708beaaf6772adf9d5efae28e93e99260877b09356
   parser (3.3.11.1) sha256=d17ace7aabe3e72c3cc94043714be27cc6f852f104d81aa284c2281aecc65d54
   pp (0.6.3) sha256=2951d514450b93ccfeb1df7d021cae0da16e0a7f95ee1e2273719669d0ab9df6
