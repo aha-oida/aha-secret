@@ -54,9 +54,10 @@ layout: default
    {: .fs-6 }
 
    ```
-      No, after someone reveals a secret, it is automatically deleted on
-      the server. If nobody reveals the secret, it is automatically deleted
-      after a certain amount of time. Default: 7day
+      No. By default a secret is deleted after its first reveal. A sender can
+      opt into repeated reveals for a retention time of at most one hour.
+      Reusable and unrevealed one-time secrets are removed by scheduled cleanup
+      after their retention time. The default for one-time secrets is 7 days.
    ```
    {: .fs-6 }
 
@@ -64,7 +65,9 @@ layout: default
    {: .fs-6 }
 
    ```
-      No, only reveal fetches the secret from the server and triggers the deletion.
+      No. Opening the link only displays the reveal page. Reveal fetches the
+      encrypted secret and deletes it when it is one-time. Reusable secrets
+      remain available until scheduled expiry cleanup.
    ```
    {: .fs-6 }
 

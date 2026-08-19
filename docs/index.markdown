@@ -20,7 +20,7 @@ Encrypt your message, store it encrypted and share a link
 Sensitive information should not be stored in a mailbox or chat history.
 {: .fs-6 .fw-300 }
 
-[aha-secret] allows you to store a secret message encrypted. Only the generated link could decrypt the message again. The message is encrypted by your browser and decrypted by the browser of the person who is allowed to read it. The first time someone clicks on the link, the message is automatically deleted from the server. After the secret was deleted from the server, the link does not work anymore. By using [aha-secret] users will only send weblinks to other users and those weblinks can only be used once. In addition to the one-time-secret, the server will also automatically delete unrevealed messages after a maximum of seven days.
+[aha-secret] allows you to store a secret message encrypted. Only the generated link can decrypt the message again. The message is encrypted by your browser and decrypted by the browser of the person who is allowed to read it. Secrets are deleted after the first reveal by default. Senders can instead allow repeated reveals for a retention time of up to one hour when sharing with a group. Reusable secrets remain available until the scheduled cleanup removes them after expiry. The server also automatically deletes unrevealed one-time messages after a maximum of seven days.
 
 
 # Current Status
@@ -33,6 +33,7 @@ aha-secret is feature-complete; that is, it solves the problem it was created to
 * 100% Free Open Source Software ❤️
 * End-to-end encryption
 * One-Time-Secret.
+* Optional short-lived reusable secrets
 * Self destruction
 * No registration
 * Ratelimit

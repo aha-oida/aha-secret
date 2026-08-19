@@ -176,6 +176,7 @@ RSpec.describe 'ActiveRecord to Sequel migration' do
       DateTime :updated_at, null: false
       DateTime :expire_date
       TrueClass :has_password, default: false
+      TrueClass :reusable, default: false, null: false
     end
 
     expect {

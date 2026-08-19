@@ -2,7 +2,7 @@
 
 # A bin is the model that stores the encrypted secret.
 # It has a payload, which is the encrypted secret, and an id, which is the unique identifier for the bin.
-# Bins are only temporary and thrown away after expiry or reveal.
+# Bins are only temporary and thrown away after expiry or a one-time reveal.
 class Bin < Sequel::Model
   plugin :validation_helpers
   plugin :timestamps, update_on_create: true
@@ -13,6 +13,8 @@ class Bin < Sequel::Model
   unrestrict_primary_key
 
   SEVEN_DAY_LIMIT_SECONDS = 7 * 24 * 60 * 60
+  REUSABLE_DEFAULT_RETENTION_SECONDS = 15 * 60
+  REUSABLE_RETENTION_LIMIT_SECONDS = 60 * 60
 
   # Validation
   def validate
@@ -20,10 +22,9 @@ class Bin < Sequel::Model
     validates_presence %i[payload expire_date]
     validates_max_length AppConfig.calc_max_length, :payload
 
-    # Validate expire_date is not more than 7 days in the future
-    return unless expire_date && expire_date > (Time.now.utc + SEVEN_DAY_LIMIT_SECONDS)
+    return unless expire_date && expire_date > maximum_expire_date
 
-    errors.add(:expire_date, "can't be bigger than 7 days")
+    errors.add(:expire_date, expire_date_error)
   end
 
   # Instance methods
@@ -35,6 +36,10 @@ class Bin < Sequel::Model
     !!self[:has_password]
   end
   alias has_password? password?
+
+  def reusable?
+    !!self[:reusable]
+  end
 
   # Dataset methods (class-level query methods)
   dataset_module do
@@ -51,7 +56,10 @@ class Bin < Sequel::Model
   # Hooks
   def before_validation
     super
-    self.expire_date = Time.now.utc + SEVEN_DAY_LIMIT_SECONDS unless values.key?(:expire_date)
+    return if values.key?(:expire_date)
+
+    retention = reusable? ? REUSABLE_DEFAULT_RETENTION_SECONDS : SEVEN_DAY_LIMIT_SECONDS
+    self.expire_date = Time.now.utc + retention
   end
 
   def before_create
@@ -60,6 +68,15 @@ class Bin < Sequel::Model
   end
 
   private
+
+  def maximum_expire_date
+    limit = reusable? ? REUSABLE_RETENTION_LIMIT_SECONDS : SEVEN_DAY_LIMIT_SECONDS
+    Time.now.utc + limit
+  end
+
+  def expire_date_error
+    reusable? ? "can't be bigger than 60 minutes for reusable secrets" : "can't be bigger than 7 days"
+  end
 
   def generate_unique_id
     require 'securerandom'

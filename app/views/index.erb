@@ -18,7 +18,8 @@
       </div>
     </div>
     <input type="text" class="textinput hidden" readonly id="secret-url">
-    <p><%= t :secret_destroy %>.</p>
+    <p id="one-time-share-info"><%= t :secret_destroy %>.</p>
+    <p id="reusable-share-info" class="hidden"><%= t :reusable_share_info %>.</p>
     <a class="button" id="another-secret" href="/"><%= t :create_another %></a>
   </div>
 </div>
@@ -146,16 +147,30 @@
         </fieldset>
       </div>
 
+      <div id="reusable-secret">
+        <label class="button toggle-button" for="reusable">
+          <input type="checkbox" id="reusable" name="reusable" class="toggle-input" role="switch">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" height="18">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m5-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <span class="toggle-label">
+            <%= t :reusable_label %>
+          </span>
+          <span class="toggle-control" aria-hidden="true"></span>
+        </label>
+      </div>
+
       <fieldset>
         <label for="retention"><%= t :delete_label %>: </label>
         <select name="retention" id="retention">
-          <option value="10080">7 <%= t :days %></option>
-          <option value="4320">3 <%= t :days %></option>
-          <option value="1440">1 <%= t :day %></option>
-          <option value="720">12 <%= t :hours %></option>
-          <option value="240">4 <%= t :hours %></option>
+          <option value="10080" data-one-time-only>7 <%= t :days %></option>
+          <option value="4320" data-one-time-only>3 <%= t :days %></option>
+          <option value="1440" data-one-time-only>1 <%= t :day %></option>
+          <option value="720" data-one-time-only>12 <%= t :hours %></option>
+          <option value="240" data-one-time-only>4 <%= t :hours %></option>
           <option value="60">1 <%= t :hour %></option>
           <option value="30">30 <%= t :minutes %></option>
+          <option value="15">15 <%= t :minutes %></option>
           <option value="5">5 <%= t :minutes %></option>
         </select>
       </fieldset>
