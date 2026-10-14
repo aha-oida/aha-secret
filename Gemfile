@@ -19,7 +19,7 @@ end
 gem 'sqlite3', '~> 2.9'
 
 group :development do
-  gem 'brakeman', '~> 8.0.6'
+  gem 'brakeman', '~> 8.1.0'
   gem 'debug', '>= 1.0.0'
   gem 'overcommit', '~> 0.73'
   gem 'rerun', '~> 0.14.0'
