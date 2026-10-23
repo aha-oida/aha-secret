@@ -1,4 +1,4 @@
-FROM ruby:4.0.2
+FROM ruby:4.0.9
 LABEL authors="Wolfgang Hotwagner"
 
 RUN apt-get update
