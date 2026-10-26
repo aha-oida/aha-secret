@@ -35,7 +35,7 @@ group :test do
   gem 'cuprite'
   gem 'database_cleaner-sequel'
   gem 'faker', '~> 3.8.0'
-  gem 'rack-test', '~> 2.2'
+  gem 'rack-test', '~> 2.3'
   gem 'simplecov'
   gem 'simplecov-lcov'
   gem 'timecop'
