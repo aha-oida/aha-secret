@@ -79,10 +79,11 @@ async function fetchEncrypted() {
   let binid = document.getElementById('bin-id').innerText;
   const authenticityToken = getAuthenticityToken();
 
-  return await fetch(`/bins/${binid}/reveal?authenticity_token=${authenticityToken}`, {
+  return await fetch(`/bins/${binid}/reveal`, {
     method: 'PATCH',
     headers: {
        'Content-type': 'application/json; charset=UTF-8',
+       'X-CSRF-Token': authenticityToken,
     },
   }).then((response) => {
     return response.json()
