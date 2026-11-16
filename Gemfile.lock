@@ -35,7 +35,7 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     concurrent-ruby (1.3.8)
-    cuprite (0.20)
+    cuprite (0.20.1)
       capybara (~> 3.0)
       ferrum (~> 0.20.1)
     dalli (5.3.2)
@@ -59,6 +59,7 @@ GEM
       base64 (~> 0.2)
       concurrent-ruby (~> 1.1)
       websocket-driver (~> 0.7)
+    ffi (1.17.4)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-aarch64-linux-musl)
     ffi (1.17.4-arm-linux-gnu)
@@ -89,9 +90,13 @@ GEM
     logger (1.7.0)
     matrix (0.4.3)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     multi_json (1.21.1)
     mustermann (3.1.1)
     nio4r (2.7.5)
+    nokogiri (1.19.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-musl)
@@ -119,6 +124,7 @@ GEM
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
+    prism (2.1.0)
     prism (2.1.0-aarch64-linux-gnu)
     prism (2.1.0-aarch64-linux-musl)
     prism (2.1.0-arm-linux-gnu)
@@ -154,7 +160,7 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
-    regexp_parser (2.13.1)
+    regexp_parser (2.13.2)
     reline (0.6.3)
       io-console (~> 0.5)
     rerun (0.14.0)
@@ -207,6 +213,8 @@ GEM
       rack (>= 2.2.4, < 4)
     sprockets-helpers (1.4.0)
       sprockets (>= 2.2)
+    sqlite3 (2.10.2)
+      mini_portile2 (~> 2.8.0)
     sqlite3 (2.10.2-aarch64-linux-gnu)
     sqlite3 (2.10.2-aarch64-linux-musl)
     sqlite3 (2.10.2-arm-linux-gnu)
@@ -278,7 +286,7 @@ CHECKSUMS
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
-  cuprite (0.20) sha256=7e112967d07242041032c28569ea221759a130fe361a80b8179758f203135340
+  cuprite (0.20.1) sha256=98694e0ca7be79f066db4dcdb46fada42fb058c2c38aafd9c1d1567bc4b08994
   dalli (5.3.2) sha256=25909a8e0d440a0b96e2d20156df14cd73168a291f474223c1e9d69561b926b6
   database_cleaner-core (2.0.1) sha256=8646574c32162e59ed7b5258a97a208d3c44551b854e510994f24683865d846c
   database_cleaner-sequel (2.0.2) sha256=f1e6566a1a34d7425ff94b447e2c16181bc215555aff3dfe463b7977b621d4bf
@@ -289,6 +297,7 @@ CHECKSUMS
   et-orbi (1.4.0) sha256=6c7e3c90779821f9e3b324c5e96fda9767f72995d6ae435b96678a4f3e2de8bc
   faker (3.8.0) sha256=c147b308df73a90f27a4fc84f18d4c22ef0ad9c2a64b2b61c86fd0ca71753efc
   ferrum (0.20.1) sha256=3a33d27f3e48ec66a36f7eaffa29180a9f1f4ff32694e8f2bc43d249f47612dc
+  ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
   ffi (1.17.4-aarch64-linux-gnu) sha256=b208f06f91ffd8f5e1193da3cae3d2ccfc27fc36fba577baf698d26d91c080df
   ffi (1.17.4-aarch64-linux-musl) sha256=9286b7a615f2676245283aef0a0a3b475ae3aae2bb5448baace630bb77b91f39
   ffi (1.17.4-arm-linux-gnu) sha256=d6dbddf7cb77bf955411af5f187a65b8cd378cb003c15c05697f5feee1cb1564
@@ -309,9 +318,11 @@ CHECKSUMS
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
+  mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
   multi_json (1.21.1) sha256=e6126a31808e3b4d19f483c775ceac34df190dffa62adfb63a165ee14ba68080
   mustermann (3.1.1) sha256=4c6170c7234d5499c345562ba7c7dfe73e1754286dcc1abb053064d66a127198
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
+  nokogiri (1.19.7) sha256=abe94507c54cb18f872777b16bdca4aad32b1abdc4c52fe843f1c80fbdf992b8
   nokogiri (1.19.7-aarch64-linux-gnu) sha256=8f5e15d299602456406e1f03a9f3456cceb33a0722811e818d2ee2214eb4c84a
   nokogiri (1.19.7-aarch64-linux-musl) sha256=efe0c3602e6e54521bc21c681930ce5568e2d11203de17400710b2b3ca2e4cb4
   nokogiri (1.19.7-arm-linux-gnu) sha256=7fd1907125691aa89e838cc91161761c758b4e17bb32f0dd9b5515a82cc759af
@@ -325,6 +336,7 @@ CHECKSUMS
   parser (3.3.13.0) sha256=e02f9b63c2fe05b0c68f692ba4df89b3cb113b663964f75d988fbebfd6c3deca
   pp (0.6.3) sha256=2951d514450b93ccfeb1df7d021cae0da16e0a7f95ee1e2273719669d0ab9df6
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
+  prism (2.1.0) sha256=1c0a7c6dea0e93183390fb123f007564dbe663198e2f86ad87204151147601f3
   prism (2.1.0-aarch64-linux-gnu) sha256=808dddc72def68e1a0463689414c97e0ba211938eddbab05387a4844aa2b3ec2
   prism (2.1.0-aarch64-linux-musl) sha256=dd1a0732620c1e575dabb07a297a62911fabd72f8e20ce850b522a866f877930
   prism (2.1.0-arm-linux-gnu) sha256=96b2426b9dbab05448c4add735619929042be3cd7e871ff186468121b62bcfa8
@@ -349,7 +361,7 @@ CHECKSUMS
   rb-fsevent (0.11.2) sha256=43900b972e7301d6570f64b850a5aa67833ee7d87b458ee92805d56b7318aefe
   rb-inotify (0.11.1) sha256=a0a700441239b0ff18eb65e3866236cd78613d6b9f78fea1f9ac47a85e47be6e
   rdoc (7.2.0) sha256=8650f76cd4009c3b54955eb5d7e3a075c60a57276766ebf36f9085e8c9f23192
-  regexp_parser (2.13.1) sha256=5aedb6b7c35688f51e86eef17a15374dfd287c83f4ca644b2c5f3ec50a33b44b
+  regexp_parser (2.13.2) sha256=798475411fe146a45752ce1478793bf2392d73dd157acc2eb4c4e3e519912b85
   reline (0.6.3) sha256=1198b04973565b36ec0f11542ab3f5cfeeec34823f4e54cebde90968092b1835
   rerun (0.14.0) sha256=996a5af2b2b34dcb30146c6c728addab9113e07c119003370daa9bf27feb88fd
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
@@ -369,6 +381,7 @@ CHECKSUMS
   sinatra-contrib (4.2.1)
   sprockets (4.2.2) sha256=761e5a49f1c288704763f73139763564c845a8f856d52fba013458f8af1b59b1
   sprockets-helpers (1.4.0) sha256=320a1d210a3e990b682c87dcca9881e78461c430636938b5a6053c5386aa2314
+  sqlite3 (2.10.2) sha256=f1ea68cd3287f8a49f39a088ac9e4bd0ef4e7f394c3d4a60dd4c7e44b0566964
   sqlite3 (2.10.2-aarch64-linux-gnu) sha256=e9aea2c2b3476fc875dd8a89313a9a2862818519c0186bfb5b56d6f57bb08d98
   sqlite3 (2.10.2-aarch64-linux-musl) sha256=4986fc40cdf21342362b72a941df28e95cfe0e644f3ad2532d948b157c39dbee
   sqlite3 (2.10.2-arm-linux-gnu) sha256=762f609ef891463226b472d3df66aea84d5466ff4376d3ccf4a059718c4ce9c9
