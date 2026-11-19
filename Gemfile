@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'dalli', '>= 3.2'
 gem 'i18n', '~> 1.15.2'
-gem 'puma', '~> 8.0'
+gem 'puma', '~> 8.1'
 gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.3'
 gem 'rake', '~> 13.4'
@@ -21,7 +21,7 @@ gem 'sqlite3', '~> 2.10'
 group :development do
   gem 'brakeman', '~> 8.1.0'
   gem 'debug', '>= 1.0.0'
-  gem 'overcommit', '~> 0.75'
+  gem 'overcommit', '~> 0.76'
   gem 'rerun', '~> 0.14.0'
   gem 'rubocop', '~> 1.92'
 end
