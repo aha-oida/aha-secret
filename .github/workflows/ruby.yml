@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.4.9','4.0.9']
+        ruby-version: ['3.4.13','4.0.10']
     services:
       memcached:
         image: memcached:latest
@@ -40,7 +40,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          bundler: '4.0.3'
+          bundler: '4.1.0'
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
         env:
           BUNDLE_CACHE_VERSION: v2
