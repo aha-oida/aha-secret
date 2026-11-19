@@ -16,7 +16,7 @@ end
 
 desc 'Starts the puma web server with rerun'
 task :rerun do
-  exec 'bundle exec rerun --dir app,config,public -- rackup  --port=9292'
+  exec 'bundle exec rerun --no-notify --background --dir app,config,public -- rackup  --port=9292'
 end
 
 begin
