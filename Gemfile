@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'dalli', '>= 3.2'
 gem 'i18n', '~> 1.15.2'
-gem 'puma', '~> 8.0'
+gem 'puma', '~> 8.1'
 gem 'rack-attack', '~> 6.8'
 gem 'rackup', '~> 2.3'
 gem 'rake', '~> 13.4'
