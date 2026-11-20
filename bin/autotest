@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bundle exec rerun -cx rspec
+bundle exec rerun --no-notify --background -cx rspec
