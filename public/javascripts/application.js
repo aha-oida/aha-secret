@@ -56,23 +56,13 @@ async function reveal() {
   return msg;
 }
 
-function copyToClip() {
-  const cpText = document.getElementById("secret-url");
+function copyToClip(textElementId, tooltipId) {
+  const cpText = document.getElementById(textElementId);
   cpText.select();
   cpText.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(cpText.value);
 
-  const tooltip = document.getElementById("myTooltip");
-  tooltip.innerHTML = tooltip.dataset.copied;
-}
-
-function copyMsgToClip() {
-  const cpText = document.getElementById("message");
-  cpText.select();
-  cpText.setSelectionRange(0, 99999);
-  navigator.clipboard.writeText(cpText.value);
-
-  const tooltip = document.getElementById("myMsgTooltip");
+  const tooltip = document.getElementById(tooltipId);
   tooltip.innerHTML = tooltip.dataset.copied;
 }
 
@@ -282,8 +272,9 @@ document.getElementById("random_numbers")?.addEventListener("change", entropyCal
 document.getElementById("random_capital")?.addEventListener("change", entropyCallback);
 document.getElementById("random_lower")?.addEventListener("change", entropyCallback);
 document.getElementById("add-password")?.addEventListener("input", changePassword);
-document.getElementById("copy-button")?.addEventListener("click", copyToClip);
-document.getElementById("copy-button-msg")?.addEventListener("click", copyMsgToClip);
+document.getElementById("copy-button")?.addEventListener("click", () => copyToClip("secret-url", "myTooltip"));
+document.getElementById("copy-button-msg")?.addEventListener("click", () => copyToClip("message", "myMsgTooltip"));
+document.getElementById("copy-button-revealed")?.addEventListener("click", () => copyToClip("dec-msg", "revealedTooltip"));
 document.getElementById("copy-button")?.addEventListener("mouseout", showTooltip);
 document.getElementById("revealbutton")?.addEventListener("click", reveal);
 document.getElementById("revealpwbutton")?.addEventListener("click", revealpw);

@@ -4,7 +4,15 @@
 </div>
 
 <div id="bin-content">
-  <h1><%= t :decrypted_header %>:</h1>
+  <div id="decrypted-header">
+    <h1><%= t :decrypted_header %>:</h1>
+    <div class="tooltip">
+      <button type="button" id="copy-button-revealed" class="icon">
+        <span class="tooltiptext" id="revealedTooltip" data-text="<%= t :copy_clipboard %>" data-copied="<%= t :copied_clipboard %>"><%= t :copy_clipboard %></span>
+        <img src="/images/copy.svg" width="28" height="28" alt="" aria-hidden="true">
+      </button>
+    </div>
+  </div>
   <span id="bin-id" class="hidden"><%= @bin.id %></span>
   <textarea id="dec-msg" readonly rows="20" cols="40"></textarea>
   <p><%= t :deleted_info %></p>
