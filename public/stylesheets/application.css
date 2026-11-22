@@ -160,6 +160,13 @@ p {
   text-align: center;
 }
 
+#decrypted-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 #share-box {
   margin-top: 10px;
   margin-bottom: 10px;

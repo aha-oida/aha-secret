@@ -54,12 +54,26 @@ feature 'Create Bin', type: :feature, js: true do
     click_button 'Create Secret'
     secret_url = find('#secret-url').value
     visit secret_url
+    page.execute_script(<<~JS)
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          writeText: (text) => {
+            window.copiedText = text;
+            return Promise.resolve();
+          }
+        }
+      });
+    JS
     # Check that reveal button receives focus
     focused_element = page.evaluate_script('document.activeElement.id')
     expect(focused_element).to eq 'revealbutton'
     click_button 'Reveal'
     decrypted_secret = find('#dec-msg').value
     expect(decrypted_secret).to eq 'Hello, World!'
+    expect(page.evaluate_script("document.querySelector('#copy-button-revealed img').naturalWidth")).to be > 0
+    click_button 'copy-button-revealed'
+    expect(page.evaluate_script('window.copiedText')).to eq decrypted_secret
   end
 
   scenario 'User creates a bin and reveals with wrong password' do
