@@ -9,6 +9,10 @@ layout: default
 
 The easiest way is to start this application using [docker-compose]. It will not only start [aha-secret] but also a memcache-service to the request-attempts for [Rack::Attack](https://github.com/rack/rack-attack). The docker-compose-file uses the github-docker-repository to download the [aha-secret] [docker-image]. In order to run aha-secret follow these instructions:
 
+The included Compose file uses the default SQLite database. To connect to an
+existing PostgreSQL server, or to add a PostgreSQL service to Compose, see the
+[database documentation]({{ 'data/installation/database' | relative_url }}).
+
 First download docker-compose:
 
 ```bash

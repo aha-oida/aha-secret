@@ -31,11 +31,16 @@ docker run --rm -it aha-secret
 
 ## Using Volumes
 
-In order to persist the database, use volumes:
+The default image uses SQLite. In order to persist its database, use a volume:
 
 ```bash
 docker run --rm -v ahadb:/usr/src/app/db/database aha-secret
 ```
+
+For PostgreSQL, including a PostgreSQL server that already exists, use an image
+with the optional PostgreSQL bundle and configure `DATABASE_URL`. The SQLite
+volume is not needed in that configuration. See the [database
+documentation]({{ 'data/installation/database' | relative_url }}).
 
 ### Custom Config
 

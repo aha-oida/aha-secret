@@ -79,6 +79,13 @@ The following environment variables can be used to configure **aha-secret**. Mos
 | `AHA_SECRET_PERMITTED_ORIGINS` | CORS/CSRF allowed origins | *(none)* | `permitted_origins` | [REQUIRED FOR PRODUCTION] See [Permitted Origins documentation](#permitted-origins) |
 | `AHA_SECRET_APP_LOCALE` | Force app locale | *(none)* | *(none)* | [OPTIONAL] Overrides default_locale when set |
 | `RACK_ENV` | Rack environment | `development` | *(none)* | [RECOMMENDED] Use `production` for deployment, `test` for tests |
+| `DATABASE_URL` | Complete database connection URL | SQLite database for the environment | `config/database.yml` | [OPTIONAL] Takes precedence over `config/database.yml`; recommended for PostgreSQL. See [Database]({{ 'data/installation/database' | relative_url }}) |
+| `DATABASE_ADAPTER` | Production database adapter | `sqlite3` | `config/database.yml` | [OPTIONAL] Use `postgresql` with the optional PostgreSQL bundle |
+| `DATABASE_NAME` | Production database name | `db/database/production.sqlite3` | `config/database.yml` | [OPTIONAL] PostgreSQL database name when not using `DATABASE_URL` |
+| `DATABASE_HOST` | Production PostgreSQL host | `localhost` | `config/database.yml` | [OPTIONAL] PostgreSQL only |
+| `DATABASE_PORT` | Production PostgreSQL port | `5432` | `config/database.yml` | [OPTIONAL] PostgreSQL only |
+| `DATABASE_USERNAME` | Production PostgreSQL username | `postgres` | `config/database.yml` | [OPTIONAL] PostgreSQL only |
+| `DATABASE_PASSWORD` | Production PostgreSQL password | *(empty)* | `config/database.yml` | [OPTIONAL] Store as a deployment secret |
 | `SKIP_SCHEDULER` | Disable background scheduler (Rufus) | *(none)* | *(none)* | [OPTIONAL] Set to `true` in test/CI |
 | `COVERAGE` | Enable code coverage (SimpleCov) | *(none)* | *(none)* | [OPTIONAL] Used in test/CI |
 | `CI` | Set automatically in CI | *(none)* | *(none)* | [OPTIONAL] Used to enable CI-specific logic |

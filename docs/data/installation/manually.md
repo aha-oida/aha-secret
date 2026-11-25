@@ -78,9 +78,9 @@ bundle install
 ```
 
 {: .note-title }
-> SQLITE3 NEEDED
->
-> Please make sure that sqlite3 is installed
+> SQLite 3 is used by default. To use PostgreSQL, install the optional
+> PostgreSQL bundle and configure a connection as described in the [database
+> documentation]({{ 'data/installation/database' | relative_url }}).
 
 Next run a database-migration:
 
