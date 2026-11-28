@@ -33,7 +33,10 @@ aha-secret is feature-complete; that is, it solves the problem it was created to
 
 Even if [aha-secret](https://github.com/aha-oida/aha-secret/) can be installed [manually](https://aha-oida.github.io/aha-secret/data/installation/manually/) or by using [docker](https://aha-oida.github.io/aha-secret/data/installation/docker/) it is recommended to use [docker-compose](https://aha-oida.github.io/aha-secret/data/installation/docker-compose/). For installation instructions please read the [Getting started](https://aha-oida.github.io/aha-secret/getting-started) or the [Installation section](https://aha-oida.github.io/aha-secret/data/installation/). For customization or all the configuration options read the section [Configuration](https://aha-oida.github.io/aha-secret/configuration/).
 
-If you want to run aha-secret with PostgreSQL, install the `pg` gem in the environment where you deploy it. The default bundle stays SQLite-focused.
+SQLite is the default database. PostgreSQL is available through an optional
+bundle; see the [database
+documentation](https://aha-oida.github.io/aha-secret/data/installation/database/)
+for existing-server and container setup.
 
 # Documentation
 

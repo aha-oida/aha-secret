@@ -17,6 +17,10 @@ bundle exec rake serve
 # or: bundle exec rerun --no-notify --background rackup
 ```
 
+SQLite is used by default. To use PostgreSQL for development or tests, follow
+the optional bundle and `DATABASE_URL` instructions in the [database
+documentation]({{ 'data/installation/database' | relative_url }}).
+
 ## See available rake tasks
 
 ```bash
